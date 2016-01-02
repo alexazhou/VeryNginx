@@ -10,12 +10,15 @@ VeryNginxConfig = require "VeryNginxConfig"
 local M = {}
 
 local url_route = {}
-url_route["/verynginx/summary"] = summary.report
-url_route["/verynginx/config"] = VeryNginxConfig.report
+url_route["GET /verynginx/summary"] = summary.report
+url_route["GET /verynginx/config"] = VeryNginxConfig.report
+url_route["GET /verynginx/dumpconfig"] = VeryNginxConfig.dump_to_file
+url_route["GET /verynginx/loadconfig"] = VeryNginxConfig.load_from_file
 
 function M.filter() 
     --ngx.log(ngx.STDERR,"run router")
-    local handle = url_route[ngx.var.uri]
+    local key = ngx.req.get_method().." "..ngx.var.uri
+    local handle = url_route[ key ]
     if handle ~= nil then
         ngx.header.content_type = "application/json"
         ngx.header.charset = "utf-8"
