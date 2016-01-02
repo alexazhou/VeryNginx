@@ -9,10 +9,23 @@ local M = {}
 M["configs"] = {}
 
 --------------default config------------
+M.configs["path_redirect_enable"] = true
+M.configs["path_redirect_rule"] = {
+    ["^/index\\.php"] = ""
+}
 
-M["configs"].attack_url = {"\\.(git|svn|\\.)",
+M.configs["sheme_rewrite_enable"] = true
+M.configs["sheme_rewrite_rule"] = {
+    ['^.*((css|js|jpeg|png|gif|font|ico))$'] = 'none',
+}
+
+M.configs["url_filter_enable"] = true 
+M.configs["disable_url"] = {"\\.(git|svn|\\.)",
 "\\.(haccess|bash_history|sql)$",
 }
+
+M.configs["summary_enable"] = true
+
 
 --M.configs.url_whitelist = {"aaa"}
 
@@ -38,7 +51,7 @@ function M.load_from_file()
     local data = file:read("*all");
     file:close();
 
-    ngx.log(ngx.STDERR, data)
+    --ngx.log(ngx.STDERR, data)
     local tmp = dkjson.decode( data )
     if tmp ~= nil then
         M["configs"] =  tmp
@@ -55,7 +68,7 @@ function M.report()
     --    ngx.log(ngx.STDERR, "***",k)
     --    report[k] = v
     --end
-    return dkjson.encode( M["configs"] )
+    return dkjson.encode( M["configs"], {indent=true} )
 end
 
 
