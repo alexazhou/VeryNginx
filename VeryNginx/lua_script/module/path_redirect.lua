@@ -10,7 +10,6 @@ VeryNginxConfig = require "VeryNginxConfig"
 
 
 function M.run()
-	ngx.log(ngx.STDERR,"zzz" )
     
     if VeryNginxConfig.configs["path_redirect_enable"] ~= true then
         return

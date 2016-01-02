@@ -1,5 +1,5 @@
-attack_url_filter = require "attack_url_filter"
-attack_url_filter.filter()
+url_filter = require "url_filter"
+url_filter.filter()
 
 router = require "router"
 router.filter()

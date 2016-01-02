@@ -14,9 +14,8 @@ M.configs["path_redirect_rule"] = {
     ["^/index\\.php"] = ""
 }
 
-M.configs["sheme_rewrite_enable"] = true
-M.configs["sheme_rewrite_rule"] = {
-    ['^.*((css|js|jpeg|png|gif|font|ico))$'] = 'none',
+M.configs["scheme_redirect_enable"] = true
+M.configs["scheme_redirect_rule"] = {
 }
 
 M.configs["url_filter_enable"] = true 
