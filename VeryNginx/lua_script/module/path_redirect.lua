@@ -18,11 +18,11 @@ function M.run()
 	local new_url = nil 
 
     for k, v in pairs( VeryNginxConfig.configs["path_redirect_rule"] ) do
-		ngx.log(ngx.STDERR,"gsub test:"..k.."=>"..v )
+		--ngx.log(ngx.STDERR,"gsub test:"..k.."=>"..v )
         new_url = ngx.re.sub( ngx.var.uri, k, v ) 
-		ngx.log(ngx.STDERR,"new url:",new_url )
+		--ngx.log(ngx.STDERR,"new url:",new_url )
 		if new_url ~= ngx.var.uri then
-            ngx.log(ngx.STDERR,"redirect to :",new_url )
+            --ngx.log(ngx.STDERR,"redirect to :",new_url )
             if ngx.var.args ~= nil then
                 ngx.redirect( ngx.var.scheme.."://"..ngx.var.host..new_url.."?"..ngx.var.args , ngx.HTTP_MOVED_TEMPORARILY)
             else
@@ -32,10 +32,6 @@ function M.run()
 		end
 		--ngx.log(ngx.STDERR,"re test not match" )
 	end
-
-
-	--ngx.log(ngx.STDERR,"do redirect:"..ret )
-	--ngx.log(ngx.STDERR,ngx.var.args )
 
 end
 

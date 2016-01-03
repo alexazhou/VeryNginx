@@ -20,7 +20,7 @@ M.configs["scheme_redirect_rule"] = {
 
 M.configs["url_filter_enable"] = true 
 M.configs["disable_url"] = {"\\.(git|svn|\\.)",
-"\\.(haccess|bash_history|sql)$",
+"\\.(haccess|bash_history|ssh|sql)$",
 }
 
 M.configs["summary_enable"] = true
@@ -32,14 +32,14 @@ M.configs["summary_enable"] = true
 dkjson = require "dkjson"
 cjson = require "cjson"
 
-function M.config_file_path()
+function M.home_path()
     local current_script_path = debug.getinfo(1, "S").source:sub(2)
-    local config_dump_path = current_script_path:sub( 1, 0 - string.len("lua_script/VeryNginxConfig.lua") -1 ) .. "config.json"
-    return config_dump_path
+    local home_path = current_script_path:sub( 1, 0 - string.len("/lua_script/VeryNginxConfig.lua") -1 ) 
+    return home_path
 end
 
 function M.load_from_file()
-    local config_dump_path = M.config_file_path()
+    local config_dump_path = M.home_path() .. "/config.json"
     local  file = io.open( config_dump_path, "r");
     
     if file == nil then
@@ -73,7 +73,7 @@ end
 
 function M.dump_to_file()
     local config_data = M.report()
-    local config_dump_path = M.config_file_path()
+    local config_dump_path = M.home_path() .. "/config.json"
     
     ngx.log(ngx.STDERR,config_dump_path)
 

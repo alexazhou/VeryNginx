@@ -1,0 +1,107 @@
+<html>
+<head>
+<meta charset="utf-8">
+<!-- Bootstrap -->
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/webInterface.css">
+<link rel="stylesheet" href="css/bs_callout.css">
+<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="js/control.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        control.init();
+    });
+</script>
+
+</head>
+
+<body style="padding-top:70px">
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">VeryNginx</a> 
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">配置</a>
+                    </li>
+                    <li>
+                        <a href="#">访问统计</a>
+                    </li>
+                    <li>
+                        <a href="#">防火墙</a>
+                    </li>
+                    <li>
+                        <a href="#">关于</a>
+                    </li>
+                </ul>
+            </div>
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
+                    <div style="border-right: 1px solid #eee;margin-left:auto; margin-right:auto;">
+                        <div class="nav_1">重定向</div>
+                        <div>
+                            <div class="nav_2">协议重定向</div>
+                            <div class="nav_2">路径重定向</div>
+                        </div>
+                        <div class="nav_1">请求过滤</div>
+                        <div>
+                            <div class="nav_2">白名单</div>
+                            <div class="nav_2">IP过滤</div>
+                            <div class="nav_2">路径过滤</div>
+                            <div class="nav_2">参数过滤</div>
+                            <div class="nav_2">Body过滤</div>
+                        </div>
+                        <div class="nav_1">统计</div>
+                        <div>
+                            <div class="nav_2">访问统计</div>
+                        </div>
+                        <div class="nav_1">系统</div>
+                        <div>
+                            <div class="nav_2">全部配置</div>
+                        </div>
+                    </div>
+                </div>  
+                <div class="col-sm-8">
+                    <div id="config_all">
+                        <div class="config_title">
+                            当前全部配置
+                        </div>
+                        <div>
+                            <pre id="config_all_show">
+
+                            </pre>
+                        </div>
+                    </div>
+                </div>  
+            </div>  
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="console_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">...</h4>
+                </div>
+                <div class="modal-body" id="console_div" >
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+</body>
+</html>
