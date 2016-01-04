@@ -27,67 +27,126 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li>
-                        <a href="#">配置</a>
+                    <li class="topnav" id="topnav_config"  class="active" >
+                        <a href="#" class="init_click" onclick="control.switch_to_page('config')" >配置</a>
                     </li>
-                    <li>
-                        <a href="#">访问统计</a>
+                    <li class="topnav" id="topnav_summary" >
+                        <a href="#" onclick="control.switch_to_page('summary')" >访问统计</a>
                     </li>
-                    <li>
-                        <a href="#">防火墙</a>
+                    <li class="topnav"id="topnav_firewall"  >
+                        <a href="#" onclick="control.switch_to_page('firewall')" >防火墙</a>
                     </li>
-                    <li>
-                        <a href="#">关于</a>
+                    <li class="topnav" id="topnav_about"  >
+                        <a href="#" onclick="control.switch_to_page('about')" >关于</a>
                     </li>
                 </ul>
             </div>
         </div><!-- /.container-fluid -->
     </nav>
 
-    <div>
+    <div class="page" id="page_config">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-2">
                     <div style="border-right: 1px solid #eee;margin-left:auto; margin-right:auto;">
                         <div class="leftnav leftnav_1">重定向</div>
                         <div>
-                            <div class="leftnav leftnav_2">协议重定向</div>
-                            <div class="leftnav leftnav_2">路径重定向</div>
+                            <div class="leftnav leftnav_2" group="redirect_scheme" onclick="control.switch_to_configGroup(this)">协议重定向</div>
+                            <div class="leftnav leftnav_2" group="redirect_path" onclick="control.switch_to_configGroup(this)">路径重定向</div>
                         </div>
                         <div class="leftnav leftnav_1">请求过滤</div>
                         <div>
-                            <div class="leftnav leftnav_2">白名单</div>
-                            <div class="leftnav leftnav_2">IP过滤</div>
-                            <div class="leftnav leftnav_2">路径过滤</div>
-                            <div class="leftnav leftnav_2">参数过滤</div>
-                            <div class="leftnav leftnav_2">Body过滤</div>
+                            <div class="leftnav leftnav_2" group="filter_whithlist" onclick="control.switch_to_configGroup(this)">白名单</div>
+                            <div class="leftnav leftnav_2" group="filter_ip" onclick="control.switch_to_configGroup(this)">IP过滤</div>
+                            <div class="leftnav leftnav_2" group="filter_path" onclick="control.switch_to_configGroup(this)">路径过滤</div>
+                            <div class="leftnav leftnav_2" group="filter_args" onclick="control.switch_to_configGroup(this)">参数过滤</div>
+                            <div class="leftnav leftnav_2" group="filter_body" onclick="control.switch_to_configGroup(this)">Body过滤</div>
                         </div>
                         <div class="leftnav leftnav_1">统计</div>
                         <div>
-                            <div class="leftnav leftnav_2">访问统计</div>
+                            <div class="leftnav leftnav_2" group="summary_summary" onclick="control.switch_to_configGroup(this)">访问统计</div>
                         </div>
                         <div class="leftnav leftnav_1">系统</div>
                         <div>
-                            <div class="leftnav leftnav_2">全部配置</div>
+                            <div class="leftnav leftnav_2 init_click" group="system_allconfig" onclick="control.switch_to_configGroup(this)">全部配置</div>
                         </div>
                     </div>
                 </div>  
                 <div class="col-sm-8">
-                    <div id="config_all">
+                    <div class="config_group" id="config_redirect_scheme">
+                        <div class="config_title">
+                            协议重定向
+                        </div>
+                    </div>
+
+                    <div class="config_group" id="config_redirect_path">
+                        <div class="config_title">
+                            路径重定向
+                        </div>
+                    </div>
+
+                    <div class="config_group" id="config_filter_whithlist">
+                        <div class="config_title">
+                            白名单
+                        </div>
+                    </div>
+                    
+                    <div class="config_group" id="config_filter_ip">
+                        <div class="config_title">
+                            IP过滤
+                        </div>
+                    </div>
+                    
+                    <div class="config_group" id="config_filter_path">
+                        <div class="config_title">
+                            路径过滤
+                        </div>
+                    </div>
+                    
+                    <div class="config_group" id="config_filter_args">
+                        <div class="config_title">
+                            参数过滤
+                        </div>
+                    </div>
+                    
+                    <div class="config_group" id="config_filter_body">
+                        <div class="config_title">
+                            Body过滤
+                        </div>
+                    </div>
+                    
+                    <div class="config_group" id="config_summary_summary">
+                        <div class="config_title">
+                            访问统计
+                        </div>
+                    </div>
+
+                    <div class="config_group" id="config_system_allconfig">
                         <div class="config_title">
                             当前全部配置
                         </div>
                         <div>
-                            <pre id="config_all_show">
+                            <pre id="config_system_all_show">
 
                             </pre>
                         </div>
                     </div>
-                </div>  
+                </div>
             </div>  
         </div>
     </div>
 
+    <div class="page" id="page_summary">
+        访问统计
+    </div>
+
+    <div class="page" id="page_firewall">
+        防火墙
+    </div>
+    
+    <div class="page" id="page_about">
+        关于
+    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="console_modal">
