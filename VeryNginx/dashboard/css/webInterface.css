@@ -1,11 +1,19 @@
-.nav_1 {
+.leftnav {
+    color:#777;
+}
+
+.leftnav:hover {
+    color:#000;
+}
+
+.leftnav_1 {
     font-size:1.1em;
     font-weight:bold;
     padding-top:5px;
     padding-bottom:5px;
 }
 
-.nav_2 {
+.leftnav_2 {
     font-size:0.9em;
     padding-left:20px;
 
