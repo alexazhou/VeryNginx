@@ -9,7 +9,7 @@ VeryNginx is a very powerful and friendly nginx
 wget https://openresty.org/download/ngx_openresty-1.9.7.1.tar.gz   
 tar -xvzf ngx_openresty-1.9.7.1.tar.gz
 cd ngx_openresty-1.9.7.1
-./configure --prefix=/opt/VeryNginx --user=nginx --group=nginx --with-http_stub_status_module —-with-luajit
+./configure --prefix=/opt/VeryNginx --user=nginx --group=nginx --with-http_stub_status_module --with-luajit
 gmake
 gmake install
 </pre>
