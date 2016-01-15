@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/webInterface.css">
 <link rel="stylesheet" href="css/bs_callout.css">
+<!-- vue.js文件 -->
+<script src="https://cdn.jsdelivr.net/vue/latest/vue.js"></script>
 <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -116,9 +118,7 @@
                     </div>
                     
                     <div class="config_group" id="config_summary_summary">
-                        <div class="config_title">
-                            访问统计
-                        </div>
+                        访问统计开关
                     </div>
 
                     <div class="config_group" id="config_system_allconfig">
@@ -137,9 +137,11 @@
     </div>
 
     <div class="page" id="page_summary">
-        访问统计
+        <div id="data_stat">
+            <p>{{ message }}</p>
+            <!-- <input v-model="message"> -->
+        </div>
     </div>
-
     <div class="page" id="page_firewall">
         防火墙
     </div>
@@ -163,4 +165,5 @@
     </div><!-- /.modal -->
 
 </body>
+<script src="js/data_stat.js"></script>
 </html>
