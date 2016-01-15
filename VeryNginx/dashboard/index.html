@@ -8,6 +8,7 @@
 <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="http://cdn.bootcss.com/vue/1.0.14/vue.min.js"></script>
 <script src="js/control.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
@@ -72,11 +73,33 @@
                         </div>
                     </div>
                 </div>  
-                <div class="col-sm-8">
+                <div class="col-sm-8" id="verynginx_configs">
                     <div class="config_group" id="config_redirect_scheme">
                         <div class="config_title">
                             协议重定向
                         </div>
+                        <div id="config_redirect_scheme_table">
+                            <input type="checkbox" id="checkbox" v-model="scheme_redirect_enable">
+                            <label>启用</label>
+					        <table class="table table-bordered">
+						        <thead>
+								    <tr>
+									    <td>#</td>
+									    <td>路径</td>
+									    <td>协议</td>
+                                        <td></td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="scheme in scheme_redirect_rule">
+									    <td>{{ $index }}</td>
+									    <td>{{ scheme[0] }}</td>
+									    <td>{{ scheme[1] }}</td>
+                                        <td><button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('scheme_redirect_rule','{{$index}}',null)">DEL</button></td>
+									</tr>
+								</tbody>
+						  </table>
+						</div>
                     </div>
 
                     <div class="config_group" id="config_redirect_path">
