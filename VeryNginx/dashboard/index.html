@@ -54,7 +54,7 @@
                     <div style="border-right: 1px solid #eee;margin-left:auto; margin-right:auto;">
                         <div class="leftnav leftnav_1">重定向</div>
                         <div>
-                            <div class="leftnav leftnav_2" group="redirect_scheme" onclick="control.switch_to_configGroup(this)">协议重定向</div>
+                            <div class="leftnav leftnav_2 init_click" group="redirect_scheme" onclick="control.switch_to_configGroup(this)">协议重定向</div>
                             <div class="leftnav leftnav_2" group="redirect_path" onclick="control.switch_to_configGroup(this)">路径重定向</div>
                         </div>
                         <div class="leftnav leftnav_1">请求过滤</div>
@@ -71,7 +71,7 @@
                         </div>
                         <div class="leftnav leftnav_1">系统</div>
                         <div>
-                            <div class="leftnav leftnav_2 init_click" group="system_allconfig" onclick="control.switch_to_configGroup(this)">全部配置</div>
+                            <div class="leftnav leftnav_2" group="system_allconfig" onclick="control.switch_to_configGroup(this)">全部配置</div>
                         </div>
                     </div>
                 </div>  
@@ -83,20 +83,20 @@
                         <div id="config_redirect_scheme_table">
                             <input type="checkbox" id="checkbox" v-model="scheme_redirect_enable">
                             <label>启用</label>
-					        <table class="table table-bordered">
-						        <thead>
-								    <tr>
-									    <td>#</td>
-									    <td>路径</td>
-									    <td>协议</td>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>路径</td>
+                                        <td>协议</td>
                                         <td></td>
-									</tr>
-								</thead>
-								<tbody>
-									<tr v-for="scheme in scheme_redirect_rule">
-									    <td>{{ $index }}</td>
-									    <td>{{ scheme[0] }}</td>
-									    <td>{{ scheme[1] }}</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="scheme in scheme_redirect_rule">
+                                        <td>{{ $index }}</td>
+                                        <td>{{ scheme[0] }}</td>
+                                        <td>{{ scheme[1] }}</td>
                                         <td class="no_break">
                                             <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('scheme_redirect_rule',{{$index}},null)">
                                                 DEL
@@ -108,10 +108,10 @@
                                                 DOWN
                                             </button>
                                         </td>
-									</tr>
-								</tbody>
-						  </table>
-						</div>
+                                    </tr>
+                                </tbody>
+                          </table>
+                        </div>
                         <div style="font-size:1.2em">
                             添加一条配置
                         </div>
