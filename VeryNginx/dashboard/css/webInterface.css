@@ -22,3 +22,7 @@
     font-weight:bold;
     padding-bottom:15px;
 }
+
+.no_break {
+    white-space: nowrap;
+}

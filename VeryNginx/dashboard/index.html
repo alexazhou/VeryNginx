@@ -97,7 +97,17 @@
 									    <td>{{ $index }}</td>
 									    <td>{{ scheme[0] }}</td>
 									    <td>{{ scheme[1] }}</td>
-                                        <td><button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('scheme_redirect_rule','{{$index}}',null)">DEL</button></td>
+                                        <td class="no_break">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('scheme_redirect_rule',{{$index}},null)">
+                                                DEL
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('scheme_redirect_rule',{{$index}})">
+                                                UP
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('scheme_redirect_rule',{{$index}})">
+                                                DOWN
+                                            </button>
+                                        </td>
 									</tr>
 								</tbody>
 						  </table>

@@ -52,3 +52,26 @@ control.config_mod = function(name,index,value){
     }
 
 }
+
+control.config_move_up = function(name,index){
+	
+	if(index == 0){
+		alert("已经是最前面了");
+		return;
+	}
+
+	var tmp = control.verynginx_config[name][index-1];
+    control.verynginx_config[name].$set(index-1, control.verynginx_config[name][index]);
+    control.verynginx_config[name].$set(index, tmp);
+}
+
+control.config_move_down = function(name,index){
+	if(index >= control.verynginx_config[name].length - 1){
+		alert("已经是最后面了");
+		return;
+	}
+	
+	var tmp = control.verynginx_config[name][index+1];
+    control.verynginx_config[name].$set(index+1, control.verynginx_config[name][index]);
+    control.verynginx_config[name].$set(index, tmp);
+}
