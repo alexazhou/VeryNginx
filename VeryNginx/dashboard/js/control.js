@@ -37,6 +37,10 @@ control.switch_to_configGroup = function( item ){
     $("#config_" + $(item).attr("group")).show();
 }
 
+control.config_add = function(name,value){
+    control.verynginx_config[name].push(value);
+}
+
 control.config_mod = function(name,index,value){
 
     console.log('-->',name,index,value);
