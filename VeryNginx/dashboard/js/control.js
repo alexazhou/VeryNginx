@@ -91,7 +91,17 @@ control.config_move_down = function(name,index){
 }
 
 control.save_config = function(){
+	console.log("save_config");
+	var config_json = JSON.stringify( control.verynginx_config , null, 2);
 
+    $.post("/verynginx/config",{ config:config_json },function(data){
+	    console.log(data);
+	    if( data['ret'] == 'success' ){
+            control.notify("保存配置成功");
+		}else{
+            control.notify("保存配置失败");
+		}
+	})
 }
 
 control.notify = function(message){

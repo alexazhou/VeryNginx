@@ -40,7 +40,7 @@ end
 
 function M.load_from_file()
     local config_dump_path = M.home_path() .. "/config.json"
-    local  file = io.open( config_dump_path, "r");
+    local file = io.open( config_dump_path, "r")
     
     if file == nil then
         return cjson.encode({["ret"]="error",["msg"]="config file not found"})
@@ -62,12 +62,44 @@ function M.load_from_file()
 end 
 
 function M.report()
-    local report = {}
-    --for k, v in pairs(M["configs"]) do
-    --    ngx.log(ngx.STDERR, "***",k)
-    --    report[k] = v
-    --end
+    --return a json contain current config items
     return dkjson.encode( M["configs"], {indent=true} )
+end
+
+function M.verify()
+
+    return true  
+end
+
+function M.set()
+    --
+    local ret = false
+    local err = nil
+    local args = nil
+    local dump_ret = nil
+
+    ngx.req.read_body()
+    args, err = ngx.req.get_post_args()
+    if not args then
+        ngx.say("failed to get post args: ", err)
+        return
+    end
+
+    local new_config = cjson.decode( args['config'] )
+    if M.verify( new_config ) == true then
+        M["configs"] = new_config
+        dump_ret,err = M.dump_to_file()
+        if dump_ret['ret'] == "success" then
+            ret = true
+        end
+    end
+
+    if ret == false then
+        return cjson.encode({["ret"]="success",["err"]=err})
+    else
+        return cjson.encode({["ret"]="failed",["err"]=err})
+    end
+
 end
 
 
@@ -77,11 +109,16 @@ function M.dump_to_file()
     
     ngx.log(ngx.STDERR,config_dump_path)
 
-    file = io.open( config_dump_path, "w");
+    file, err = io.open( config_dump_path, "w");
     --file = io.open( "/tmp/config.json", "w");
-    file:write(config_data);
-    file:close();
-    return cjson.encode({["ret"]="success"})
+    if file ~= nil then
+        file:write(config_data);
+        file:close();
+        return cjson.encode({["ret"]="success"})
+    else
+        return cjson.encode({["ret"]="failed",["err"]="open file failed"})
+    end
+
 end
 
 --auto load config from json file

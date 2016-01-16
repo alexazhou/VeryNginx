@@ -12,6 +12,7 @@ local M = {}
 local url_route = {}
 url_route["get /verynginx/summary"] = summary.report
 url_route["get /verynginx/config"] = VeryNginxConfig.report
+url_route["post /verynginx/config"] = VeryNginxConfig.set
 url_route["get /verynginx/dumpconfig"] = VeryNginxConfig.dump_to_file
 url_route["get /verynginx/loadconfig"] = VeryNginxConfig.load_from_file
 
