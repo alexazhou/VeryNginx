@@ -1,23 +1,29 @@
-var control = new Object()
+var control = new Object();
 
-control.verynginx_config = {}
+control.verynginx_config = {};
+control.config_vm = null; 
 
 control.init = function(){
     control.get_config();
+    $(".init_click").click();
 }
 
 control.get_config = function(){
-    $(".init_click").click();
     $.get("/verynginx/config",function(data,status){
-        console.log(status);
-        console.log(data);
         control.verynginx_config = data;
+		control.refresh_config_json();
+        
+		if( control.config_vm != null ){
+		    control.config_vm.$data = control.verynginx_config;
+            control.notify("获取配置成功");
+			return;
+		}
 
-
-        new Vue({
-            el: '#verynginx_configs',
+        control.config_vm = new Vue({
+            el: '#verynginx_config',
             data: control.verynginx_config
-        })
+        });
+
     }); 
 }
 
@@ -36,9 +42,13 @@ control.switch_to_configGroup = function( item ){
     $("#config_" + group ).show();
     
     if( group == "system_allconfig" ){
-        var config_json = JSON.stringify( control.verynginx_config , null, 2);
-        $("#config_system_all_show").text(config_json);
+		control.refresh_config_json();
     }
+}
+
+control.refresh_config_json = function(){
+    var config_json = JSON.stringify( control.verynginx_config , null, 2);
+    $("#config_system_all_show").text(config_json);
 }
 
 control.config_add = function(name,value){
@@ -78,4 +88,12 @@ control.config_move_down = function(name,index){
     var tmp = control.verynginx_config[name][index+1];
     control.verynginx_config[name].$set(index+1, control.verynginx_config[name][index]);
     control.verynginx_config[name].$set(index, tmp);
+}
+
+control.save_config = function(){
+
+}
+
+control.notify = function(message){
+	alert(message);
 }
