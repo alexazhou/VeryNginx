@@ -11,7 +11,7 @@ M["configs"] = {}
 --------------default config------------
 M.configs["path_redirect_enable"] = true
 M.configs["path_redirect_rule"] = {
-    ["^/index\\.php"] = ""
+    {"^/index\\.php",""}
 }
 
 M.configs["scheme_redirect_enable"] = true

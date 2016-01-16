@@ -10,23 +10,23 @@ control.init = function(){
 
 control.get_config = function(){
     $.get("/verynginx/config",function(data,status){
-        control.verynginx_config = data;
+    control.verynginx_config = data;
         
-		if( control.config_vm != null ){
-		    control.config_vm.$data = control.verynginx_config;
-            control.notify("获取配置成功");
-			return;
-		}
+    if( control.config_vm != null ){
+        control.config_vm.$data = control.verynginx_config;
+        control.notify("获取配置成功");
+        return;
+    }
 
-        control.config_vm = new Vue({
-            el: '#verynginx_config',
-            data: control.verynginx_config,
-			computed : {
-			    all_config_json: function(){
-				    return  JSON.stringify( control.verynginx_config , null, 2);
-				}
-			}
-        });
+    control.config_vm = new Vue({
+        el: '#verynginx_config',
+        data: control.verynginx_config,
+        computed : {
+            all_config_json: function(){
+                return  JSON.stringify( control.verynginx_config , null, 2);
+            }
+        }
+    });
 
     }); 
 }
@@ -88,7 +88,7 @@ control.config_move_down = function(name,index){
 }
 
 control.save_config = function(){
-	console.log("save_config");
+    console.log("save_config");
 	var config_json = JSON.stringify( control.verynginx_config , null, 2);
 
     $.post("/verynginx/config",{ config:config_json },function(data){
