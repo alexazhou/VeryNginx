@@ -147,6 +147,8 @@
                         <div class="config_title">
                             路径重定向
                         </div>
+                        <input type="checkbox" id="checkbox" v-model="path_redirect_enable">
+                        <label>启用</label>
                     </div>
 
                     <div class="config_group" id="config_filter_whithlist">
@@ -188,7 +190,7 @@
                             当前全部配置
                         </div>
                         <div>
-                            <pre id="config_system_all_show">
+                            <pre id="config_system_all_show" v-text="all_config_json">
 
                             </pre>
                         </div>

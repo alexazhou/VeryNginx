@@ -11,7 +11,6 @@ control.init = function(){
 control.get_config = function(){
     $.get("/verynginx/config",function(data,status){
         control.verynginx_config = data;
-		control.refresh_config_json();
         
 		if( control.config_vm != null ){
 		    control.config_vm.$data = control.verynginx_config;
@@ -21,7 +20,12 @@ control.get_config = function(){
 
         control.config_vm = new Vue({
             el: '#verynginx_config',
-            data: control.verynginx_config
+            data: control.verynginx_config,
+			computed : {
+			    all_config_json: function(){
+				    return  JSON.stringify( control.verynginx_config , null, 2);
+				}
+			}
         });
 
     }); 
@@ -41,15 +45,8 @@ control.switch_to_configGroup = function( item ){
     $(".config_group").hide();
     $("#config_" + group ).show();
     
-    if( group == "system_allconfig" ){
-		control.refresh_config_json();
-    }
 }
 
-control.refresh_config_json = function(){
-    var config_json = JSON.stringify( control.verynginx_config , null, 2);
-    $("#config_system_all_show").text(config_json);
-}
 
 control.config_add = function(name,value){
     control.verynginx_config[name].push(value);
