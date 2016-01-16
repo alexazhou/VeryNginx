@@ -77,70 +77,69 @@
                 </div>  
                 <div class="col-sm-8" id="verynginx_config">
                     <div class="config_group" id="config_redirect_scheme">
-                    <div class="config_title">
-                        协议重定向
-                    </div>
-                    <input type="checkbox" id="checkbox" v-model="scheme_redirect_enable">
-                    <label>启用</label>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <td>#</td>
-                                <td>路径</td>
-                                <td>协议</td>
-                                <td></td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="rule in scheme_redirect_rule">
-                                <td>{{ $index }}</td>
-                                <td>{{ rule[0] }}</td>
-                                <td>{{ rule[1] }}</td>
-                                <td class="no_break">
-                                    <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('scheme_redirect_rule',{{$index}},null)">
-                                        DEL
-                                    </button>
-                                    <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('scheme_redirect_rule',{{$index}})">
-                                        UP
-                                    </button>
-                                    <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('scheme_redirect_rule',{{$index}})">
-                                        DOWN
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div style="font-size:1.2em">
-                        添加一条配置
-                    </div>
-                    <hr>
-                    <form class="form-horizontal" name="config_redirect_scheme_form_add" 
-                          onsubmit="control.config_add( 'scheme_redirect_rule', [this.path.value,this.scheme.value]); return false;" >
+                        <div class="config_title">
+                            协议重定向
+                        </div>
+                        <input type="checkbox" id="checkbox" v-model="scheme_redirect_enable">
+                        <label>启用</label>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td>#</td>
+                                    <td>路径</td>
+                                    <td>协议</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="rule in scheme_redirect_rule">
+                                    <td>{{ $index }}</td>
+                                    <td>{{ rule[0] }}</td>
+                                    <td>{{ rule[1] }}</td>
+                                    <td class="no_break">
+                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('scheme_redirect_rule',{{$index}},null)">
+                                            DEL
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('scheme_redirect_rule',{{$index}})">
+                                            UP
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('scheme_redirect_rule',{{$index}})">
+                                            DOWN
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="font-size:1.2em">
+                            添加一条配置
+                        </div>
+                        <hr>
+                        <form class="form-horizontal" name="config_redirect_scheme_form_add" 
+                              onsubmit="control.config_add( 'scheme_redirect_rule', [this.path.value,this.scheme.value]); return false;" >
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">路径</label>
-                            <div class="col-sm-10">
-                                <textarea class="form-control" rows="3" name="path" placeholder="A Regex for URL PATH"></textarea>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">路径</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" rows="3" name="path" placeholder="A Regex for URL PATH"></textarea>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">访问协议</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" name="scheme">
-                                    <option value="http">http only</option>
-                                    <option value="https">https only</option>
-                                    <option value="none">both http and https</option>
-                                </select>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">访问协议</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" name="scheme">
+                                        <option value="http">http only</option>
+                                        <option value="https">https only</option>
+                                        <option value="none">both http and https</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-default" >添加</button>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-default" >添加</button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
                     </div>
-
                     <div class="config_group" id="config_redirect_path">
                         <div class="config_title">
                             路径重定向
@@ -176,6 +175,31 @@
                             </tbody>
                         </table>
 
+                        <div style="font-size:1.2em">
+                            添加一条配置
+                        </div>
+                        <hr>
+                        <form class="form-horizontal" name="config_redirect_path_form_add" 
+                              onsubmit="control.config_add( 'path_redirect_rule', [this.path.value,this.replace.value]); return false;" >
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">路径</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" rows="3" name="path" placeholder="A Regex for URL PATH"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">替换目标</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" name="replace" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-default" >添加</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
 
                     <div class="config_group" id="config_filter_whithlist">
