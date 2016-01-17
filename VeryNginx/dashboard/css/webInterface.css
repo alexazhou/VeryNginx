@@ -17,6 +17,11 @@
     padding-left:20px;
 }
 
+.leftnav_2.active {
+    border-left:solid;
+    border-width:1px;
+}
+
 .config_title {
     font-size:2em;
     font-weight:bold;
@@ -26,3 +31,29 @@
 .no_break {
     white-space: nowrap;
 }
+
+.tips_container {
+    margin-right:5px;
+    padding:5px;
+    border:solid;
+    border-color:lightgray;
+    border-width:1px;
+    border-radius:5px;
+
+}
+
+.tips_tips {
+    color:#DDDDDD;
+    font-size:0.9em;
+}
+
+.tips_title {
+    font-size:0.9em;
+    font-weight:bold;
+}
+
+.tips_content {
+    font-size:0.8em;
+    font-color:gray;
+}
+

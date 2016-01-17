@@ -45,6 +45,9 @@ control.switch_to_configGroup = function( item ){
     $(".config_group").hide();
     $("#config_" + group ).show();
     
+    $(".leftnav_2").removeClass('active');
+    $(item).addClass('active');
+
 }
 
 

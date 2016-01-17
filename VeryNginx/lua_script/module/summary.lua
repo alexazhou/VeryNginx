@@ -119,10 +119,12 @@ function M.report()
     end
 
     for k, v in pairs( report ) do
-        v["avg_time"] = string.format("%.3f S", v["time"]/v["count"])
-        v["time"] = string.format("%.3f S", v["time"])
-        v["avg_size"] =  string.format("%.2f Byte", v["size"]/v["count"])
-        v["size"] =  string.format("%.2f Byte", v["size"])
+        if v['time'] ~= nil and v['count'] ~= nil and v['size'] ~= nil then
+            v["avg_time"] = string.format("%.3f S", v["time"]/v["count"])
+            v["time"] = string.format("%.3f S", v["time"])
+            v["avg_size"] =  string.format("%.2f Byte", v["size"]/v["count"])
+            v["size"] =  string.format("%.2f Byte", v["size"])
+        end
     end
 
     --ngx.log(ngx.STDERR,"summary end")
