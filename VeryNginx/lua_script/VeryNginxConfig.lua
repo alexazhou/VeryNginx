@@ -9,16 +9,25 @@ local M = {}
 M["configs"] = {}
 
 --------------default config------------
-M.configs["path_redirect_enable"] = true
-M.configs["path_redirect_rule"] = {
+M.configs["redirect_uri_enable"] = true
+M.configs["redirect_uri_rule"] = {
     {"^/index\\.php",""}
 }
 
-M.configs["scheme_redirect_enable"] = true
-M.configs["scheme_redirect_rule"] = {
+M.configs["redirect_scheme_enable"] = false
+M.configs["redirect_scheme_rule"] = {
 }
 
-M.configs["url_filter_enable"] = true 
+M.configs["filter_ipwhitelist_enable"] = true
+M.configs["filter_ipwhitelist_rule"] = {}
+
+M.configs["filter_ip_enable"] = true
+M.configs["filter_ip_rule"] = {}
+
+
+M.configs["filter_uri_enable"] = true 
+
+
 M.configs["disable_url"] = {"\\.(git|svn|\\.)",
 "\\.(haccess|bash_history|ssh|sql)$",
 }

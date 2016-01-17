@@ -13,7 +13,7 @@ VeryNginxConfig = require "VeryNginxConfig"
 function scheme_judge(uri)
 	--before match url, strip the possible "/index.php"
 	
-    for i, v in ipairs( VeryNginxConfig.configs["scheme_redirect_rule"] ) do
+    for i, v in ipairs( VeryNginxConfig.configs["redirect_scheme_rule"] ) do
 		--ngx.log(ngx.STDERR,"re test:"..key )
 		if ngx.re.find( uri, v[1], 'is' ) then
 			--ngx.log(ngx.STDERR,"re test matched" )
@@ -27,7 +27,7 @@ end
 
 function M.run()
 
-    if VeryNginxConfig.configs["scheme_redirect_enable"] ~= true then
+    if VeryNginxConfig.configs["redirect_scheme_enable"] ~= true then
         return
     end
 

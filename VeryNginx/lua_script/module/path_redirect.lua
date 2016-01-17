@@ -11,13 +11,13 @@ VeryNginxConfig = require "VeryNginxConfig"
 
 function M.run()
     
-    if VeryNginxConfig.configs["path_redirect_enable"] ~= true then
+    if VeryNginxConfig.configs["redirect_uri_enable"] ~= true then
         return
     end
 
     local new_url = nil 
 
-    for i, v in ipairs( VeryNginxConfig.configs["path_redirect_rule"] ) do
+    for i, v in ipairs( VeryNginxConfig.configs["redirect_uri_rule"] ) do
         --ngx.log(ngx.STDERR,"gsub test:"..k.."=>"..v )
         new_url = ngx.re.sub( ngx.var.uri, v[1], v[2] ) 
         --ngx.log(ngx.STDERR,"new url:",new_url )
