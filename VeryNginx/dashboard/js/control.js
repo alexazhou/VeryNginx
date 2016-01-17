@@ -4,31 +4,46 @@ control.verynginx_config = {};
 control.config_vm = null; 
 
 control.init = function(){
-    control.get_config();
+    control.switch_to_interface('login');
     $(".init_click").click();
+}
+
+control.login = function(user,password){
+    console.log("login with:",user,password);
+    $.post("/verynginx/login",data={user:user,password:password},function(data,status){
+        if( data['ret'] == "success" ){
+            control.switch_to_interface('dashboard');
+            control.get_config();
+        }
+    });
 }
 
 control.get_config = function(){
     $.get("/verynginx/config",function(data,status){
-    control.verynginx_config = data;
-        
-    if( control.config_vm != null ){
-        control.config_vm.$data = control.verynginx_config;
-        control.notify("获取配置成功");
-        return;
-    }
-
-    control.config_vm = new Vue({
-        el: '#verynginx_config',
-        data: control.verynginx_config,
-        computed : {
-            all_config_json: function(){
-                return  JSON.stringify( control.verynginx_config , null, 2);
-            }
+        control.verynginx_config = data;
+            
+        if( control.config_vm != null ){
+            control.config_vm.$data = control.verynginx_config;
+            control.notify("获取配置成功");
+            return;
         }
-    });
+
+        control.config_vm = new Vue({
+            el: '#verynginx_config',
+            data: control.verynginx_config,
+            computed : {
+                all_config_json: function(){
+                    return  JSON.stringify( control.verynginx_config , null, 2);
+                }
+            }
+        });
 
     }); 
+}
+
+control.switch_to_interface = function( name ){
+    $(".interface").hide();
+    $("#interface_"+name).show();
 }
 
 control.switch_to_page = function( page ){

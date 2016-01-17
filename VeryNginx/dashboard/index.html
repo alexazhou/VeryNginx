@@ -22,507 +22,540 @@
 
 <body style="padding-top:70px">
 
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">VeryNginx</a> 
+    <div id="interface_login" class="interface">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title" >VeryNginx Login</h3>
             </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="topnav" id="topnav_config"  class="active" >
-                        <a href="#" class="init_click" onclick="control.switch_to_page('config')" >配置</a>
-                    </li>
-                    <li class="topnav" id="topnav_summary" >
-                        <a href="#" onclick="control.switch_to_page('summary')" >访问统计</a>
-                    </li>
-                    <li class="topnav"id="topnav_firewall"  >
-                        <a href="#" onclick="control.switch_to_page('firewall')" >防火墙</a>
-                    </li>
-                    <li class="topnav" id="topnav_about"  >
-                        <a href="#" onclick="control.switch_to_page('about')" >关于</a>
-                    </li>
-                </ul>
+            <div class="panel-body">
+                <form class="form-horizontal" onsubmit="control.login(this.user.value,this.password.value); return false;">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">User</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="user" placeholder="User name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" name="password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-default">Login in</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </div><!-- /.container-fluid -->
-    </nav>
+        </div>
+    </div>
 
-    <div class="page" id="page_config">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-2">
-                    <div style="border-right: 1px solid #eee;margin-left:auto; margin-right:auto;">
-                        <div class="leftnav leftnav_1">重定向</div>
-                        <div>
-                            <div class="leftnav leftnav_2 init_click" group="redirect_scheme" onclick="control.switch_to_configGroup(this)">协议重定向</div>
-                            <div class="leftnav leftnav_2" group="redirect_uri" onclick="control.switch_to_configGroup(this)">URI重定向</div>
+    <div id="interface_dashboard" class="interface">
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">VeryNginx</a> 
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="topnav" id="topnav_config"  class="active" >
+                            <a href="#" class="init_click" onclick="control.switch_to_page('config')" >配置</a>
+                        </li>
+                        <li class="topnav" id="topnav_summary" >
+                            <a href="#" onclick="control.switch_to_page('summary')" >访问统计</a>
+                        </li>
+                        <li class="topnav"id="topnav_firewall"  >
+                            <a href="#" onclick="control.switch_to_page('firewall')" >防火墙</a>
+                        </li>
+                        <li class="topnav" id="topnav_about"  >
+                            <a href="#" onclick="control.switch_to_page('about')" >关于</a>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- /.container-fluid -->
+        </nav>
+
+        <div class="page" id="page_config">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div style="border-right: 1px solid #eee;margin-left:auto; margin-right:auto;">
+                            <div class="leftnav leftnav_1">重定向</div>
+                            <div>
+                                <div class="leftnav leftnav_2 init_click" group="redirect_scheme" onclick="control.switch_to_configGroup(this)">协议重定向</div>
+                                <div class="leftnav leftnav_2" group="redirect_uri" onclick="control.switch_to_configGroup(this)">URI重定向</div>
+                            </div>
+                            <div class="leftnav leftnav_1">请求过滤</div>
+                            <div>
+                                <div class="leftnav leftnav_2" group="filter_ipwhitelist" onclick="control.switch_to_configGroup(this)">IP白名单</div>
+                                <div class="leftnav leftnav_2" group="filter_ip" onclick="control.switch_to_configGroup(this)">IP过滤</div>
+                                <div class="leftnav leftnav_2" group="filter_useragent" onclick="control.switch_to_configGroup(this)">UserAgent过滤</div>
+                                <div class="leftnav leftnav_2" group="filter_uri" onclick="control.switch_to_configGroup(this)">URI过滤</div>
+                                <div class="leftnav leftnav_2" group="filter_arg" onclick="control.switch_to_configGroup(this)">参数过滤</div>
+                            </div>
+                            <div class="leftnav leftnav_1">统计</div>
+                            <div>
+                                <div class="leftnav leftnav_2" group="summary_request" onclick="control.switch_to_configGroup(this)">访问统计</div>
+                            </div>
+                            <div class="leftnav leftnav_1">系统</div>
+                            <div>
+                                <div class="leftnav leftnav_2" group="system_allconfig" onclick="control.switch_to_configGroup(this)">全部配置</div>
+                            </div>
                         </div>
-                        <div class="leftnav leftnav_1">请求过滤</div>
-                        <div>
-                            <div class="leftnav leftnav_2" group="filter_ipwhitelist" onclick="control.switch_to_configGroup(this)">IP白名单</div>
-                            <div class="leftnav leftnav_2" group="filter_ip" onclick="control.switch_to_configGroup(this)">IP过滤</div>
-                            <div class="leftnav leftnav_2" group="filter_useragent" onclick="control.switch_to_configGroup(this)">UserAgent过滤</div>
-                            <div class="leftnav leftnav_2" group="filter_uri" onclick="control.switch_to_configGroup(this)">URI过滤</div>
-                            <div class="leftnav leftnav_2" group="filter_arg" onclick="control.switch_to_configGroup(this)">参数过滤</div>
+                    </div>  
+                    <div class="col-sm-8" id="verynginx_config">
+                        <div class="config_group" id="config_redirect_scheme">
+                            <div class="config_title">
+                                协议重定向
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="redirect_scheme_enable">
+                            <label>启用</label>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>URI</td>
+                                        <td>协议</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="rule in redirect_scheme_rule">
+                                        <td>{{ $index }}</td>
+                                        <td>{{ rule[0] }}</td>
+                                        <td>{{ rule[1] }}</td>
+                                        <td class="no_break">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('redirect_scheme_rule',{{$index}},null)">
+                                                DEL
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('redirect_scheme_rule',{{$index}})">
+                                                UP
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('redirect_scheme_rule',{{$index}})">
+                                                DOWN
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div style="font-size:1.2em">
+                                添加一条配置
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" name="config_redirect_scheme_form_add" 
+                                  onsubmit="control.config_add( 'redirect_scheme_rule', [this.uri.value,this.scheme.value]); return false;" >
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">URI</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" rows="3" name="uri" placeholder="A RegEx for URI"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">访问协议</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="scheme">
+                                            <option value="http">http only</option>
+                                            <option value="https">https only</option>
+                                            <option value="none">both http and https</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-default" >添加</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="leftnav leftnav_1">统计</div>
-                        <div>
-                            <div class="leftnav leftnav_2" group="summary_request" onclick="control.switch_to_configGroup(this)">访问统计</div>
+                        <div class="config_group" id="config_redirect_uri">
+                            <div class="config_title">
+                                URI重定向
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="redirect_uri_enable">
+                            <label>启用</label>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>URI</td>
+                                        <td>替换目标</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="rule in redirect_uri_rule">
+                                        <td>{{ $index }}</td>
+                                        <td>{{ rule[0] }}</td>
+                                        <td>{{ rule[1] }}</td>
+                                        <td class="no_break">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('uri_redirect_rule',{{$index}},null)">
+                                                DEL
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('uri_redirect_rule',{{$index}})">
+                                                UP
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('uri_redirect_rule',{{$index}})">
+                                                DOWN
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div style="font-size:1.2em">
+                                添加一条配置
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" name="config_redirect_uri_form_add" 
+                                  onsubmit="control.config_add( 'redirect_uri_rule', [this.uri.value,this.replace.value]); return false;" >
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">URI</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" rows="3" name="uri" placeholder="A RegEx for URI"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">替换目标</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="replace" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-default" >添加</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="leftnav leftnav_1">系统</div>
-                        <div>
-                            <div class="leftnav leftnav_2" group="system_allconfig" onclick="control.switch_to_configGroup(this)">全部配置</div>
+
+                        <div class="config_group" id="config_filter_ipwhitelist">
+                            <div class="config_title">
+                                IP白名单
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="filter_ipwhitelist_enable">
+                            <label>启用</label>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>IP</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="rule in filter_ipwhitelist_rule">
+                                        <td>{{ $index }}</td>
+                                        <td>{{ rule }}</td>
+                                        <td class="no_break">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('filter_ipwhitelist_rule',{{$index}},null)">
+                                                DEL
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div style="font-size:1.2em">
+                                添加一条配置
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" name="config_filter_ipwhitelist_form_add" 
+                                  onsubmit="control.config_add( 'filter_ipwhitelist_rule', [this.ip.value]); return false;" >
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">IP</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="ip" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-default" >添加</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="config_group" id="config_filter_ip">
+                            <div class="config_title">
+                                IP过滤
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="filter_ip_enable">
+                            <label>启用</label>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>IP</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="rule in filter_ip_rule">
+                                        <td>{{ $index }}</td>
+                                        <td>{{ rule }}</td>
+                                        <td class="no_break">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('filter_ip_rule',{{$index}},null)">
+                                                DEL
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div style="font-size:1.2em">
+                                添加一条配置
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" name="config_filter_ip_form_add" 
+                                  onsubmit="control.config_add( 'filter_ip_rule', [this.ip.value] ); return false;" >
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">IP</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="ip" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-default" >添加</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="config_group" id="config_filter_useragent">
+                            <div class="config_title">
+                                UserAgent过滤
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="filter_useragent_enable">
+                            <label>启用</label>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>UserAgent</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="rule in filter_useragent_rule">
+                                        <td>{{ $index }}</td>
+                                        <td>{{ rule[0] }}</td>
+                                        <td class="no_break">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('filter_useragent_rule',{{$index}},null)">
+                                                DEL
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('filter_useragent_rule',{{$index}})">
+                                                UP
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('filter_useragent_rule',{{$index}})">
+                                                DOWN
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div style="font-size:1.2em">
+                                添加一条配置
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" name="config_filter_ip_form_add" 
+                                  onsubmit="control.config_add( 'filter_useragent_rule', [this.useragent.value] ); return false;" >
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">UserAgent</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" rows="3" name="useragent" placeholder="A RegEx for request UserAgent"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-default" >添加</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                        
+                        <div class="config_group" id="config_filter_uri">
+                            <div class="config_title">
+                                URI过滤
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="filter_uri_enable">
+                            <label>启用</label>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>URI</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="rule in filter_uri_rule">
+                                        <td>{{ $index }}</td>
+                                        <td>{{ rule[0] }}</td>
+                                        <td class="no_break">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('filter_uri_rule',{{$index}},null)">
+                                                DEL
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('filter_uri_rule',{{$index}})">
+                                                UP
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('filter_uri_rule',{{$index}})">
+                                                DOWN
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div style="font-size:1.2em">
+                                添加一条配置
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" name="config_filter_uri_form_add" 
+                                  onsubmit="control.config_add( 'filter_uri_rule', [this.uri.value] ); return false;" >
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">URI</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="uri" type="text" placeholder="A RegEx for request uri" >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-default" >添加</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                        
+                        <div class="config_group" id="config_filter_arg">
+                            <div class="config_title">
+                                参数过滤
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="filter_arg_enable">
+                            <label>启用</label>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>arg</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="rule in filter_arg_rule">
+                                        <td>{{ $index }}</td>
+                                        <td>{{ rule[0] }}</td>
+                                        <td class="no_break">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('filter_arg_rule',{{$index}},null)">
+                                                DEL
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('filter_arg_rule',{{$index}})">
+                                                UP
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('filter_arg_rule',{{$index}})">
+                                                DOWN
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div style="font-size:1.2em">
+                                添加一条配置
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" name="config_filter_arg_form_add" 
+                                  onsubmit="control.config_add( 'filter_arg_rule', [this.arg.value] ); return false;" >
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">URI</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" rows="3" name="arg" placeholder="A RegEx for request arg"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-default" >添加</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                        
+                        <div class="config_group" id="config_summary_request">
+                            <div class="config_title">
+                                访问统计
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="summary_request_enable">
+                            <label>启用</label>
+                        </div>
+
+                        <div class="config_group" id="config_system_allconfig">
+                            <div class="config_title">
+                                当前全部配置
+                            </div>
+                            <div>
+                                <pre id="config_system_all_show" v-text="all_config_json">
+
+                                </pre>
+                            </div>
+                            
+                            <div style="font-size:1.2em">
+                                操作
+                            </div>
+                            <hr>
+                            <p>
+                              <button type="button" class="btn btn-default" onclick="control.save_config()">保存配置</button>
+                              <button type="button" class="btn btn-default" onclick="control.get_config()">重新获取</button>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="tips_container" style="display:none">
+                            <div class="tips_tips">
+                                功能介绍 
+                            </div>
+                            <div class="tips_title">
+                                URI重定向的原理 
+                            </div>
+                            <div class="tips_content">
+                                URI重定向可以在用户访问一个URI时，返回302状态码和新的地址，使浏览器自动跳转到返回的新地址
+                            </div>
                         </div>
                     </div>
                 </div>  
-                <div class="col-sm-8" id="verynginx_config">
-                    <div class="config_group" id="config_redirect_scheme">
-                        <div class="config_title">
-                            协议重定向
-                        </div>
-                        <input type="checkbox" id="checkbox" v-model="redirect_scheme_enable">
-                        <label>启用</label>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <td>#</td>
-                                    <td>URI</td>
-                                    <td>协议</td>
-                                    <td></td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="rule in redirect_scheme_rule">
-                                    <td>{{ $index }}</td>
-                                    <td>{{ rule[0] }}</td>
-                                    <td>{{ rule[1] }}</td>
-                                    <td class="no_break">
-                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('redirect_scheme_rule',{{$index}},null)">
-                                            DEL
-                                        </button>
-                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('redirect_scheme_rule',{{$index}})">
-                                            UP
-                                        </button>
-                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('redirect_scheme_rule',{{$index}})">
-                                            DOWN
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div style="font-size:1.2em">
-                            添加一条配置
-                        </div>
-                        <hr>
-                        <form class="form-horizontal" name="config_redirect_scheme_form_add" 
-                              onsubmit="control.config_add( 'redirect_scheme_rule', [this.uri.value,this.scheme.value]); return false;" >
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">URI</label>
-                                <div class="col-sm-10">
-                                    <textarea class="form-control" rows="3" name="uri" placeholder="A RegEx for URI"></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">访问协议</label>
-                                <div class="col-sm-10">
-                                    <select class="form-control" name="scheme">
-                                        <option value="http">http only</option>
-                                        <option value="https">https only</option>
-                                        <option value="none">both http and https</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-default" >添加</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="config_group" id="config_redirect_uri">
-                        <div class="config_title">
-                            URI重定向
-                        </div>
-                        <input type="checkbox" id="checkbox" v-model="redirect_uri_enable">
-                        <label>启用</label>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <td>#</td>
-                                    <td>URI</td>
-                                    <td>替换目标</td>
-                                    <td></td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="rule in redirect_uri_rule">
-                                    <td>{{ $index }}</td>
-                                    <td>{{ rule[0] }}</td>
-                                    <td>{{ rule[1] }}</td>
-                                    <td class="no_break">
-                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('uri_redirect_rule',{{$index}},null)">
-                                            DEL
-                                        </button>
-                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('uri_redirect_rule',{{$index}})">
-                                            UP
-                                        </button>
-                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('uri_redirect_rule',{{$index}})">
-                                            DOWN
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div style="font-size:1.2em">
-                            添加一条配置
-                        </div>
-                        <hr>
-                        <form class="form-horizontal" name="config_redirect_uri_form_add" 
-                              onsubmit="control.config_add( 'redirect_uri_rule', [this.uri.value,this.replace.value]); return false;" >
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">URI</label>
-                                <div class="col-sm-10">
-                                    <textarea class="form-control" rows="3" name="uri" placeholder="A RegEx for URI"></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">替换目标</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" name="replace" type="text">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-default" >添加</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="config_group" id="config_filter_ipwhitelist">
-                        <div class="config_title">
-                            IP白名单
-                        </div>
-                        <input type="checkbox" id="checkbox" v-model="filter_ipwhitelist_enable">
-                        <label>启用</label>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <td>#</td>
-                                    <td>IP</td>
-                                    <td></td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="rule in filter_ipwhitelist_rule">
-                                    <td>{{ $index }}</td>
-                                    <td>{{ rule }}</td>
-                                    <td class="no_break">
-                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('filter_ipwhitelist_rule',{{$index}},null)">
-                                            DEL
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div style="font-size:1.2em">
-                            添加一条配置
-                        </div>
-                        <hr>
-                        <form class="form-horizontal" name="config_filter_ipwhitelist_form_add" 
-                              onsubmit="control.config_add( 'filter_ipwhitelist_rule', [this.ip.value]); return false;" >
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">IP</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" name="ip" type="text">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-default" >添加</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    
-                    <div class="config_group" id="config_filter_ip">
-                        <div class="config_title">
-                            IP过滤
-                        </div>
-                        <input type="checkbox" id="checkbox" v-model="filter_ip_enable">
-                        <label>启用</label>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <td>#</td>
-                                    <td>IP</td>
-                                    <td></td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="rule in filter_ip_rule">
-                                    <td>{{ $index }}</td>
-                                    <td>{{ rule }}</td>
-                                    <td class="no_break">
-                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('filter_ip_rule',{{$index}},null)">
-                                            DEL
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div style="font-size:1.2em">
-                            添加一条配置
-                        </div>
-                        <hr>
-                        <form class="form-horizontal" name="config_filter_ip_form_add" 
-                              onsubmit="control.config_add( 'filter_ip_rule', [this.ip.value] ); return false;" >
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">IP</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" name="ip" type="text">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-default" >添加</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="config_group" id="config_filter_useragent">
-                        <div class="config_title">
-                            UserAgent过滤
-                        </div>
-                        <input type="checkbox" id="checkbox" v-model="filter_useragent_enable">
-                        <label>启用</label>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <td>#</td>
-                                    <td>UserAgent</td>
-                                    <td></td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="rule in filter_useragent_rule">
-                                    <td>{{ $index }}</td>
-                                    <td>{{ rule[0] }}</td>
-                                    <td class="no_break">
-                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('filter_useragent_rule',{{$index}},null)">
-                                            DEL
-                                        </button>
-                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('filter_useragent_rule',{{$index}})">
-                                            UP
-                                        </button>
-                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('filter_useragent_rule',{{$index}})">
-                                            DOWN
-                                        </button>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div style="font-size:1.2em">
-                            添加一条配置
-                        </div>
-                        <hr>
-                        <form class="form-horizontal" name="config_filter_ip_form_add" 
-                              onsubmit="control.config_add( 'filter_useragent_rule', [this.useragent.value] ); return false;" >
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">UserAgent</label>
-                                <div class="col-sm-10">
-                                    <textarea class="form-control" rows="3" name="useragent" placeholder="A RegEx for request UserAgent"></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-default" >添加</button>
-                                </div>
-                            </div>
-                        </form>
-
-                    </div>
-                    
-                    <div class="config_group" id="config_filter_uri">
-                        <div class="config_title">
-                            URI过滤
-                        </div>
-                        <input type="checkbox" id="checkbox" v-model="filter_uri_enable">
-                        <label>启用</label>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <td>#</td>
-                                    <td>URI</td>
-                                    <td></td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="rule in filter_uri_rule">
-                                    <td>{{ $index }}</td>
-                                    <td>{{ rule[0] }}</td>
-                                    <td class="no_break">
-                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('filter_uri_rule',{{$index}},null)">
-                                            DEL
-                                        </button>
-                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('filter_uri_rule',{{$index}})">
-                                            UP
-                                        </button>
-                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('filter_uri_rule',{{$index}})">
-                                            DOWN
-                                        </button>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div style="font-size:1.2em">
-                            添加一条配置
-                        </div>
-                        <hr>
-                        <form class="form-horizontal" name="config_filter_uri_form_add" 
-                              onsubmit="control.config_add( 'filter_uri_rule', [this.uri.value] ); return false;" >
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">URI</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" name="uri" type="text" placeholder="A RegEx for request uri" >
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-default" >添加</button>
-                                </div>
-                            </div>
-                        </form>
-
-                    </div>
-                    
-                    <div class="config_group" id="config_filter_arg">
-                        <div class="config_title">
-                            参数过滤
-                        </div>
-                        <input type="checkbox" id="checkbox" v-model="filter_arg_enable">
-                        <label>启用</label>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <td>#</td>
-                                    <td>arg</td>
-                                    <td></td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="rule in filter_arg_rule">
-                                    <td>{{ $index }}</td>
-                                    <td>{{ rule[0] }}</td>
-                                    <td class="no_break">
-                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('filter_arg_rule',{{$index}},null)">
-                                            DEL
-                                        </button>
-                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('filter_arg_rule',{{$index}})">
-                                            UP
-                                        </button>
-                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('filter_arg_rule',{{$index}})">
-                                            DOWN
-                                        </button>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div style="font-size:1.2em">
-                            添加一条配置
-                        </div>
-                        <hr>
-                        <form class="form-horizontal" name="config_filter_arg_form_add" 
-                              onsubmit="control.config_add( 'filter_arg_rule', [this.arg.value] ); return false;" >
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">URI</label>
-                                <div class="col-sm-10">
-                                    <textarea class="form-control" rows="3" name="arg" placeholder="A RegEx for request arg"></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-default" >添加</button>
-                                </div>
-                            </div>
-                        </form>
-
-                    </div>
-                    
-                    <div class="config_group" id="config_summary_request">
-                        <div class="config_title">
-                            访问统计
-                        </div>
-                        <input type="checkbox" id="checkbox" v-model="summary_request_enable">
-                        <label>启用</label>
-                    </div>
-
-                    <div class="config_group" id="config_system_allconfig">
-                        <div class="config_title">
-                            当前全部配置
-                        </div>
-                        <div>
-                            <pre id="config_system_all_show" v-text="all_config_json">
-
-                            </pre>
-                        </div>
-                        
-                        <div style="font-size:1.2em">
-                            操作
-                        </div>
-                        <hr>
-                        <p>
-                          <button type="button" class="btn btn-default" onclick="control.save_config()">保存配置</button>
-                          <button type="button" class="btn btn-default" onclick="control.get_config()">重新获取</button>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-sm-2">
-                    <div class="tips_container" style="display:none">
-                        <div class="tips_tips">
-                            功能介绍 
-                        </div>
-                        <div class="tips_title">
-                            URI重定向的原理 
-                        </div>
-                        <div class="tips_content">
-                            URI重定向可以在用户访问一个URI时，返回302状态码和新的地址，使浏览器自动跳转到返回的新地址
-                        </div>
-                    </div>
-                </div>
-            </div>  
+            </div>
         </div>
-    </div>
 
-    <div class="page" id="page_summary">
-        <div id="data_stat">
-            <p>{{ message }}</p>
+        <div class="page" id="page_summary">
+            <div id="data_stat">
+                <p>{{ message }}</p>
+            </div>
         </div>
-    </div>
-    <div class="page" id="page_firewall">
-        防火墙
-    </div>
+        <div class="page" id="page_firewall">
+            防火墙
+        </div>
+        
+        <div class="page" id="page_about">
+            关于
+        </div>
     
-    <div class="page" id="page_about">
-        关于
     </div>
 
     <!-- Modal -->
