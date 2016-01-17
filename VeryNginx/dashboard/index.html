@@ -61,13 +61,13 @@
                         <div>
                             <div class="leftnav leftnav_2" group="filter_ipwhitelist" onclick="control.switch_to_configGroup(this)">IP白名单</div>
                             <div class="leftnav leftnav_2" group="filter_ip" onclick="control.switch_to_configGroup(this)">IP过滤</div>
+                            <div class="leftnav leftnav_2" group="filter_useragent" onclick="control.switch_to_configGroup(this)">UserAgent过滤</div>
                             <div class="leftnav leftnav_2" group="filter_uri" onclick="control.switch_to_configGroup(this)">URI过滤</div>
-                            <div class="leftnav leftnav_2" group="filter_args" onclick="control.switch_to_configGroup(this)">参数过滤</div>
-                            <div class="leftnav leftnav_2" group="filter_body" onclick="control.switch_to_configGroup(this)">Body过滤</div>
+                            <div class="leftnav leftnav_2" group="filter_arg" onclick="control.switch_to_configGroup(this)">参数过滤</div>
                         </div>
                         <div class="leftnav leftnav_1">统计</div>
                         <div>
-                            <div class="leftnav leftnav_2" group="summary_summary" onclick="control.switch_to_configGroup(this)">访问统计</div>
+                            <div class="leftnav leftnav_2" group="summary_request" onclick="control.switch_to_configGroup(this)">访问统计</div>
                         </div>
                         <div class="leftnav leftnav_1">系统</div>
                         <div>
@@ -297,6 +297,62 @@
                             </div>
                         </form>
                     </div>
+
+                    <div class="config_group" id="config_filter_useragent">
+                        <div class="config_title">
+                            UserAgent过滤
+                        </div>
+                        <input type="checkbox" id="checkbox" v-model="filter_useragent_enable">
+                        <label>启用</label>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td>#</td>
+                                    <td>UserAgent</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="rule in filter_useragent_rule">
+                                    <td>{{ $index }}</td>
+                                    <td>{{ rule[0] }}</td>
+                                    <td class="no_break">
+                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('filter_useragent_rule',{{$index}},null)">
+                                            DEL
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('filter_useragent_rule',{{$index}})">
+                                            UP
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('filter_useragent_rule',{{$index}})">
+                                            DOWN
+                                        </button>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div style="font-size:1.2em">
+                            添加一条配置
+                        </div>
+                        <hr>
+                        <form class="form-horizontal" name="config_filter_ip_form_add" 
+                              onsubmit="control.config_add( 'filter_useragent_rule', [this.useragent.value] ); return false;" >
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">UserAgent</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" rows="3" name="useragent" placeholder="A RegEx for request UserAgent"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-default" >添加</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
                     
                     <div class="config_group" id="config_filter_uri">
                         <div class="config_title">
@@ -308,18 +364,25 @@
                             <thead>
                                 <tr>
                                     <td>#</td>
-                                    <td>IP</td>
+                                    <td>URI</td>
                                     <td></td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="rule in filter_uri_rule">
                                     <td>{{ $index }}</td>
-                                    <td>{{ rule }}</td>
+                                    <td>{{ rule[0] }}</td>
                                     <td class="no_break">
                                         <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('filter_uri_rule',{{$index}},null)">
                                             DEL
                                         </button>
+                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('filter_uri_rule',{{$index}})">
+                                            UP
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('filter_uri_rule',{{$index}})">
+                                            DOWN
+                                        </button>
+
                                     </td>
                                 </tr>
                             </tbody>
@@ -347,20 +410,68 @@
 
                     </div>
                     
-                    <div class="config_group" id="config_filter_args">
+                    <div class="config_group" id="config_filter_arg">
                         <div class="config_title">
                             参数过滤
                         </div>
-                    </div>
-                    
-                    <div class="config_group" id="config_filter_body">
-                        <div class="config_title">
-                            Body过滤
+                        <input type="checkbox" id="checkbox" v-model="filter_arg_enable">
+                        <label>启用</label>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td>#</td>
+                                    <td>arg</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="rule in filter_arg_rule">
+                                    <td>{{ $index }}</td>
+                                    <td>{{ rule[0] }}</td>
+                                    <td class="no_break">
+                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('filter_arg_rule',{{$index}},null)">
+                                            DEL
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('filter_arg_rule',{{$index}})">
+                                            UP
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('filter_arg_rule',{{$index}})">
+                                            DOWN
+                                        </button>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div style="font-size:1.2em">
+                            添加一条配置
                         </div>
+                        <hr>
+                        <form class="form-horizontal" name="config_filter_arg_form_add" 
+                              onsubmit="control.config_add( 'filter_arg_rule', [this.arg.value] ); return false;" >
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">URI</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" rows="3" name="arg" placeholder="A RegEx for request arg"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-default" >添加</button>
+                                </div>
+                            </div>
+                        </form>
+
                     </div>
                     
-                    <div class="config_group" id="config_summary_summary">
-                        访问统计开关
+                    <div class="config_group" id="config_summary_request">
+                        <div class="config_title">
+                            访问统计
+                        </div>
+                        <input type="checkbox" id="checkbox" v-model="summary_request_enable">
+                        <label>启用</label>
                     </div>
 
                     <div class="config_group" id="config_system_allconfig">

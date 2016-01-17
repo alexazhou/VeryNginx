@@ -19,10 +19,16 @@ M.configs["redirect_scheme_rule"] = {
 }
 
 M.configs["filter_ipwhitelist_enable"] = true
-M.configs["filter_ipwhitelist_rule"] = {}
+M.configs["filter_ipwhitelist_rule"] = {
+}
 
 M.configs["filter_ip_enable"] = true
-M.configs["filter_ip_rule"] = {}
+M.configs["filter_ip_rule"] = {
+}
+
+M.configs["filter_useragent_enable"] = true
+M.configs["filter_useragent_rule"] = {
+}
 
 M.configs["filter_uri_enable"] = true 
 M.configs["filter_uri_rule"] = {
@@ -30,7 +36,11 @@ M.configs["filter_uri_rule"] = {
     {"\\.(haccess|bash_history|ssh|sql)$"},
 }
 
-M.configs["summary_enable"] = true
+M.configs["filter_arg_enable"] = true
+M.configs["filter_arg_rule"] = {
+}
+
+M.configs["summary_request_enable"] = true
 
 
 --M.configs.url_whitelist = {"aaa"}
