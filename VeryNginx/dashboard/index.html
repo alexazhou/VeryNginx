@@ -234,7 +234,7 @@
                         </div>
                         <hr>
                         <form class="form-horizontal" name="config_filter_ipwhitelist_form_add" 
-                              onsubmit="control.config_add( 'filter_ipwhitelist_rule', this.ip.value); return false;" >
+                              onsubmit="control.config_add( 'filter_ipwhitelist_rule', [this.ip.value]); return false;" >
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">IP</label>
@@ -282,7 +282,7 @@
                         </div>
                         <hr>
                         <form class="form-horizontal" name="config_filter_ip_form_add" 
-                              onsubmit="control.config_add( 'filter_ip_rule', this.ip.value); return false;" >
+                              onsubmit="control.config_add( 'filter_ip_rule', [this.ip.value] ); return false;" >
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">IP</label>
@@ -302,6 +302,49 @@
                         <div class="config_title">
                             URI过滤
                         </div>
+                        <input type="checkbox" id="checkbox" v-model="filter_uri_enable">
+                        <label>启用</label>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td>#</td>
+                                    <td>IP</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="rule in filter_uri_rule">
+                                    <td>{{ $index }}</td>
+                                    <td>{{ rule }}</td>
+                                    <td class="no_break">
+                                        <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('filter_uri_rule',{{$index}},null)">
+                                            DEL
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div style="font-size:1.2em">
+                            添加一条配置
+                        </div>
+                        <hr>
+                        <form class="form-horizontal" name="config_filter_uri_form_add" 
+                              onsubmit="control.config_add( 'filter_uri_rule', [this.uri.value] ); return false;" >
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">URI</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" name="uri" type="text" placeholder="A RegEx for request uri" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-default" >添加</button>
+                                </div>
+                            </div>
+                        </form>
+
                     </div>
                     
                     <div class="config_group" id="config_filter_args">

@@ -24,12 +24,10 @@ M.configs["filter_ipwhitelist_rule"] = {}
 M.configs["filter_ip_enable"] = true
 M.configs["filter_ip_rule"] = {}
 
-
 M.configs["filter_uri_enable"] = true 
-
-
-M.configs["disable_url"] = {"\\.(git|svn|\\.)",
-"\\.(haccess|bash_history|ssh|sql)$",
+M.configs["filter_uri_rule"] = {
+    {"\\.(git|svn|\\.)"},
+    {"\\.(haccess|bash_history|ssh|sql)$"},
 }
 
 M.configs["summary_enable"] = true
