@@ -1,11 +1,48 @@
-var data_stat = '访问统计';
+$.ajax({
+    type: "GET",
+    // url: "js/data_stat.json",
+    url: "/verynginx/summary",
+    data_Type: "json",
 
-var data_stat = new Vue({
+    success: function (json_data) {
 
-    el: '#data_stat',
+        console.log("异步请求成功");
 
-    data: {
-        message: data_stat
+        var response = json_data;
+
+        console.log(response);
+
+        for (var key in json_data) {
+            console.log('key name:' + key + ' value:' + json_data[key].size);
+            var url_details = new Vue({
+
+                el: '#url_details',
+
+                data: {
+                    url_details: [
+                        { message:'##' },
+                        { message: key },
+                        { message: json_data[key].count },
+                        { message: json_data[key].size },
+                        { message: json_data[key].status },
+                        { message: json_data[key].time }
+                    ]
+                }
+
+            })
+        }
     }
-
 })
+
+
+// var data_stat = '访问统计';
+
+// var data_stat = new Vue({
+
+//     el: '#data_stat',
+
+//     data: {
+//         message: data_stat
+//     }
+// })
+

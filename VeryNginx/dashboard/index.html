@@ -607,7 +607,26 @@
 
         <div class="page" id="page_summary">
             <div id="data_stat">
-                <p>{{ message }}</p>
+                <!-- <p>{{ message }}</p> -->
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>访问地址</th>
+                            <th>访问次数</th>
+                            <th>访问大小</th>
+                            <th>访问成功率</th>
+                            <th>访问时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="url_details">
+                            <th v-for="url_detail in url_details">
+                                {{ url_detail.message }}
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
         <div class="page" id="page_firewall">
