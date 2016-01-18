@@ -19,7 +19,7 @@ function M.filter()
     if handle ~= nil then
         ngx.header.content_type = "application/json"
         ngx.header.charset = "utf-8"
-        if M.check_session() == true then
+        if key == "post /verynginx/login" or M.check_session() == true then
             ngx.say( handle() )
             ngx.exit(200)
         else
