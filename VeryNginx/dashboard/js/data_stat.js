@@ -24,8 +24,10 @@ $.ajax({
                         { message: key },
                         { message: json_data[key].count },
                         { message: json_data[key].size },
+                        { message: json_data[key].avg_size },
                         { message: json_data[key].status },
-                        { message: json_data[key].time }
+                        { message: json_data[key].time },
+                        { message: json_data[key].avg_time }
                     ]
                 }
 
