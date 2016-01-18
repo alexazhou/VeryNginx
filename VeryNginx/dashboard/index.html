@@ -8,6 +8,7 @@
 <!-- vue.js文件 -->
 <script src="https://cdn.jsdelivr.net/vue/latest/vue.js"></script>
 <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="http://cdn.bootcss.com/vue/1.0.14/vue.min.js"></script>
@@ -72,6 +73,11 @@
                         </li>
                         <li class="topnav" id="topnav_about"  >
                             <a href="#" onclick="control.switch_to_page('about')" >关于</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="topnav" id="topnav_logout"  >
+                            <a href="#" onclick="control.logout()" >Logout</a>
                         </li>
                     </ul>
                 </div>

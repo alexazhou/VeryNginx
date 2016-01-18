@@ -18,6 +18,12 @@ control.login = function(user,password){
     });
 }
 
+control.logout = function(){
+    $.cookie( 'verynginx_user', null,{ path: '/verynginx'} );
+    $.cookie( 'verynginx_session', null, { path: '/verynginx'} );  
+    control.switch_to_interface('login');
+}
+
 control.get_config = function(){
     $.get("/verynginx/config",function(data,status){
         control.verynginx_config = data;
