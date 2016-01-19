@@ -32,6 +32,7 @@ control.logout = function(){
     $.cookie( 'verynginx_user', null,{ path: '/verynginx'} );
     $.cookie( 'verynginx_session', null, { path: '/verynginx'} );  
     control.switch_to_interface('login');
+    control.notify("Logout Success");
 }
 
 control.get_config = function(){
@@ -101,7 +102,7 @@ control.config_mod = function(name,index,value){
 control.config_move_up = function(name,index){
     
     if(index == 0){
-        alert("已经是最前面了");
+        control.notify("已经是最前面了");
         return;
     }
 
@@ -112,7 +113,7 @@ control.config_move_up = function(name,index){
 
 control.config_move_down = function(name,index){
     if(index >= control.verynginx_config[name].length - 1){
-        alert("已经是最后面了");
+        control.notify("已经是最后面了");
         return;
     }
     
