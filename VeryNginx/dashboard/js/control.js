@@ -23,6 +23,7 @@ control.login = function(user,password){
         if( data['ret'] == "success" ){
             control.switch_to_interface('dashboard');
             control.get_config();
+            control.notify("Login Success");
         }
     });
 }
@@ -135,5 +136,10 @@ control.save_config = function(){
 }
 
 control.notify = function(message){
-	alert(message);
+	$.smkAlert({
+        text: message,
+        type: 'info',
+        position:"top-right",
+        time:5,
+    });
 }
