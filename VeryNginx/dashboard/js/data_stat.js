@@ -8,7 +8,9 @@ $.ajax({
 
         console.log("异步请求成功");
         console.log(typeof json_data);
+
         var response = json_data;
+        var url_index = 1;
 
         console.log(response);
 
@@ -26,7 +28,7 @@ $.ajax({
             
 
             // 动态增加每一列关于各URL/URI的详细访问信息
-            var dyn_tab =  "<tr><th>##</th>" +
+            var dyn_tab =  "<tr><th>" + url_index + "</th>" +
                            "<th>" + key + "</th>" +
                            "<th>" + json_data[key].count + "</th>" +
                            "<th>" + json_data[key].size + "</th>" +
@@ -36,7 +38,9 @@ $.ajax({
                            "<th>" + json_data[key].avg_time + "</th></tr>";
 
             $('#url_details').append(dyn_tab);
-   
+
+            url_index++; // 增加访问序列
+    
         }
     }
 })
