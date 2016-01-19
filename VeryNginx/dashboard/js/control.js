@@ -3,6 +3,15 @@ var control = new Object();
 control.verynginx_config = {};
 control.config_vm = null; 
 
+paceOptions = {
+    catchupTime: 1,
+    minTime: 1,
+    restartOnRequestAfter: 5,
+    ajax : {
+        trackMethods:["GET","POST"],
+    }
+};
+
 control.init = function(){
     control.switch_to_interface('login');
     $(".init_click").click();
