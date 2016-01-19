@@ -621,11 +621,18 @@
                             <th>平均访问时间</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr id="url_details">
-                            <th v-for="url_detail in url_details">
-                                {{ url_detail.message }}
-                            </th>
+                    <tbody id="url_details" v-for="url_detail in url_details">
+                        <tr>
+                            <th>{{ $index }}</th>
+                            <th>{{ url_detail.key }}</th>
+                            <!-- <th>{{ url_detail.key }}</th> -->
+                            <th>{{ url_detail.count }}</th>
+                            <th>{{ url_detail.size }}</th>
+                            <th>{{ url_detail.avg_size }}</th>
+                            <th>{{ url_detail.status }}</th>
+                            <th>{{ url_detail.time }}</th>
+                            <th>{{ url_detail.avg_time }}</th>
+                            
                         </tr>
                     </tbody>
                 </table>

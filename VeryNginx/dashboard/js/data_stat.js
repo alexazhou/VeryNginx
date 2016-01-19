@@ -20,14 +20,13 @@ $.ajax({
 
                 data: {
                     url_details: [
-                        { message:'##' },
-                        { message: key },
-                        { message: json_data[key].count },
-                        { message: json_data[key].size },
-                        { message: json_data[key].avg_size },
-                        { message: json_data[key].status },
-                        { message: json_data[key].time },
-                        { message: json_data[key].avg_time }
+                        { key: key },
+                        { count: json_data[key].count },
+                        { size: json_data[key].size },
+                        { avg_size: json_data[key].avg_size },
+                        { status: json_data[key].status },
+                        { time: json_data[key].time },
+                        { avg_time: json_data[key].avg_time }
                     ]
                 }
 
