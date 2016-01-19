@@ -16,7 +16,14 @@ $.ajax({
             console.log(key);
             
             // 计算访问成功率
-            var success = json_data[key].status[200] / json_data[key].count;
+            if ("undefined" != typeof(json_data[key].status[200])) {
+                var success = json_data[key].status[200] / json_data[key].count;
+                console.log("not 0");
+            } else { // 当200状态不存在的时候成功率为0
+                var success = 0;
+                console.log("is 0")
+            };
+            
 
             // 动态增加每一列关于各URL/URI的详细访问信息
             var dyn_tab =  "<tr><th>##</th>" +
