@@ -39,11 +39,11 @@
     border-color:lightgray;
     border-width:1px;
     border-radius:5px;
-
+	margin-bottom:20px;
 }
 
 .tips_tips {
-    color:#DDDDDD;
+    color:#BBB;
     font-size:0.9em;
 }
 
