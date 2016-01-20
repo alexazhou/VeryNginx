@@ -64,3 +64,8 @@
     margin-top:50px;
 }
 
+.summary_url_table th { 
+    font-size: 14px;
+    font-weight: normal;
+    color: #777;
+}

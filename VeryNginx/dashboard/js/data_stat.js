@@ -1,6 +1,6 @@
 $.ajax({
     type: "GET",
-    // url: "js/data_stat.json",
+    // url: "http://www.licaifan.com/nginx/summary",
     url: "/verynginx/summary",
     data_Type: "json",
 
@@ -42,5 +42,12 @@ $.ajax({
             url_index++; // 增加访问序列
     
         }
+
+        // 添加表格排序
+        $('#url_table').DataTable( {
+            paging: false,
+            searching: true,
+            "order": [[ 0, "asc" ]]
+        } );
     }
 })

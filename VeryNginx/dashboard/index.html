@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="css/bs_callout.css">
 <link rel="stylesheet" href="css/pace.css">
 <link rel="stylesheet" href="http://cdn.bootcss.com/smokejs/3.0.1/css/smoke.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
 <!-- vue.js文件 -->
 <script src="https://cdn.jsdelivr.net/vue/latest/vue.js"></script>
 <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
@@ -15,12 +16,8 @@
 <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="http://cdn.bootcss.com/vue/1.0.14/vue.min.js"></script>
 <script src="http://cdn.bootcss.com/smokejs/3.0.1/js/smoke.js"></script>
-<!-- Latest compiled and minified CSS -->
-<link href="//cdn.bootcss.com/bootstrap-table/1.10.0/bootstrap-table.min.css" rel="stylesheet">
-<!-- Latest compiled and minified JavaScript -->
-<script src="//cdn.bootcss.com/bootstrap-table/1.10.0/bootstrap-table.min.js"></script>
-<!-- Latest compiled and minified Locales -->
-<script src="//cdn.bootcss.com/bootstrap-table/1.10.0/locale/bootstrap-table-zh-CN.min.js"></script>
+<!-- 表格扩展js文件 -->
+<script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 <script src="js/control.js"></script>
 <script src="js/pace.min.js"></script>
 <script type="text/javascript">
@@ -616,12 +613,12 @@
         </div>
 
         <div class="page" id="page_summary">
-            <div>
+            <div class="summary_url_table">
                 <!-- <p>{{ message }}</p> -->
-                <table class="table table-hover table-bordered">
+                <table class="table table-hover table-bordered display" id="url_table">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>index</th>
                             <th>访问地址</th>
                             <th>访问次数</th>
                             <th>访问大小</th>
