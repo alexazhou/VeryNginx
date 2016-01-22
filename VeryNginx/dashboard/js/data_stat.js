@@ -1,6 +1,6 @@
 $.ajax({
     type: "GET",
-    // url: "js/data_stat.json",
+    // url: "http://www.licaifan.com/nginx/summary",
     url: "/verynginx/summary",
     data_Type: "json",
 
@@ -25,22 +25,35 @@ $.ajax({
                 var success = 0;
                 console.log("is 0")
             };
+
+            var count = parseInt(json_data[key].count);
+            var size = parseFloat(json_data[key].size);
+            var avg_size = size / count;
+            var time = parseFloat(json_data[key].time);
+            var avg_time = time / count;
             
 
             // 动态增加每一列关于各URL/URI的详细访问信息
-            var dyn_tab =  "<tr><th>" + url_index + "</th>" +
-                           "<th>" + key + "</th>" +
-                           "<th>" + json_data[key].count + "</th>" +
-                           "<th>" + json_data[key].size + "</th>" +
-                           "<th>" + json_data[key].avg_size + "</th>" +
-                           "<th>" + success.toFixed(4) * 100 + "%</th>" +
-                           "<th>" + json_data[key].time + "</th>" +
-                           "<th>" + json_data[key].avg_time + "</th></tr>";
+            var dyn_tab =  "<tr><th style = \"width: 5%\">" + url_index + "</th>" +
+                           "<th style = \"width: 35%\">" + key + "</th>" +
+                           "<th style = \"width: 10%\">" + count + "</th>" +
+                           "<th style = \"width: 10%\">" + size.toFixed(2) + "</th>" +
+                           "<th style = \"width: 10%\">" + avg_size.toFixed(2) + "</th>" +
+                           "<th style = \"width: 10%\">" + success.toFixed(4) * 100 + "%</th>" +
+                           "<th style = \"width: 10%\">" + time.toFixed(3) + "</th>" +
+                           "<th style = \"width: 10%\">" + avg_time.toFixed(3) + "</th></tr>";
 
             $('#url_details').append(dyn_tab);
 
             url_index++; // 增加访问序列
     
         }
+
+        // 添加表格排序
+        $('#url_table').DataTable( {
+            paging: false,
+            searching: true,
+            "order": [[ 0, "asc" ]]
+        } );
     }
 })
