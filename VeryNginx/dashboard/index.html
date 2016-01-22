@@ -598,26 +598,24 @@
 
                     <div class="col-sm-2" id="verynginx_tips">
                         <template v-for="tip in tips">
-                            <div class="tips_container" >
+                            <div class="tips_container"  onclick="tips.toggle(this)">
                                 <div class="tips_tips">
                                     {{tip.tips}} 
                                 </div>
-
-                                <template  v-if="(typeof tip.content == 'string')">
-                                    <div class="tips_content">
-                                        {{ tip.content }}
-                                    </div>
-                                </template>
                                 
-                                <template  v-if="(typeof tip.content == 'object')">
-                                    <div class="tips_content">
+                                <div class="tips_content collapse">
+                                    <template  v-if="(typeof tip.content == 'string')">
+                                        {{ tip.content }}
+                                    </template>
+                                    
+                                    <template  v-if="(typeof tip.content == 'object')">
                                         <ul>
                                             <template  v-for="row in tip.content ">
                                                 <li> {{row}} </li>
                                             </template>
                                         </ul>
-                                    </div>
-                                </template>
+                                    </template>
+                                </div>
                             </div>
                         </template>
                     </div>
