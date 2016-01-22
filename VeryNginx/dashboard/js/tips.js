@@ -3,6 +3,8 @@ var tips = new Object();
 tips.tips_vm = null;
 tips.show_tips_group = function(group){
 
+    $('.tips_content').collapse('hide');
+
     if(tips.tips_vm != null){
         tips.tips_vm.$data = {tips:tips.data[group]};
         return;
@@ -13,6 +15,10 @@ tips.show_tips_group = function(group){
         data: {tips:tips.data[group]},
     });
 
+}
+
+tips.toggle = function(tips_container){
+    $(tips_container).children(':last').collapse('toggle');
 }
 
 tips.data = {
