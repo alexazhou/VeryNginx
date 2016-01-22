@@ -19,7 +19,7 @@ $.ajax({
             
             // 计算访问成功率
             if ("undefined" != typeof(json_data[key].status[200])) {
-                var success = json_data[key].status[200] / json_data[key].count;
+                var success = json_data[key].status[200] / json_data[key].count * 100;
                 console.log("not 0");
             } else { // 当200状态不存在的时候成功率为0
                 var success = 0;
@@ -39,7 +39,7 @@ $.ajax({
                            "<th style = \"width: 10%\">" + count + "</th>" +
                            "<th style = \"width: 10%\">" + size.toFixed(2) + "</th>" +
                            "<th style = \"width: 10%\">" + avg_size.toFixed(2) + "</th>" +
-                           "<th style = \"width: 10%\">" + success.toFixed(4) * 100 + "%</th>" +
+                           "<th style = \"width: 10%\">" + success.toFixed(2) + "%</th>" +
                            "<th style = \"width: 10%\">" + time.toFixed(3) + "</th>" +
                            "<th style = \"width: 10%\">" + avg_time.toFixed(3) + "</th></tr>";
 
@@ -51,6 +51,7 @@ $.ajax({
 
         // 添加表格排序
         $('#url_table').DataTable( {
+            autoWidth: true,
             paging: false,
             searching: true,
             "order": [[ 0, "asc" ]]
