@@ -57,6 +57,10 @@
     font-color:gray;
 }
 
+.tips_content ul {
+    padding-left:20px;
+}
+
 #interface_login {
     width:500px;
     margin-left:auto;

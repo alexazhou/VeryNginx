@@ -124,6 +124,8 @@ function M.report()
             v["time"] = string.format("%.3f", v["time"])
             v["avg_size"] =  string.format("%.2f", v["size"]/v["count"])
             v["size"] =  string.format("%.2f", v["size"])
+        else
+            report[k] = nil
         end
     end
 
