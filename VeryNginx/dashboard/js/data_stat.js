@@ -51,10 +51,12 @@ $.ajax({
 
         // 添加表格排序
         $('#url_table').DataTable( {
-            autoWidth: true,
-            paging: false,
-            searching: true,
-            "order": [[ 0, "asc" ]]
+            autoWidth: true, // 设置表格自动适配宽度
+            paging: false, // 去掉页头页脚信息
+            "stripeClasses": [], // 去掉斑马色
+            renderer: true,
+            searching: true, // 增加过滤功能
+            "order": [[ 0, "asc" ]] // 载入时默认使用index升序排列
         } );
     }
 })
