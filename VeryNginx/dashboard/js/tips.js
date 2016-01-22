@@ -1,6 +1,17 @@
 var tips = new Object();
 
+tips.tips_vm = null;
 tips.show_tips_group = function(group){
+
+    if(tips.tips_vm != null){
+        tips.tips_vm.$data = {tips:tips.data[group]};
+        return;
+    } 
+
+    tips.tips_vm = new Vue({
+        el: '#verynginx_tips',
+        data: {tips:tips.data[group]},
+    });
 
 }
 

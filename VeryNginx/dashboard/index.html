@@ -19,6 +19,7 @@
 <!-- 表格扩展js文件 -->
 <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 <script src="js/control.js"></script>
+<script src="js/tips.js"></script>
 <script src="js/pace.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
@@ -595,18 +596,30 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-2">
-                        <div class="tips_container" style="display:none">
-                            <div class="tips_tips">
-                                功能介绍 
+                    <div class="col-sm-2" id="verynginx_tips">
+                        <template v-for="tip in tips">
+                            <div class="tips_container" >
+                                <div class="tips_tips">
+                                    {{tip.tips}} 
+                                </div>
+
+                                <template  v-if="(typeof tip.content == 'string')">
+                                    <div class="tips_content">
+                                        {{ tip.content }}
+                                    </div>
+                                </template>
+                                
+                                <template  v-if="(typeof tip.content == 'object')">
+                                    <div class="tips_content">
+                                        <ul>
+                                            <template  v-for="row in tip.content ">
+                                                <li> {{row}} </li>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </template>
                             </div>
-                            <div class="tips_title">
-                                URI重定向的原理 
-                            </div>
-                            <div class="tips_content">
-                                URI重定向可以在用户访问一个URI时，返回302状态码和新的地址，使浏览器自动跳转到返回的新地址
-                            </div>
-                        </div>
+                        </template>
                     </div>
                 </div>  
             </div>

@@ -80,6 +80,8 @@ control.switch_to_configGroup = function( item ){
     $(".leftnav_2").removeClass('active');
     $(item).addClass('active');
 
+    //show tips of the config group
+    tips.show_tips_group(group);
 }
 
 
