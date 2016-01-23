@@ -58,5 +58,8 @@ $.ajax({
             searching: true, // 增加过滤功能
             "order": [[ 0, "asc" ]] // 载入时默认使用index升序排列
         } );
+
+        // 过滤器
+        $("#url_table_filter input").attr("class","form-control").attr("placeholder","search");
     }
 })
