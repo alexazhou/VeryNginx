@@ -1,7 +1,7 @@
 $.ajax({
     type: "GET",
-    // url: "http://www.licaifan.com/nginx/summary",
-    url: "/verynginx/summary",
+    //url: "/verynginx/summary?type=short",
+    url: "/verynginx/summary?type=long",
     data_Type: "json",
 
     success: function (json_data) {
