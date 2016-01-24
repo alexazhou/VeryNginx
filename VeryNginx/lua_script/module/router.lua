@@ -10,16 +10,20 @@ cookie = require "cookie"
 
 local M = {}
 
-local url_route = {}
+M.url_route = {}
+M.mime_type = {}
+M.mime_type['js'] = "application/x-javascript"
+M.mime_type['css'] = "text/css"
+M.mime_type['html'] = "text/html"
 
 function M.filter() 
     --ngx.log(ngx.STDERR,"run router")
-    local key = string.lower(ngx.req.get_method().." "..ngx.var.uri)
-    local handle = url_route[ key ]
+    local action = string.lower(ngx.req.get_method().." "..ngx.var.uri)
+    local handle = M.url_route[ action ]
     if handle ~= nil then
         ngx.header.content_type = "application/json"
         ngx.header.charset = "utf-8"
-        if key == "post /verynginx/login" or M.check_session() == true then
+        if action == "post /verynginx/login" or M.check_session() == true then
             ngx.say( handle() )
             ngx.exit(200)
         else
@@ -27,10 +31,16 @@ function M.filter()
             ngx.say( info )
             ngx.exit(200)
         end
-    elseif string.find(key,"get /verynginx/dashboard") == 1 then
+    elseif string.find(action,"get /verynginx/dashboard") == 1 then
         --ngx.header.charset = "utf-8"
         ngx.header.content_type = "text/html"
         ngx.header.charset = "utf-8"
+        for k,v in pairs( M.mime_type ) do
+            if string.find(action,k) == string.len(action) - string.len(k) + 1 then
+                ngx.header.content_type = v
+            end
+        end
+        
         ngx.log(ngx.STDERR,"verynginx dashboard")
 
         local path = VeryNginxConfig.home_path() .."/dashboard" .. string.sub( ngx.var.uri, string.len( "/verynginx/dashboard") + 1 )
@@ -50,31 +60,19 @@ function M.check_session()
     -- get all cookies
     local user, session
     
-    ngx.log(ngx.STDERR,"step1")
-
     local cookie_obj, err = cookie:new()
     local fields = cookie_obj:get_all()
-    ngx.log(ngx.STDERR,err)
     if not fields then
         return false
     end
     
-    ngx.log(ngx.STDERR,"step2")
-
     user = fields['verynginx_user'] 
     session = fields['verynginx_session']
     
-    ngx.log(ngx.STDERR,"step3")
-    ngx.log(ngx.STDERR,user)
-    ngx.log(ngx.STDERR,session)
-
     if user == nil or session == nil then
         return false
     end
     
-    ngx.log(ngx.STDERR,"step4")
-
-
     for i,v in ipairs( VeryNginxConfig.configs['admin'] ) do
         if v[1] == user then
             if session == ngx.md5(VeryNginxConfig.configs["encrypt_seed"]..v[1]) then
@@ -120,11 +118,12 @@ function M.login()
 end
 
 
-url_route["post /verynginx/login"] = M.login
-url_route["get /verynginx/summary"] = summary.report
-url_route["get /verynginx/config"] = VeryNginxConfig.report
-url_route["post /verynginx/config"] = VeryNginxConfig.set
-url_route["get /verynginx/dumpconfig"] = VeryNginxConfig.dump_to_file
-url_route["get /verynginx/loadconfig"] = VeryNginxConfig.load_from_file
+M.url_route["post /verynginx/login"] = M.login
+M.url_route["get /verynginx/summary"] = summary.report
+M.url_route["get /verynginx/status"] = summary.report_ngx_statu
+M.url_route["get /verynginx/config"] = VeryNginxConfig.report
+M.url_route["post /verynginx/config"] = VeryNginxConfig.set
+M.url_route["get /verynginx/dumpconfig"] = VeryNginxConfig.dump_to_file
+M.url_route["get /verynginx/loadconfig"] = VeryNginxConfig.load_from_file
 
 return M
