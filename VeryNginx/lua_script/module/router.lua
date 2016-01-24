@@ -36,12 +36,12 @@ function M.filter()
         ngx.header.content_type = "text/html"
         ngx.header.charset = "utf-8"
         for k,v in pairs( M.mime_type ) do
-            if string.find(action,k) == string.len(action) - string.len(k) + 1 then
+            if string.sub(action, string.len(action) - string.len(k) + 1 ) == k then
                 ngx.header.content_type = v
+                break
             end
         end
         
-        ngx.log(ngx.STDERR,"verynginx dashboard")
 
         local path = VeryNginxConfig.home_path() .."/dashboard" .. string.sub( ngx.var.uri, string.len( "/verynginx/dashboard") + 1 )
         ngx.log(ngx.STDERR,"load path:",path)
