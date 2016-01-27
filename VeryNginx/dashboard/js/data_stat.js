@@ -15,15 +15,15 @@ $.ajax({
         console.log(response);
 
         for (var key in response) {
-            console.log(key);
+            //console.log(key);
             
             // 计算访问成功率
             if ("undefined" != typeof(json_data[key].status[200])) {
                 var success = json_data[key].status[200] / json_data[key].count * 100;
-                console.log("not 0");
+                //console.log("not 0");
             } else { // 当200状态不存在的时候成功率为0
                 var success = 0;
-                console.log("is 0")
+                //console.log("is 0")
             };
 
             var count = parseInt(json_data[key].count);

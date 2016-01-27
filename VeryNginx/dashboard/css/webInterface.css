@@ -32,6 +32,36 @@
     white-space: nowrap;
 }
 
+.status_info_title{
+    font-size:1.2em;
+}
+
+.status_info_value{
+    font-size:1.2em;
+    color:#AAA;
+	margin-left:20px;
+	font-weight:bold;
+}
+
+.status_group_title {
+    font-size:1.5em;
+	font-weight: bold;
+	margin-top:12px;
+	margin-bottom:12px;
+}
+
+.status_color_mark {
+	width:14px;
+	height:14px;
+	display:inline-block;
+	border-radius:3px;
+    text-align:center;
+}
+
+.status_color_desc {
+    color:#999;
+}
+
 .tips_container {
     margin-right:5px;
     padding:5px;

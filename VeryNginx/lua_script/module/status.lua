@@ -41,7 +41,7 @@ function M.report()
     report['request_count'] = ngx.shared.status:get( KEY_TOTAL_COUNT )
     report['200_request_count'] = ngx.shared.status:get( KEY_TOTAL_COUNT_200 )
     report['time'] = ngx.time()
-    report['start_time'] = ngx.shared.status:get( KEY_START_TIME )
+    report['boot_time'] = ngx.shared.status:get( KEY_START_TIME )
     report['connections_active'] = ngx.var.connections_active
     report['connections_reading'] = ngx.var.connections_reading
     report['connections_writing'] = ngx.var.connections_writing
