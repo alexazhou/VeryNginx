@@ -5,16 +5,17 @@
 -- -- @Disc    : url router
 
 summary = require "summary"
-VeryNginxConfig = require "VeryNginxConfig"
+status = require "status"
 cookie = require "cookie"
+VeryNginxConfig = require "VeryNginxConfig"
 
 local M = {}
 
 M.url_route = {}
 M.mime_type = {}
-M.mime_type['js'] = "application/x-javascript"
-M.mime_type['css'] = "text/css"
-M.mime_type['html'] = "text/html"
+M.mime_type['.js'] = "application/x-javascript"
+M.mime_type['.css'] = "text/css"
+M.mime_type['.html'] = "text/html"
 
 function M.filter() 
     --ngx.log(ngx.STDERR,"run router")
@@ -111,7 +112,6 @@ function M.login()
             return cjson.encode({["ret"]="success",["err"]=err})
         end
     end 
-
     
     return cjson.encode({["ret"]="failed",["err"]=err})
 
@@ -120,7 +120,7 @@ end
 
 M.url_route["post /verynginx/login"] = M.login
 M.url_route["get /verynginx/summary"] = summary.report
-M.url_route["get /verynginx/status"] = summary.report_ngx_statu
+M.url_route["get /verynginx/status"] = status.report
 M.url_route["get /verynginx/config"] = VeryNginxConfig.report
 M.url_route["post /verynginx/config"] = VeryNginxConfig.set
 M.url_route["get /verynginx/dumpconfig"] = VeryNginxConfig.dump_to_file
