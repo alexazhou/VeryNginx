@@ -50,6 +50,13 @@
 	margin-bottom:12px;
 }
 
+.status_sub_group_title {
+    font-size:1.2em;
+	font-weight: bold;
+	margin-top:8px;
+	margin-bottom:8px;
+}
+
 .status_color_mark {
 	width:14px;
 	height:14px;

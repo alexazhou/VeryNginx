@@ -127,10 +127,35 @@
                         <span class="status_color_desc">request with response status 200</span>
                     </div>
                 </div>
-				<canvas id="chart_request" width="1000" height="400"></canvas>
-					
-				<div class="status_group_title">TCP Connections</div>
-				<canvas id="chart_connection" width="1000" height="400"></canvas>
+
+                <div id="chart_request_container">
+				    <canvas id="chart_request" width="1400" height="400"></canvas>
+                </div>
+                
+                <div class="row">
+					<div class="col-sm-4">
+                        <div class="status_sub_group_title">TCP Connections</div>
+                        <div id="chart_connection_container">
+				            <canvas id="chart_connection" width="700" height="400"></canvas>
+                        </div>
+                    </div>
+
+					<div class="col-sm-4">
+                        <div class="status_sub_group_title">Response Time</div>
+                        <div id="chart_response_time_container">
+				            <canvas id="chart_response_time" width="700" height="400"></canvas>
+                        </div>
+                    </div>
+
+					<div class="col-sm-4">
+                        <div class="status_sub_group_title">Traffic</div>
+                        <div id="chart_traffic_container">
+				            <canvas id="chart_traffic" width="700" height="400"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+				
             </div>
         </div>
 
