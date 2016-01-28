@@ -8,8 +8,8 @@ cjson = require "cjson"
 
 local M = {}
 
-local KEY_INIT = "A_"
-local KEY_TOTAL_COUNT = "F_"
+local KEY_SUMMARY_INIT = "A_"
+
 local KEY_URI_STATUS = "B_"
 local KEY_URI_SIZE = "C_"
 local KEY_URI_TIME = "D_"
@@ -24,10 +24,8 @@ end
 function M.log()
 
     --ngx.log(ngx.STDERR,"log start")
-    
-    local ok, err = ngx.shared.summary_meta:add( KEY_INIT,true )
+    local ok, err = ngx.shared.status:add( KEY_SUMMARY_INIT,true )
     if ok then
-        ngx.shared.summary_meta:set( KEY_TOTAL_COUNT, 0 ) 
         --ngx.log(ngx.STDERR,"set timer")
         ngx.timer.at( 60, M.refresh )
     end
@@ -86,9 +84,7 @@ function M.log()
     ngx.shared.summary_short:incr( key_size, ngx.var.body_bytes_sent )
     ngx.shared.summary_short:incr( key_time, ngx.var.request_time )
 
-    --add global summary info
-    ngx.shared.summary_meta:incr( KEY_TOTAL_COUNT, 1 )
-
+    
     --ngx.log(ngx.STDERR,"log end")
 end
 

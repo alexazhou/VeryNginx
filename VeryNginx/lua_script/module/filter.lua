@@ -34,9 +34,9 @@ function M.filter_useragent()
     end
 
     for i, v in ipairs( VeryNginxConfig.configs["filter_useragent_rule"] ) do
-        ngx.log(ngx.STDERR,"filter useragent test:",v[1])
+        --ngx.log(ngx.STDERR,"filter useragent test:",v[1])
         if ngx.re.find( ngx.var.http_user_agent, v[1], "is" ) then
-            ngx.log(ngx.STDERR,"filter useragent match")
+            --ngx.log(ngx.STDERR,"filter useragent match")
             return false
         end
     end
@@ -50,9 +50,9 @@ function M.filter_uri()
     end
     
     for i, v in ipairs( VeryNginxConfig.configs["filter_uri_rule"] ) do
-        ngx.log(ngx.STDERR,"filter uri test:",v[1])
+        --ngx.log(ngx.STDERR,"filter uri test:",v[1])
         if ngx.re.find( ngx.var.uri, v[1], "is" ) then
-            ngx.log(ngx.STDERR,"filter uri match")
+            --ngx.log(ngx.STDERR,"filter uri match")
             return false
         end
     end

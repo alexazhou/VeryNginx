@@ -24,11 +24,14 @@ control.login = function(user,password){
             control.switch_to_interface('dashboard');
             control.get_config();
             control.notify("Login Success");
+            window.setTimeout( monitor.build_chart, 0 );
+            window.setTimeout( monitor.start, 0 );
         }
     });
 }
 
 control.logout = function(){
+    monitor.stop();
     $.cookie( 'verynginx_user', null,{ path: '/verynginx'} );
     $.cookie( 'verynginx_session', null, { path: '/verynginx'} );  
     control.switch_to_interface('login');
@@ -54,7 +57,6 @@ control.get_config = function(){
                 }
             }
         });
-
     }); 
 }
 

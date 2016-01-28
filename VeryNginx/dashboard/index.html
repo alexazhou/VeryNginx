@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -16,8 +17,10 @@
 <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="http://cdn.bootcss.com/vue/1.0.14/vue.min.js"></script>
 <script src="http://cdn.bootcss.com/smokejs/3.0.1/js/smoke.js"></script>
+<script src="http://cdn.bootcss.com/Chart.js/1.0.2/Chart.js"></script>
 <!-- 表格扩展js文件 -->
 <script src="http://cdn.bootcss.com/datatables/1.10.10/js/jquery.dataTables.min.js"></script>
+<script src="js/monitor.js"></script>
 <script src="js/control.js"></script>
 <script src="js/tips.js"></script>
 <script src="js/pace.min.js"></script>
@@ -70,27 +73,66 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="topnav" id="topnav_config"  class="active" >
-                            <a href="#" class="init_click" onclick="control.switch_to_page('config')" >配置</a>
+                        <li class="topnav" id="topnav_status" class="active" >
+                            <a href="#" class="init_click" onclick="control.switch_to_page('status')" >状态</a>
+                        </li>
+                        <li class="topnav" id="topnav_config"  >
+                            <a href="#" onclick="control.switch_to_page('config')" >配置</a>
                         </li>
                         <li class="topnav" id="topnav_summary" >
                             <a href="#" onclick="control.switch_to_page('summary')" >访问统计</a>
                         </li>
-                        <li class="topnav"id="topnav_firewall"  >
+                        <li class="topnav"id="topnav_firewall" style="display:none">
                             <a href="#" onclick="control.switch_to_page('firewall')" >防火墙</a>
                         </li>
-                        <li class="topnav" id="topnav_about"  >
+                        <li class="topnav" id="topnav_about" >
                             <a href="#" onclick="control.switch_to_page('about')" >关于</a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="topnav" id="topnav_logout"  >
+                        <li class="topnav" id="topnav_logout" >
                             <a href="#" onclick="control.logout()" >Logout</a>
                         </li>
                     </ul>
                 </div>
             </div><!-- /.container-fluid -->
         </nav>
+
+        <div class="page" id="page_status">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="status_info_title">VeryNginx uptime:</div>
+                        <div class="status_info_value" id="status_uptime">12:11:11</div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="status_info_title">All Request Count:</div>
+                        <div class="status_info_value" id="status_request_count">8796</div>
+                    </div>
+                    
+					<div class="col-sm-4">
+                        <div class="status_info_title">200 Request Count:</div>
+                        <div class="status_info_value" id="status_request_count_200">7896</div>
+                    </div>
+				</div>
+				
+				<div class="status_group_title">Requests Pre Second</div>
+                <div class="row">
+					<div class="col-sm-6">
+					    <span class="status_color_mark" style="background-color:rgba(220,220,220,1)"></span>
+                        <span class="status_color_desc">all request</span>
+                    </div>
+                    <div class="col-sm-6">
+					    <span class="status_color_mark" style="background-color:rgba(151,187,205,1)"></span>
+                        <span class="status_color_desc">request with response status 200</span>
+                    </div>
+                </div>
+				<canvas id="chart_request" width="1000" height="400"></canvas>
+					
+				<div class="status_group_title">TCP Connections</div>
+				<canvas id="chart_connection" width="1000" height="400"></canvas>
+            </div>
+        </div>
 
         <div class="page" id="page_config">
             <div class="container-fluid">
