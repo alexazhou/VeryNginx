@@ -61,6 +61,28 @@ monitor.build_chart = function(){
                 pointHighlightStroke: "rgba(220,220,220,1)",
                 data: []
             },
+			{
+                label: "writing",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: []
+            },
+			{
+                label: "reading",
+                fillColor: "rgba(151,205,187,0.2)",
+                strokeColor: "rgba(151,205,187,1)",
+                pointColor: "rgba(151,205,187,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,205,187,1)",
+                data: []
+            }
+
+
         ]
     };
     monitor.chart_connection = new Chart(ctx_connection).Line(data_connection,options_connection);
@@ -185,6 +207,8 @@ monitor.refresh = function(){
             var requests_change = data['request_count'] - monitor.latest_status['request_count']; 
             var requests_200_change = data['200_request_count'] - monitor.latest_status['200_request_count'];
 			var connections_active = data['connections_active'];
+			var connections_reading = data['connections_reading'];
+			var connections_writing = data['connections_writing'];
             var avg_request = requests_change / time_change;
             var avg_request_200 = requests_200_change / time_change;
 			var time_str = monitor.time_str();
@@ -196,11 +220,19 @@ monitor.refresh = function(){
             
             var avg_traffic_read = traffic_read_change / time_change;
             var avg_traffic_write = traffic_write_change / time_change;;
+ 
+            var sub_label = '';
+
+            var chart_old_data = monitor.chart_connection.datasets[0].points;
+            if( chart_old_data.length >2 ){
+			    //if( chart_old_data[ chart_old_data.length - 1 ]['label'] == '' && chart_old_data[ chart_old_data.length - 2 ]['label'] == '' )
+				//    sub_label = time_str;
+			}
 
             monitor.chart_request.addData([avg_request,avg_request_200], time_str);
-			monitor.chart_connection.addData( [ connections_active ], time_str )
-			monitor.chart_response_time.addData( [ avg_response_time ], time_str )
-			monitor.chart_traffic.addData( [ avg_traffic_read, avg_traffic_write ], time_str )
+			monitor.chart_connection.addData( [ connections_active,connections_writing,connections_reading ], sub_label )
+			monitor.chart_response_time.addData( [ avg_response_time ], sub_label )
+			monitor.chart_traffic.addData( [ avg_traffic_read, avg_traffic_write ], sub_label )
 
             while( monitor.chart_request.datasets[0].points.length >= monitor.chart_size ){
                 monitor.chart_request.removeData();
@@ -217,11 +249,6 @@ monitor.refresh = function(){
             while( monitor.chart_traffic.datasets[0].points.length >= monitor.chart_size ){
                 monitor.chart_traffic.removeData();
             }
-			
-
-			$('#status_uptime').text( data['boot_time']  );
-			$('#status_request_count').text( data['request_count'] );
-			$('#status_request_count_200').text( data['200_request_count'] );
         }
         
         monitor.latest_status = data;

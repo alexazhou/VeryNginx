@@ -46,8 +46,14 @@
 .status_group_title {
     font-size:1.5em;
 	font-weight: bold;
-	margin-top:12px;
 	margin-bottom:12px;
+	display:inline-block;
+}
+
+.status_group_title_desc {
+    font-weight:bold;
+	display:inline-block;
+	color:#BBB;
 }
 
 .status_sub_group_title {
@@ -55,6 +61,13 @@
 	font-weight: bold;
 	margin-top:8px;
 	margin-bottom:8px;
+	display:inline-block;
+}
+
+.status_sub_group_title_desc {
+    font-weight:bold;
+	color:#BBB;
+	display:inline-block;
 }
 
 .status_color_mark {
