@@ -93,8 +93,20 @@ monitor.start = function(){
 		state = "webkitVisibilityState";
 	}
 
+    var on_change = function(){
+        if( document[state] != hidden ){
+            monitor.chart_request.options['animation'] = true;
+            monitor.chart_connection.options['animation'] = true;
+            console.log('on visiable');
+        }else{
+            monitor.chart_request.options['animation'] = false;
+            monitor.chart_connection.options['animation'] = false;
+            console.log('on hidden');
+        }
+    };
+
 	// add event listener for visibilityChange
-	document.addEventListener( visibilityChange, monitor.on_visibilityChange );
+	document.addEventListener( visibilityChange, on_change );
 }
 
 monitor.stop = function(){
@@ -143,16 +155,3 @@ monitor.refresh = function(){
     });
 }
 
-monitor.on_visibilityChange = function(){
-    if( monitor.chart_request != null ){
-	    monitor.chart_request.stop();
-	    monitor.chart_request.render();
-        console.log('re render chart request');
-	}
-    
-	if( monitor.chart_connection != null ){
-	    monitor.chart_connection.stop();
-	    monitor.chart_connection.render();
-        console.log('re render chart connection');
-	}
-}
