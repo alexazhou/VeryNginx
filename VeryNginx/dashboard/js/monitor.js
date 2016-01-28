@@ -213,13 +213,13 @@ monitor.refresh = function(){
             var avg_request_200 = requests_200_change / time_change;
 			var time_str = monitor.time_str();
             var response_time_change = data['response_time_total'] - monitor.latest_status['response_time_total'];
-            var avg_response_time = response_time_change / time_change;
+            var avg_response_time = 1000*response_time_change / time_change;
             
             var traffic_read_change = data['traffic_read'] - monitor.latest_status['traffic_read'];
             var traffic_write_change = data['traffic_write'] - monitor.latest_status['traffic_write'];
             
-            var avg_traffic_read = traffic_read_change / time_change;
-            var avg_traffic_write = traffic_write_change / time_change;;
+            var avg_traffic_read = traffic_read_change / (time_change*1024);
+            var avg_traffic_write = traffic_write_change / (time_change*1024);
  
             var sub_label = '';
 
