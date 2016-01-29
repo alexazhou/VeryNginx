@@ -256,6 +256,10 @@ monitor.refresh = function(){
     });
 }
 
+monitor.update_config =function(){
+    console.log('monitor.save_config');
+}
+
 monitor.resize = function(){
     //$("#chart_request").attr("height", $("#chart_request_container").height());
     $("#chart_connection").attr("width", $("#chart_connection_container").width());

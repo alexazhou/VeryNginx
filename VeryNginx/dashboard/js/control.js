@@ -148,3 +148,60 @@ control.notify = function(message){
         time:5,
     });
 }
+
+control.open_dashboard_config = function(){
+    //load status dashboard config
+    $('#status_config_modal').modal('show');
+
+    var enable_animation = localStorage.dashboard_status_enable_animation;
+    var refresh_interval = localStorage.dashboard_status_refresh_interval;
+
+    if( enable_animation != undefined ){
+        $('#status_config_modal [name=enable_animation]')[0].checked = enable_animation;
+    }
+    
+    if( refresh_interval != undefined ){
+        $('#status_config_modal [name=refresh_interval]').val( refresh_interval );
+    }
+
+    control.status_dashboard_update_interval_label();
+}
+
+control.save_status_dashboard_config = function(){
+    
+    var enable_animation = $('#status_config_modal [name=enable_animation]')[0].checked;
+    var refresh_interval = $('#status_config_modal [name=refresh_interval]').val();
+
+    localStorage.dashboard_status_enable_animation = enable_animation;
+    localStorage.dashboard_status_refresh_interval = refresh_interval;
+
+    $('#status_config_modal').modal('hide');
+    monitor.update_config();
+}
+
+control.status_dashboard_update_interval_label = function(){
+
+    var refresh_interval = $('#status_config_modal [name=refresh_interval]').val();
+    $('#status_config_modal [name=refresh_interval_label]').text(refresh_interval + "s");
+}
+
+/**
+ * Vertically center Bootstrap 3 modals so they aren't always stuck at the top
+ */
+$(function() {
+    function reposition() {
+        var modal = $(this),
+            dialog = modal.find('.modal-dialog');
+        modal.css('display', 'block');
+        
+        // Dividing by two centers the modal exactly, but dividing by three 
+        // or four works better for larger screens.
+        dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
+    }
+    // Reposition when a modal is shown
+    $('.modal').on('show.bs.modal', reposition);
+    // Reposition when the window is resized
+    $(window).on('resize', function() {
+        $('.modal:visible').each(reposition);
+    });
+});
