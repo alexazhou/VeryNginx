@@ -100,23 +100,9 @@
 
         <div class="page" id="page_status">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="status_info_title">VeryNginx uptime:</div>
-                        <div class="status_info_value" id="status_uptime">12:11:11</div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="status_info_title">All Request Count:</div>
-                        <div class="status_info_value" id="status_request_count">8796</div>
-                    </div>
-                    
-					<div class="col-sm-4">
-                        <div class="status_info_title">200 Request Count:</div>
-                        <div class="status_info_value" id="status_request_count_200">7896</div>
-                    </div>
-				</div>
 				
-				<div class="status_group_title">Requests Pre Second</div>
+				<div class="status_group_title">Requests</div> 
+				<div class="status_group_title_desc"> per second</div>
                 <div class="row">
 					<div class="col-sm-6">
 					    <span class="status_color_mark" style="background-color:rgba(220,220,220,1)"></span>
@@ -127,10 +113,70 @@
                         <span class="status_color_desc">request with response status 200</span>
                     </div>
                 </div>
-				<canvas id="chart_request" width="1000" height="400"></canvas>
-					
-				<div class="status_group_title">TCP Connections</div>
-				<canvas id="chart_connection" width="1000" height="400"></canvas>
+
+                <div id="chart_request_container">
+				    <canvas id="chart_request" width="1400" height="400"></canvas>
+                </div>
+                
+                <div class="row">
+					<div class="col-md-4">
+                        <div class="status_sub_group_title">TCP Connections</div>
+                        <div id="chart_connection_container">
+				            <canvas id="chart_connection" width="700" height="400"></canvas>
+                        </div>
+
+						<div class="container-fluid" style="margin-top:-10px">
+							<div class="row">
+								<div class="col-sm-4">
+									<span class="status_color_mark" style="background-color:rgba(220,220,220,1)"></span>
+									<span class="status_color_desc">All</span>
+								</div>
+								<div class="col-sm-4">
+									<span class="status_color_mark" style="background-color:rgba(151,187,205,1)"></span>
+									<span class="status_color_desc">Writing</span>
+								</div>
+								<div class="col-sm-4">
+									<span class="status_color_mark" style="background-color:rgba(151,205,187,1)"></span>
+									<span class="status_color_desc">Reading</span>
+								</div>
+							</div>
+						</div>
+
+
+                    </div>
+
+					<div class="col-md-4">
+                        <div class="status_sub_group_title">Response Time</div>
+						<div class="status_sub_group_title_desc"> (ms) </div>
+                        <div id="chart_response_time_container">
+				            <canvas id="chart_response_time" width="700" height="400"></canvas>
+                        </div>
+                    </div>
+
+					<div class="col-md-4">
+                        <div class="status_sub_group_title">Network Traffic</div>
+						<div class="status_sub_group_title_desc"> (KiB/s) </div>
+                        <div id="chart_traffic_container">
+				            <canvas id="chart_traffic" width="700" height="400"></canvas>
+                        </div>
+                        
+						<div class="container-fluid" style="margin-top:-10px">
+							<div class="row">
+								<div class="col-sm-6">
+									<span class="status_color_mark" style="background-color:rgba(220,220,220,1)"></span>
+									<span class="status_color_desc">Out</span>
+								</div>
+								<div class="col-sm-6">
+									<span class="status_color_mark" style="background-color:rgba(151,187,205,1)"></span>
+									<span class="status_color_desc">In</span>
+								</div>
+							</div>
+						</div>
+
+                    </div>
+
+                </div>
+				
             </div>
         </div>
 

@@ -7,6 +7,13 @@ VeryNginx is a very powerful and friendly nginx
 
 VeryNginx基于lua_nginx_module(openrestry)开发，实现了高级的防火墙，访问统计，和其他的一些功能，大幅度强化了Nginx本身的功能，并提供了更友好的web交互界面。
 
+###Nginx运行状态查看
+
+* 每秒请求数
+* 响应时间
+* 网络流量
+* 网络连接数
+
 ###请求过滤
 VeryNginx可以基于按照以下信息对请求进行过滤：
 
@@ -48,7 +55,7 @@ gmake install
 
 
 
-###2. checkout VeryNginx repository , link nginx.conf and lua_script to nginx config dir.
+###2. checkout VeryNginx repository , link nginx.conf and VeryNginx folder to nginx config dir.
 <pre>
 cd ~
 git clone https://github.com/alexazhou/VeryNginx.git
