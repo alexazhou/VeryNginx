@@ -226,7 +226,7 @@ monitor.animation_enable = function(){
 }
 
 monitor.refresh = function(){
-    console.log("monitor refresh");
+    //console.log("monitor refresh");
 
     $.get("/verynginx/status",function(data,status){
         if( status != 'success' ){
@@ -237,7 +237,7 @@ monitor.refresh = function(){
         //console.log('data:',data);
         if( monitor.latest_status != null ){
             var time_change = data['time'] - monitor.latest_status['time'];
-			console.log('time_change',time_change);
+			//console.log('time_change',time_change);
 			if(time_change == 0 ){
 			    return;
 			}

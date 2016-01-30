@@ -36,6 +36,30 @@
     padding-bottom:15px;
 }
 
+.config_sub_title {
+    font-size:1.2em;
+    font-weight:bold;
+}
+
+.config_table thead{
+    font-weight:bold;
+}
+
+.config_table > tbody > tr > td:first-child{
+    font-weight:bold;
+    color:#666;
+}
+
+.matched {
+    color:#337AB7;
+}
+
+.config_test_container {
+    padding-left:0;
+	padding-right:0;
+	margin-bottom:15px;
+}
+
 .no_break {
     white-space: nowrap;
 }

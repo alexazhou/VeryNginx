@@ -14,6 +14,7 @@ paceOptions = {
 
 control.init = function(){
     control.switch_to_interface('login');
+	Vue.filter('re_test', control.config_test_re);
     $(".init_click").click();
 
 	// Reposition when a modal is shown
@@ -72,6 +73,7 @@ control.get_config = function(){
                 }
             }
         });
+
     }); 
 }
 
@@ -116,6 +118,19 @@ control.switch_to_config = function( item ){
     tips.show_tips(config_name);
 }
 
+control.config_test_re = function( re , s_from_id){
+    
+	console.log('re:',re);
+	console.log('s:',s_from_id);
+
+	var reg=new RegExp(re,'igm');
+	if( $("#"+s_from_id).val().match( reg ) != null ){
+	    console.log('matched');
+	    return "matched";
+	}
+
+	return '';
+}
 
 control.config_add = function(name,value){
     control.verynginx_config[name].push(value);
