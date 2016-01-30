@@ -192,6 +192,13 @@ monitor.start = function(){
 	    console.log("Error:Monitor chart not init");
 		return;
 	}
+
+	var enable_animation = localStorage.dashboard_status_enable_animation;
+	if( enable_animation == 'true' ){
+	    monitor.animation_enable();	
+	}else{
+	    monitor.animation_disable();
+	}
     
     monitor.refresh_timer = window.setInterval( monitor.refresh , refresh_interval * 1000);
     monitor.refresh();
@@ -281,14 +288,6 @@ monitor.refresh = function(){
 monitor.update_config =function(){
 
     console.log('monitor.save_config');
-    var enable_animation = localStorage.dashboard_status_enable_animation;
-	
-	if( enable_animation == 'true' ){
-	    monitor.animation_enable();	
-	}else{
-	    monitor.animation_disable();
-	}
-
     monitor.stop();
 	monitor.start();
 }

@@ -82,6 +82,15 @@
     color:#999;
 }
 
+.status_modal_row {
+    margin-top:15px;
+	margin-bottom:15px;
+}
+
+.vn_modal_mid {
+    width:400px;
+}
+
 .tips_container {
     margin-right:5px;
     padding:5px;
