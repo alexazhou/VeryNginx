@@ -16,6 +16,13 @@ control.init = function(){
     control.switch_to_interface('login');
     $(".init_click").click();
 
+	// Reposition when a modal is shown
+    $('.modal').on('show.bs.modal', control.modal_reposition);
+    // Reposition when the window is resized
+    $(window).on('resize', function() {
+        $('.modal:visible').each(control.modal_reposition );
+    });
+
 	if( localStorage.dashboard_status_enable_animation == undefined ){
         localStorage.dashboard_status_enable_animation = "true";
 	}
@@ -79,6 +86,8 @@ control.switch_to_page = function( page ){
 
     $(".topnav").removeClass("active");
     $("#topnav_"+page).addClass("active");
+
+	monitor.update_config();
 }
 
 control.switch_to_configGroup = function( item ){
@@ -201,20 +210,14 @@ control.status_dashboard_update_interval_label = function(){
 /**
  * Vertically center Bootstrap 3 modals so they aren't always stuck at the top
  */
-$(function() {
-    function reposition() {
-        var modal = $(this),
-            dialog = modal.find('.modal-dialog');
-        modal.css('display', 'block');
-        
-        // Dividing by two centers the modal exactly, but dividing by three 
-        // or four works better for larger screens.
-        dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
-    }
-    // Reposition when a modal is shown
-    $('.modal').on('show.bs.modal', reposition);
-    // Reposition when the window is resized
-    $(window).on('resize', function() {
-        $('.modal:visible').each(reposition);
-    });
-});
+
+control.modal_reposition = function() {
+	var modal = $(this),
+	dialog = modal.find('.modal-dialog');
+	modal.css('display', 'block');
+	
+	// Dividing by two centers the modal exactly, but dividing by three 
+	// or four works better for larger screens.
+	dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
+}
+

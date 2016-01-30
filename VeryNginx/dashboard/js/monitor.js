@@ -194,7 +194,7 @@ monitor.start = function(){
 	}
 
 	var enable_animation = localStorage.dashboard_status_enable_animation;
-	if( enable_animation == 'true' ){
+	if( enable_animation == 'true' && $('#page_status').is(":visible") ){
 	    monitor.animation_enable();	
 	}else{
 	    monitor.animation_disable();
