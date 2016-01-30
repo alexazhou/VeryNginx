@@ -19,8 +19,8 @@ monitor.build_chart = function(){
     var ctx_request = $("#chart_request").get(0).getContext("2d");
     var options_request={responsive:true};
     var data_request = {
-    	labels: [],
-    	datasets: [
+        labels: [],
+        datasets: [
             {
                 label: "all request",
                 fillColor: "rgba(220,220,220,0.2)",
@@ -49,8 +49,8 @@ monitor.build_chart = function(){
 	var ctx_connection = $("#chart_connection").get(0).getContext("2d");
     var options_connection={ responsive:true };
     var data_connection = {
-    	labels: [],
-    	datasets: [
+        labels: [],
+        datasets: [
             {
                 label: "connection",
                 fillColor: "rgba(220,220,220,0.2)",
@@ -91,8 +91,8 @@ monitor.build_chart = function(){
     var ctx_response_time = $("#chart_response_time").get(0).getContext("2d");
     var options_response_time={ responsive:true };
     var data_response_time = {
-    	labels: [],
-    	datasets: [
+        labels: [],
+        datasets: [
             {
                 label: "response_time",
                 fillColor: "rgba(220,220,220,0.2)",
@@ -111,8 +111,8 @@ monitor.build_chart = function(){
     var ctx_traffic = $("#chart_traffic").get(0).getContext("2d");
     var options_traffic={ responsive:true };
     var data_traffic = {
-    	labels: [],
-    	datasets: [
+        labels: [],
+        datasets: [
             {
                 label: "traffic_read",
                 fillColor: "rgba(220,220,220,0.2)",
@@ -138,15 +138,8 @@ monitor.build_chart = function(){
     };
 
     monitor.chart_traffic = new Chart(ctx_traffic).Line(data_traffic,options_traffic);
-}
 
-monitor.start = function(){
-    monitor.stop();
-    monitor.refresh();
-    monitor.refresh_timer = window.setInterval( monitor.refresh ,3000);
-
-
-    // compatible for different web browser
+	//add visibilityChange event listener for different web browser
 	var hidden, state, visibilityChange; 
 	if (typeof document.hidden !== "undefined") {
 		hidden = "hidden";
@@ -168,28 +161,61 @@ monitor.start = function(){
 
     var on_change = function(){
         if( document[state] != hidden ){
-            monitor.chart_request.options['animation'] = true;
-            monitor.chart_connection.options['animation'] = true;
-            monitor.chart_response_time.options['animation'] = true;
-            monitor.chart_traffic.options['animation'] = true;
             console.log('on visiable');
+            if( localStorage.dashboard_status_enable_animation == "true" ){
+			    monitor.animation_enable();
+			}
         }else{
-            monitor.chart_request.options['animation'] = false;
-            monitor.chart_connection.options['animation'] = false;
-            monitor.chart_response_time.options['animation'] = false;
-            monitor.chart_traffic.options['animation'] = false;
             console.log('on hidden');
+            monitor.animation_disable();
         }
     };
 
 	// add event listener for visibilityChange
 	document.addEventListener( visibilityChange, on_change );
+
+}
+
+monitor.start = function(){
+   
+	var refresh_interval = 3;
+	if( localStorage.dashboard_status_refresh_interval != undefined ){
+	    refresh_interval = parseInt( localStorage.dashboard_status_refresh_interval );
+	}
+
+    if( monitor.refresh_timer != null ){
+	    console.log("Error:Monitor is already running");
+		return;
+	}
+
+	if( monitor.chart_request == null || monitor.chart_connection == null || monitor.chart_response_time == null || monitor.chart_traffic == null ){
+	    console.log("Error:Monitor chart not init");
+		return;
+	}
+    
+    monitor.refresh_timer = window.setInterval( monitor.refresh , refresh_interval * 1000);
+    monitor.refresh();
 }
 
 monitor.stop = function(){
     if( monitor.refresh_timer != null ){
         window.clearInterval( monitor.refresh_timer );
+		monitor.refresh_timer = null;
     }
+}
+
+monitor.animation_disable = function(){
+    monitor.chart_request.options['animation'] = false;
+    monitor.chart_connection.options['animation'] = false;
+    monitor.chart_response_time.options['animation'] = false;
+    monitor.chart_traffic.options['animation'] = false;
+}
+
+monitor.animation_enable = function(){
+    monitor.chart_request.options['animation'] = true;
+    monitor.chart_connection.options['animation'] = true;
+    monitor.chart_response_time.options['animation'] = true;
+    monitor.chart_traffic.options['animation'] = true;
 }
 
 monitor.refresh = function(){
@@ -204,6 +230,11 @@ monitor.refresh = function(){
         //console.log('data:',data);
         if( monitor.latest_status != null ){
             var time_change = data['time'] - monitor.latest_status['time'];
+			console.log('time_change',time_change);
+			if(time_change == 0 ){
+			    return;
+			}
+
             var requests_change = data['request_count'] - monitor.latest_status['request_count']; 
             var requests_200_change = data['200_request_count'] - monitor.latest_status['200_request_count'];
 			var connections_active = data['connections_active'];
@@ -212,24 +243,17 @@ monitor.refresh = function(){
             var avg_request = requests_change / time_change;
             var avg_request_200 = requests_200_change / time_change;
 			var time_str = monitor.time_str();
+            var sub_label = '';
             var response_time_change = data['response_time_total'] - monitor.latest_status['response_time_total'];
-            var avg_response_time = 1000*response_time_change / time_change;
+            var avg_response_time = 1000 * response_time_change / time_change;
             
             var traffic_read_change = data['traffic_read'] - monitor.latest_status['traffic_read'];
             var traffic_write_change = data['traffic_write'] - monitor.latest_status['traffic_write'];
             
             var avg_traffic_read = traffic_read_change / (time_change*1024);
             var avg_traffic_write = traffic_write_change / (time_change*1024);
- 
-            var sub_label = '';
-
-            var chart_old_data = monitor.chart_connection.datasets[0].points;
-            if( chart_old_data.length >2 ){
-			    //if( chart_old_data[ chart_old_data.length - 1 ]['label'] == '' && chart_old_data[ chart_old_data.length - 2 ]['label'] == '' )
-				//    sub_label = time_str;
-			}
-
-            monitor.chart_request.addData([avg_request,avg_request_200], time_str);
+            
+			monitor.chart_request.addData([avg_request,avg_request_200], time_str);
 			monitor.chart_connection.addData( [ connections_active,connections_writing,connections_reading ], sub_label )
 			monitor.chart_response_time.addData( [ avg_response_time ], sub_label )
 			monitor.chart_traffic.addData( [ avg_traffic_read, avg_traffic_write ], sub_label )
@@ -250,14 +274,23 @@ monitor.refresh = function(){
                 monitor.chart_traffic.removeData();
             }
         }
-        
         monitor.latest_status = data;
-
     });
 }
 
 monitor.update_config =function(){
+
     console.log('monitor.save_config');
+    var enable_animation = localStorage.dashboard_status_enable_animation;
+	
+	if( enable_animation == 'true' ){
+	    monitor.animation_enable();	
+	}else{
+	    monitor.animation_disable();
+	}
+
+    monitor.stop();
+	monitor.start();
 }
 
 monitor.resize = function(){

@@ -15,6 +15,14 @@ paceOptions = {
 control.init = function(){
     control.switch_to_interface('login');
     $(".init_click").click();
+
+	if( localStorage.dashboard_status_enable_animation == undefined ){
+        localStorage.dashboard_status_enable_animation = "true";
+	}
+
+	if( localStorage.dashboard_status_refresh_interval == undefined ){
+        localStorage.dashboard_status_refresh_interval = '3';
+	}
 }
 
 control.login = function(user,password){
@@ -131,8 +139,8 @@ control.save_config = function(){
 	var config_json = JSON.stringify( control.verynginx_config , null, 2);
 
     $.post("/verynginx/config",{ config:config_json },function(data){
-	    console.log(data);
-	    if( data['ret'] == 'success' ){
+        console.log(data);
+        if( data['ret'] == 'success' ){
             control.notify("保存配置成功");
 		}else{
             control.notify("保存配置失败");
@@ -157,7 +165,12 @@ control.open_dashboard_config = function(){
     var refresh_interval = localStorage.dashboard_status_refresh_interval;
 
     if( enable_animation != undefined ){
-        $('#status_config_modal [name=enable_animation]')[0].checked = enable_animation;
+        if( enable_animation == "false" ){
+            enable_animation = false;
+		}else{
+            enable_animation = true;
+		}
+		$('#status_config_modal [name=enable_animation]')[0].checked = enable_animation;
     }
     
     if( refresh_interval != undefined ){
