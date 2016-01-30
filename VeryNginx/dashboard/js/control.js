@@ -91,9 +91,14 @@ control.switch_to_page = function( page ){
 }
 
 control.switch_config_nav_group = function( item ){
-    var group_name = $(item).attr("group");
+
+	var group_name = $(item).attr("group");
     $(".leftnav_group").hide();
-    $(".leftnav_group[group=" + group_name + "]" ).show();
+    $(".leftnav_1").removeClass('active');
+	$(item).addClass('active');
+
+	var config_group_container = $(".leftnav_group[group=" + group_name + "]" );
+	config_group_container.show();
     
 	//switch to firsh children config page
     $(".leftnav_group[group=" + group_name + "]" ).children()[0].click();
