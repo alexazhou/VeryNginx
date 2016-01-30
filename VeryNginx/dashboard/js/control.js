@@ -90,17 +90,25 @@ control.switch_to_page = function( page ){
 	monitor.update_config();
 }
 
-control.switch_to_configGroup = function( item ){
-    console.log(item);
-    var group = $(item).attr("group");
-    $(".config_group").hide();
-    $("#config_" + group ).show();
+control.switch_config_nav_group = function( item ){
+    var group_name = $(item).attr("group");
+    $(".leftnav_group").hide();
+    $(".leftnav_group[group=" + group_name + "]" ).show();
+    
+	//switch to firsh children config page
+    $(".leftnav_group[group=" + group_name + "]" ).children()[0].click();
+}
+
+control.switch_to_config = function( item ){
+    var config_name = $(item).attr("config_name");
+    $(".config_container").hide();
+    $("#config_" + config_name ).show();
     
     $(".leftnav_2").removeClass('active');
     $(item).addClass('active');
 
-    //show tips of the config group
-    tips.show_tips_group(group);
+    //show tips of the config 
+    tips.show_tips(config_name);
 }
 
 
