@@ -14,7 +14,23 @@ paceOptions = {
 
 control.init = function(){
     control.switch_to_interface('login');
+	Vue.filter('re_test', control.config_test_re);
     $(".init_click").click();
+
+	// Reposition when a modal is shown
+    $('.modal').on('show.bs.modal', control.modal_reposition);
+    // Reposition when the window is resized
+    $(window).on('resize', function() {
+        $('.modal:visible').each(control.modal_reposition );
+    });
+
+	if( localStorage.dashboard_status_enable_animation == undefined ){
+        localStorage.dashboard_status_enable_animation = "true";
+	}
+
+	if( localStorage.dashboard_status_refresh_interval == undefined ){
+        localStorage.dashboard_status_refresh_interval = '3';
+	}
 }
 
 control.login = function(user,password){
@@ -57,6 +73,7 @@ control.get_config = function(){
                 }
             }
         });
+
     }); 
 }
 
@@ -71,21 +88,49 @@ control.switch_to_page = function( page ){
 
     $(".topnav").removeClass("active");
     $("#topnav_"+page).addClass("active");
+
+	monitor.update_config();
 }
 
-control.switch_to_configGroup = function( item ){
-    console.log(item);
-    var group = $(item).attr("group");
-    $(".config_group").hide();
-    $("#config_" + group ).show();
+control.switch_config_nav_group = function( item ){
+
+	var group_name = $(item).attr("group");
+    $(".leftnav_group").hide();
+    $(".leftnav_1").removeClass('active');
+	$(item).addClass('active');
+
+	var config_group_container = $(".leftnav_group[group=" + group_name + "]" );
+	config_group_container.show();
+    
+	//switch to firsh children config page
+    $(".leftnav_group[group=" + group_name + "]" ).children()[0].click();
+}
+
+control.switch_to_config = function( item ){
+    var config_name = $(item).attr("config_name");
+    $(".config_container").hide();
+    $("#config_" + config_name ).show();
     
     $(".leftnav_2").removeClass('active');
     $(item).addClass('active');
 
-    //show tips of the config group
-    tips.show_tips_group(group);
+    //show tips of the config 
+    tips.show_tips(config_name);
 }
 
+control.config_test_re = function( re , s_from_id){
+    
+	console.log('re:',re);
+	console.log('s:',s_from_id);
+
+	var reg=new RegExp(re,'igm');
+	if( $("#"+s_from_id).val().match( reg ) != null ){
+	    console.log('matched');
+	    return "matched";
+	}
+
+	return '';
+}
 
 control.config_add = function(name,value){
     control.verynginx_config[name].push(value);
@@ -131,8 +176,8 @@ control.save_config = function(){
 	var config_json = JSON.stringify( control.verynginx_config , null, 2);
 
     $.post("/verynginx/config",{ config:config_json },function(data){
-	    console.log(data);
-	    if( data['ret'] == 'success' ){
+        console.log(data);
+        if( data['ret'] == 'success' ){
             control.notify("保存配置成功");
 		}else{
             control.notify("保存配置失败");
@@ -148,3 +193,59 @@ control.notify = function(message){
         time:5,
     });
 }
+
+control.open_dashboard_config = function(){
+    //load status dashboard config
+    $('#status_config_modal').modal('show');
+
+    var enable_animation = localStorage.dashboard_status_enable_animation;
+    var refresh_interval = localStorage.dashboard_status_refresh_interval;
+
+    if( enable_animation != undefined ){
+        if( enable_animation == "false" ){
+            enable_animation = false;
+		}else{
+            enable_animation = true;
+		}
+		$('#status_config_modal [name=enable_animation]')[0].checked = enable_animation;
+    }
+    
+    if( refresh_interval != undefined ){
+        $('#status_config_modal [name=refresh_interval]').val( refresh_interval );
+    }
+
+    control.status_dashboard_update_interval_label();
+}
+
+control.save_status_dashboard_config = function(){
+    
+    var enable_animation = $('#status_config_modal [name=enable_animation]')[0].checked;
+    var refresh_interval = $('#status_config_modal [name=refresh_interval]').val();
+
+    localStorage.dashboard_status_enable_animation = enable_animation;
+    localStorage.dashboard_status_refresh_interval = refresh_interval;
+
+    $('#status_config_modal').modal('hide');
+    monitor.update_config();
+}
+
+control.status_dashboard_update_interval_label = function(){
+
+    var refresh_interval = $('#status_config_modal [name=refresh_interval]').val();
+    $('#status_config_modal [name=refresh_interval_label]').text(refresh_interval + "s");
+}
+
+/**
+ * Vertically center Bootstrap 3 modals so they aren't always stuck at the top
+ */
+
+control.modal_reposition = function() {
+	var modal = $(this),
+	dialog = modal.find('.modal-dialog');
+	modal.css('display', 'block');
+	
+	// Dividing by two centers the modal exactly, but dividing by three 
+	// or four works better for larger screens.
+	dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
+}
+

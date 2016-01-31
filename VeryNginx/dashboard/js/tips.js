@@ -1,7 +1,7 @@
 var tips = new Object();
 
 tips.tips_vm = null;
-tips.show_tips_group = function(group){
+tips.show_tips = function(group){
 
     $('.tips_content').collapse('hide');
 

@@ -8,24 +8,56 @@
 
 .leftnav_1 {
     font-size:1.1em;
-    font-weight:bold;
     padding-top:5px;
     padding-bottom:5px;
 }
 
+.leftnav_1.active {
+    font-weight:bold;
+	color:#333;
+}
+
 .leftnav_2 {
     padding-left:20px;
+	color:#888;
 }
 
 .leftnav_2.active {
+    font-weight:bold;
     border-left:solid;
-    border-width:1px;
+    border-width:2px;
+	border-color:#444;
+	color:#333;
 }
 
 .config_title {
     font-size:2em;
     font-weight:bold;
     padding-bottom:15px;
+}
+
+.config_sub_title {
+    font-size:1.2em;
+    font-weight:bold;
+}
+
+.config_table thead{
+    font-weight:bold;
+}
+
+.config_table > tbody > tr > td:first-child{
+    font-weight:bold;
+    color:#666;
+}
+
+.matched {
+    color:#337AB7;
+}
+
+.config_test_container {
+    padding-left:0;
+	padding-right:0;
+	margin-bottom:15px;
 }
 
 .no_break {
@@ -80,6 +112,15 @@
 
 .status_color_desc {
     color:#999;
+}
+
+.status_modal_row {
+    margin-top:15px;
+	margin-bottom:15px;
+}
+
+.vn_modal_mid {
+    width:400px;
 }
 
 .tips_container {

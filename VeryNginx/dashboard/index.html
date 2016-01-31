@@ -69,7 +69,7 @@
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">VeryNginx</a> 
+                    <a class="navbar-brand" onclick="control.switch_to_page('status')" href="#">VeryNginx</a> 
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
@@ -100,83 +100,122 @@
 
         <div class="page" id="page_status">
             <div class="container-fluid">
-				
-				<div class="status_group_title">Requests</div> 
-				<div class="status_group_title_desc"> per second</div>
+                <div>
+                    <div class="status_group_title">Requests</div> 
+                    <div class="status_group_title_desc"> per second</div>
+                    <span class="glyphicon glyphicon-cog btn-lg pull-right" aria-hidden="true"  onclick="control.open_dashboard_config()">
+                    </span>
+                </div>
                 <div class="row">
-					<div class="col-sm-6">
-					    <span class="status_color_mark" style="background-color:rgba(220,220,220,1)"></span>
+                    <div class="col-sm-6">
+                        <span class="status_color_mark" style="background-color:rgba(220,220,220,1)"></span>
                         <span class="status_color_desc">all request</span>
                     </div>
                     <div class="col-sm-6">
-					    <span class="status_color_mark" style="background-color:rgba(151,187,205,1)"></span>
+                        <span class="status_color_mark" style="background-color:rgba(151,187,205,1)"></span>
                         <span class="status_color_desc">request with response status 200</span>
                     </div>
                 </div>
 
                 <div id="chart_request_container">
-				    <canvas id="chart_request" width="1400" height="400"></canvas>
+                    <canvas id="chart_request" width="1400" height="400"></canvas>
                 </div>
                 
                 <div class="row">
-					<div class="col-md-4">
+                    <div class="col-md-4">
                         <div class="status_sub_group_title">TCP Connections</div>
                         <div id="chart_connection_container">
-				            <canvas id="chart_connection" width="700" height="400"></canvas>
+                            <canvas id="chart_connection" width="700" height="400"></canvas>
                         </div>
 
-						<div class="container-fluid" style="margin-top:-10px">
-							<div class="row">
-								<div class="col-sm-4">
-									<span class="status_color_mark" style="background-color:rgba(220,220,220,1)"></span>
-									<span class="status_color_desc">All</span>
-								</div>
-								<div class="col-sm-4">
-									<span class="status_color_mark" style="background-color:rgba(151,187,205,1)"></span>
-									<span class="status_color_desc">Writing</span>
-								</div>
-								<div class="col-sm-4">
-									<span class="status_color_mark" style="background-color:rgba(151,205,187,1)"></span>
-									<span class="status_color_desc">Reading</span>
-								</div>
-							</div>
-						</div>
+                        <div class="container-fluid" style="margin-top:-10px">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <span class="status_color_mark" style="background-color:rgba(220,220,220,1)"></span>
+                                    <span class="status_color_desc">All</span>
+                                </div>
+                                <div class="col-sm-4">
+                                    <span class="status_color_mark" style="background-color:rgba(151,187,205,1)"></span>
+                                    <span class="status_color_desc">Writing</span>
+                                </div>
+                                <div class="col-sm-4">
+                                    <span class="status_color_mark" style="background-color:rgba(151,205,187,1)"></span>
+                                    <span class="status_color_desc">Reading</span>
+                                </div>
+                            </div>
+                        </div>
 
 
                     </div>
 
-					<div class="col-md-4">
+                    <div class="col-md-4">
                         <div class="status_sub_group_title">Response Time</div>
-						<div class="status_sub_group_title_desc"> (ms) </div>
+                        <div class="status_sub_group_title_desc"> (ms) </div>
                         <div id="chart_response_time_container">
-				            <canvas id="chart_response_time" width="700" height="400"></canvas>
+                            <canvas id="chart_response_time" width="700" height="400"></canvas>
                         </div>
                     </div>
 
-					<div class="col-md-4">
+                    <div class="col-md-4">
                         <div class="status_sub_group_title">Network Traffic</div>
-						<div class="status_sub_group_title_desc"> (KiB/s) </div>
+                        <div class="status_sub_group_title_desc"> (KiB/s) </div>
                         <div id="chart_traffic_container">
-				            <canvas id="chart_traffic" width="700" height="400"></canvas>
+                            <canvas id="chart_traffic" width="700" height="400"></canvas>
                         </div>
                         
-						<div class="container-fluid" style="margin-top:-10px">
-							<div class="row">
-								<div class="col-sm-6">
-									<span class="status_color_mark" style="background-color:rgba(220,220,220,1)"></span>
-									<span class="status_color_desc">Out</span>
-								</div>
-								<div class="col-sm-6">
-									<span class="status_color_mark" style="background-color:rgba(151,187,205,1)"></span>
-									<span class="status_color_desc">In</span>
-								</div>
-							</div>
-						</div>
+                        <div class="container-fluid" style="margin-top:-10px">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <span class="status_color_mark" style="background-color:rgba(220,220,220,1)"></span>
+                                    <span class="status_color_desc">Out</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span class="status_color_mark" style="background-color:rgba(151,187,205,1)"></span>
+                                    <span class="status_color_desc">In</span>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
 
                 </div>
-				
+
+                <!-- Modal -->
+                <div class="modal fade" id="status_config_modal">
+                    <div class="modal-dialog vn_modal_md">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Status Dashboard config</h4>
+                            </div>
+                            <div class="modal-body" id="console_div" >
+
+                                <form class="form-horizontal" onsubmit="return false;">
+                                    <div class="row status_modal_row" >
+                                        <label class="col-sm-5 text-right">Enable Animation</label>
+                                        <div class="col-sm-5">
+                                            <input type="checkbox" name="enable_animation">
+                                        </div>
+                                    </div>
+                                    <div class="row status_modal_row" >
+                                        <label class="col-sm-5 text-right" >Refresh Interval</label>
+                                        <div class="col-sm-5">
+                                            <input type="range" name="refresh_interval" value="3" min="1" max="15" oninput="control.status_dashboard_update_interval_label()">
+                                        </div>
+                                        <div class="col-sm-2" name="refresh_interval_label">
+                                            3s
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" onclick="control.save_status_dashboard_config()">Save</button>
+                              </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+                
             </div>
         </div>
 
@@ -185,38 +224,38 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <div style="border-right: 1px solid #eee;margin-left:auto; margin-right:auto;">
-                            <div class="leftnav leftnav_1">重定向</div>
-                            <div>
-                                <div class="leftnav leftnav_2 init_click" group="redirect_scheme" onclick="control.switch_to_configGroup(this)">协议重定向</div>
-                                <div class="leftnav leftnav_2" group="redirect_uri" onclick="control.switch_to_configGroup(this)">URI重定向</div>
+                            <div class="leftnav leftnav_1 init_click" group="redirect" onclick="control.switch_config_nav_group(this)">重定向</div>
+                            <div class="leftnav_group" group="redirect">
+                                <div class="leftnav leftnav_2 " config_name="redirect_scheme" onclick="control.switch_to_config(this)">协议重定向</div>
+                                <div class="leftnav leftnav_2" config_name="redirect_uri" onclick="control.switch_to_config(this)">URI重定向</div>
                             </div>
-                            <div class="leftnav leftnav_1">请求过滤</div>
-                            <div>
-                                <div class="leftnav leftnav_2" group="filter_ipwhitelist" onclick="control.switch_to_configGroup(this)">IP白名单</div>
-                                <div class="leftnav leftnav_2" group="filter_ip" onclick="control.switch_to_configGroup(this)">IP过滤</div>
-                                <div class="leftnav leftnav_2" group="filter_useragent" onclick="control.switch_to_configGroup(this)">UserAgent过滤</div>
-                                <div class="leftnav leftnav_2" group="filter_uri" onclick="control.switch_to_configGroup(this)">URI过滤</div>
-                                <div class="leftnav leftnav_2" group="filter_arg" onclick="control.switch_to_configGroup(this)">参数过滤</div>
+                            <div class="leftnav leftnav_1" group="filter" onclick="control.switch_config_nav_group(this)">请求过滤</div>
+                            <div class="leftnav_group" group="filter">
+                                <div class="leftnav leftnav_2" config_name="filter_ipwhitelist" onclick="control.switch_to_config(this)">IP白名单</div>
+                                <div class="leftnav leftnav_2" config_name="filter_ip" onclick="control.switch_to_config(this)">IP过滤</div>
+                                <div class="leftnav leftnav_2" config_name="filter_useragent" onclick="control.switch_to_config(this)">UserAgent过滤</div>
+                                <div class="leftnav leftnav_2" config_name="filter_uri" onclick="control.switch_to_config(this)">URI过滤</div>
+                                <div class="leftnav leftnav_2" config_name="filter_arg" onclick="control.switch_to_config(this)">参数过滤</div>
                             </div>
-                            <div class="leftnav leftnav_1">统计</div>
-                            <div>
-                                <div class="leftnav leftnav_2" group="summary_request" onclick="control.switch_to_configGroup(this)">访问统计</div>
+                            <div class="leftnav leftnav_1" group="summary" onclick="control.switch_config_nav_group(this)">统计</div>
+                            <div class="leftnav_group" group="summary">
+                                <div class="leftnav leftnav_2" config_name="summary_request" onclick="control.switch_to_config(this)">访问统计</div>
                             </div>
-                            <div class="leftnav leftnav_1">系统</div>
-                            <div>
-                                <div class="leftnav leftnav_2" group="system_admin" onclick="control.switch_to_configGroup(this)">用户</div>
-                                <div class="leftnav leftnav_2" group="system_allconfig" onclick="control.switch_to_configGroup(this)">全部配置</div>
+                            <div class="leftnav leftnav_1" group="system" onclick="control.switch_config_nav_group(this)">系统</div>
+                            <div class="leftnav_group" group="system">
+                                <div class="leftnav leftnav_2" config_name="system_admin" onclick="control.switch_to_config(this)">用户</div>
+                                <div class="leftnav leftnav_2" config_name="system_allconfig" onclick="control.switch_to_config(this)">全部配置</div>
                             </div>
                         </div>
                     </div>  
                     <div class="col-sm-8" id="verynginx_config">
-                        <div class="config_group" id="config_redirect_scheme">
+                        <div class="config_container" id="config_redirect_scheme">
                             <div class="config_title">
                                 协议重定向
                             </div>
                             <input type="checkbox" id="checkbox" v-model="redirect_scheme_enable">
                             <label>启用</label>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered config_table">
                                 <thead>
                                     <tr>
                                         <td>#</td>
@@ -226,25 +265,29 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="rule in redirect_scheme_rule">
-                                        <td>{{ $index }}</td>
-                                        <td>{{ rule[0] }}</td>
-                                        <td>{{ rule[1] }}</td>
-                                        <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('redirect_scheme_rule',{{$index}},null)">
-                                                DEL
-                                            </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('redirect_scheme_rule',{{$index}})">
-                                                UP
-                                            </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('redirect_scheme_rule',{{$index}})">
-                                                DOWN
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    <template v-for="rule in redirect_scheme_rule">
+                                        <tr class="{{ rule[0] | re_test 'redirect_scheme_test_uri' }}">
+                                            <td >{{ $index }}</td>
+                                            <td >{{ rule[0] }}</td>
+                                            <td >{{ rule[1] }}</td>
+                                            <td class="no_break">
+                                                <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('redirect_scheme_rule',{{$index}},null)">
+                                                    DEL
+                                                </button>
+                                                <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('redirect_scheme_rule',{{$index}})">
+                                                    UP
+                                                </button>
+                                                <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('redirect_scheme_rule',{{$index}})">
+                                                    DOWN
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </template>
                                 </tbody>
                             </table>
-                            <div style="font-size:1.2em">
+
+                            
+                            <div class="config_sub_title">
                                 添加一条配置
                             </div>
                             <hr>
@@ -273,14 +316,33 @@
                                     </div>
                                 </div>
                             </form>
+
+                            <div class="config_sub_title">
+                                测试规则
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" >
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">URI</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="redirect_scheme_test_uri" name="uri" placeholder="A URI For Test" >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10 matched" style="font-weight:bold;font-size:1.4em">
+                                    </div>
+                                </div>
+                            </form>
+
                         </div>
-                        <div class="config_group" id="config_redirect_uri">
+                        <div class="config_container" id="config_redirect_uri">
                             <div class="config_title">
                                 URI重定向
                             </div>
                             <input type="checkbox" id="checkbox" v-model="redirect_uri_enable">
                             <label>启用</label>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered config_table">
                                 <thead>
                                     <tr>
                                         <td>#</td>
@@ -309,7 +371,7 @@
                                 </tbody>
                             </table>
 
-                            <div style="font-size:1.2em">
+                            <div class="config_sub_title">
                                 添加一条配置
                             </div>
                             <hr>
@@ -336,13 +398,13 @@
                             </form>
                         </div>
 
-                        <div class="config_group" id="config_filter_ipwhitelist">
+                        <div class="config_container" id="config_filter_ipwhitelist">
                             <div class="config_title">
                                 IP白名单
                             </div>
                             <input type="checkbox" id="checkbox" v-model="filter_ipwhitelist_enable">
                             <label>启用</label>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered config_table">
                                 <thead>
                                     <tr>
                                         <td>#</td>
@@ -363,7 +425,7 @@
                                 </tbody>
                             </table>
 
-                            <div style="font-size:1.2em">
+                            <div class="config_sub_title">
                                 添加一条配置
                             </div>
                             <hr>
@@ -384,13 +446,13 @@
                             </form>
                         </div>
                         
-                        <div class="config_group" id="config_filter_ip">
+                        <div class="config_container" id="config_filter_ip">
                             <div class="config_title">
                                 IP过滤
                             </div>
                             <input type="checkbox" id="checkbox" v-model="filter_ip_enable">
                             <label>启用</label>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered config_table">
                                 <thead>
                                     <tr>
                                         <td>#</td>
@@ -411,7 +473,7 @@
                                 </tbody>
                             </table>
 
-                            <div style="font-size:1.2em">
+                            <div class="config_sub_title">
                                 添加一条配置
                             </div>
                             <hr>
@@ -432,13 +494,13 @@
                             </form>
                         </div>
 
-                        <div class="config_group" id="config_filter_useragent">
+                        <div class="config_container" id="config_filter_useragent">
                             <div class="config_title">
                                 UserAgent过滤
                             </div>
                             <input type="checkbox" id="checkbox" v-model="filter_useragent_enable">
                             <label>启用</label>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered config_table">
                                 <thead>
                                     <tr>
                                         <td>#</td>
@@ -466,7 +528,7 @@
                                 </tbody>
                             </table>
 
-                            <div style="font-size:1.2em">
+                            <div class="config_sub_title">
                                 添加一条配置
                             </div>
                             <hr>
@@ -488,13 +550,13 @@
 
                         </div>
                         
-                        <div class="config_group" id="config_filter_uri">
+                        <div class="config_container" id="config_filter_uri">
                             <div class="config_title">
                                 URI过滤
                             </div>
                             <input type="checkbox" id="checkbox" v-model="filter_uri_enable">
                             <label>启用</label>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered config_table">
                                 <thead>
                                     <tr>
                                         <td>#</td>
@@ -522,7 +584,7 @@
                                 </tbody>
                             </table>
 
-                            <div style="font-size:1.2em">
+                            <div class="config_sub_title">
                                 添加一条配置
                             </div>
                             <hr>
@@ -544,13 +606,13 @@
 
                         </div>
                         
-                        <div class="config_group" id="config_filter_arg">
+                        <div class="config_container" id="config_filter_arg">
                             <div class="config_title">
                                 参数过滤
                             </div>
                             <input type="checkbox" id="checkbox" v-model="filter_arg_enable">
                             <label>启用</label>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered config_table">
                                 <thead>
                                     <tr>
                                         <td>#</td>
@@ -578,7 +640,7 @@
                                 </tbody>
                             </table>
 
-                            <div style="font-size:1.2em">
+                            <div class="config_sub_title">
                                 添加一条配置
                             </div>
                             <hr>
@@ -600,7 +662,7 @@
 
                         </div>
                         
-                        <div class="config_group" id="config_summary_request">
+                        <div class="config_container" id="config_summary_request">
                             <div class="config_title">
                                 访问统计
                             </div>
@@ -608,7 +670,7 @@
                             <label>启用</label>
                         </div>
 
-                        <div class="config_group" id="config_system_allconfig">
+                        <div class="config_container" id="config_system_allconfig">
                             <div class="config_title">
                                 当前全部配置
                             </div>
@@ -627,11 +689,11 @@
                               <button type="button" class="btn btn-default" onclick="control.get_config()">重新获取</button>
                             </p>
                         </div>
-                        <div class="config_group" id="config_system_admin">
+                        <div class="config_container" id="config_system_admin">
                             <div class="config_title">
                                 用户管理
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered config_table">
                                 <thead>
                                     <tr>
                                         <td>#</td>
@@ -654,7 +716,7 @@
                                 </tbody>
                             </table>
 
-                            <div style="font-size:1.2em">
+                            <div class="config_sub_title">
                                 添加一个用户
                             </div>
                             <hr>
