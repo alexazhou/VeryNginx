@@ -21,12 +21,12 @@
 <!-- 表格扩展js文件 -->
 <script src="http://cdn.bootcss.com/datatables/1.10.10/js/jquery.dataTables.min.js"></script>
 <script src="js/monitor.js"></script>
-<script src="js/control.js"></script>
+<script src="js/dashboard.js"></script>
 <script src="js/tips.js"></script>
 <script src="js/pace.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-        control.init();
+        dashboard.init();
     });
 </script>
 
@@ -40,7 +40,7 @@
                 <h3 class="panel-title" >VeryNginx Login</h3>
             </div>
             <div class="panel-body">
-                <form class="form-horizontal" onsubmit="control.login(this.user.value,this.password.value); return false;">
+                <form class="form-horizontal" onsubmit="dashboard.login(this.user.value,this.password.value); return false;">
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-2 control-label">User</label>
                         <div class="col-sm-10">
@@ -69,29 +69,29 @@
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" onclick="control.switch_to_page('status')" href="#">VeryNginx</a> 
+                    <a class="navbar-brand" onclick="dashboard.switch_to_page('status')" href="#">VeryNginx</a> 
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li class="topnav" id="topnav_status" class="active" >
-                            <a href="#" class="init_click" onclick="control.switch_to_page('status')" >状态</a>
+                            <a href="#" class="init_click" onclick="dashboard.switch_to_page('status')" >状态</a>
                         </li>
                         <li class="topnav" id="topnav_config"  >
-                            <a href="#" onclick="control.switch_to_page('config')" >配置</a>
+                            <a href="#" onclick="dashboard.switch_to_page('config')" >配置</a>
                         </li>
                         <li class="topnav" id="topnav_summary" >
-                            <a href="#" onclick="control.switch_to_page('summary')" >访问统计</a>
+                            <a href="#" onclick="dashboard.switch_to_page('summary')" >访问统计</a>
                         </li>
                         <li class="topnav"id="topnav_firewall" style="display:none">
-                            <a href="#" onclick="control.switch_to_page('firewall')" >防火墙</a>
+                            <a href="#" onclick="dashboard.switch_to_page('firewall')" >防火墙</a>
                         </li>
                         <li class="topnav" id="topnav_about" >
-                            <a href="#" onclick="control.switch_to_page('about')" >关于</a>
+                            <a href="#" onclick="dashboard.switch_to_page('about')" >关于</a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="topnav" id="topnav_logout" >
-                            <a href="#" onclick="control.logout()" >Logout</a>
+                            <a href="#" onclick="dashboard.logout()" >Logout</a>
                         </li>
                     </ul>
                 </div>
@@ -103,7 +103,7 @@
                 <div>
                     <div class="status_group_title">Requests</div> 
                     <div class="status_group_title_desc"> per second</div>
-                    <span class="glyphicon glyphicon-cog btn-lg pull-right" aria-hidden="true"  onclick="control.open_dashboard_config()">
+                    <span class="glyphicon glyphicon-cog btn-lg pull-right" aria-hidden="true"  onclick="dashboard.open_dashboard_config()">
                     </span>
                 </div>
                 <div class="row">
@@ -200,7 +200,7 @@
                                     <div class="row status_modal_row" >
                                         <label class="col-sm-5 text-right" >Refresh Interval</label>
                                         <div class="col-sm-5">
-                                            <input type="range" name="refresh_interval" value="3" min="1" max="15" oninput="control.status_dashboard_update_interval_label()">
+                                            <input type="range" name="refresh_interval" value="3" min="1" max="15" oninput="dashboard.status_dashboard_update_interval_label()">
                                         </div>
                                         <div class="col-sm-2" name="refresh_interval_label">
                                             3s
@@ -209,7 +209,7 @@
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" onclick="control.save_status_dashboard_config()">Save</button>
+                                <button type="button" class="btn btn-default" onclick="dashboard.save_status_dashboard_config()">Save</button>
                               </div>
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
@@ -224,27 +224,27 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <div style="border-right: 1px solid #eee;margin-left:auto; margin-right:auto;">
-                            <div class="leftnav leftnav_1 init_click" group="redirect" onclick="control.switch_config_nav_group(this)">重定向</div>
+                            <div class="leftnav leftnav_1 init_click" group="redirect" onclick="dashboard.switch_config_nav_group(this)">重定向</div>
                             <div class="leftnav_group" group="redirect">
-                                <div class="leftnav leftnav_2 " config_name="redirect_scheme" onclick="control.switch_to_config(this)">协议重定向</div>
-                                <div class="leftnav leftnav_2" config_name="redirect_uri" onclick="control.switch_to_config(this)">URI重定向</div>
+                                <div class="leftnav leftnav_2 " config_name="redirect_scheme" onclick="dashboard.switch_to_config(this)">协议重定向</div>
+                                <div class="leftnav leftnav_2" config_name="redirect_uri" onclick="dashboard.switch_to_config(this)">URI重定向</div>
                             </div>
-                            <div class="leftnav leftnav_1" group="filter" onclick="control.switch_config_nav_group(this)">请求过滤</div>
+                            <div class="leftnav leftnav_1" group="filter" onclick="dashboard.switch_config_nav_group(this)">请求过滤</div>
                             <div class="leftnav_group" group="filter">
-                                <div class="leftnav leftnav_2" config_name="filter_ipwhitelist" onclick="control.switch_to_config(this)">IP白名单</div>
-                                <div class="leftnav leftnav_2" config_name="filter_ip" onclick="control.switch_to_config(this)">IP过滤</div>
-                                <div class="leftnav leftnav_2" config_name="filter_useragent" onclick="control.switch_to_config(this)">UserAgent过滤</div>
-                                <div class="leftnav leftnav_2" config_name="filter_uri" onclick="control.switch_to_config(this)">URI过滤</div>
-                                <div class="leftnav leftnav_2" config_name="filter_arg" onclick="control.switch_to_config(this)">参数过滤</div>
+                                <div class="leftnav leftnav_2" config_name="filter_ipwhitelist" onclick="dashboard.switch_to_config(this)">IP白名单</div>
+                                <div class="leftnav leftnav_2" config_name="filter_ip" onclick="dashboard.switch_to_config(this)">IP过滤</div>
+                                <div class="leftnav leftnav_2" config_name="filter_useragent" onclick="dashboard.switch_to_config(this)">UserAgent过滤</div>
+                                <div class="leftnav leftnav_2" config_name="filter_uri" onclick="dashboard.switch_to_config(this)">URI过滤</div>
+                                <div class="leftnav leftnav_2" config_name="filter_arg" onclick="dashboard.switch_to_config(this)">参数过滤</div>
                             </div>
-                            <div class="leftnav leftnav_1" group="summary" onclick="control.switch_config_nav_group(this)">统计</div>
+                            <div class="leftnav leftnav_1" group="summary" onclick="dashboard.switch_config_nav_group(this)">统计</div>
                             <div class="leftnav_group" group="summary">
-                                <div class="leftnav leftnav_2" config_name="summary_request" onclick="control.switch_to_config(this)">访问统计</div>
+                                <div class="leftnav leftnav_2" config_name="summary_request" onclick="dashboard.switch_to_config(this)">访问统计</div>
                             </div>
-                            <div class="leftnav leftnav_1" group="system" onclick="control.switch_config_nav_group(this)">系统</div>
+                            <div class="leftnav leftnav_1" group="system" onclick="dashboard.switch_config_nav_group(this)">系统</div>
                             <div class="leftnav_group" group="system">
-                                <div class="leftnav leftnav_2" config_name="system_admin" onclick="control.switch_to_config(this)">用户</div>
-                                <div class="leftnav leftnav_2" config_name="system_allconfig" onclick="control.switch_to_config(this)">全部配置</div>
+                                <div class="leftnav leftnav_2" config_name="system_admin" onclick="dashboard.switch_to_config(this)">用户</div>
+                                <div class="leftnav leftnav_2" config_name="system_allconfig" onclick="dashboard.switch_to_config(this)">全部配置</div>
                             </div>
                         </div>
                     </div>  
@@ -271,13 +271,13 @@
                                             <td >{{ rule[0] }}</td>
                                             <td >{{ rule[1] }}</td>
                                             <td class="no_break">
-                                                <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('redirect_scheme_rule',{{$index}},null)">
+                                                <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_mod('redirect_scheme_rule',{{$index}},null)">
                                                     DEL
                                                 </button>
-                                                <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('redirect_scheme_rule',{{$index}})">
+                                                <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_up('redirect_scheme_rule',{{$index}})">
                                                     UP
                                                 </button>
-                                                <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('redirect_scheme_rule',{{$index}})">
+                                                <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_down('redirect_scheme_rule',{{$index}})">
                                                     DOWN
                                                 </button>
                                             </td>
@@ -292,7 +292,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_redirect_scheme_form_add" 
-                                  onsubmit="control.config_add( 'redirect_scheme_rule', [this.uri.value,this.scheme.value]); return false;" >
+                                  onsubmit="dashboard.config_add( 'redirect_scheme_rule', [this.uri.value,this.scheme.value]); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">URI</label>
@@ -357,13 +357,13 @@
                                         <td>{{ rule[0] }}</td>
                                         <td>{{ rule[1] }}</td>
                                         <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('uri_redirect_rule',{{$index}},null)">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_mod('uri_redirect_rule',{{$index}},null)">
                                                 DEL
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('uri_redirect_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_up('uri_redirect_rule',{{$index}})">
                                                 UP
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('uri_redirect_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_down('uri_redirect_rule',{{$index}})">
                                                 DOWN
                                             </button>
                                         </td>
@@ -376,7 +376,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_redirect_uri_form_add" 
-                                  onsubmit="control.config_add( 'redirect_uri_rule', [this.uri.value,this.replace.value]); return false;" >
+                                  onsubmit="dashboard.config_add( 'redirect_uri_rule', [this.uri.value,this.replace.value]); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">URI</label>
@@ -417,7 +417,7 @@
                                         <td>{{ $index }}</td>
                                         <td>{{ rule }}</td>
                                         <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('filter_ipwhitelist_rule',{{$index}},null)">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_mod('filter_ipwhitelist_rule',{{$index}},null)">
                                                 DEL
                                             </button>
                                         </td>
@@ -430,7 +430,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_filter_ipwhitelist_form_add" 
-                                  onsubmit="control.config_add( 'filter_ipwhitelist_rule', [this.ip.value]); return false;" >
+                                  onsubmit="dashboard.config_add( 'filter_ipwhitelist_rule', [this.ip.value]); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">IP</label>
@@ -465,7 +465,7 @@
                                         <td>{{ $index }}</td>
                                         <td>{{ rule }}</td>
                                         <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('filter_ip_rule',{{$index}},null)">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_mod('filter_ip_rule',{{$index}},null)">
                                                 DEL
                                             </button>
                                         </td>
@@ -478,7 +478,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_filter_ip_form_add" 
-                                  onsubmit="control.config_add( 'filter_ip_rule', [this.ip.value] ); return false;" >
+                                  onsubmit="dashboard.config_add( 'filter_ip_rule', [this.ip.value] ); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">IP</label>
@@ -513,13 +513,13 @@
                                         <td>{{ $index }}</td>
                                         <td>{{ rule[0] }}</td>
                                         <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('filter_useragent_rule',{{$index}},null)">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_mod('filter_useragent_rule',{{$index}},null)">
                                                 DEL
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('filter_useragent_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_up('filter_useragent_rule',{{$index}})">
                                                 UP
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('filter_useragent_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_down('filter_useragent_rule',{{$index}})">
                                                 DOWN
                                             </button>
 
@@ -533,7 +533,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_filter_ip_form_add" 
-                                  onsubmit="control.config_add( 'filter_useragent_rule', [this.useragent.value] ); return false;" >
+                                  onsubmit="dashboard.config_add( 'filter_useragent_rule', [this.useragent.value] ); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">UserAgent</label>
@@ -569,13 +569,13 @@
                                         <td>{{ $index }}</td>
                                         <td>{{ rule[0] }}</td>
                                         <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('filter_uri_rule',{{$index}},null)">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_mod('filter_uri_rule',{{$index}},null)">
                                                 DEL
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('filter_uri_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_up('filter_uri_rule',{{$index}})">
                                                 UP
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('filter_uri_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_down('filter_uri_rule',{{$index}})">
                                                 DOWN
                                             </button>
 
@@ -589,7 +589,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_filter_uri_form_add" 
-                                  onsubmit="control.config_add( 'filter_uri_rule', [this.uri.value] ); return false;" >
+                                  onsubmit="dashboard.config_add( 'filter_uri_rule', [this.uri.value] ); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">URI</label>
@@ -625,13 +625,13 @@
                                         <td>{{ $index }}</td>
                                         <td>{{ rule[0] }}</td>
                                         <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('filter_arg_rule',{{$index}},null)">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_mod('filter_arg_rule',{{$index}},null)">
                                                 DEL
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_up('filter_arg_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_up('filter_arg_rule',{{$index}})">
                                                 UP
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_move_down('filter_arg_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_down('filter_arg_rule',{{$index}})">
                                                 DOWN
                                             </button>
 
@@ -645,7 +645,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_filter_arg_form_add" 
-                                  onsubmit="control.config_add( 'filter_arg_rule', [this.arg.value] ); return false;" >
+                                  onsubmit="dashboard.config_add( 'filter_arg_rule', [this.arg.value] ); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">ARG</label>
@@ -685,8 +685,8 @@
                             </div>
                             <hr>
                             <p>
-                              <button type="button" class="btn btn-default" onclick="control.save_config()">保存配置</button>
-                              <button type="button" class="btn btn-default" onclick="control.get_config()">重新获取</button>
+                              <button type="button" class="btn btn-default" onclick="dashboard.save_config()">保存配置</button>
+                              <button type="button" class="btn btn-default" onclick="dashboard.get_config()">重新获取</button>
                             </p>
                         </div>
                         <div class="config_container" id="config_system_admin">
@@ -708,7 +708,7 @@
                                         <td>{{ rule[0] }}</td>
                                         <td>{{ rule[1] }}</td>
                                         <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="control.config_mod('admin',{{$index}},null)">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_mod('admin',{{$index}},null)">
                                                 DEL
                                             </button>
                                         </td>
@@ -721,7 +721,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_admin_form_add" 
-                                  onsubmit="control.config_add( 'admin', [this.user.value, this.password.value] ); return false;" >
+                                  onsubmit="dashboard.config_add( 'admin', [this.user.value, this.password.value] ); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">User</label>
