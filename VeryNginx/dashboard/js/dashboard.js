@@ -1,8 +1,5 @@
 var dashboard = new Object();
 
-dashboard.verynginx_config = {};
-dashboard.config_vm = null; 
-
 paceOptions = {
     catchupTime: 1,
     minTime: 1,
@@ -38,7 +35,7 @@ dashboard.login = function(user,password){
     $.post("/verynginx/login",data={user:user,password:password},function(data,status){
         if( data['ret'] == "success" ){
             dashboard.switch_to_interface('dashboard');
-            dashboard.get_config();
+            config.get_config();
             dashboard.notify("Login Success");
             window.setTimeout( monitor.build_chart, 0 );
             window.setTimeout( monitor.start, 0 );
@@ -54,28 +51,6 @@ dashboard.logout = function(){
     dashboard.notify("Logout Success");
 }
 
-dashboard.get_config = function(){
-    $.get("/verynginx/config",function(data,status){
-        dashboard.verynginx_config = data;
-            
-        if( dashboard.config_vm != null ){
-            dashboard.config_vm.$data = dashboard.verynginx_config;
-            dashboard.notify("获取配置成功");
-            return;
-        }
-
-        dashboard.config_vm = new Vue({
-            el: '#verynginx_config',
-            data: dashboard.verynginx_config,
-            computed : {
-                all_config_json: function(){
-                    return  JSON.stringify( dashboard.verynginx_config , null, 2);
-                }
-            }
-        });
-
-    }); 
-}
 
 dashboard.switch_to_interface = function( name ){
     $(".interface").hide();
@@ -130,59 +105,6 @@ dashboard.config_test_re = function( re , s_from_id){
 	}
 
 	return '';
-}
-
-dashboard.config_add = function(name,value){
-    dashboard.verynginx_config[name].push(value);
-}
-
-dashboard.config_mod = function(name,index,value){
-
-    console.log('-->',name,index,value);
-    
-    if( value == null ){
-        dashboard.verynginx_config[name].$remove( dashboard.verynginx_config[name][index] );
-    }else{
-        //dashboard.verynginx_config[name].$set( index, dashboard.verynginx_config[name][index] );
-    }
-
-}
-
-dashboard.config_move_up = function(name,index){
-    
-    if(index == 0){
-        dashboard.notify("已经是最前面了");
-        return;
-    }
-
-    var tmp = dashboard.verynginx_config[name][index-1];
-    dashboard.verynginx_config[name].$set(index-1, dashboard.verynginx_config[name][index]);
-    dashboard.verynginx_config[name].$set(index, tmp);
-}
-
-dashboard.config_move_down = function(name,index){
-    if(index >= dashboard.verynginx_config[name].length - 1){
-        dashboard.notify("已经是最后面了");
-        return;
-    }
-    
-    var tmp = dashboard.verynginx_config[name][index+1];
-    dashboard.verynginx_config[name].$set(index+1, dashboard.verynginx_config[name][index]);
-    dashboard.verynginx_config[name].$set(index, tmp);
-}
-
-dashboard.save_config = function(){
-    console.log("save_config");
-	var config_json = JSON.stringify( dashboard.verynginx_config , null, 2);
-
-    $.post("/verynginx/config",{ config:config_json },function(data){
-        console.log(data);
-        if( data['ret'] == 'success' ){
-            dashboard.notify("保存配置成功");
-		}else{
-            dashboard.notify("保存配置失败");
-		}
-	})
 }
 
 dashboard.notify = function(message){

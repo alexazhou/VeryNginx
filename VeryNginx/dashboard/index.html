@@ -22,6 +22,7 @@
 <script src="http://cdn.bootcss.com/datatables/1.10.10/js/jquery.dataTables.min.js"></script>
 <script src="js/monitor.js"></script>
 <script src="js/dashboard.js"></script>
+<script src="js/config.js"></script>
 <script src="js/tips.js"></script>
 <script src="js/pace.min.js"></script>
 <script type="text/javascript">
@@ -271,13 +272,13 @@
                                             <td >{{ rule[0] }}</td>
                                             <td >{{ rule[1] }}</td>
                                             <td class="no_break">
-                                                <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_mod('redirect_scheme_rule',{{$index}},null)">
+                                                <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('redirect_scheme_rule',{{$index}},null)">
                                                     DEL
                                                 </button>
-                                                <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_up('redirect_scheme_rule',{{$index}})">
+                                                <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('redirect_scheme_rule',{{$index}})">
                                                     UP
                                                 </button>
-                                                <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_down('redirect_scheme_rule',{{$index}})">
+                                                <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('redirect_scheme_rule',{{$index}})">
                                                     DOWN
                                                 </button>
                                             </td>
@@ -292,7 +293,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_redirect_scheme_form_add" 
-                                  onsubmit="dashboard.config_add( 'redirect_scheme_rule', [this.uri.value,this.scheme.value]); return false;" >
+                                  onsubmit="config.config_add( 'redirect_scheme_rule', [this.uri.value,this.scheme.value]); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">URI</label>
@@ -357,13 +358,13 @@
                                         <td>{{ rule[0] }}</td>
                                         <td>{{ rule[1] }}</td>
                                         <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_mod('uri_redirect_rule',{{$index}},null)">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('uri_redirect_rule',{{$index}},null)">
                                                 DEL
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_up('uri_redirect_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('uri_redirect_rule',{{$index}})">
                                                 UP
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_down('uri_redirect_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('uri_redirect_rule',{{$index}})">
                                                 DOWN
                                             </button>
                                         </td>
@@ -376,7 +377,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_redirect_uri_form_add" 
-                                  onsubmit="dashboard.config_add( 'redirect_uri_rule', [this.uri.value,this.replace.value]); return false;" >
+                                  onsubmit="config.config_add( 'redirect_uri_rule', [this.uri.value,this.replace.value]); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">URI</label>
@@ -417,7 +418,7 @@
                                         <td>{{ $index }}</td>
                                         <td>{{ rule }}</td>
                                         <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_mod('filter_ipwhitelist_rule',{{$index}},null)">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('filter_ipwhitelist_rule',{{$index}},null)">
                                                 DEL
                                             </button>
                                         </td>
@@ -430,7 +431,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_filter_ipwhitelist_form_add" 
-                                  onsubmit="dashboard.config_add( 'filter_ipwhitelist_rule', [this.ip.value]); return false;" >
+                                  onsubmit="config.config_add( 'filter_ipwhitelist_rule', [this.ip.value]); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">IP</label>
@@ -465,7 +466,7 @@
                                         <td>{{ $index }}</td>
                                         <td>{{ rule }}</td>
                                         <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_mod('filter_ip_rule',{{$index}},null)">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('filter_ip_rule',{{$index}},null)">
                                                 DEL
                                             </button>
                                         </td>
@@ -478,7 +479,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_filter_ip_form_add" 
-                                  onsubmit="dashboard.config_add( 'filter_ip_rule', [this.ip.value] ); return false;" >
+                                  onsubmit="config.config_add( 'filter_ip_rule', [this.ip.value] ); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">IP</label>
@@ -513,13 +514,13 @@
                                         <td>{{ $index }}</td>
                                         <td>{{ rule[0] }}</td>
                                         <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_mod('filter_useragent_rule',{{$index}},null)">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('filter_useragent_rule',{{$index}},null)">
                                                 DEL
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_up('filter_useragent_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('filter_useragent_rule',{{$index}})">
                                                 UP
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_down('filter_useragent_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('filter_useragent_rule',{{$index}})">
                                                 DOWN
                                             </button>
 
@@ -533,7 +534,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_filter_ip_form_add" 
-                                  onsubmit="dashboard.config_add( 'filter_useragent_rule', [this.useragent.value] ); return false;" >
+                                  onsubmit="config.config_add( 'filter_useragent_rule', [this.useragent.value] ); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">UserAgent</label>
@@ -569,13 +570,13 @@
                                         <td>{{ $index }}</td>
                                         <td>{{ rule[0] }}</td>
                                         <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_mod('filter_uri_rule',{{$index}},null)">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('filter_uri_rule',{{$index}},null)">
                                                 DEL
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_up('filter_uri_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('filter_uri_rule',{{$index}})">
                                                 UP
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_down('filter_uri_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('filter_uri_rule',{{$index}})">
                                                 DOWN
                                             </button>
 
@@ -589,7 +590,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_filter_uri_form_add" 
-                                  onsubmit="dashboard.config_add( 'filter_uri_rule', [this.uri.value] ); return false;" >
+                                  onsubmit="config.config_add( 'filter_uri_rule', [this.uri.value] ); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">URI</label>
@@ -625,13 +626,13 @@
                                         <td>{{ $index }}</td>
                                         <td>{{ rule[0] }}</td>
                                         <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_mod('filter_arg_rule',{{$index}},null)">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('filter_arg_rule',{{$index}},null)">
                                                 DEL
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_up('filter_arg_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('filter_arg_rule',{{$index}})">
                                                 UP
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_move_down('filter_arg_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('filter_arg_rule',{{$index}})">
                                                 DOWN
                                             </button>
 
@@ -645,7 +646,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_filter_arg_form_add" 
-                                  onsubmit="dashboard.config_add( 'filter_arg_rule', [this.arg.value] ); return false;" >
+                                  onsubmit="config.config_add( 'filter_arg_rule', [this.arg.value] ); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">ARG</label>
@@ -685,8 +686,8 @@
                             </div>
                             <hr>
                             <p>
-                              <button type="button" class="btn btn-default" onclick="dashboard.save_config()">保存配置</button>
-                              <button type="button" class="btn btn-default" onclick="dashboard.get_config()">重新获取</button>
+                              <button type="button" class="btn btn-default" onclick="config.save_config()">保存配置</button>
+                              <button type="button" class="btn btn-default" onclick="config.get_config()">重新获取</button>
                             </p>
                         </div>
                         <div class="config_container" id="config_system_admin">
@@ -708,7 +709,7 @@
                                         <td>{{ rule[0] }}</td>
                                         <td>{{ rule[1] }}</td>
                                         <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="dashboard.config_mod('admin',{{$index}},null)">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('admin',{{$index}},null)">
                                                 DEL
                                             </button>
                                         </td>
@@ -721,7 +722,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_admin_form_add" 
-                                  onsubmit="dashboard.config_add( 'admin', [this.user.value, this.password.value] ); return false;" >
+                                  onsubmit="config.config_add( 'admin', [this.user.value, this.password.value] ); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">User</label>
