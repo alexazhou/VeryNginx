@@ -80,6 +80,21 @@ config.save_config = function(){
 	})
 }
 
+config.test_re_match = function(){
+    
+    var test_container = $(this).closest('.config_test_container'); 
+    var rule_table_id = test_container.attr('tesr_rule_table'); 
+    var rule_table = $('#' + rule_table_id); 
+    var test_args = eval(test_container.attr('test_args')); 
 
+    console.log('gagaga');
+    console.log(test_container);
+    console.log(rule_table);
+    console.log(test_args);
+
+    var rows = rule_table.find('tbody > tr');
+    console.log( rows );
+
+}
 
 

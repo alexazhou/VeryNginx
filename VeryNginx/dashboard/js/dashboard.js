@@ -11,7 +11,6 @@ paceOptions = {
 
 dashboard.init = function(){
     dashboard.switch_to_interface('login');
-	Vue.filter('re_test', dashboard.config_test_re);
     $(".init_click").click();
 
 	// Reposition when a modal is shown
@@ -28,6 +27,14 @@ dashboard.init = function(){
 	if( localStorage.dashboard_status_refresh_interval == undefined ){
         localStorage.dashboard_status_refresh_interval = '3';
 	}
+
+	//add event listener for input event on rule test form
+    $(".config_test_container").each(function(){
+		var test_action = eval( $(this).attr('test_action') ) ;
+		var form_input = $(this).find(".config_test_input");
+	    
+		form_input.on( 'input',test_action );
+	})
 }
 
 dashboard.login = function(user,password){
@@ -91,20 +98,6 @@ dashboard.switch_to_config = function( item ){
 
     //show tips of the config 
     tips.show_tips(config_name);
-}
-
-dashboard.config_test_re = function( re , s_from_id){
-    
-	console.log('re:',re);
-	console.log('s:',s_from_id);
-
-	var reg=new RegExp(re,'igm');
-	if( $("#"+s_from_id).val().match( reg ) != null ){
-	    console.log('matched');
-	    return "matched";
-	}
-
-	return '';
 }
 
 dashboard.notify = function(message){
