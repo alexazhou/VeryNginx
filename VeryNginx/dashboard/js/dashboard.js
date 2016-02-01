@@ -1,7 +1,4 @@
-var control = new Object();
-
-control.verynginx_config = {};
-control.config_vm = null; 
+var dashboard = new Object();
 
 paceOptions = {
     catchupTime: 1,
@@ -12,16 +9,15 @@ paceOptions = {
     }
 };
 
-control.init = function(){
-    control.switch_to_interface('login');
-	Vue.filter('re_test', control.config_test_re);
+dashboard.init = function(){
+    dashboard.switch_to_interface('login');
     $(".init_click").click();
 
 	// Reposition when a modal is shown
-    $('.modal').on('show.bs.modal', control.modal_reposition);
+    $('.modal').on('show.bs.modal', dashboard.modal_reposition);
     // Reposition when the window is resized
     $(window).on('resize', function() {
-        $('.modal:visible').each(control.modal_reposition );
+        $('.modal:visible').each(dashboard.modal_reposition );
     });
 
 	if( localStorage.dashboard_status_enable_animation == undefined ){
@@ -31,58 +27,44 @@ control.init = function(){
 	if( localStorage.dashboard_status_refresh_interval == undefined ){
         localStorage.dashboard_status_refresh_interval = '3';
 	}
+
+	//add event listener for input event on rule test form
+    $(".config_test_container").each(function(){
+		var test_action = eval( $(this).attr('test_action') ) ;
+		var form_input = $(this).find(".config_test_input");
+	    
+		form_input.on( 'input',test_action );
+	})
 }
 
-control.login = function(user,password){
+dashboard.login = function(user,password){
     console.log("login with:",user,password);
     $.post("/verynginx/login",data={user:user,password:password},function(data,status){
         if( data['ret'] == "success" ){
-            control.switch_to_interface('dashboard');
-            control.get_config();
-            control.notify("Login Success");
+            dashboard.switch_to_interface('dashboard');
+            config.get_config();
+            dashboard.notify("Login Success");
             window.setTimeout( monitor.build_chart, 0 );
             window.setTimeout( monitor.start, 0 );
         }
     });
 }
 
-control.logout = function(){
+dashboard.logout = function(){
     monitor.stop();
     $.cookie( 'verynginx_user', null,{ path: '/verynginx'} );
     $.cookie( 'verynginx_session', null, { path: '/verynginx'} );  
-    control.switch_to_interface('login');
-    control.notify("Logout Success");
+    dashboard.switch_to_interface('login');
+    dashboard.notify("Logout Success");
 }
 
-control.get_config = function(){
-    $.get("/verynginx/config",function(data,status){
-        control.verynginx_config = data;
-            
-        if( control.config_vm != null ){
-            control.config_vm.$data = control.verynginx_config;
-            control.notify("获取配置成功");
-            return;
-        }
 
-        control.config_vm = new Vue({
-            el: '#verynginx_config',
-            data: control.verynginx_config,
-            computed : {
-                all_config_json: function(){
-                    return  JSON.stringify( control.verynginx_config , null, 2);
-                }
-            }
-        });
-
-    }); 
-}
-
-control.switch_to_interface = function( name ){
+dashboard.switch_to_interface = function( name ){
     $(".interface").hide();
     $("#interface_"+name).show();
 }
 
-control.switch_to_page = function( page ){
+dashboard.switch_to_page = function( page ){
     $(".page").hide();
     $("#page_"+page).show();
 
@@ -92,7 +74,7 @@ control.switch_to_page = function( page ){
 	monitor.update_config();
 }
 
-control.switch_config_nav_group = function( item ){
+dashboard.switch_config_nav_group = function( item ){
 
 	var group_name = $(item).attr("group");
     $(".leftnav_group").hide();
@@ -106,7 +88,7 @@ control.switch_config_nav_group = function( item ){
     $(".leftnav_group[group=" + group_name + "]" ).children()[0].click();
 }
 
-control.switch_to_config = function( item ){
+dashboard.switch_to_config = function( item ){
     var config_name = $(item).attr("config_name");
     $(".config_container").hide();
     $("#config_" + config_name ).show();
@@ -118,74 +100,7 @@ control.switch_to_config = function( item ){
     tips.show_tips(config_name);
 }
 
-control.config_test_re = function( re , s_from_id){
-    
-	console.log('re:',re);
-	console.log('s:',s_from_id);
-
-	var reg=new RegExp(re,'igm');
-	if( $("#"+s_from_id).val().match( reg ) != null ){
-	    console.log('matched');
-	    return "matched";
-	}
-
-	return '';
-}
-
-control.config_add = function(name,value){
-    control.verynginx_config[name].push(value);
-}
-
-control.config_mod = function(name,index,value){
-
-    console.log('-->',name,index,value);
-    
-    if( value == null ){
-        control.verynginx_config[name].$remove( control.verynginx_config[name][index] );
-    }else{
-        //control.verynginx_config[name].$set( index, control.verynginx_config[name][index] );
-    }
-
-}
-
-control.config_move_up = function(name,index){
-    
-    if(index == 0){
-        control.notify("已经是最前面了");
-        return;
-    }
-
-    var tmp = control.verynginx_config[name][index-1];
-    control.verynginx_config[name].$set(index-1, control.verynginx_config[name][index]);
-    control.verynginx_config[name].$set(index, tmp);
-}
-
-control.config_move_down = function(name,index){
-    if(index >= control.verynginx_config[name].length - 1){
-        control.notify("已经是最后面了");
-        return;
-    }
-    
-    var tmp = control.verynginx_config[name][index+1];
-    control.verynginx_config[name].$set(index+1, control.verynginx_config[name][index]);
-    control.verynginx_config[name].$set(index, tmp);
-}
-
-control.save_config = function(){
-    console.log("save_config");
-	var config_json = JSON.stringify( control.verynginx_config , null, 2);
-
-    $.post("/verynginx/config",{ config:config_json },function(data){
-        console.log(data);
-        if( data['ret'] == 'success' ){
-            control.notify("保存配置成功");
-		}else{
-            control.notify("保存配置失败");
-		}
-	})
-}
-
-control.notify = function(message){
+dashboard.notify = function(message){
 	$.smkAlert({
         text: message,
         type: 'info',
@@ -194,7 +109,7 @@ control.notify = function(message){
     });
 }
 
-control.open_dashboard_config = function(){
+dashboard.open_dashboard_config = function(){
     //load status dashboard config
     $('#status_config_modal').modal('show');
 
@@ -214,10 +129,10 @@ control.open_dashboard_config = function(){
         $('#status_config_modal [name=refresh_interval]').val( refresh_interval );
     }
 
-    control.status_dashboard_update_interval_label();
+    dashboard.status_dashboard_update_interval_label();
 }
 
-control.save_status_dashboard_config = function(){
+dashboard.save_status_dashboard_config = function(){
     
     var enable_animation = $('#status_config_modal [name=enable_animation]')[0].checked;
     var refresh_interval = $('#status_config_modal [name=refresh_interval]').val();
@@ -229,7 +144,7 @@ control.save_status_dashboard_config = function(){
     monitor.update_config();
 }
 
-control.status_dashboard_update_interval_label = function(){
+dashboard.status_dashboard_update_interval_label = function(){
 
     var refresh_interval = $('#status_config_modal [name=refresh_interval]').val();
     $('#status_config_modal [name=refresh_interval_label]').text(refresh_interval + "s");
@@ -239,7 +154,7 @@ control.status_dashboard_update_interval_label = function(){
  * Vertically center Bootstrap 3 modals so they aren't always stuck at the top
  */
 
-control.modal_reposition = function() {
+dashboard.modal_reposition = function() {
 	var modal = $(this),
 	dialog = modal.find('.modal-dialog');
 	modal.css('display', 'block');
