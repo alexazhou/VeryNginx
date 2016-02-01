@@ -164,6 +164,43 @@
     margin-top:50px;
 }
 
+#about_title {
+    font-size:4em;
+    color:#CCC;
+}
+
+#about_sub_title {
+    font-size:1.5em;
+    color:#333;
+}
+
+#about_sub_btn_container {
+    text-align:center;
+	margin-top:30px
+}
+
+#about_sub_btn {
+	float: none;
+	margin: 0 auto;
+	font-size: 1.8em;
+	color: #999;
+	font-weight: lighter;
+	border: solid;
+	border-width: 1px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 40px;
+	padding-right: 40px;
+	border-radius: 5px;
+	transition: all 0.5s;
+}
+
+#about_sub_btn:hover {
+    color:#337AB7;
+    border-color:#337AB7;
+    text-decoration:none;
+}
+
 .summary_url_table th { 
     font-size: 14px;
     font-weight: normal;
