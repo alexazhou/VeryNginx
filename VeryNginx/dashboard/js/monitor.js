@@ -292,9 +292,4 @@ monitor.update_config =function(){
 	monitor.start();
 }
 
-monitor.resize = function(){
-    //$("#chart_request").attr("height", $("#chart_request_container").height());
-    $("#chart_connection").attr("width", $("#chart_connection_container").width());
-    monitor.chart_connection.resize();
-}
 

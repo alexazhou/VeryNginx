@@ -32,15 +32,13 @@ config.config_add = function(name,value){
 }
 
 config.config_mod = function(name,index,value){
-
-    console.log('-->',name,index,value);
     
+    //console.log('-->',name,index,value);
     if( value == null ){
         config.verynginx_config[name].$remove( config.verynginx_config[name][index] );
     }else{
         //config.verynginx_config[name].$set( index, config.verynginx_config[name][index] );
     }
-
 }
 
 config.config_move_up = function(name,index){
@@ -82,19 +80,33 @@ config.save_config = function(){
 
 config.test_re_match = function(){
     
+    var target_str = $(this).val();
     var test_container = $(this).closest('.config_test_container'); 
     var rule_table_id = test_container.attr('tesr_rule_table'); 
     var rule_table = $('#' + rule_table_id); 
     var test_args = eval(test_container.attr('test_args')); 
-
-    console.log('gagaga');
-    console.log(test_container);
-    console.log(rule_table);
-    console.log(test_args);
+    var test_output = test_container.find('.config_test_output'); 
 
     var rows = rule_table.find('tbody > tr');
-    console.log( rows );
-
+    var matched_count = 0;
+    
+    test_output.text('');
+    for( i=0; i<rows.length; i++ ){
+        var re_str = $($(rows[i]).children()[1]).text();
+        var re_obj = new RegExp(re_str, 'igm' );
+        
+        $( rows[i] ).removeClass('matched');
+        if( target_str.match(re_obj) != null ){
+            $( rows[i] ).addClass('matched');
+            matched_count += 1;
+        }
+    }
+    
+    if( target_str == '' && matched_count == 0 ){
+        test_output.text('');
+    }else{
+        test_output.text( matched_count + ' rule matched ');
+    }
 }
 
 

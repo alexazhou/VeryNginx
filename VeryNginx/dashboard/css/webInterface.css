@@ -51,6 +51,7 @@
 }
 
 .matched {
+    font-weight:bold;
     color:#337AB7;
 }
 
@@ -58,6 +59,10 @@
     padding-left:0;
 	padding-right:0;
 	margin-bottom:15px;
+}
+
+.config_test_output {
+    font-size:1.4em;
 }
 
 .no_break {
