@@ -75,38 +75,56 @@ config.save_config = function(){
 		}else{
             dashboard.notify("保存配置失败");
 		}
-	})
+	});
 }
 
-config.test_re_match = function(){
-    
-    var target_str = $(this).val();
-    var test_container = $(this).closest('.config_test_container'); 
-    var rule_table_id = test_container.attr('tesr_rule_table'); 
-    var rule_table = $('#' + rule_table_id); 
-    var test_args = eval(test_container.attr('test_args')); 
-    var test_output = test_container.find('.config_test_output'); 
+config.test_match_factory = function( type ){
 
-    var rows = rule_table.find('tbody > tr');
-    var matched_count = 0;
+    var match_core = function(){
     
-    test_output.text('');
-    for( i=0; i<rows.length; i++ ){
-        var re_str = $($(rows[i]).children()[1]).text();
-        var re_obj = new RegExp(re_str, 'igm' );
-        
-        $( rows[i] ).removeClass('matched');
-        if( target_str.match(re_obj) != null ){
-            $( rows[i] ).addClass('matched');
-            matched_count += 1;
-        }
-    }
+        var target_str = $(this).val();
+        var test_container = $(this).closest('.config_test_container'); 
+        var rule_table_id = test_container.attr('test_rule_table'); 
+        var rule_table = $('#' + rule_table_id); 
+        var test_args = eval(test_container.attr('test_args')); 
+        var test_output = test_container.find('.config_test_output'); 
+
+        var rows = rule_table.find('tbody > tr');
+        var matched_count = 0;
     
-    if( target_str == '' && matched_count == 0 ){
         test_output.text('');
-    }else{
-        test_output.text( matched_count + ' rule matched ');
-    }
+        for( i=0; i<rows.length; i++ ){
+            $( rows[i] ).removeClass('matched');
+            
+			if( type == 're' ){
+			    var re_str = $($(rows[i]).children()[test_args[0]]).text();
+                var re_obj = new RegExp(re_str, 'igm' );
+        
+                if( target_str.match(re_obj) != null ){
+                    $( rows[i] ).addClass('matched');
+                    matched_count += 1;
+                }
+			}
+
+			if( type == 'equal' ){
+			    var re_str = $($(rows[i]).children()[test_args[0]]).text();
+        
+                if( target_str == re_str ){
+                    $( rows[i] ).addClass('matched');
+                    matched_count += 1;
+                }
+			}
+        }
+    
+        if( target_str == '' && matched_count == 0 ){
+            test_output.text('');
+        }else{
+            test_output.text( matched_count + ' rule matched ');
+        }
+	};
+
+    return match_core;
 }
+
 
 
