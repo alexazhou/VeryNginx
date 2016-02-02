@@ -2,17 +2,17 @@ var data_stat = new Object();
 
 data_stat.get_data = function () {
 
-   $('#url_details').html(""); // 动态生成表格前将表格清空
+    $('#url_details').html(""); // 动态生成表格前将表格清空
 
     var url_short = "/verynginx/summary?type=short";
     var url_long  = "/verynginx/summary?type=long";
     var data_url;
 
     // 标签切换文字变化
-    $("#all").on('click', function () {
+    $("#summary_data_all").on('click', function () {
         $("#def_btn").html("All<span class=\"caret\"></span>");
     });
-    $("#temp").on('click', function () {
+    $("#summary_data_temp").on('click', function () {
         $("#def_btn").html("Temporary<span class=\"caret\"></span>");
     });
 
@@ -92,10 +92,10 @@ data_stat.get_data = function () {
             });
 
             // 过滤器
-            $("#url_table_filter input").attr("class","form-control").attr("placeholder","Search...");
+            $("#url_table_filter input").attr("class","form-control").attr("placeholder","URI filter");
 
             // 切换json请求地址时destroy掉dataTable
-            $("#all, #temp").on('click', function () {
+            $("#summary_data_all, #summary_data_temp, #topnav_summary, #summary_data_refresh").on('click', function () {
                 url_table
                     .clear()
                     .destroy();

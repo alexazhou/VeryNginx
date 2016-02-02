@@ -885,11 +885,16 @@
                 <!-- Single button -->
                 <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="def_btn">All<span class="caret"></span></button>
-                    <span class="note">the temporary summary will be clead every minute.</span>
                     <ul class="dropdown-menu">
-                        <li id="all"><a href="#" onclick="data_stat.get_data()">All</a></li>
-                        <li id="temp"><a href="#" onclick="data_stat.get_data()">Temporary</a></li>
+                        <li id="summary_data_all"><a href="#" onclick="data_stat.get_data()">All</a></li>
+                        <li id="summary_data_temp"><a href="#" onclick="data_stat.get_data()">Temporary</a></li>
                     </ul>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" id="summary_data_refresh" onclick="data_stat.get_data()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
+                </div>
+                <div class="btn-group">
+                    <span class="note">the temporary summary will be clead every minute.</span>
                 </div>
                 <table class="table table-hover table-bordered display" id="url_table">
                     <thead>
