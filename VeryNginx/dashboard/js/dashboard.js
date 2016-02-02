@@ -13,28 +13,28 @@ dashboard.init = function(){
     dashboard.switch_to_interface('login');
     $(".init_click").click();
 
-	// Reposition when a modal is shown
+    // Reposition when a modal is shown
     $('.modal').on('show.bs.modal', dashboard.modal_reposition);
     // Reposition when the window is resized
     $(window).on('resize', function() {
         $('.modal:visible').each(dashboard.modal_reposition );
     });
 
-	if( localStorage.dashboard_status_enable_animation == undefined ){
+    if( localStorage.dashboard_status_enable_animation == undefined ){
         localStorage.dashboard_status_enable_animation = "true";
-	}
+    }
 
-	if( localStorage.dashboard_status_refresh_interval == undefined ){
+    if( localStorage.dashboard_status_refresh_interval == undefined ){
         localStorage.dashboard_status_refresh_interval = '3';
-	}
+    }
 
-	//add event listener for input event on rule test form
+    //add event listener for input event on rule test form
     $(".config_test_container").each(function(){
-		var test_action = eval( $(this).attr('test_action') ) ;
-		var form_input = $(this).find(".config_test_input");
-	    
-		form_input.on( 'input',test_action );
-	})
+        var test_action = eval( $(this).attr('test_action') ) ;
+        var form_input = $(this).find(".config_test_input");
+        
+        form_input.on( 'input',test_action );
+    })
 }
 
 dashboard.login = function(user,password){
@@ -71,20 +71,20 @@ dashboard.switch_to_page = function( page ){
     $(".topnav").removeClass("active");
     $("#topnav_"+page).addClass("active");
 
-	monitor.update_config();
+    monitor.update_config();
 }
 
 dashboard.switch_config_nav_group = function( item ){
 
-	var group_name = $(item).attr("group");
+    var group_name = $(item).attr("group");
     $(".leftnav_group").hide();
     $(".leftnav_1").removeClass('active');
-	$(item).addClass('active');
+    $(item).addClass('active');
 
-	var config_group_container = $(".leftnav_group[group=" + group_name + "]" );
-	config_group_container.show();
+    var config_group_container = $(".leftnav_group[group=" + group_name + "]" );
+    config_group_container.show();
     
-	//switch to firsh children config page
+    //switch to firsh children config page
     $(".leftnav_group[group=" + group_name + "]" ).children()[0].click();
 }
 
@@ -101,7 +101,7 @@ dashboard.switch_to_config = function( item ){
 }
 
 dashboard.notify = function(message){
-	$.smkAlert({
+    $.smkAlert({
         text: message,
         type: 'info',
         position:"top-right",
@@ -119,10 +119,10 @@ dashboard.open_dashboard_config = function(){
     if( enable_animation != undefined ){
         if( enable_animation == "false" ){
             enable_animation = false;
-		}else{
+        }else{
             enable_animation = true;
-		}
-		$('#status_config_modal [name=enable_animation]')[0].checked = enable_animation;
+        }
+        $('#status_config_modal [name=enable_animation]')[0].checked = enable_animation;
     }
     
     if( refresh_interval != undefined ){
@@ -155,12 +155,12 @@ dashboard.status_dashboard_update_interval_label = function(){
  */
 
 dashboard.modal_reposition = function() {
-	var modal = $(this),
-	dialog = modal.find('.modal-dialog');
-	modal.css('display', 'block');
-	
-	// Dividing by two centers the modal exactly, but dividing by three 
-	// or four works better for larger screens.
-	dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
+    var modal = $(this),
+    dialog = modal.find('.modal-dialog');
+    modal.css('display', 'block');
+    
+    // Dividing by two centers the modal exactly, but dividing by three 
+    // or four works better for larger screens.
+    dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
 }
 

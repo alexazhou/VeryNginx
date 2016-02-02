@@ -66,16 +66,16 @@ config.config_move_down = function(name,index){
 
 config.save_config = function(){
     console.log("save_config");
-	var config_json = JSON.stringify( config.verynginx_config , null, 2);
+    var config_json = JSON.stringify( config.verynginx_config , null, 2);
 
     $.post("/verynginx/config",{ config:config_json },function(data){
         console.log(data);
         if( data['ret'] == 'success' ){
             dashboard.notify("保存配置成功");
-		}else{
+        }else{
             dashboard.notify("保存配置失败[" + data['err'] + "]");
-		}
-	});
+        }
+    });
 }
 
 config.test_match_factory = function( type ){
@@ -96,24 +96,24 @@ config.test_match_factory = function( type ){
         for( i=0; i<rows.length; i++ ){
             $( rows[i] ).removeClass('matched');
             
-			if( type == 're' ){
-			    var re_str = $($(rows[i]).children()[test_args[0]]).text();
+            if( type == 're' ){
+                var re_str = $($(rows[i]).children()[test_args[0]]).text();
                 var re_obj = new RegExp(re_str, 'igm' );
         
                 if( target_str.match(re_obj) != null ){
                     $( rows[i] ).addClass('matched');
                     matched_count += 1;
                 }
-			}
+            }
 
-			if( type == 'equal' ){
-			    var re_str = $($(rows[i]).children()[test_args[0]]).text();
+            if( type == 'equal' ){
+                var re_str = $($(rows[i]).children()[test_args[0]]).text();
         
                 if( target_str == re_str ){
                     $( rows[i] ).addClass('matched');
                     matched_count += 1;
                 }
-			}
+            }
         }
     
         if( target_str == '' && matched_count == 0 ){
@@ -121,7 +121,7 @@ config.test_match_factory = function( type ){
         }else{
             test_output.text( matched_count + ' rule matched ');
         }
-	};
+    };
 
     return match_core;
 }
