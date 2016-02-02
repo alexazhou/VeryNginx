@@ -53,15 +53,13 @@ gmake
 gmake install
 </pre>
 
-
-
 ###2. checkout VeryNginx repository , link nginx.conf and VeryNginx folder to nginx config dir.
 <pre>
 cd ~
 git clone https://github.com/alexazhou/VeryNginx.git
 rm -f /opt/VeryNginx/nginx/conf/nginx.conf
-ln -s ~/VeryNginx/nginx.conf /opt/VeryNginx/nginx/conf/nginx.conf
-ln -s ~/VeryNginx/VeryNginx /opt/VeryNginx/VeryNginx
+cp ~/VeryNginx/nginx.conf /opt/VeryNginx/nginx/conf/nginx.conf
+cp -r ~/VeryNginx/VeryNginx /opt/VeryNginx/VeryNginx
 chown -R nginx /opt/VeryNginx
 chgrp -R nginx /opt/VeryNginx
 </pre>
@@ -73,6 +71,12 @@ stop it with : <code>/opt/VeryNginx/nginx/sbin/nginx -s stop</code>
 
 ##configs
 just goto http://127.0.0.1/VeryNginx/dashboard/index.html 
+
+you can modify the configs and goto "配置>系统>全部配置" to save it.
+
+when you save config, VeryNginx will write all configs to /opt/VeryNginx/VeryNginx/config.json.
+
+you can delete it to revert VeryNginx to default config.
 
 ###Enjoy it~
 
