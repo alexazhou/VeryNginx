@@ -73,7 +73,7 @@ config.save_config = function(){
         if( data['ret'] == 'success' ){
             dashboard.notify("保存配置成功");
 		}else{
-            dashboard.notify("保存配置失败");
+            dashboard.notify("保存配置失败[" + data['err'] + "]");
 		}
 	});
 }
