@@ -72,11 +72,15 @@ stop it with : <code>/opt/VeryNginx/nginx/sbin/nginx -s stop</code>
 ##configs
 just goto http://127.0.0.1/VeryNginx/dashboard/index.html 
 
-you can modify the configs and goto "配置>系统>全部配置" to save it.
+And you can modify the configs and goto "配置>系统>全部配置" to save it.
 
-when you save config, VeryNginx will write all configs to /opt/VeryNginx/VeryNginx/config.json.
+tips:
 
-you can delete it to revert VeryNginx to default config.
+* after you save, new config will be used immediately. Don't need to restart or reload nginx
+
+* when you save config, VeryNginx will write all configs to /opt/VeryNginx/VeryNginx/config.json. 
+
+* if you did a error config so that can't login verynginx. you can delete it config.json revert eryNginx to default config.
 
 ###Enjoy it~
 
