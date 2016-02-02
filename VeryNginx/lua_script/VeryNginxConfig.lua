@@ -13,7 +13,6 @@ M.configs["admin"] = {
     {"verynginx","verynginx"}
 }
 
-M.configs["encrypt_seed"] = "FFC6DC76-94F5-48CE-8907-C77CE10A5E0B"
 M.configs["redirect_uri_enable"] = true
 M.configs["redirect_uri_rule"] = {
     {"^/index\\.php",""}
@@ -110,13 +109,17 @@ function M.set()
     local new_config = cjson.decode( args['config'] )
     if M.verify( new_config ) == true then
         M["configs"] = new_config
-        dump_ret,err = M.dump_to_file()
+        dump_ret = cjson.decode( M.dump_to_file() )
         if dump_ret['ret'] == "success" then
             ret = true
+            err = nil
+        else
+            ret = false
+            err = dump_ret['err']
         end
     end
 
-    if ret == false then
+    if ret == true then
         return cjson.encode({["ret"]="success",["err"]=err})
     else
         return cjson.encode({["ret"]="failed",["err"]=err})

@@ -46,7 +46,7 @@ monitor.build_chart = function(){
     monitor.chart_request = new Chart(ctx_request).Line(data_request,options_request);
     
     //connection chart
-	var ctx_connection = $("#chart_connection").get(0).getContext("2d");
+    var ctx_connection = $("#chart_connection").get(0).getContext("2d");
     var options_connection={ responsive:true };
     var data_connection = {
         labels: [],
@@ -61,7 +61,7 @@ monitor.build_chart = function(){
                 pointHighlightStroke: "rgba(220,220,220,1)",
                 data: []
             },
-			{
+            {
                 label: "writing",
                 fillColor: "rgba(151,187,205,0.2)",
                 strokeColor: "rgba(151,187,205,1)",
@@ -71,7 +71,7 @@ monitor.build_chart = function(){
                 pointHighlightStroke: "rgba(151,187,205,1)",
                 data: []
             },
-			{
+            {
                 label: "reading",
                 fillColor: "rgba(151,205,187,0.2)",
                 strokeColor: "rgba(151,205,187,1)",
@@ -139,66 +139,66 @@ monitor.build_chart = function(){
 
     monitor.chart_traffic = new Chart(ctx_traffic).Line(data_traffic,options_traffic);
 
-	//add visibilityChange event listener for different web browser
-	var hidden, state, visibilityChange; 
-	if (typeof document.hidden !== "undefined") {
-		hidden = "hidden";
-		visibilityChange = "visibilitychange";
-		state = "visibilityState";
-	} else if (typeof document.mozHidden !== "undefined") {
-		hidden = "mozHidden";
-		visibilityChange = "mozvisibilitychange";
-		state = "mozVisibilityState";
-	} else if (typeof document.msHidden !== "undefined") {
-		hidden = "msHidden";
-		visibilityChange = "msvisibilitychange";
-		state = "msVisibilityState";
-	} else if (typeof document.webkitHidden !== "undefined") {
-		hidden = "webkitHidden";
-		visibilityChange = "webkitvisibilitychange";
-		state = "webkitVisibilityState";
-	}
+    //add visibilityChange event listener for different web browser
+    var hidden, state, visibilityChange; 
+    if (typeof document.hidden !== "undefined") {
+        hidden = "hidden";
+        visibilityChange = "visibilitychange";
+        state = "visibilityState";
+    } else if (typeof document.mozHidden !== "undefined") {
+        hidden = "mozHidden";
+        visibilityChange = "mozvisibilitychange";
+        state = "mozVisibilityState";
+    } else if (typeof document.msHidden !== "undefined") {
+        hidden = "msHidden";
+        visibilityChange = "msvisibilitychange";
+        state = "msVisibilityState";
+    } else if (typeof document.webkitHidden !== "undefined") {
+        hidden = "webkitHidden";
+        visibilityChange = "webkitvisibilitychange";
+        state = "webkitVisibilityState";
+    }
 
     var on_change = function(){
         if( document[state] != hidden ){
             console.log('on visiable');
             if( localStorage.dashboard_status_enable_animation == "true" ){
-			    monitor.animation_enable();
-			}
+                monitor.animation_enable();
+            }
         }else{
             console.log('on hidden');
             monitor.animation_disable();
         }
     };
 
-	// add event listener for visibilityChange
-	document.addEventListener( visibilityChange, on_change );
+    // add event listener for visibilityChange
+    document.addEventListener( visibilityChange, on_change );
 
 }
 
 monitor.start = function(){
    
-	var refresh_interval = 3;
-	if( localStorage.dashboard_status_refresh_interval != undefined ){
-	    refresh_interval = parseInt( localStorage.dashboard_status_refresh_interval );
-	}
+    var refresh_interval = 3;
+    if( localStorage.dashboard_status_refresh_interval != undefined ){
+        refresh_interval = parseInt( localStorage.dashboard_status_refresh_interval );
+    }
 
     if( monitor.refresh_timer != null ){
-	    console.log("Error:Monitor is already running");
-		return;
-	}
+        console.log("Error:Monitor is already running");
+        return;
+    }
 
-	if( monitor.chart_request == null || monitor.chart_connection == null || monitor.chart_response_time == null || monitor.chart_traffic == null ){
-	    console.log("Error:Monitor chart not init");
-		return;
-	}
+    if( monitor.chart_request == null || monitor.chart_connection == null || monitor.chart_response_time == null || monitor.chart_traffic == null ){
+        console.log("Error:Monitor chart not init");
+        return;
+    }
 
-	var enable_animation = localStorage.dashboard_status_enable_animation;
-	if( enable_animation == 'true' && $('#page_status').is(":visible") ){
-	    monitor.animation_enable();	
-	}else{
-	    monitor.animation_disable();
-	}
+    var enable_animation = localStorage.dashboard_status_enable_animation;
+    if( enable_animation == 'true' && $('#page_status').is(":visible") ){
+        monitor.animation_enable(); 
+    }else{
+        monitor.animation_disable();
+    }
     
     monitor.refresh_timer = window.setInterval( monitor.refresh , refresh_interval * 1000);
     monitor.refresh();
@@ -207,7 +207,7 @@ monitor.start = function(){
 monitor.stop = function(){
     if( monitor.refresh_timer != null ){
         window.clearInterval( monitor.refresh_timer );
-		monitor.refresh_timer = null;
+        monitor.refresh_timer = null;
     }
 }
 
@@ -237,19 +237,19 @@ monitor.refresh = function(){
         //console.log('data:',data);
         if( monitor.latest_status != null ){
             var time_change = data['time'] - monitor.latest_status['time'];
-			//console.log('time_change',time_change);
-			if(time_change == 0 ){
-			    return;
-			}
+            //console.log('time_change',time_change);
+            if(time_change == 0 ){
+                return;
+            }
 
             var requests_change = data['request_count'] - monitor.latest_status['request_count']; 
             var requests_200_change = data['200_request_count'] - monitor.latest_status['200_request_count'];
-			var connections_active = data['connections_active'];
-			var connections_reading = data['connections_reading'];
-			var connections_writing = data['connections_writing'];
+            var connections_active = data['connections_active'];
+            var connections_reading = data['connections_reading'];
+            var connections_writing = data['connections_writing'];
             var avg_request = requests_change / time_change;
             var avg_request_200 = requests_200_change / time_change;
-			var time_str = monitor.time_str();
+            var time_str = monitor.time_str();
             var sub_label = '';
             var response_time_change = data['response_time_total'] - monitor.latest_status['response_time_total'];
             var avg_response_time = 1000 * response_time_change / time_change;
@@ -260,23 +260,23 @@ monitor.refresh = function(){
             var avg_traffic_read = traffic_read_change / (time_change*1024);
             var avg_traffic_write = traffic_write_change / (time_change*1024);
             
-			monitor.chart_request.addData([avg_request,avg_request_200], time_str);
-			monitor.chart_connection.addData( [ connections_active,connections_writing,connections_reading ], sub_label )
-			monitor.chart_response_time.addData( [ avg_response_time ], sub_label )
-			monitor.chart_traffic.addData( [ avg_traffic_read, avg_traffic_write ], sub_label )
+            monitor.chart_request.addData([avg_request,avg_request_200], time_str);
+            monitor.chart_connection.addData( [ connections_active,connections_writing,connections_reading ], sub_label )
+            monitor.chart_response_time.addData( [ avg_response_time ], sub_label )
+            monitor.chart_traffic.addData( [ avg_traffic_read, avg_traffic_write ], sub_label )
 
             while( monitor.chart_request.datasets[0].points.length >= monitor.chart_size ){
                 monitor.chart_request.removeData();
             }
             
-			while( monitor.chart_connection.datasets[0].points.length >= monitor.chart_size ){
+            while( monitor.chart_connection.datasets[0].points.length >= monitor.chart_size ){
                 monitor.chart_connection.removeData();
             }
             
             while( monitor.chart_response_time.datasets[0].points.length >= monitor.chart_size ){
                 monitor.chart_response_time.removeData();
             }
-			
+            
             while( monitor.chart_traffic.datasets[0].points.length >= monitor.chart_size ){
                 monitor.chart_traffic.removeData();
             }
@@ -289,12 +289,7 @@ monitor.update_config =function(){
 
     console.log('monitor.save_config');
     monitor.stop();
-	monitor.start();
+    monitor.start();
 }
 
-monitor.resize = function(){
-    //$("#chart_request").attr("height", $("#chart_request_container").height());
-    $("#chart_connection").attr("width", $("#chart_connection_container").width());
-    monitor.chart_connection.resize();
-}
 

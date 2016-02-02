@@ -8,6 +8,7 @@ summary = require "summary"
 status = require "status"
 cookie = require "cookie"
 VeryNginxConfig = require "VeryNginxConfig"
+encrypt_seed = require "encrypt_seed"
 
 local M = {}
 
@@ -42,7 +43,6 @@ function M.filter()
                 break
             end
         end
-        
 
         local path = VeryNginxConfig.home_path() .."/dashboard" .. string.sub( ngx.var.uri, string.len( "/verynginx/dashboard") + 1 )
         ngx.log(ngx.STDERR,"load path:",path)
@@ -76,7 +76,7 @@ function M.check_session()
     
     for i,v in ipairs( VeryNginxConfig.configs['admin'] ) do
         if v[1] == user then
-            if session == ngx.md5(VeryNginxConfig.configs["encrypt_seed"]..v[1]) then
+            if session == ngx.md5( encrypt_seed.get_seed()..v[1]) then
                 return true
             else
                 return false
@@ -103,7 +103,7 @@ function M.login()
 
     for i,v in ipairs( VeryNginxConfig.configs['admin'] ) do
         if v[1] == args['user'] and v[2] == args["password"] then
-            session = ngx.md5(VeryNginxConfig.configs["encrypt_seed"]..v[1])
+            session = ngx.md5(encrypt_seed.get_seed()..v[1])
             ngx.header['Set-Cookie'] = {
                 string.format("verynginx_session=%s; path=/verynginx", session ),
                 string.format("verynginx_user=%s; path=/verynginx", v[1] ),

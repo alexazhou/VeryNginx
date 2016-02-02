@@ -14,20 +14,20 @@
 
 .leftnav_1.active {
     font-weight:bold;
-	color:#333;
+    color:#333;
 }
 
 .leftnav_2 {
     padding-left:20px;
-	color:#888;
+    color:#888;
 }
 
 .leftnav_2.active {
     font-weight:bold;
     border-left:solid;
     border-width:2px;
-	border-color:#444;
-	color:#333;
+    border-color:#444;
+    color:#333;
 }
 
 .config_title {
@@ -51,13 +51,18 @@
 }
 
 .matched {
+    font-weight:bold;
     color:#337AB7;
 }
 
 .config_test_container {
     padding-left:0;
-	padding-right:0;
-	margin-bottom:15px;
+    padding-right:0;
+    margin-bottom:15px;
+}
+
+.config_test_output {
+    font-size:1.4em;
 }
 
 .no_break {
@@ -71,42 +76,42 @@
 .status_info_value{
     font-size:1.2em;
     color:#AAA;
-	margin-left:20px;
-	font-weight:bold;
+    margin-left:20px;
+    font-weight:bold;
 }
 
 .status_group_title {
     font-size:1.5em;
-	font-weight: bold;
-	margin-bottom:12px;
-	display:inline-block;
+    font-weight: bold;
+    margin-bottom:12px;
+    display:inline-block;
 }
 
 .status_group_title_desc {
     font-weight:bold;
-	display:inline-block;
-	color:#BBB;
+    display:inline-block;
+    color:#BBB;
 }
 
 .status_sub_group_title {
     font-size:1.2em;
-	font-weight: bold;
-	margin-top:8px;
-	margin-bottom:8px;
-	display:inline-block;
+    font-weight: bold;
+    margin-top:8px;
+    margin-bottom:8px;
+    display:inline-block;
 }
 
 .status_sub_group_title_desc {
     font-weight:bold;
-	color:#BBB;
-	display:inline-block;
+    color:#BBB;
+    display:inline-block;
 }
 
 .status_color_mark {
-	width:14px;
-	height:14px;
-	display:inline-block;
-	border-radius:3px;
+    width:14px;
+    height:14px;
+    display:inline-block;
+    border-radius:3px;
     text-align:center;
 }
 
@@ -116,7 +121,7 @@
 
 .status_modal_row {
     margin-top:15px;
-	margin-bottom:15px;
+    margin-bottom:15px;
 }
 
 .vn_modal_mid {
@@ -130,7 +135,7 @@
     border-color:lightgray;
     border-width:1px;
     border-radius:5px;
-	margin-bottom:20px;
+    margin-bottom:20px;
 }
 
 .tips_tips {
@@ -157,6 +162,43 @@
     margin-left:auto;
     margin-right:auto;
     margin-top:50px;
+}
+
+#about_title {
+    font-size:4em;
+    color:#CCC;
+}
+
+#about_sub_title {
+    font-size:1.5em;
+    color:#333;
+}
+
+#about_sub_btn_container {
+    text-align:center;
+    margin-top:30px
+}
+
+#about_sub_btn {
+    float: none;
+    margin: 0 auto;
+    font-size: 1.8em;
+    color: #999;
+    font-weight: lighter;
+    border: solid;
+    border-width: 1px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-radius: 5px;
+    transition: all 0.5s;
+}
+
+#about_sub_btn:hover {
+    color:#337AB7;
+    border-color:#337AB7;
+    text-decoration:none;
 }
 
 .summary_url_table th { 
