@@ -15,7 +15,7 @@ M.configs["admin"] = {
 
 M.configs["redirect_uri_enable"] = true
 M.configs["redirect_uri_rule"] = {
-    {"^/index\\.php",""}
+    {"demowillbereplace","replaced"}
 }
 
 M.configs["redirect_scheme_enable"] = false
@@ -32,6 +32,7 @@ M.configs["filter_ip_rule"] = {
 
 M.configs["filter_useragent_enable"] = true
 M.configs["filter_useragent_rule"] = {
+    {'(nmap|w3af|netsparker|nikto|fimap|wget)'},
 }
 
 M.configs["filter_uri_enable"] = true 
@@ -42,6 +43,7 @@ M.configs["filter_uri_rule"] = {
 
 M.configs["filter_arg_enable"] = true
 M.configs["filter_arg_rule"] = {
+    {"select.*from"},
 }
 
 M.configs["summary_request_enable"] = true

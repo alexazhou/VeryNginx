@@ -6,6 +6,7 @@ paceOptions = {
     restartOnRequestAfter: 5,
     ajax : {
         trackMethods:["GET","POST"],
+        ignoreURLs: ['/verynginx/status', /some-regexp/]
     }
 };
 

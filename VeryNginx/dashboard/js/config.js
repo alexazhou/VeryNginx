@@ -87,12 +87,14 @@ config.test_match_factory = function( type ){
         var rule_table_id = test_container.attr('test_rule_table'); 
         var rule_table = $('#' + rule_table_id); 
         var test_args = eval(test_container.attr('test_args')); 
-        var test_output = test_container.find('.config_test_output'); 
+        var test_output = test_container.find('.config_test_output');
+        var test_sub_output = test_container.find('.config_test_sub_output'); 
 
         var rows = rule_table.find('tbody > tr');
         var matched_count = 0;
     
         test_output.text('');
+        test_sub_output.text('');
         for( i=0; i<rows.length; i++ ){
             $( rows[i] ).removeClass('matched');
             
@@ -105,6 +107,21 @@ config.test_match_factory = function( type ){
                     matched_count += 1;
                 }
             }
+            
+            if( type == 're_replace' ){
+                var re_str = $($(rows[i]).children()[test_args[0]]).text();
+                var replace_str = $($(rows[i]).children()[test_args[1]]).text();
+                var re_obj = new RegExp(re_str, 'igm' );
+        
+                if( target_str.match(re_obj) != null ){
+                    $( rows[i] ).addClass('matched');
+                    matched_count += 1;
+
+                    if( test_sub_output.text() == ''){
+                        test_sub_output.text( 'will be redirect to: ' + target_str.replace( re_obj, replace_str ) );
+                    }
+                }
+            }
 
             if( type == 'equal' ){
                 var re_str = $($(rows[i]).children()[test_args[0]]).text();
@@ -114,6 +131,7 @@ config.test_match_factory = function( type ){
                     matched_count += 1;
                 }
             }
+
         }
     
         if( target_str == '' && matched_count == 0 ){

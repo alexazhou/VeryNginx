@@ -65,6 +65,11 @@
     font-size:1.4em;
 }
 
+.config_test_sub_output {
+    font-size:1.2em;
+    color:#BBB;
+}
+
 .no_break {
     white-space: nowrap;
 }
