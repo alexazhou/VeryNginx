@@ -13,7 +13,6 @@ M.configs["admin"] = {
     {"verynginx","verynginx"}
 }
 
-M.configs["encrypt_seed"] = "FFC6DC76-94F5-48CE-8907-C77CE10A5E0B"
 M.configs["redirect_uri_enable"] = true
 M.configs["redirect_uri_rule"] = {
     {"^/index\\.php",""}

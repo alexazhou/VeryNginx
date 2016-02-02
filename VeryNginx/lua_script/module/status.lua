@@ -58,6 +58,7 @@ function M.report()
     report['200_request_count'] = ngx.shared.status:get( KEY_TOTAL_COUNT_200 )
     report['time'] = ngx.now()
     report['boot_time'] = ngx.shared.status:get( KEY_START_TIME )
+    report['response_time_total'] = ngx.shared.status:get( KEY_TIME_TOTAL )
     report['connections_active'] = ngx.var.connections_active
     report['connections_reading'] = ngx.var.connections_reading
     report['connections_writing'] = ngx.var.connections_writing
@@ -66,7 +67,7 @@ function M.report()
     report['traffic_read'] = ngx.shared.status:get( KEY_TRAFFIC_READ )
     report['traffic_write'] = ngx.shared.status:get( KEY_TRAFFIC_WRITE )
     
-    report['response_time_total'] = ngx.shared.status:get( KEY_TIME_TOTAL )
+    report['ret'] = 'success'
     
     return cjson.encode( report )
 
