@@ -14,7 +14,7 @@ VeryNginx基于lua_nginx_module(openrestry)开发，实现了高级的防火墙�
 * 网络流量
 * 网络连接数
 
-![Nginx运行状态](http://ww2.sinaimg.cn/mw690/3fcd0ed3jw1f0mgbr8xvuj227q1a87d5.jpg)
+![Nginx运行状态](http://ww4.sinaimg.cn/mw690/3fcd0ed3jw1f0mgobga7aj21970u278k.jpg)
 
 
 ###请求过滤
@@ -25,7 +25,7 @@ VeryNginx可以基于按照以下信息对请求进行过滤：
 * 请求路径(URI)
 * 请求参数
 
-![Nginx运行状态](http://ww4.sinaimg.cn/mw690/3fcd0ed3jw1f0mgbqh5d2j227s1a20z3.jpg)
+![Nginx运行状态](http://ww4.sinaimg.cn/mw690/3fcd0ed3jw1f0mgobzidej219z0uuadj.jpg)
 
 
 VeryNginx预置了常用的过滤规则，可以阻止SQL注入，Git，SVN文件泄露，目录遍历攻击，并拦截常见的扫描工具。
@@ -45,7 +45,7 @@ VeryNginx可以统计网站每个URI的访问情况，包括每个URI的:
 
 并且可以按各种规则排序进行分析。
 
-![Nginx运行状态](http://ww1.sinaimg.cn/mw690/3fcd0ed3jw1f0mgbq4xr1j227s1a814j.jpg)
+![Nginx运行状态](http://ww2.sinaimg.cn/mw690/3fcd0ed3jw1f0mgocfgc1j219z0uujyk.jpg)
 
 ##installation
 
