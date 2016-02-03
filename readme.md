@@ -45,9 +45,9 @@ VeryNginx可以统计网站每个URI的访问情况，包括每个URI的:
 
 ![Nginx运行状态](http://ww4.sinaimg.cn/mw690/3fcd0ed3jw1f0mhp0lq5ij20vb0n4aes.jpg)
 
-##installation
+##Installation
 
-###1. VeryNginx base on openresty, so you nee install openresty first.
+###1. VeryNginx is based on openresty, so you need install openresty first.
 
 <pre>
 wget https://openresty.org/download/ngx_openresty-1.9.7.1.tar.gz   
@@ -59,7 +59,7 @@ gmake
 gmake install
 </pre>
 
-###2. checkout VeryNginx repository , link nginx.conf and VeryNginx folder to nginx config dir.
+###2. Checkout VeryNginx repository, link nginx.conf and VeryNginx folder to nginx config dir.
 <pre>
 cd ~
 git clone https://github.com/alexazhou/VeryNginx.git
@@ -70,11 +70,11 @@ chown -R nginx /opt/VeryNginx
 chgrp -R nginx /opt/VeryNginx
 </pre>
 
-###3. do nginx config
+###3. Configure nginx
 
-you can add you own site config into /opt/VeryNginx/nginx/nginx.conf.
+You can add you own site config into /opt/VeryNginx/nginx/nginx.conf.
 
-remember don't modify the VeryNginx config file in the file.
+Remember don't modify the VeryNginx config file in the file.
 
 VeryNginx config like this:
 <pre>
@@ -95,27 +95,27 @@ VeryNginx config like this:
 
 </pre>
 
-you also can use you own nginx config file to run VeryNginx by copy the VeryNginx config in /opt/VeryNginx/nginx/nginx.conf into you own config file. 
+You can also use you own Nginx config file to run VeryNginx by copying the VeryNginx configuration in /opt/VeryNginx/nginx/nginx.conf into you own configuration file. 
 
-##run 
-you can run it with: <code>/opt/VeryNginx/nginx/sbin/nginx </code>
+##Start service
+ <code>/opt/VeryNginx/nginx/sbin/nginx </code>
+##Stop service
+ <code>/opt/VeryNginx/nginx/sbin/nginx -s stop</code>
 
-stop it with : <code>/opt/VeryNginx/nginx/sbin/nginx -s stop</code>
+##Configure VeryNginx
+Just goto http://127.0.0.1/VeryNginx/dashboard/index.html 
 
-##configs
-just goto http://127.0.0.1/VeryNginx/dashboard/index.html 
-
-And you can modify the configs and goto "配置>系统>全部配置" to save it.
+And you can modify the options and goto "配置>系统>全部配置" to save it.
 
 tips:
 
-* after you save, new config will be used immediately. Don't need to restart or reload nginx
+* After you save, new config will be used immediately. Don't need to restart or reload nginx
 
-* when you save config, VeryNginx will write all configs to /opt/VeryNginx/VeryNginx/config.json. 
+* When you save config, VeryNginx will write all configs to /opt/VeryNginx/VeryNginx/config.json. 
 
-* if you did a error config so that can't login verynginx. you can delete it config.json revert eryNginx to default config.
+* If you did a error config so that can't login verynginx. You can delete config.json and revert VeryNginx to default config.
 
-#### default user name and password is verynginx:verynginx
+####Default user name and password is verynginx:verynginx
 
 ###Enjoy it~
 
