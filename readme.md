@@ -1,8 +1,6 @@
 # VeryNginx
 VeryNginx is a very powerful and friendly nginx
 
-注：目前正在开发中，并不可以用于生产环境。
-
 ##介绍
 
 VeryNginx基于lua_nginx_module(openrestry)开发，实现了高级的防火墙，访问统计，和其他的一些功能，大幅度强化了Nginx本身的功能，并提供了更友好的web交互界面。
@@ -118,4 +116,5 @@ tips:
 * if you did a error config so that can't login verynginx. you can delete it config.json revert eryNginx to default config.
 
 ###Enjoy it~
+
 
