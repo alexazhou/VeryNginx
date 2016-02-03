@@ -1,15 +1,32 @@
 var data_stat = new Object();
 
-data_stat.tab_switch = function () {
+data_stat.url_table = null;
+
+data_stat.search = function( s ){
+    if( data_stat.url_table == null )
+        return;
+
+    data_stat.url_table.search( s ).draw();
+}
+
+data_stat.tab_switch = function ( item ) {
     // 标签切换文字变化
-    $("#summary_data_all").on('click', function () {
-        $("#def_btn").removeClass("url_short").addClass("url_long").html("All<span class=\"caret\"></span>");
-    });
-    $("#summary_data_temp").on('click', function () {
-        $("#def_btn").removeClass("url_long").addClass("url_short").html("Temporary<span class=\"caret\"></span>");
-    });
+    if( $(item).attr('id') == 'summary_data_all' ){
+        $("#def_btn").html("All<span class=\"caret\"></span>");
+    }else{
+        $("#def_btn").html("Temporary<span class=\"caret\"></span>");
+    } 
+    
     data_stat.get_data();
 }
+
+data_stat.make_sure_have_table = function(){
+
+    if( data_stat.url_table == null ){
+        data_stat.get_data();
+    }
+}
+
 
 data_stat.get_data = function () {
 
@@ -20,14 +37,13 @@ data_stat.get_data = function () {
     var data_url;
 
     // 判断数据量
-    if ($("#def_btn").hasClass("url_short") == true) {
-        data_url = url_short;
-        $(".summary_url_table .btn-group .note").css("display", "inline-block");
-    } else {
+    if ($("#def_btn").text() == 'All') {
         data_url = url_long;
-        $(".summary_url_table .btn-group .note").css("display", "none");
+        $("#summary_type_note").css("display", "none");
+    } else {
+        data_url = url_short;
+        $("#summary_type_note").css("display", "inline-block");
     };
-
 
     $.ajax({
         type: "GET",
@@ -36,6 +52,10 @@ data_stat.get_data = function () {
         data_Type: "json",
 
         success: function (json_data) {
+
+            if( data_stat.url_table != null ){
+                data_stat.url_table.clear().destroy();
+            }
 
             var response = json_data;
             var url_index = 1;
@@ -72,7 +92,7 @@ data_stat.get_data = function () {
             }
 
             // 添加表格排序
-            var url_table = $('#url_table').DataTable( {
+            data_stat.url_table = $('#url_table').DataTable( {
                                 autoWidth: true, // 设置表格自动适配宽度
                                 paging: false, // 去掉页头页脚信息
                                 "stripeClasses": [], // 去掉斑马色
@@ -81,20 +101,6 @@ data_stat.get_data = function () {
                                 "order": [[ 0, "asc" ]] // 载入时默认使用index升序排列
                             } );
 
-            // 过滤器
-            $('#url_table_filter .search-box').on('keyup', function () {
-                url_table
-                    .search(this.value)
-                    .draw();
-            });
-            $("#url_table_filter input").attr("class","form-control").attr("placeholder","URI filter");
-
-            // 切换json请求地址时destroy掉dataTable
-            $("#summary_data_all, #summary_data_temp, #topnav_summary, #summary_data_refresh").on('click', function () {
-                url_table
-                    .clear()
-                    .destroy();
-            })
         }
-    })   
+    });   
 }

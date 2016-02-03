@@ -73,6 +73,11 @@ dashboard.switch_to_page = function( page ){
     $("#topnav_"+page).addClass("active");
 
     monitor.update_config();
+    
+    //if switch to summary page, make sure has a summary table
+    if( page == "summary" ){
+        data_stat.make_sure_have_table();
+    }
 }
 
 dashboard.switch_config_nav_group = function( item ){
