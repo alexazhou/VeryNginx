@@ -26,7 +26,7 @@ VeryNginx可以基于按照以下信息对请求进行过滤：
 ![Nginx运行状态](http://ww2.sinaimg.cn/mw690/3fcd0ed3jw1f0mhp07rgoj20vb0n4gof.jpg)
 
 
-VeryNginx预置了常用的过滤规则，可以阻止SQL注入，Git，SVN文件泄露，目录遍历攻击，并拦截常见的扫描工具。
+VeryNginx预置了常用的过滤规则，可以一定程序上阻止常见的SQL注入，Git，SVN文件泄露，目录遍历攻击，并拦截常见的扫描工具。
 
 同时VeryNginx的过滤器还可以支持IP黑/白名单设置
 
@@ -59,6 +59,14 @@ gmake
 gmake install
 </pre>
 
+In fact VeryNginx used that modules in openresty:
+
+*  lua-nginx-module
+*  http_stub_status_module
+*  lua cjson module
+
+>If you don't want to install openresty , you can install that modules manually to make VeryNginx run
+
 ###2. Checkout VeryNginx repository, link nginx.conf and VeryNginx folder to nginx config dir.
 <pre>
 cd ~
@@ -66,8 +74,10 @@ git clone https://github.com/alexazhou/VeryNginx.git
 rm -f /opt/VeryNginx/nginx/conf/nginx.conf
 cp ~/VeryNginx/nginx.conf /opt/VeryNginx/nginx/conf/nginx.conf
 cp -r ~/VeryNginx/VeryNginx /opt/VeryNginx/VeryNginx
-chown -R nginx /opt/VeryNginx
-chgrp -R nginx /opt/VeryNginx
+
+#The two line behind make /opt/VeryNginx writable for nginx, so nginx can save configs in it
+chown -R nginx /opt/VeryNginx 
+chgrp -R nginx /opt/VeryNginx 
 </pre>
 
 ###3. Configure nginx
