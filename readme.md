@@ -115,6 +115,8 @@ tips:
 
 * if you did a error config so that can't login verynginx. you can delete it config.json revert eryNginx to default config.
 
+#### default user name and password is verynginx:verynginx
+
 ###Enjoy it~
 
 
