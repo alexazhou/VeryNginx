@@ -1,5 +1,16 @@
 var data_stat = new Object();
 
+data_stat.tab_switch = function () {
+    // 标签切换文字变化
+    $("#summary_data_all").on('click', function () {
+        $("#def_btn").removeClass("url_short").addClass("url_long").html("All<span class=\"caret\"></span>");
+    });
+    $("#summary_data_temp").on('click', function () {
+        $("#def_btn").removeClass("url_long").addClass("url_short").html("Temporary<span class=\"caret\"></span>");
+    });
+    data_stat.get_data();
+}
+
 data_stat.get_data = function () {
 
     $('#url_details').html(""); // 动态生成表格前将表格清空
@@ -8,20 +19,13 @@ data_stat.get_data = function () {
     var url_long  = "/verynginx/summary?type=long";
     var data_url;
 
-    // 标签切换文字变化
-    $("#summary_data_all").on('click', function () {
-        $("#def_btn").html("All<span class=\"caret\"></span>");
-    });
-    $("#summary_data_temp").on('click', function () {
-        $("#def_btn").html("Temporary<span class=\"caret\"></span>");
-    });
-
-    if ($("#def_btn").text() == "All") {
-        data_url = url_long;
-        $(".summary_url_table .btn-group .note").css("display", "none");
-    } else if ($("#def_btn").text() == "Temporary") {
+    // 判断数据量
+    if ($("#def_btn").hasClass("url_short") == true) {
         data_url = url_short;
         $(".summary_url_table .btn-group .note").css("display", "inline-block");
+    } else {
+        data_url = url_long;
+        $(".summary_url_table .btn-group .note").css("display", "none");
     };
 
 
@@ -33,24 +37,16 @@ data_stat.get_data = function () {
 
         success: function (json_data) {
 
-            // console.log("异步请求成功");
-            // console.log(typeof json_data);
-
             var response = json_data;
             var url_index = 1;
 
-            // console.log(response);
-
             for (var key in response) {
-                //console.log(key);
                 
                 // 计算访问成功率
                 if ("undefined" != typeof(json_data[key].status[200])) {
                     var success = json_data[key].status[200] / json_data[key].count * 100;
-                    //console.log("not 0");
                 } else { // 当200状态不存在的时候成功率为0
                     var success = 0;
-                    //console.log("is 0")
                 };
 
                 var count = parseInt(json_data[key].count);
@@ -58,7 +54,6 @@ data_stat.get_data = function () {
                 var avg_size = size / count;
                 var time = parseFloat(json_data[key].time);
                 var avg_time = time / count;
-                
 
                 // 动态增加每一列关于各URL/URI的详细访问信息
                 var dyn_tab =  "<tr><th style = \"width: 5%\">" + url_index + "</th>" +
@@ -85,13 +80,13 @@ data_stat.get_data = function () {
                                 searching: true, // 增加过滤功能
                                 "order": [[ 0, "asc" ]] // 载入时默认使用index升序排列
                             } );
+
+            // 过滤器
             $('#url_table_filter .search-box').on('keyup', function () {
                 url_table
                     .search(this.value)
                     .draw();
             });
-
-            // 过滤器
             $("#url_table_filter input").attr("class","form-control").attr("placeholder","URI filter");
 
             // 切换json请求地址时destroy掉dataTable
