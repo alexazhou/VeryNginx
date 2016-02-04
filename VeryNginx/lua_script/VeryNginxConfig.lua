@@ -13,9 +13,15 @@ M.configs["admin"] = {
     {"verynginx","verynginx"}
 }
 
+M.configs['matcher'] = {
+     ["demo1"] = { ["args"] = "select.*from" },
+     ["demo2"] = { ["ua"] = "(nmap|w3af|netsparker|nikto|fimap|wget)" },
+     ["demo3"] = { ["uri"] = "\\.(git|svn|\\.)" },
+     ["demo4"] = { ["uri"] = "\\.(haccess|bash_history|ssh|sql)$" },
+}
+
 M.configs["redirect_uri_enable"] = true
 M.configs["redirect_uri_rule"] = {
-    {"demowillbereplace","replaced"}
 }
 
 M.configs["redirect_scheme_enable"] = false
@@ -32,18 +38,14 @@ M.configs["filter_ip_rule"] = {
 
 M.configs["filter_useragent_enable"] = true
 M.configs["filter_useragent_rule"] = {
-    {'(nmap|w3af|netsparker|nikto|fimap|wget)'},
 }
 
 M.configs["filter_uri_enable"] = true 
 M.configs["filter_uri_rule"] = {
-    {"\\.(git|svn|\\.)"},
-    {"\\.(haccess|bash_history|ssh|sql)$"},
 }
 
 M.configs["filter_arg_enable"] = true
 M.configs["filter_arg_rule"] = {
-    {"select.*from"},
 }
 
 M.configs["summary_request_enable"] = true
