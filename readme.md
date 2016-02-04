@@ -1,38 +1,38 @@
 # VeryNginx
-VeryNginx is a very powerful and friendly nginx
+VeryNginx is a very powerful and friendly nginx assistant.
 
 ##介绍
 
-VeryNginx基于lua_nginx_module(openrestry)开发，实现了高级的防火墙，访问统计，和其他的一些功能，大幅度强化了Nginx本身的功能，并提供了更友好的web交互界面。
+VeryNginx 基于 `lua_nginx_module(openrestry)` 开发，实现了高级的防火墙、访问统计和其他的一些功能，大幅度降低了 Nginx 本身的功能配置门槛，并提供了友好的 Web 交互界面。
 
-###Nginx运行状态分析
+###Nginx 运行状态分析
 
 * 每秒请求数
 * 响应时间
 * 网络流量
 * 网络连接数
 
-![Nginx运行状态](http://ww4.sinaimg.cn/mw690/3fcd0ed3jw1f0mhozu43wj20uj0mcgob.jpg)
+![Nginx 运行状态](http://ww4.sinaimg.cn/mw690/3fcd0ed3jw1f0mhozu43wj20uj0mcgob.jpg)
 
 
 ###请求过滤
-VeryNginx可以基于按照以下信息对请求进行过滤：
+VeryNginx 可以基于按照以下信息对请求进行过滤：
 
 * IP
 * UserAgent
-* 请求路径(URI)
+* 请求路径 (URI)
 * 请求参数
 
-![Nginx运行状态](http://ww2.sinaimg.cn/mw690/3fcd0ed3jw1f0mhp07rgoj20vb0n4gof.jpg)
+![Nginx 运行状态](http://ww2.sinaimg.cn/mw690/3fcd0ed3jw1f0mhp07rgoj20vb0n4gof.jpg)
 
 
-VeryNginx预置了常用的过滤规则，可以一定程度上阻止常见的SQL注入，Git，SVN文件泄露，目录遍历攻击，并拦截常见的扫描工具。
+VeryNginx 预置了常用的过滤规则，可以在一定程度上阻止常见的 SQL 注入、Git 及 SVN 文件泄露、目录遍历攻击，并拦截常见的扫描工具。
 
-同时VeryNginx的过滤器还可以支持IP黑/白名单设置
+同时 VeryNginx 的过滤器还支持 IP 黑/白名单设置
 
 ###访问统计
 
-VeryNginx可以统计网站每个URI的访问情况，包括每个URI的:
+VeryNginx 可以统计网站每个URI的访问情况，包括每个URI的:
 
 * 总请求次数
 * 各状态码次数
@@ -43,15 +43,15 @@ VeryNginx可以统计网站每个URI的访问情况，包括每个URI的:
 
 并且可以按各种规则排序进行分析。
 
-![Nginx运行状态](http://ww4.sinaimg.cn/mw690/3fcd0ed3jw1f0mhp0lq5ij20vb0n4aes.jpg)
+![Nginx 运行状态](http://ww4.sinaimg.cn/mw690/3fcd0ed3jw1f0mhp0lq5ij20vb0n4aes.jpg)
 
 ##安装说明
 
 ### 安装 Nginx / OpenResty
 
-VeryNginx基于OpenResty[^openresty], 所以你需要先安装它
+VeryNginx 基于 OpenResty[^openresty]，所以你需要先安装它：
 
-<pre>
+```sh
 wget https://openresty.org/download/ngx_openresty-1.9.7.1.tar.gz
 tar -xvzf ngx_openresty-1.9.7.1.tar.gz
 cd ngx_openresty-1.9.7.1
@@ -59,21 +59,21 @@ sudo su
 ./configure --prefix=/opt/VeryNginx --user=nginx --group=nginx --with-http_stub_status_module --with-luajit
 gmake
 gmake install
-</pre>
+```
 
-VeryNginx实际使用到了OpenResty中的这些模块
+VeryNginx 实际使用到了 OpenResty 中的这些模块
 
 *  [lua-nginx-module](https://github.com/openresty/lua-nginx-module)
 *  http_stub_status_module
 *  lua-cjson library
 
-如果你不想安装OpenResty，或者你已经有了一个正在工作的Nginx，你也可以自己手动为Nginx编译安装这些模块
+如果你不想安装 OpenResty，或者你已经有了一个正在工作的 Nginx，你也可以自己手动为 Nginx 编译安装这些模块
 
 ### 部署 VeryNginx
 
-克隆 VeryNginx 仓库到本地, 复制 nginx.conf 和 VeryNginx 文件夹到Nginx的工作目录.
+克隆 VeryNginx 仓库到本地, 复制 nginx.conf 和 VeryNginx 文件夹到 Nginx 的工作目录.
 
-<pre>
+```sh
 cd ~
 git clone https://github.com/alexazhou/VeryNginx.git
 rm -f /opt/VeryNginx/nginx/conf/nginx.conf
@@ -82,16 +82,15 @@ cp -r ~/VeryNginx/VeryNginx /opt/VeryNginx/VeryNginx
 # 下面是使 /opt/VeryNginx 对 nginx 是可写的, 这样 VeryNginx 可以把自己的配置保存在里面
 # 修改/opt/VeryNginx目录的所有者为nginx用户
 chown -R nginx:nginx /opt/VeryNginx
-
-</pre>
+```
 
 ### 编辑 Nginx 配置文件
 
-VeryNginx项目提供了一个配置模版 `/opt/VeryNginx/nginx/nginx.conf`.你需要把自己站点的 Nginx 配置加到这个模版里面。 但是记得不要修改配置 VeryNginx 的那部分代码( 除非你知道自己在干啥 😈 ).
+VeryNginx 项目提供了一个配置模版 `/opt/VeryNginx/nginx/nginx.conf`。你需要把自己站点的 Nginx 配置加到这个模版里面。 但是记得不要修改配置 VeryNginx 的那部分代码（除非你知道自己在干啥 😈）。
 
-配置VeryNginx的代码是下面这部分:
+配置 VeryNginx 的代码是下面这部分:
 
-<pre>
+```
 #-----------------VeryNginx config code------------------
 lua_package_path '/opt/VeryNginx/VeryNginx/lua_script/?.lua;;/opt/VeryNginx/VeryNginx/lua_script/module/?.lua;;';
 lua_package_cpath '/opt/VeryNginx/VeryNginx/lua_script/?.so;;';
@@ -106,30 +105,30 @@ rewrite_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_rewrite.lua;
 access_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_access.lua;
 log_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_log.lua;
 #---------------VeryNginx config code end-----------------
-</pre>
+```
 
-> 如果不使用VeryNginx提供的配置模版，你也可以手动把这部分加入到自己的Nginx配置文件中. (如果安装路径不是/opt/VeryNginx，需要对lua_package_cpath和lua_package_path的值进行修改)
+> 如果不使用 VeryNginx 提供的配置模版，你也可以手动把这部分加入到自己的 Nginx 配置文件中. (如果安装路径不是 `/opt/VeryNginx`，需要对 `lua_package_cpath` 和 `lua_package_path` 的值进行修改)
 
 ##启动服务
- <code>/opt/VeryNginx/nginx/sbin/nginx </code>
+ `/opt/VeryNginx/nginx/sbin/nginx`
 
 ##停止服务
- <code>/opt/VeryNginx/nginx/sbin/nginx -s stop</code>
+ `/opt/VeryNginx/nginx/sbin/nginx -s stop`
 
 ##对 VeryNginx 进行配置
-打开浏览器访问 `http://127.0.0.1/VeryNginx/dashboard/index.html`.
+打开浏览器访问 `http://127.0.0.1/VeryNginx/dashboard/index.html`。
 
-默认用户名和密码是 `verynginx` / `verynginx`. 
+默认用户名和密码是 `verynginx` / `verynginx`。
 
-登录之后就可以查看状态，并对配置进行修改了。修改配置后，记得到 "配置>系统>全部配置" 去保存.
+登录之后就可以查看状态，并对配置进行修改了。修改配置后，记得到 「配置 > 系统 > 全部配置」去保存.
 
 ## 提示
 
-* 通过VeryNginx控制面板保存新配置之后，会立刻生效，并不需要restart/reload Nginx.
+* 通过 VeryNginx 控制面板保存新配置之后，会立刻生效，并不需要 restart/reload Nginx。
 
-* VeryNginx把配置保存在 `/opt/VeryNginx/VeryNginx/config.json`里面.
+* VeryNginx 把配置保存在 `/opt/VeryNginx/VeryNginx/config.json` 里面。
 
-* 如果因为配错了什么选项,导致无法登录了，可以手动删除 `config.json` 来清空配置.
+* 如果因为配错了什么选项，导致无法登录，可以手动删除 `config.json` 来清空配置。
 
 
 ###Enjoy~
@@ -140,9 +139,9 @@ log_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_log.lua;
 
 ### Install Nginx / OpenResty
 
-VeryNginx is based on OpenResty, so you need to install that first.
+VeryNginx is based on OpenResty, so you need to install it first.
 
-<pre>
+```sh
 wget https://openresty.org/download/ngx_openresty-1.9.7.1.tar.gz
 tar -xvzf ngx_openresty-1.9.7.1.tar.gz
 cd ngx_openresty-1.9.7.1
@@ -150,23 +149,23 @@ sudo su
 ./configure --prefix=/opt/VeryNginx --user=nginx --group=nginx --with-http_stub_status_module --with-luajit
 gmake
 gmake install
-</pre>
+```
 
-VeryNginx makes use of only the following modules in OpenResty.
+VeryNginx uses only following modules in OpenResty.
 
 *  [lua-nginx-module](https://github.com/openresty/lua-nginx-module)
 *  http_stub_status_module
 *  lua-cjson library
 
-> If you don't want to install OpenResty, or you already have a working installation of Nginx, you can always prepare your Nginx with those modules manually.
+> If you don't want to install OpenResty, or you already have a working installation of Nginx, you can always configure your Nginx with those modules manually.
 >
-> The nginx-extras package from your Linux distro is usually a good start.
+> The `nginx-extras` package from your Linux distro is usually a good start.
 
 ### Deploy VeryNginx
 
-Checkout VeryNginx repository, link nginx.conf and VeryNginx folder to nginx config dir.
+Checkout VeryNginx repository, link nginx.conf and VeryNginx folder to nginx config directory.
 
-<pre>
+```sh
 cd ~
 git clone https://github.com/alexazhou/VeryNginx.git
 rm -f /opt/VeryNginx/nginx/conf/nginx.conf
@@ -176,7 +175,7 @@ cp -r ~/VeryNginx/VeryNginx /opt/VeryNginx/VeryNginx
 # The following line makes /opt/VeryNginx writable for nginx, so that VeryNginx can modify configs inside it.
 # Change user and group name to the actual account.
 chown -R nginx:nginx /opt/VeryNginx
-</pre>
+```
 
 ### Configure Nginx
 
@@ -184,7 +183,7 @@ You should add your sites into `/opt/VeryNginx/nginx/nginx.conf`. However you sh
 
 VeryNginx config code looks like the following:
 
-<pre>
+```
 #-----------------VeryNginx config code------------------
 lua_package_path '/opt/VeryNginx/VeryNginx/lua_script/?.lua;;/opt/VeryNginx/VeryNginx/lua_script/module/?.lua;;';
 lua_package_cpath '/opt/VeryNginx/VeryNginx/lua_script/?.so;;';
@@ -199,22 +198,22 @@ rewrite_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_rewrite.lua;
 access_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_access.lua;
 log_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_log.lua;
 #---------------VeryNginx config code end-----------------
-</pre>
+```
 
 > You can have your own Nginx installation to work with VeryNginx by integrating its config code into you own config file.
 
 ##Start service
- <code>/opt/VeryNginx/nginx/sbin/nginx </code>
+ `/opt/VeryNginx/nginx/sbin/nginx`
 
 ##Stop service
- <code>/opt/VeryNginx/nginx/sbin/nginx -s stop</code>
+ `/opt/VeryNginx/nginx/sbin/nginx -s stop`
 
 ##Configure VeryNginx
 Open your web browser and go to `http://127.0.0.1/VeryNginx/dashboard/index.html`.
 
 Default user and password is `verynginx` / `verynginx`. You should be able to work through all the options now.
 
-Don't forget to visit "配置>系统>全部配置" to save your changes.
+Don't forget to visit "配置 > 系统 > 全部配置" to save your changes.
 
 ## Tips
 
