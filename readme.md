@@ -3,7 +3,7 @@ VeryNginx is a very powerful and friendly nginx assistant.
 
 ##介绍
 
-VeryNginx 基于 `lua_nginx_module(openrestry)` 开发，实现了高级的防火墙、访问统计和其他的一些功能，大幅度降低了Nginx本身的功能配置门槛，并提供了友好的 Web 交互界面。
+VeryNginx 基于 `lua_nginx_module(openrestry)` 开发，实现了高级的防火墙、访问统计和其他的一些功能，大幅度降低了 Nginx 本身的功能配置门槛，并提供了友好的 Web 交互界面。
 
 ###Nginx 运行状态分析
 
