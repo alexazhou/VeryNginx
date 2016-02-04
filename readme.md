@@ -26,7 +26,7 @@ VeryNginx可以基于按照以下信息对请求进行过滤：
 ![Nginx运行状态](http://ww2.sinaimg.cn/mw690/3fcd0ed3jw1f0mhp07rgoj20vb0n4gof.jpg)
 
 
-VeryNginx预置了常用的过滤规则，可以一定程序上阻止常见的SQL注入，Git，SVN文件泄露，目录遍历攻击，并拦截常见的扫描工具。
+VeryNginx预置了常用的过滤规则，可以一定程度上阻止常见的SQL注入，Git，SVN文件泄露，目录遍历攻击，并拦截常见的扫描工具。
 
 同时VeryNginx的过滤器还可以支持IP黑/白名单设置
 
