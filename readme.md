@@ -47,10 +47,12 @@ VeryNginx可以统计网站每个URI的访问情况，包括每个URI的:
 
 ##Installation
 
-###1. VeryNginx is based on openresty, so you need install openresty first.
+### Install Nginx / OpenResty
+
+VeryNginx is based on OpenResty, so you need to install that first.
 
 <pre>
-wget https://openresty.org/download/ngx_openresty-1.9.7.1.tar.gz   
+wget https://openresty.org/download/ngx_openresty-1.9.7.1.tar.gz
 tar -xvzf ngx_openresty-1.9.7.1.tar.gz
 cd ngx_openresty-1.9.7.1
 sudo su
@@ -59,15 +61,20 @@ gmake
 gmake install
 </pre>
 
-In fact VeryNginx used that modules in openresty:
+VeryNginx makes use of only the following modules in OpenResty.
 
-*  lua-nginx-module
+*  [lua-nginx-module](https://github.com/openresty/lua-nginx-module)
 *  http_stub_status_module
-*  lua cjson module
+*  lua-cjson library
 
->If you don't want to install openresty , you can install that modules manually to make VeryNginx run
+> If you don't want to install OpenResty, or you already have a working installation of Nginx, you can always prepare your Nginx with those modules manually.
+>
+> The nginx-extras package from your Linux distro is usually a good start.
 
-###2. Checkout VeryNginx repository, link nginx.conf and VeryNginx folder to nginx config dir.
+### Deploy VeryNginx
+
+Checkout VeryNginx repository, link nginx.conf and VeryNginx folder to nginx config dir.
+
 <pre>
 cd ~
 git clone https://github.com/alexazhou/VeryNginx.git
@@ -75,58 +82,56 @@ rm -f /opt/VeryNginx/nginx/conf/nginx.conf
 cp ~/VeryNginx/nginx.conf /opt/VeryNginx/nginx/conf/nginx.conf
 cp -r ~/VeryNginx/VeryNginx /opt/VeryNginx/VeryNginx
 
-#The two line behind make /opt/VeryNginx writable for nginx, so nginx can save configs in it
-chown -R nginx /opt/VeryNginx 
-chgrp -R nginx /opt/VeryNginx 
+# The following line makes /opt/VeryNginx writable for nginx, so that VeryNginx can modify configs inside it.
+# Change user and group name to the actual account.
+chown -R nginx:nginx /opt/VeryNginx
 </pre>
 
-###3. Configure nginx
+### Configure Nginx
 
-You can add you own site config into /opt/VeryNginx/nginx/nginx.conf.
+You should add your sites into `/opt/VeryNginx/nginx/nginx.conf`. However you should not modify the VeryNginx config code in the file unless you know what you're doing.
 
-Remember don't modify the VeryNginx config file in the file.
+VeryNginx config code looks like the following:
 
-VeryNginx config like this:
 <pre>
-    #-----------------VeryNginx config code------------------ 
-    lua_package_path '/opt/VeryNginx/VeryNginx/lua_script/?.lua;;/opt/  VeryNginx/VeryNginx/lua_script/module/?.lua;;';
-    lua_package_cpath '/opt/VeryNginx/VeryNginx/lua_script/?.so;;';   
-    lua_code_cache on;
+#-----------------VeryNginx config code------------------
+lua_package_path '/opt/VeryNginx/VeryNginx/lua_script/?.lua;;/opt/VeryNginx/VeryNginx/lua_script/module/?.lua;;';
+lua_package_cpath '/opt/VeryNginx/VeryNginx/lua_script/?.so;;';
+lua_code_cache on;
 
-    lua_shared_dict status 1m;
-    lua_shared_dict summary_long 10m;
-    lua_shared_dict summary_short 10m;
+lua_shared_dict status 1m;
+lua_shared_dict summary_long 10m;
+lua_shared_dict summary_short 10m;
 
-    init_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_init.lua;
-    rewrite_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_rewrite.lua;
-    access_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_access.lua;
-	log_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_log.lua;
-    #---------------VeryNginx config code end-----------------
-
+init_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_init.lua;
+rewrite_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_rewrite.lua;
+access_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_access.lua;
+log_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_log.lua;
+#---------------VeryNginx config code end-----------------
 </pre>
 
-You can also use you own Nginx config file to run VeryNginx by copying the VeryNginx configuration in /opt/VeryNginx/nginx/nginx.conf into you own configuration file. 
+> You can have your own Nginx installation to work with VeryNginx by integrating its config code into you own config file.
 
 ##Start service
  <code>/opt/VeryNginx/nginx/sbin/nginx </code>
+
 ##Stop service
  <code>/opt/VeryNginx/nginx/sbin/nginx -s stop</code>
 
 ##Configure VeryNginx
-Just goto http://127.0.0.1/VeryNginx/dashboard/index.html 
+Open your web browser and go to `http://127.0.0.1/VeryNginx/dashboard/index.html`.
 
-And you can modify the options and goto "配置>系统>全部配置" to save it.
+Default user and password is `verynginx` / `verynginx`. You should be able to work through all the options now.
 
-tips:
+Don't forget to visit "配置>系统>全部配置" to save your changes.
 
-* After you save, new config will be used immediately. Don't need to restart or reload nginx
+## Tips
 
-* When you save config, VeryNginx will write all configs to /opt/VeryNginx/VeryNginx/config.json. 
+* New configs will be effective immediately upon saving. It's not necessary to restart or reload nginx.
 
-* If you did a error config so that can't login verynginx. You can delete config.json and revert VeryNginx to default config.
+* When you save config, VeryNginx will write all configs to `/opt/VeryNginx/VeryNginx/config.json`.
 
-####Default user name and password is verynginx:verynginx
-
-###Enjoy it~
+* If you lock yourself out of VeryNginx by doing something stupid, you can always delete `config.json` to revert VeryNginx to its default.
 
 
+###Enjoy~
