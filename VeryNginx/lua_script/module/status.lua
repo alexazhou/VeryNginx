@@ -4,9 +4,9 @@
 -- -- @Link    : 
 -- -- @Disc    : record nginx infomation 
 
-cjson = require "cjson"
+local cjson = require "cjson"
 
-local M = {}
+local _M = {}
 
 local KEY_STATUS_INIT = "I_"
 
@@ -20,7 +20,7 @@ local KEY_TRAFFIC_WRITE = "K_"
 
 local KEY_TIME_TOTAL = "L_"
 
-function M.init()
+function _M.init()
 
     local ok, err = ngx.shared.status:add( KEY_STATUS_INIT,true )
     if ok then
@@ -37,7 +37,7 @@ function M.init()
 end
 
 --add global count info
-function M.log()
+function _M.log()
     ngx.shared.status:incr( KEY_TOTAL_COUNT, 1 )
 
     if ngx.var.status == '200' then
@@ -46,12 +46,11 @@ function M.log()
 
     ngx.shared.status:incr( KEY_TRAFFIC_READ, ngx.var.request_length)
     ngx.shared.status:incr( KEY_TRAFFIC_WRITE, ngx.var.bytes_sent )
-    
     ngx.shared.status:incr( KEY_TIME_TOTAL, ngx.var.request_time )
 
 end
 
-function M.report()
+function _M.report()
 
     local report = {}
     report['request_count'] = ngx.shared.status:get( KEY_TOTAL_COUNT )
@@ -73,4 +72,4 @@ function M.report()
 
 end
 
-return M
+return _M

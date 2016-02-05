@@ -1,5 +1,5 @@
-status = require "status"
-status.log()
+local status = require "status"
+local summary = require "summary"
 
-summary = require "summary"
+status.log()
 summary.log()

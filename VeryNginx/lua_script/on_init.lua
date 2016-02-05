@@ -1,2 +1,2 @@
-status = require "status"
+local status = require "status"
 status.init()
