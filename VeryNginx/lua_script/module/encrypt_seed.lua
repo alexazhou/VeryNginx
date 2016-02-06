@@ -4,18 +4,18 @@
 -- -- @Link    : 
 -- -- @Disc    : auto generate encrypt_seed
 
-VeryNginxConfig = require "VeryNginxConfig"
-dkjson = require "dkjson"
+local VeryNginxConfig = require "VeryNginxConfig"
+local dkjson = require "dkjson"
 
 
-local M = {}
-M.seed = nil
+local _M = {}
+_M.seed = nil
 
-function M.get_seed()
+function _M.get_seed()
 
     --return seed from memory
-    if M.seed ~= nil then
-        return M.seed
+    if _M.seed ~= nil then
+        return _M.seed
     end
     
     --return saved seed
@@ -27,21 +27,21 @@ function M.get_seed()
         file:close();
         local tmp = dkjson.decode( data )
 
-        M.seed = tmp['encrypt_seed']
+        _M.seed = tmp['encrypt_seed']
 
-        return M.seed
+        return _M.seed
     end
 
 
     --if no saved seed, generate a new seed and saved
-    M.seed = ngx.md5( ngx.now() )
-    local new_seed_json = dkjson.encode( { ["encrypt_seed"]= M.seed }, {indent=true} )
+    _M.seed = ngx.md5( ngx.now() )
+    local new_seed_json = dkjson.encode( { ["encrypt_seed"]= _M.seed }, {indent=true} )
     local file,err = io.open( seed_path, "w")
     
     if file ~= nil then
         file:write( new_seed_json )
         file:close()
-        return M.seed
+        return _M.seed
     else
         ngx.log(ngx.STDERR, 'save encrypt_seed failed' )
         return ''
@@ -49,7 +49,7 @@ function M.get_seed()
         
 end
 
-function M.generate()
+function _M.generate()
 end
 
-return M
+return _M

@@ -4,9 +4,9 @@
 -- -- @Link    : 
 -- -- @Disc    : summary all the request
 
-cjson = require "cjson"
+local cjson = require "cjson"
 
-local M = {}
+local _M = {}
 
 local KEY_SUMMARY_INIT = "A_"
 
@@ -15,18 +15,15 @@ local KEY_URI_SIZE = "C_"
 local KEY_URI_TIME = "D_"
 local KEY_URI_COUNT = "E_"
 
-function M.refresh()
-    --ngx.log(ngx.STDERR,"do refresh")
-    ngx.timer.at( 60, M.refresh )
+function _M.refresh()
+    ngx.timer.at( 60, _M.refresh )
     ngx.shared.summary_short:flush_all()
 end
 
-function M.log()
+function _M.log()
 
-    --ngx.log(ngx.STDERR,"log start")
     local ok, err = ngx.shared.status:add( KEY_SUMMARY_INIT,true )
     if ok then
-        --ngx.log(ngx.STDERR,"set timer")
         ngx.timer.at( 60, M.refresh )
     end
     
@@ -37,9 +34,6 @@ function M.log()
     local key_time = KEY_URI_TIME..uri
     local key_count = KEY_URI_COUNT..uri
  
-    --ngx.log(ngx.STDERR,"key",key_status)
-    --ngx.log(ngx.STDERR,"status",status_code)
-    
     if ngx.shared.summary_long:get( key_count ) == nil then
         ngx.shared.summary_long:set( key_count, 0 )
     end
@@ -84,12 +78,9 @@ function M.log()
     ngx.shared.summary_short:incr( key_size, ngx.var.body_bytes_sent )
     ngx.shared.summary_short:incr( key_time, ngx.var.request_time )
 
-    
-    --ngx.log(ngx.STDERR,"log end")
 end
 
-function M.report() 
-    --ngx.log(ngx.STDERR,"summary:")
+function _M.report() 
     
     local dict = nil
     local report = {}
@@ -165,4 +156,4 @@ function M.report()
     
 end
 
-return M
+return _M

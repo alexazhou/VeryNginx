@@ -4,12 +4,12 @@
 -- @Link    : 
 -- @Disc    : filter request'uri maybe attack
 
-local M = {}
+local _M = {}
 
-VeryNginxConfig = require "VeryNginxConfig"
+local VeryNginxConfig = require "VeryNginxConfig"
 
 
-function M.ip_in_whitelist()
+function _M.ip_in_whitelist()
     if VeryNginxConfig.configs["filter_ipwhitelist_enable"] ~= true then
         return false;
     end
@@ -23,20 +23,17 @@ function M.ip_in_whitelist()
     return false;
 end
 
-function M.filter_ip()
-
+function _M.filter_ip()
     return false
 end
 
-function M.filter_useragent()
+function _M.filter_useragent()
     if VeryNginxConfig.configs["filter_useragent_enable"] ~= true then
         return true;
     end
 
     for i, v in ipairs( VeryNginxConfig.configs["filter_useragent_rule"] ) do
-        --ngx.log(ngx.STDERR,"filter useragent test:",v[1])
         if ngx.re.find( ngx.var.http_user_agent, v[1], "is" ) then
-            --ngx.log(ngx.STDERR,"filter useragent match")
             return false
         end
     end
@@ -44,15 +41,13 @@ function M.filter_useragent()
     return true
 end
 
-function M.filter_uri()
+function _M.filter_uri()
     if VeryNginxConfig.configs["filter_uri_enable"] ~= true then
         return true;
     end
     
     for i, v in ipairs( VeryNginxConfig.configs["filter_uri_rule"] ) do
-        --ngx.log(ngx.STDERR,"filter uri test:",v[1])
         if ngx.re.find( ngx.var.uri, v[1], "is" ) then
-            --ngx.log(ngx.STDERR,"filter uri match")
             return false
         end
     end
@@ -60,7 +55,7 @@ function M.filter_uri()
     return true
 end
 
-function M.filter_args()
+function _M.filter_args()
 
     if VeryNginxConfig.configs["filter_arg_enable"] ~= true then
         return true
@@ -86,30 +81,28 @@ end
 
 
 
-function M.filter()
-    --ngx.log(ngx.STDERR,"in filer")
-    --ngx.log(ngx.STDERR,"uri:",ngx.var.uri)
-    if M.ip_in_whitelist() == true then
+function _M.filter()
+    if _M.ip_in_whitelist() == true then
         return
     end
 
-    if M.filter_ip() == true then
+    if _M.filter_ip() == true then
         return 
     end
     
-    if M.filter_useragent() ~= true then
-        ngx.exit( 503 ) 
+    if _M.filter_useragent() ~= true then
+        ngx.exit( ngx.HTTP_SERVICE_UNAVAILABLE ) 
     end
     
-    if M.filter_uri() ~= true then
-        ngx.exit( 503 ) 
+    if _M.filter_uri() ~= true then
+        ngx.exit( ngx.HTTP_SERVICE_UNAVAILABLE ) 
     end
     
-    if M.filter_args() ~= true then
-        ngx.exit( 503 ) 
+    if _M.filter_args() ~= true then
+        ngx.exit( ngx.HTTP_SERVICE_UNAVAILABLE ) 
     end
     
 
 end
 
-return M
+return _M
