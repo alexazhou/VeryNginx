@@ -1,5 +1,7 @@
 var dashboard = new Object();
 
+dashboard.disable_log = false;
+
 paceOptions = {
     catchupTime: 1,
     minTime: 1,
@@ -11,6 +13,11 @@ paceOptions = {
 };
 
 dashboard.init = function(){
+    
+    if( dashboard.disable_log == true ){
+        window.console={log:function(){}};	
+    }
+
     dashboard.switch_to_interface('login');
     $(".init_click").click();
 
