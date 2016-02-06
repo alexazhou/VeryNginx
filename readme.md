@@ -223,7 +223,6 @@ Don't forget to visit "配置 > 系统 > 全部配置" to save your changes.
 
 * If you lock yourself out of VeryNginx by doing something stupid, you can always delete `config.json` to revert VeryNginx to its default.
 
-
 ###Enjoy~
 
 [^openresty]: [OpenResty](https://github.com/openresty/openresty) 是一个Nginx再发行版本，包含了标准Nginx以及很多扩展模块. 
