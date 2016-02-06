@@ -1,5 +1,5 @@
-filter = require "filter"
+local filter = require "filter"
 filter.filter()
 
-router = require "router"
+local router = require "router"
 router.filter()

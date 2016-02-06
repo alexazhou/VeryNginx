@@ -4,67 +4,65 @@
 -- @Link    : 
 -- @Disc    : handle VeryNginx configuration
 
-local M = {}
+local _M = {}
 
-M["configs"] = {}
+_M["configs"] = {}
 
 --------------default config------------
-M.configs["admin"] = {
+_M.configs["admin"] = {
     {"verynginx","verynginx"}
 }
 
-M.configs['matcher'] = {
-     ["demo1"] = { ["args"] = "select.*from" },
-     ["demo2"] = { ["ua"] = "(nmap|w3af|netsparker|nikto|fimap|wget)" },
-     ["demo3"] = { ["uri"] = "\\.(git|svn|\\.)" },
-     ["demo4"] = { ["uri"] = "\\.(haccess|bash_history|ssh|sql)$" },
+_M.configs["redirect_uri_enable"] = true
+_M.configs["redirect_uri_rule"] = {
+    {"demowillbereplace","replaced"}
 }
 
-M.configs["redirect_uri_enable"] = true
-M.configs["redirect_uri_rule"] = {
+_M.configs["redirect_scheme_enable"] = false
+_M.configs["redirect_scheme_rule"] = {
 }
 
-M.configs["redirect_scheme_enable"] = false
-M.configs["redirect_scheme_rule"] = {
+_M.configs["filter_ipwhitelist_enable"] = true
+_M.configs["filter_ipwhitelist_rule"] = {
 }
 
-M.configs["filter_ipwhitelist_enable"] = true
-M.configs["filter_ipwhitelist_rule"] = {
+_M.configs["filter_ip_enable"] = true
+_M.configs["filter_ip_rule"] = {
 }
 
-M.configs["filter_ip_enable"] = true
-M.configs["filter_ip_rule"] = {
+_M.configs["filter_useragent_enable"] = true
+_M.configs["filter_useragent_rule"] = {
+    {'(nmap|w3af|netsparker|nikto|fimap|wget)'},
 }
 
-M.configs["filter_useragent_enable"] = true
-M.configs["filter_useragent_rule"] = {
+_M.configs["filter_uri_enable"] = true 
+_M.configs["filter_uri_rule"] = {
+    {"\\.(git|svn|\\.)"},
+    {"\\.(haccess|bash_history|ssh|sql)$"},
 }
 
-M.configs["filter_uri_enable"] = true 
-M.configs["filter_uri_rule"] = {
+_M.configs["filter_arg_enable"] = true
+_M.configs["filter_arg_rule"] = {
+    {"select.*from"},
 }
 
-M.configs["filter_arg_enable"] = true
-M.configs["filter_arg_rule"] = {
-}
-
-M.configs["summary_request_enable"] = true
+_M.configs["summary_request_enable"] = true
 
 
 --M.configs.url_whitelist = {"aaa"}
 
 ----------------------------------------
-dkjson = require "dkjson"
-cjson = require "cjson"
+local dkjson = require "dkjson"
+local cjson = require "cjson"
 
-function M.home_path()
+function _M.home_path()
     local current_script_path = debug.getinfo(1, "S").source:sub(2)
     local home_path = current_script_path:sub( 1, 0 - string.len("/lua_script/VeryNginxConfig.lua") -1 ) 
     return home_path
 end
 
-function M.load_from_file()
-    local config_dump_path = M.home_path() .. "/config.json"
+function _M.load_from_file()
+    local config_dump_path = _M.home_path() .. "/config.json"
     local file = io.open( config_dump_path, "r")
     
     if file == nil then
@@ -78,26 +76,24 @@ function M.load_from_file()
     --ngx.log(ngx.STDERR, data)
     local tmp = dkjson.decode( data )
     if tmp ~= nil then
-        M["configs"] =  tmp
-        return cjson.encode({["ret"]="success",['config']=M["configs"]})
+        _M["configs"] =  tmp
+        return cjson.encode({["ret"]="success",['config']=_M["configs"]})
     else 
         return cjson.encode({["ret"]="error",["msg"]="config file decode error"})
     end
         
 end 
 
-function M.report()
+function _M.report()
     --return a json contain current config items
-    return dkjson.encode( M["configs"], {indent=true} )
+    return dkjson.encode( _M["configs"], {indent=true} )
 end
 
-function M.verify()
-
+function _M.verify()
     return true  
 end
 
-function M.set()
-    --
+function _M.set()
     local ret = false
     local err = nil
     local args = nil
@@ -111,9 +107,9 @@ function M.set()
     end
 
     local new_config = cjson.decode( args['config'] )
-    if M.verify( new_config ) == true then
-        M["configs"] = new_config
-        dump_ret = cjson.decode( M.dump_to_file() )
+    if _M.verify( new_config ) == true then
+        _M["configs"] = new_config
+        dump_ret = cjson.decode( _M.dump_to_file() )
         if dump_ret['ret'] == "success" then
             ret = true
             err = nil
@@ -132,14 +128,13 @@ function M.set()
 end
 
 
-function M.dump_to_file()
-    local config_data = M.report()
-    local config_dump_path = M.home_path() .. "/config.json"
+function _M.dump_to_file()
+    local config_data = _M.report()
+    local config_dump_path = _M.home_path() .. "/config.json"
     
     ngx.log(ngx.STDERR,config_dump_path)
 
     file, err = io.open( config_dump_path, "w");
-    --file = io.open( "/tmp/config.json", "w");
     if file ~= nil then
         file:write(config_data);
         file:close();
@@ -151,6 +146,6 @@ function M.dump_to_file()
 end
 
 --auto load config from json file
-M.load_from_file()
+_M.load_from_file()
 
-return M
+return _M
