@@ -9,6 +9,7 @@ local status = require "status"
 local cookie = require "cookie"
 local VeryNginxConfig = require "VeryNginxConfig"
 local encrypt_seed = require "encrypt_seed"
+local cjson = require "cjson"
 
 local _M = {}
 
@@ -24,7 +25,7 @@ function _M.filter()
     if handle ~= nil then
         ngx.header.content_type = "application/json"
         ngx.header.charset = "utf-8"
-        if action == "post /verynginx/login" or M.check_session() == true then
+        if action == "post /verynginx/login" or _M.check_session() == true then
             ngx.say( handle() )
             ngx.exit(200)
         else
