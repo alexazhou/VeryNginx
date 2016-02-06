@@ -130,6 +130,9 @@ log_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_log.lua;
 
 * 如果因为配错了什么选项，导致无法登录，可以手动删除 `config.json` 来清空配置。
 
+* 如果想开启Vue.js的debug输出来查看ajax请求，请注释[index.html](https://github.com/alexazhou/VeryNginx/blob/master/VeryNginx/dashboard/index.html)中34到356行的代码。
+
+
 
 ###Enjoy~
 
@@ -223,6 +226,7 @@ Don't forget to visit "配置 > 系统 > 全部配置" to save your changes.
 
 * If you lock yourself out of VeryNginx by doing something stupid, you can always delete `config.json` to revert VeryNginx to its default.
 
+* If you want to enable the Vue.js's debug mode to check the ajax request, please comment out the code of  [index.html](https://github.com/alexazhou/VeryNginx/blob/master/VeryNginx/dashboard/index.html) from Line 34 ro Line 36.
 
 ###Enjoy~
 
