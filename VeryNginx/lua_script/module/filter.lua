@@ -11,7 +11,7 @@ local VeryNginxConfig = require "VeryNginxConfig"
 
 function _M.ip_in_whitelist()
     if VeryNginxConfig.configs["filter_ipwhitelist_enable"] ~= true then
-        return false;
+        return false
     end
 
     for i, v in ipairs( VeryNginxConfig.configs['filter_ipwhitelist_rule'] ) do
@@ -20,10 +20,20 @@ function _M.ip_in_whitelist()
         end
     end
 
-    return false;
+    return false
 end
 
 function _M.filter_ip()
+    if VeryNginxConfig.configs["filter_ip_enable"] ~= true then
+        return false;
+    end
+    
+    for i, v in ipairs( VeryNginxConfig.configs['filter_ip_rule'] ) do
+        if v[1] == ngx.var.remote_addr then
+            return true
+        end
+    end
+    
     return false
 end
 
@@ -87,7 +97,7 @@ function _M.filter()
     end
 
     if _M.filter_ip() == true then
-        return 
+        ngx.exit( ngx.HTTP_SERVICE_UNAVAILABLE ) 
     end
     
     if _M.filter_useragent() ~= true then
