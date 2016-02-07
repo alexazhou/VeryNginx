@@ -24,6 +24,11 @@ _M.configs['matcher'] = {
      ["demo8"] = { ["uri"] = "^/vg/"},
 }
 
+_M.configs["redirect_scheme_enable"] = false
+_M.configs["redirect_scheme_rule"] = {
+    {["matcher"] = 'demo5', ["scheme" = "https"]},
+}
+
 _M.configs["redirect_uri_enable"] = true
 _M.configs["redirect_uri_rule"] = {
     --redirect to a static uri
@@ -36,10 +41,6 @@ _M.configs["rewrite_uri_rule"] = {
     {["matcher"] = 'demo8', ["replace_re"] = "^/(vg)/", ["to_uri"] = "verynginx"}, 
 }
 
-_M.configs["redirect_scheme_enable"] = false
-_M.configs["redirect_scheme_rule"] = {
-    {["matcher"] = 'demo5', ["scheme" = "https"]},
-}
 
 _M.configs["filter_whitelist_enable"] = true
 _M.configs["filter_whitelist_rule"] = {
