@@ -20,25 +20,43 @@ function _M.test( matcher )
 	return false
 end
 
-
-function _M.test_uri_re( re )
+function _M.test_uri( re )
     if ngx.re.find( ngx.var.uri, re, 'is' ) ~= nil then
 		return true
     end
+    return false
 end
 
 function _M.test_ip( ip )
     if ngx.var.remote_addr == ip then
 		return true
     end
+    return false
+end
+
+function _M.test_ua( re )
+    return false
+end
+
+function _M.test_method( method )
+    return false
+end
+
+function _M.test_args( re )
+    return false
+end
+
+function _M.test_domain( )
+    return false
 end
 
 local tester = {
-    ["uri_re"] = _M.test_uri_re,
+    ["uri"] = _M.test_uri,
 	["ip"] = _M.test_ip,
 	["ua"] = _M.test_ua,
 	["method"] = _M.test_method,
 	["args"] = _M.test_args,
+	["domain"] = _M.test_domain,
 }
 
 return _M
