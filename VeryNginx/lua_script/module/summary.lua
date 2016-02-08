@@ -100,6 +100,11 @@ function _M.report()
     end
 
     local keys = dict:get_keys(0)
+    local str_sub = string.sub
+    local str_len = string.len
+    local str_format = string.format
+
+
     for k, v in pairs( keys ) do
         record_uri = nil
         status = nil 
@@ -108,16 +113,16 @@ function _M.report()
         count = nil 
         
         if v.find(v, KEY_URI_STATUS) == 1 then
-            record_uri = string.sub( v, string.len(KEY_URI_STATUS) + 1, -5 ) 
-            status = string.sub( v,-3 )
+            record_uri = str_sub( v, str_len(KEY_URI_STATUS) + 1, -5 ) 
+            status = str_sub( v,-3 )
         elseif v.find(v, KEY_URI_SIZE) == 1 then
-            record_uri = string.sub( v, string.len(KEY_URI_SIZE) + 1 ) 
+            record_uri = str_sub( v, str_len(KEY_URI_SIZE) + 1 ) 
             size = dict:get( v )
         elseif v.find(v, KEY_URI_TIME) == 1 then
-            record_uri = string.sub( v, string.len(KEY_URI_TIME) + 1 ) 
+            record_uri = str_sub( v, str_len(KEY_URI_TIME) + 1 ) 
             time = dict:get( v )
         elseif v.find(v, KEY_URI_COUNT) == 1 then
-            record_uri = string.sub( v, string.len(KEY_URI_COUNT) + 1 ) 
+            record_uri = str_sub( v, str_len(KEY_URI_COUNT) + 1 ) 
             count = dict:get( v )
         end
         
@@ -142,16 +147,15 @@ function _M.report()
 
     for k, v in pairs( report ) do
         if v['time'] ~= nil and v['count'] ~= nil and v['size'] ~= nil then
-            v["avg_time"] = string.format("%.3f", v["time"]/v["count"])
-            v["time"] = string.format("%.3f", v["time"])
-            v["avg_size"] =  string.format("%.2f", v["size"]/v["count"])
-            v["size"] =  string.format("%.2f", v["size"])
+            v["avg_time"] = str_format("%.3f", v["time"]/v["count"])
+            v["time"] = str_format("%.3f", v["time"])
+            v["avg_size"] =  str_format("%.2f", v["size"]/v["count"])
+            v["size"] =  str_format("%.2f", v["size"])
         else
             report[k] = nil
         end
     end
 
-    --ngx.log(ngx.STDERR,"summary end")
     return cjson.encode( report )
     
 end
