@@ -263,12 +263,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-for="rule in matcher">
+                                    <template v-for="rule in matcher | orderBy '$key'">
                                         <tr>
                                             <td>{{ $index }}</td>
                                             <td>{{ $key }}</td>
                                             <td >
-                                                <template v-for="k in rule">
+                                                <template v-for="k in rule | orderBy '$key'">
                                                     <div class="config_matcher_block">
                                                         <span class="config_matcher_block_type">{{$key}}</span> 
                                                         : 
