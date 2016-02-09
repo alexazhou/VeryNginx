@@ -4,35 +4,38 @@
 -- @Link    : 
 -- @Disc    : redirect path
 
-M = {}
+local _M = {}
 
-VeryNginxConfig = require "VeryNginxConfig"
+local VeryNginxConfig = require "VeryNginxConfig"
 
 
-function M.run()
+function _M.run()
     
     if VeryNginxConfig.configs["redirect_uri_enable"] ~= true then
         return
     end
 
     local new_url = nil 
+    local re_sub = ngx.re.sub
+    local ngx_var = ngx.var 
+    local ngx_redirect = ngx.redirect
+    local ngx_var_uri = ngx_var.uri
+    local ngx_var_scheme = ngx_var.scheme
+    local ngx_var_host = ngx_var.host
+
 
     for i, v in ipairs( VeryNginxConfig.configs["redirect_uri_rule"] ) do
-        --ngx.log(ngx.STDERR,"gsub test:"..k.."=>"..v )
-        new_url = ngx.re.sub( ngx.var.uri, v[1], v[2] ) 
-        --ngx.log(ngx.STDERR,"new url:",new_url )
-        if new_url ~= ngx.var.uri then
-            --ngx.log(ngx.STDERR,"redirect to :",new_url )
-            if ngx.var.args ~= nil then
-                ngx.redirect( ngx.var.scheme.."://"..ngx.var.host..new_url.."?"..ngx.var.args , ngx.HTTP_MOVED_TEMPORARILY)
+        new_url = re_sub( ngx_var_uri, v[1], v[2] ) 
+        if new_url ~= ngx_var_uri then
+            if ngx_var.args ~= nil then
+                ngx_redirect( ngx_var_scheme.."://"..ngx_var_host..new_url.."?"..ngx_var.args , ngx.HTTP_MOVED_TEMPORARILY)
             else
-                ngx.redirect( ngx.var.scheme.."://"..ngx.var.host..new_url , ngx.HTTP_MOVED_TEMPORARILY)
+                ngx_redirect( ngx_var_scheme.."://"..ngx_var_host..new_url , ngx.HTTP_MOVED_TEMPORARILY)
             end
             return
         end
-        --ngx.log(ngx.STDERR,"re test not match" )
     end
 
 end
 
-return M
+return _M
