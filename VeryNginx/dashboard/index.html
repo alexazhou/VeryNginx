@@ -75,19 +75,19 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li class="topnav" id="topnav_status" class="active" >
-                            <a href="#" class="init_click" onclick="dashboard.switch_to_page('status')" >状态</a>
+                            <a href="#" class="init_click" onclick="dashboard.switch_to_page('status')" >Status</a>
                         </li>
                         <li class="topnav" id="topnav_config"  >
-                            <a href="#" onclick="dashboard.switch_to_page('config')" >配置</a>
+                            <a href="#" onclick="dashboard.switch_to_page('config')" >Config</a>
                         </li>
                         <li class="topnav" id="topnav_summary" >
-                            <a href="#" onclick="dashboard.switch_to_page('summary')" >访问统计</a>
+                            <a href="#" onclick="dashboard.switch_to_page('summary')" >Summary</a>
                         </li>
                         <li class="topnav"id="topnav_firewall" style="display:none">
                             <a href="#" onclick="dashboard.switch_to_page('firewall')" >防火墙</a>
                         </li>
                         <li class="topnav" id="topnav_about" >
-                            <a href="#" onclick="dashboard.switch_to_page('about')" >关于</a>
+                            <a href="#" onclick="dashboard.switch_to_page('about')" >ABout</a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
@@ -225,31 +225,76 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <div style="border-right: 1px solid #eee;margin-left:auto; margin-right:auto;">
-                            <div class="leftnav leftnav_1 init_click" group="redirect" onclick="dashboard.switch_config_nav_group(this)">重定向</div>
-                            <div class="leftnav_group" group="redirect">
-                                <div class="leftnav leftnav_2 " config_name="redirect_scheme" onclick="dashboard.switch_to_config(this)">协议重定向</div>
-                                <div class="leftnav leftnav_2" config_name="redirect_uri" onclick="dashboard.switch_to_config(this)">URI重定向</div>
+                            <div class="leftnav leftnav_1 init_click" group="matcher" onclick="dashboard.switch_config_nav_group(this)">Matcher</div>
+                            <div class="leftnav_group" group="matcher">
+                                <div class="leftnav leftnav_2 " config_name="matcher_matcher" onclick="dashboard.switch_to_config(this)">Request Matcher</div>
                             </div>
-                            <div class="leftnav leftnav_1" group="filter" onclick="dashboard.switch_config_nav_group(this)">请求过滤</div>
-                            <div class="leftnav_group" group="filter">
-                                <div class="leftnav leftnav_2" config_name="filter_ipwhitelist" onclick="dashboard.switch_to_config(this)">IP白名单</div>
-                                <div class="leftnav leftnav_2" config_name="filter_ip" onclick="dashboard.switch_to_config(this)">IP过滤</div>
-                                <div class="leftnav leftnav_2" config_name="filter_useragent" onclick="dashboard.switch_to_config(this)">UserAgent过滤</div>
-                                <div class="leftnav leftnav_2" config_name="filter_uri" onclick="dashboard.switch_to_config(this)">URI过滤</div>
-                                <div class="leftnav leftnav_2" config_name="filter_arg" onclick="dashboard.switch_to_config(this)">参数过滤</div>
+                            <div class="leftnav leftnav_1" group="action" onclick="dashboard.switch_config_nav_group(this)">Custom Action</div>
+                            <div class="leftnav_group" group="action">
+                                <div class="leftnav leftnav_2" config_name="action_redirect_scheme" onclick="dashboard.switch_to_config(this)">Scheme Redirect</div>
+                                <div class="leftnav leftnav_2" config_name="action_redirect_uri" onclick="dashboard.switch_to_config(this)">URI Redirect</div>
+                                <div class="leftnav leftnav_2" config_name="action_rewrite_uri" onclick="dashboard.switch_to_config(this)">URI Rewrite</div>
+                                <div class="leftnav leftnav_2" config_name="action_filter_ipwhitelist" onclick="dashboard.switch_to_config(this)">Whitelist</div>
+                                <div class="leftnav leftnav_2" config_name="action_filter_arg" onclick="dashboard.switch_to_config(this)">Filter</div>
                             </div>
-                            <div class="leftnav leftnav_1" group="summary" onclick="dashboard.switch_config_nav_group(this)">统计</div>
+                            <div class="leftnav leftnav_1" group="summary" onclick="dashboard.switch_config_nav_group(this)">Summary</div>
                             <div class="leftnav_group" group="summary">
-                                <div class="leftnav leftnav_2" config_name="summary_request" onclick="dashboard.switch_to_config(this)">访问统计</div>
+                                <div class="leftnav leftnav_2" config_name="summary_request" onclick="dashboard.switch_to_config(this)">Request Summary</div>
                             </div>
-                            <div class="leftnav leftnav_1" group="system" onclick="dashboard.switch_config_nav_group(this)">系统</div>
+                            <div class="leftnav leftnav_1" group="system" onclick="dashboard.switch_config_nav_group(this)">System</div>
                             <div class="leftnav_group" group="system">
-                                <div class="leftnav leftnav_2" config_name="system_admin" onclick="dashboard.switch_to_config(this)">用户</div>
-                                <div class="leftnav leftnav_2" config_name="system_allconfig" onclick="dashboard.switch_to_config(this)">全部配置</div>
+                                <div class="leftnav leftnav_2" config_name="system_admin" onclick="dashboard.switch_to_config(this)">User</div>
+                                <div class="leftnav leftnav_2" config_name="system_allconfig" onclick="dashboard.switch_to_config(this)">All Configuration</div>
                             </div>
                         </div>
                     </div>  
                     <div class="col-sm-8" id="verynginx_config">
+                        <div class="config_container" id="config_matcher_matcher">
+                            <div class="config_title">
+                                Request Matcher
+                            </div>
+                            <table class="table table-bordered config_table" id="config_redirect_scheme_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Name</td>
+                                        <td>Condition</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="rule in matcher">
+                                        <tr>
+                                            <td>{{ $index }}</td>
+                                            <td>{{ $key }}</td>
+                                            <td >
+                                                <template v-for="k in rule">
+                                                    <div class="config_matcher_block">
+                                                        <span class="config_matcher_block_type">{{$key}}</span> 
+                                                        : 
+                                                        <span class="config_matcher_block_value" >{{k}}</span> 
+                                                    </div>
+                                                </template>
+                                            </td>
+                                            <td class="no_break">
+                                                <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('redirect_scheme_rule',{{$index}},null)">
+                                                    DEL
+                                                </button>
+                                                <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('redirect_scheme_rule',{{$index}})">
+                                                    UP
+                                                </button>
+                                                <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('redirect_scheme_rule',{{$index}})">
+                                                    DOWN
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </template>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                        
                         <div class="config_container" id="config_redirect_scheme">
                             <div class="config_title">
                                 协议重定向

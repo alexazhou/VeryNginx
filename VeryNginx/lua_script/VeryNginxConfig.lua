@@ -14,7 +14,7 @@ _M.configs["admin"] = {
 }
 
 _M.configs['matcher'] = {
-     ["demo1"] = { ["args"] = "select.*from" },
+     ["demo1"] = { ["args"] = "select.*from", ["domain"] = "127.0.0.1" },
      ["demo2"] = { ["ua"] = "(nmap|w3af|netsparker|nikto|fimap|wget)" },
      ["demo3"] = { ["uri"] = "\\.(git|svn|\\.)" },
      ["demo4"] = { ["uri"] = "\\.(haccess|bash_history|ssh|sql)$" },
@@ -26,28 +26,28 @@ _M.configs['matcher'] = {
 
 _M.configs["redirect_scheme_enable"] = false
 _M.configs["redirect_scheme_rule"] = {
-    {["matcher"] = 'demo5', ["scheme" = "https"]},
+    {["matcher"] = 'demo5', ["scheme"] = "https"},
 }
 
-_M.configs["redirect_uri_enable"] = true
+_M.configs["redirect_uri_enable"] = false
 _M.configs["redirect_uri_rule"] = {
     --redirect to a static uri
     {["matcher"] = 'demo7', ["to_uri"] = "/verynginx/test/bbb"}, 
 }
 
-_M.configs["rewrite_uri_enable"] = true
+_M.configs["rewrite_uri_enable"] = false
 _M.configs["rewrite_uri_rule"] = {
     --redirect to a Regex generate uri 
     {["matcher"] = 'demo8', ["replace_re"] = "^/(vg)/", ["to_uri"] = "verynginx"}, 
 }
 
 
-_M.configs["filter_whitelist_enable"] = true
+_M.configs["filter_whitelist_enable"] = false
 _M.configs["filter_whitelist_rule"] = {
     {["matcher"] = "demo6"},
 }
 
-_M.configs["filter_enable"] = true
+_M.configs["filter_enable"] = false
 _M.configs["filter_rule"] = {
     {["matcher"] = 'demo1' },
     {["matcher"] = 'demo2' },

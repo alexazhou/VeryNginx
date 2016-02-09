@@ -50,6 +50,23 @@
     color:#666;
 }
 
+.config_matcher_block{
+    border: 1px solid !important;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+	padding-left:5px;
+	margin-top:5px;
+	margin-bottom:5px;
+}
+
+.config_matcher_block_type{
+    font-weight:bold;
+}
+
+.config_matcher_block_value{
+    color: #666;
+}
+
 .matched {
     font-weight:bold;
     color:#337AB7;
