@@ -8,7 +8,7 @@ local cjson = require "cjson"
 
 local _M = {}
 
-local KEY_SUMMARY_INIT = "A_"
+local KEY_SUMMARY_REFRESHING_FLAG = "A_"
 
 local KEY_URI_STATUS = "B_"
 local KEY_URI_SIZE = "C_"
@@ -18,13 +18,17 @@ local KEY_URI_COUNT = "E_"
 function _M.refresh()
     ngx.timer.at( 60, _M.refresh )
     ngx.shared.summary_short:flush_all()
+    --update flag timeout 
+    ngx.shared.status:set( KEY_SUMMARY_REFRESHING_FLAG, true, 120 )
 end
 
 function _M.log()
 
-    local ok, err = ngx.shared.status:add( KEY_SUMMARY_INIT,true )
+    local ok, err = ngx.shared.status:add( KEY_SUMMARY_REFRESHING_FLAG, true, 120 )
+    --here use set a 120s timeout for the flag key, so when the nginx worker exit( for example nginx-s reload may cause that ), 
+    --a other worker will continue to refresh the data every 60s
     if ok then
-        ngx.timer.at( 60, M.refresh )
+        ngx.timer.at( 60, _M.refresh )
     end
     
     local uri = ngx.var.uri 
