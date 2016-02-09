@@ -12,7 +12,6 @@ local VeryNginxConfig = require "VeryNginxConfig"
 
 function scheme_judge(uri)
 	local ngx_re_find  = ngx.re.find
-	--before match url, strip the possible "/index.php"
     for i, v in ipairs( VeryNginxConfig.configs["redirect_scheme_rule"] ) do
 		if ngx_re_find( uri, v[1], 'is' ) then
 			return v[2]
