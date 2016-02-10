@@ -26,16 +26,18 @@ config.get_config = function(){
     }); 
 }
 
-
+//add a config
 config.config_add = function(name,value){
     config.verynginx_config[name].push(value);
 }
 
+//modify a config
+//set value = null to delete
 config.config_mod = function(name,index,value){
     
     //console.log('-->',name,index,value);
     if( value == null ){
-        config.verynginx_config[name].$remove( config.verynginx_config[name][index] );
+        Vue.delete( config.verynginx_config[name], index );
     }else{
         //config.verynginx_config[name].$set( index, config.verynginx_config[name][index] );
     }

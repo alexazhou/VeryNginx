@@ -51,12 +51,14 @@
 }
 
 .config_matcher_block{
-    border: 1px solid !important;
+    border-width: 1px;
+	border-style:solid;
     border-radius: 5px;
     background-color: #f5f5f5;
 	padding-left:5px;
 	margin-top:5px;
 	margin-bottom:5px;
+	border-color:#CCC;
 }
 
 .config_matcher_block_type{
@@ -65,6 +67,7 @@
 
 .config_matcher_block_value{
     color: #666;
+    word-break: break-word;;
 }
 
 .matched {

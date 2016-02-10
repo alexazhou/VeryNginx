@@ -253,7 +253,7 @@
                             <div class="config_title">
                                 Request Matcher
                             </div>
-                            <table class="table table-bordered config_table" id="config_redirect_scheme_table">
+                            <table class="table table-bordered config_table" id="config_matcher_matcher_table" >
                                 <thead>
                                     <tr>
                                         <td>#</td>
@@ -277,14 +277,8 @@
                                                 </template>
                                             </td>
                                             <td class="no_break">
-                                                <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('redirect_scheme_rule',{{$index}},null)">
+                                                <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('matcher','{{$key}}',null)">
                                                     DEL
-                                                </button>
-                                                <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('redirect_scheme_rule',{{$index}})">
-                                                    UP
-                                                </button>
-                                                <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('redirect_scheme_rule',{{$index}})">
-                                                    DOWN
                                                 </button>
                                             </td>
                                         </tr>
