@@ -42,7 +42,9 @@ dashboard.init = function(){
         var form_input = $(this).find(".config_test_input");
         
         form_input.on( 'input',test_action );
-    })
+    });
+
+    matcher_editor.init(); 
 }
 
 dashboard.login = function(user,password){
@@ -163,31 +165,6 @@ dashboard.status_dashboard_update_interval_label = function(){
     $('#status_config_modal [name=refresh_interval_label]').text(refresh_interval + "s");
 }
 
-
-dashboard.modal_condition_open = function(){
-    $('#config_modal_condition').modal('show');
-    dashboard.modal_condition_switch_input();
-}
-
-dashboard.modal_condition_switch_input = function(){
-    var condition_type = $("#config_modal_condition [name=condition_type]").val();
-    //At first show the inputer belongs the type
-    $(".config_matcher_value_contain").hide();
-    $(".config_matcher_value_contain[matcher_type=" + condition_type +"]").show();
-
-    //make the modal in the center
-    dashboard.modal_reposition.call( $("#config_modal_condition")[0] );
-}
-
-dashboard.modal_condition_save =function(){
-    
-    
-    var condition_value = $("#config_modal_condition [name=condition_value]").val();
-
-    console.log("Add matcher condition:", condition_type, condition_value);
-
-    $('#config_modal_condition').modal('hide');
-}
 
 
 /**

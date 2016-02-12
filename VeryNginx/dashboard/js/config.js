@@ -18,7 +18,7 @@ config.get_config = function(){
             data: config.verynginx_config,
             computed : {
                 all_config_json: function(){
-                    return  JSON.stringify( config.verynginx_config , null, 2);
+                    return JSON.stringify( config.verynginx_config , null, 2);
                 }
             }
         });
@@ -69,6 +69,14 @@ config.config_move_down = function(name,index){
 //for matcher only
 config.config_matcher_delete_condition = function( matcher_name, condition_name ){
     Vue.delete( config.verynginx_config['matcher'][matcher_name], condition_name  );
+}
+
+//add the content of matcher editor to global config
+config.config_matcher_add = function(){
+    var matcher_name = matcher_editor.matcher_name();
+    Vue.set( config.verynginx_config['matcher'], matcher_name ,matcher_editor.tmp_conditions );
+
+    matcher_editor.clean();
 }
 
 config.save_config = function(){

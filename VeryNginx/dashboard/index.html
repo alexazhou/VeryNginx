@@ -22,10 +22,11 @@
 <!-- 表格扩展js文件 -->
 <script src="//cdn.bootcss.com/datatables/1.10.10/js/jquery.dataTables.min.js"></script>
 <script src="js/monitor.js"></script>
-<script src="js/dashboard.js"></script>
+<script src="js/matcher_editor.js"></script>
 <script src="js/config.js"></script>
 <script src="js/tips.js"></script>
 <script src="js/pace.min.js"></script>
+<script src="js/dashboard.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         dashboard.init();
@@ -290,102 +291,35 @@
                                 Add a matcher
                             </div>
                             <hr>
-                            <form class="form-horizontal" name="config_redirect_scheme_form_add" 
-                                  onsubmit="config.config_add( 'redirect_scheme_rule', [this.uri.value,this.scheme.value]); return false;" >
-
+                            <form class="form-horizontal" onsubmit="return false;">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Matcher Name</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" name="replace" type="text">
+                                        <input class="form-control" id="config_matcher_editor_name" name="name" type="text" placeholder="Name of the matcher">
                                     </div>
                                 </div>
                                 
-                                <div class="form-group">
+                                <div class="form-group" id="verynginx_matcher_editor" >
                                     <label class="col-sm-2 control-label">Conditions</label>
                                     <div class="col-sm-10">
-                                        <div style="border-style:solid;border-width:1px;border-color:#CCC;border-radius:5px;margin-bottom:5px">
-                                            <div class="config_matcher_block">
-                                                <span class="config_matcher_block_type">aaa</span> 
-                                                <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete"></span> 
-                                                <span class="config_matcher_block_value" >bbbbb</span>
-                                            </div>
-
-                                             <div class="config_matcher_block">
-                                                <span class="config_matcher_block_type">aaa</span> 
-                                                <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete"></span> 
-                                                <span class="config_matcher_block_value" >bbbbb</span>
-                                            </div>
-
-                                            <div class="config_matcher_block">
-                                                <span class="config_matcher_block_type">aaa</span> 
-                                                <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete"></span> 
-                                                <span class="config_matcher_block_value" >bbbbb</span>
-                                            </div>
-
-                                             <div class="config_matcher_block">
-                                                <span class="config_matcher_block_type">aaa</span> 
-                                                <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete"></span> 
-                                                <span class="config_matcher_block_value" >bbbbb</span>
-                                            </div>
-
-                                            <div class="config_matcher_block">
-                                                <span class="config_matcher_block_type">aaa</span> 
-                                                <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete"></span> 
-                                                <span class="config_matcher_block_value" >bbbbb</span>
-                                            </div>
-
-                                            <div class="config_matcher_block">
-                                                <span class="config_matcher_block_type">aaa</span> 
-                                                <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete"></span> 
-                                                <span class="config_matcher_block_value" >bbbbb</span>
-                                            </div>
-                                            
-                                            <div class="config_matcher_block">
-                                                <span class="config_matcher_block_type">aaa</span> 
-                                                <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete"></span> 
-                                                <span class="config_matcher_block_value" >bbbbb</span>
-                                            </div>
-
+                                        <div style="border-style:solid;border-width:1px;border-color:#CCC;border-radius:5px;margin-bottom:5px;min-height:32px">
+                                            <template v-for="(condition_name,condition_value) in conditions | orderBy 'v'">
+                                                <div class="config_matcher_block">
+                                                    <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete" 
+                                                    onclick="matcher_editor.tmp_conditions_delete('{{condition_name}}')"></span> 
+                                                    <span class="config_matcher_block_type">{{condition_name}}</span> 
+                                                    : 
+                                                    <span class="config_matcher_block_value" >{{condition_value}}</span>
+                                                </div>
+                                            </template>
                                         </div>
-                                        <button type="button" class="btn btn-default btn-xs" onclick="dashboard.modal_condition_open()">More Condition</button>
+                                        <button type="button" class="btn btn-default btn-xs" onclick="matcher_editor.modal_condition_open()">New Condition</button>
                                     </div>
                                 </div>
                                 
-                                <div class="form-group" style="display:none">
-                                    <label class="col-sm-2 control-label"></label>
-                                    <div class="col-sm-10">
-                                        <div class="wall">
-
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">Type</label>
-                                                <div class="col-sm-10">
-                                                    <select class="form-control" name="scheme">
-                                                        <option value="none">Method</option>
-                                                        <option value="http">Domain</option>
-                                                        <option value="https">URI</option>
-                                                        <option value="https">UserAgent</option>
-                                                        <option value="https">IP</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-
-                                            
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">Value</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" name="replace" type="text">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                                               
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default" >Add</button>
+                                        <button class="btn btn-default"  onclick="config.config_matcher_add()">Add</button>
                                     </div>
                                 </div>
                             </form>
@@ -433,8 +367,7 @@
                                 添加一条配置
                             </div>
                             <hr>
-                            <form class="form-horizontal" name="config_redirect_scheme_form_add" 
-                                  onsubmit="config.config_add( 'redirect_scheme_rule', [this.uri.value,this.scheme.value]); return false;" >
+                            <form class="form-horizontal" onsubmit="config.config_add( 'redirect_scheme_rule', [this.uri.value,this.scheme.value]); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">URI</label>
@@ -1038,7 +971,7 @@
                                     <div class="row vn_modal_row"   >
                                         <label class="col-sm-2 text-right control-label">Type</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" name="condition_type" onchange="dashboard.modal_condition_switch_input()">
+                                            <select class="form-control" name="condition_type" onchange="matcher_editor.modal_condition_switch_input()">
                                                 <option value="URI">URI</option>
                                                 <option value="Domain">Domain</option>
                                                 <option value="UserAgent">UserAgent</option>
@@ -1073,7 +1006,7 @@
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" onclick="dashboard.modal_condition_save()">Save</button>
+                                <button type="button" class="btn btn-default" onclick="matcher_editor.modal_condition_save()">Save</button>
                               </div>
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
