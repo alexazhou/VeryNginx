@@ -74,6 +74,17 @@ config.config_matcher_delete_condition = function( matcher_name, condition_name 
 //add the content of matcher editor to global config
 config.config_matcher_add = function(){
     var matcher_name = matcher_editor.matcher_name();
+
+    if( matcher_name == '' ){
+        dashboard.notify('Name of the matcher mush not be empty');
+        return;
+    }
+
+    if( config.verynginx_config['matcher'][matcher_name] != null ){
+        dashboard.notify('Matcher [' + matcher_name + '] already existed');
+        return;
+    }
+
     Vue.set( config.verynginx_config['matcher'], matcher_name ,matcher_editor.tmp_conditions );
 
     matcher_editor.clean();

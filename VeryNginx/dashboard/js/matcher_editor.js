@@ -14,7 +14,8 @@ matcher_editor.init = function(){
 }
 
 matcher_editor.matcher_name = function(){
-    return $('#config_matcher_editor_name').val();
+    var name = $('#config_matcher_editor_name').val()
+    return $.trim(name);    
 }
 
 matcher_editor.clean = function(){
@@ -49,6 +50,11 @@ matcher_editor.modal_condition_save =function(){
     var condition_value = $(".config_matcher_value_contain[matcher_type=" + condition_type +"] [name=condition_value]").val();
 
     console.log("Add matcher condition:", condition_type, condition_value);
+
+    if( matcher_editor.tmp_conditions[condition_type] != null ){
+        dashboard.notify('Condition [' + condition_type + '] already existed');
+        return;
+    }
 
     Vue.set(matcher_editor.tmp_conditions, condition_type, condition_value);
     $('#config_modal_condition').modal('hide');
