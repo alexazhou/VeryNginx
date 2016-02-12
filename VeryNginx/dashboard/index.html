@@ -104,7 +104,7 @@
                 <div>
                     <div class="status_group_title">Requests</div> 
                     <div class="status_group_title_desc"> per second</div>
-                    <span class="glyphicon glyphicon-cog btn-lg pull-right" aria-hidden="true"  onclick="dashboard.open_dashboard_config()">
+                    <span class="glyphicon glyphicon-cog btn-lg pull-right" aria-hidden="true"  onclick="dashboard.open_modal_dashboard_config()">
                     </span>
                 </div>
                 <div class="row">
@@ -183,7 +183,7 @@
 
                 <!-- Modal -->
                 <div class="modal fade" id="status_config_modal">
-                    <div class="modal-dialog vn_modal_md">
+                    <div class="modal-dialog vn_modal_mid">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -192,13 +192,13 @@
                             <div class="modal-body" id="console_div" >
 
                                 <form class="form-horizontal" onsubmit="return false;">
-                                    <div class="row status_modal_row" >
+                                    <div class="row vn_modal_row" >
                                         <label class="col-sm-5 text-right">Enable Animation</label>
                                         <div class="col-sm-5">
                                             <input type="checkbox" name="enable_animation">
                                         </div>
                                     </div>
-                                    <div class="row status_modal_row" >
+                                    <div class="row vn_modal_row" >
                                         <label class="col-sm-5 text-right" >Refresh Interval</label>
                                         <div class="col-sm-5">
                                             <input type="range" name="refresh_interval" value="3" min="1" max="15" oninput="dashboard.status_dashboard_update_interval_label()">
@@ -263,44 +263,146 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-for="rule in matcher | orderBy '$key'">
+                                    <template v-for="(matcher_name, matcher_conditions) in matcher | orderBy '$key'">
                                         <tr>
                                             <td>{{ $index }}</td>
-                                            <td>{{ $key }}</td>
+                                            <td>{{ matcher_name }}</td>
                                             <td >
-                                                <template v-for="k in rule | orderBy '$key'">
+                                                <template v-for="(condition_name,condition_value) in matcher_conditions | orderBy 'v'">
                                                     <div class="config_matcher_block">
-                                                        <span class="config_matcher_block_type">{{$key}}</span> 
+                                                        <span class="config_matcher_block_type">{{condition_name}}</span> 
                                                         : 
-                                                        <span class="config_matcher_block_value" >{{k}}</span> 
+                                                        <span class="config_matcher_block_value" >{{condition_value}}</span>
                                                     </div>
                                                 </template>
                                             </td>
                                             <td class="no_break">
-                                                <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('matcher','{{$key}}',null)">
+                                                <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('matcher','{{matcher_name}}',null)">
                                                     DEL
                                                 </button>
                                             </td>
                                         </tr>
                                     </template>
-
-
                                 </tbody>
                             </table>
+
+                            <div class="config_sub_title">
+                                Add a matcher
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" name="config_redirect_scheme_form_add" 
+                                  onsubmit="config.config_add( 'redirect_scheme_rule', [this.uri.value,this.scheme.value]); return false;" >
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Matcher Name</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="replace" type="text">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Conditions</label>
+                                    <div class="col-sm-10">
+                                        <div style="border-style:solid;border-width:1px;border-color:#CCC;border-radius:5px;margin-bottom:5px">
+                                            <div class="config_matcher_block">
+                                                <span class="config_matcher_block_type">aaa</span> 
+                                                <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete"></span> 
+                                                <span class="config_matcher_block_value" >bbbbb</span>
+                                            </div>
+
+                                             <div class="config_matcher_block">
+                                                <span class="config_matcher_block_type">aaa</span> 
+                                                <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete"></span> 
+                                                <span class="config_matcher_block_value" >bbbbb</span>
+                                            </div>
+
+                                            <div class="config_matcher_block">
+                                                <span class="config_matcher_block_type">aaa</span> 
+                                                <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete"></span> 
+                                                <span class="config_matcher_block_value" >bbbbb</span>
+                                            </div>
+
+                                             <div class="config_matcher_block">
+                                                <span class="config_matcher_block_type">aaa</span> 
+                                                <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete"></span> 
+                                                <span class="config_matcher_block_value" >bbbbb</span>
+                                            </div>
+
+                                            <div class="config_matcher_block">
+                                                <span class="config_matcher_block_type">aaa</span> 
+                                                <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete"></span> 
+                                                <span class="config_matcher_block_value" >bbbbb</span>
+                                            </div>
+
+                                            <div class="config_matcher_block">
+                                                <span class="config_matcher_block_type">aaa</span> 
+                                                <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete"></span> 
+                                                <span class="config_matcher_block_value" >bbbbb</span>
+                                            </div>
+                                            
+                                            <div class="config_matcher_block">
+                                                <span class="config_matcher_block_type">aaa</span> 
+                                                <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete"></span> 
+                                                <span class="config_matcher_block_value" >bbbbb</span>
+                                            </div>
+
+                                        </div>
+                                        <button type="button" class="btn btn-default btn-xs" onclick="dashboard.modal_condition_open()">More Condition</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group" style="display:none">
+                                    <label class="col-sm-2 control-label"></label>
+                                    <div class="col-sm-10">
+                                        <div class="wall">
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Type</label>
+                                                <div class="col-sm-10">
+                                                    <select class="form-control" name="scheme">
+                                                        <option value="none">Method</option>
+                                                        <option value="http">Domain</option>
+                                                        <option value="https">URI</option>
+                                                        <option value="https">UserAgent</option>
+                                                        <option value="https">IP</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+
+                                            
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Value</label>
+                                                <div class="col-sm-10">
+                                                    <input class="form-control" name="replace" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                                               
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-default" >Add</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                         
-                        <div class="config_container" id="config_redirect_scheme">
+                        <div class="config_container" id="config_action_redirect_scheme">
                             <div class="config_title">
-                                协议重定向
+                                Redirect Scheme
                             </div>
                             <input type="checkbox" id="checkbox" v-model="redirect_scheme_enable">
-                            <label>启用</label>
-                            <table class="table table-bordered config_table" id="config_redirect_scheme_table">
+                            <label>Enable</label>
+                            <table class="table table-bordered config_table" id="config_action_redirect_scheme_table">
                                 <thead>
                                     <tr>
                                         <td>#</td>
-                                        <td>URI</td>
-                                        <td>协议</td>
+                                        <td>Matcher</td>
+                                        <td>Scheme</td>
                                         <td></td>
                                     </tr>
                                 </thead>
@@ -308,8 +410,8 @@
                                     <template v-for="rule in redirect_scheme_rule">
                                         <tr>
                                             <td >{{ $index }}</td>
-                                            <td >{{ rule[0] }}</td>
-                                            <td >{{ rule[1] }}</td>
+                                            <td >{{ rule.matcher }}</td>
+                                            <td >{{ rule.scheme }}</td>
                                             <td class="no_break">
                                                 <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('redirect_scheme_rule',{{$index}},null)">
                                                     DEL
@@ -374,9 +476,9 @@
                                     </div>
                                 </div>
                             </form>
-
                         </div>
-                        <div class="config_container" id="config_redirect_uri">
+
+                        <div class="config_container" id="config_action_redirect_uri">
                             <div class="config_title">
                                 URI重定向
                             </div>
@@ -460,7 +562,7 @@
                             </form>
                         </div>
 
-                        <div class="config_container" id="config_filter_ipwhitelist">
+                        <div class="config_container" id="config_action_filter_ipwhitelist">
                             <div class="config_title">
                                 IP白名单
                             </div>
@@ -524,10 +626,9 @@
                                     </div>
                                 </div>
                             </form>
-
                         </div>
                         
-                        <div class="config_container" id="config_filter_ip">
+                        <div class="config_container" id="config_action_filter_ip">
                             <div class="config_title">
                                 IP过滤
                             </div>
@@ -593,7 +694,7 @@
                             </form>
                         </div>
 
-                        <div class="config_container" id="config_filter_useragent">
+                        <div class="config_container" id="config_action_filter_useragent">
                             <div class="config_title">
                                 UserAgent过滤
                             </div>
@@ -666,7 +767,7 @@
                             </form>
                         </div>
                         
-                        <div class="config_container" id="config_filter_uri">
+                        <div class="config_container" id="config_action_filter_uri">
                             <div class="config_title">
                                 URI过滤
                             </div>
@@ -704,7 +805,7 @@
                                 添加一条配置
                             </div>
                             <hr>
-                            <form class="form-horizontal" name="config_filter_uri_form_add" 
+                            <form class="form-horizontal" name="config_action_filter_uri_form_add" 
                                   onsubmit="config.config_add( 'filter_uri_rule', [this.uri.value] ); return false;" >
 
                                 <div class="form-group">
@@ -739,7 +840,7 @@
                             </form>
                         </div>
                         
-                        <div class="config_container" id="config_filter_arg">
+                        <div class="config_container" id="config_action_filter_arg">
                             <div class="config_title">
                                 参数过滤
                             </div>
@@ -839,6 +940,7 @@
                               <button type="button" class="btn btn-default" onclick="config.get_config()">重新获取</button>
                             </p>
                         </div>
+
                         <div class="config_container" id="config_system_admin">
                             <div class="config_title">
                                 用户管理
@@ -921,6 +1023,62 @@
                     </div>
                 </div>  
             </div>
+
+            <!-- Modal -->
+                <div class="modal fade" id="config_modal_condition">
+                    <div class="modal-dialog ">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Add Condition</h4>
+                            </div>
+                            <div class="modal-body" >
+
+                                <form class="form-horizontal">
+                                    <div class="row vn_modal_row"   >
+                                        <label class="col-sm-2 text-right control-label">Type</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" name="condition_type" onchange="dashboard.modal_condition_switch_input()">
+                                                <option value="URI">URI</option>
+                                                <option value="Domain">Domain</option>
+                                                <option value="UserAgent">UserAgent</option>
+                                                <option value="IP">IP</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row vn_modal_row config_matcher_value_contain" matcher_type="URI" >
+                                        <label class="col-sm-2 text-right control-label" >Value</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" name="condition_value" placeholder="A RegEx for URI"></input>
+                                        </div>
+                                    </div>
+                                    <div class="row vn_modal_row config_matcher_value_contain" matcher_type="Domain" >
+                                        <label class="col-sm-2 text-right control-label" >Value</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" name="condition_value" placeholder="A RegEx for Domain"></input>
+                                        </div>
+                                    </div>
+                                    <div class="row vn_modal_row config_matcher_value_contain"  matcher_type="UserAgent">
+                                        <label class="col-sm-2 text-right control-label" >Value</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" rows="3" name="condition_value" placeholder="A RegEx for UserAgent"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row vn_modal_row config_matcher_value_contain" matcher_type="IP">
+                                        <label class="col-sm-2 text-right control-label" >Value</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" name="condition_value" placeholder="IP Address"></input>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" onclick="dashboard.modal_condition_save()">Save</button>
+                              </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
         </div>
 
         <div class="page" id="page_summary">

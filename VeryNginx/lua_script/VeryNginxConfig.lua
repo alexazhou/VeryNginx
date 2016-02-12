@@ -27,6 +27,7 @@ _M.configs['matcher'] = {
 _M.configs["redirect_scheme_enable"] = false
 _M.configs["redirect_scheme_rule"] = {
     {["matcher"] = 'demo5', ["scheme"] = "https"},
+    {["matcher"] = 'demo3', ["scheme"] = "http"},
 }
 
 _M.configs["redirect_uri_enable"] = false

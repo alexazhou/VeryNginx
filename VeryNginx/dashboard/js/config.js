@@ -66,6 +66,11 @@ config.config_move_down = function(name,index){
     config.verynginx_config[name].$set(index, tmp);
 }
 
+//for matcher only
+config.config_matcher_delete_condition = function( matcher_name, condition_name ){
+    Vue.delete( config.verynginx_config['matcher'][matcher_name], condition_name  );
+}
+
 config.save_config = function(){
     console.log("save_config");
     var config_json = JSON.stringify( config.verynginx_config , null, 2);

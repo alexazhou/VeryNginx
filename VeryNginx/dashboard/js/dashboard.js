@@ -122,7 +122,7 @@ dashboard.notify = function(message){
     });
 }
 
-dashboard.open_dashboard_config = function(){
+dashboard.open_modal_dashboard_config = function(){
     //load status dashboard config
     $('#status_config_modal').modal('show');
 
@@ -162,6 +162,33 @@ dashboard.status_dashboard_update_interval_label = function(){
     var refresh_interval = $('#status_config_modal [name=refresh_interval]').val();
     $('#status_config_modal [name=refresh_interval_label]').text(refresh_interval + "s");
 }
+
+
+dashboard.modal_condition_open = function(){
+    $('#config_modal_condition').modal('show');
+    dashboard.modal_condition_switch_input();
+}
+
+dashboard.modal_condition_switch_input = function(){
+    var condition_type = $("#config_modal_condition [name=condition_type]").val();
+    //At first show the inputer belongs the type
+    $(".config_matcher_value_contain").hide();
+    $(".config_matcher_value_contain[matcher_type=" + condition_type +"]").show();
+
+    //make the modal in the center
+    dashboard.modal_reposition.call( $("#config_modal_condition")[0] );
+}
+
+dashboard.modal_condition_save =function(){
+    
+    
+    var condition_value = $("#config_modal_condition [name=condition_value]").val();
+
+    console.log("Add matcher condition:", condition_type, condition_value);
+
+    $('#config_modal_condition').modal('hide');
+}
+
 
 /**
  * Vertically center Bootstrap 3 modals so they aren't always stuck at the top
