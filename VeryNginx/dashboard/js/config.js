@@ -37,7 +37,7 @@ config.config_mod = function(name,index,value){
     
     //console.log('-->',name,index,value);
     if( value == null ){
-        Vue.delete( config.verynginx_config[name], index );
+        config.verynginx_config[name].splice( index );
     }else{
         //config.verynginx_config[name].$set( index, config.verynginx_config[name][index] );
     }
@@ -46,7 +46,7 @@ config.config_mod = function(name,index,value){
 config.config_move_up = function(name,index){
     
     if(index == 0){
-        dashboard.notify("已经是最前面了");
+        dashboard.notify("The item already at the firsh");
         return;
     }
 
@@ -57,7 +57,7 @@ config.config_move_up = function(name,index){
 
 config.config_move_down = function(name,index){
     if(index >= config.verynginx_config[name].length - 1){
-        dashboard.notify("已经是最后面了");
+        dashboard.notify("The item already at the bottom");
         return;
     }
     
