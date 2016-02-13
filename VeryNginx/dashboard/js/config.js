@@ -37,7 +37,7 @@ config.config_mod = function(name,index,value){
     
     //console.log('-->',name,index,value);
     if( value == null ){
-        config.verynginx_config[name].splice( index );
+        config.verynginx_config[name].splice( index, 1 );
     }else{
         //config.verynginx_config[name].$set( index, config.verynginx_config[name][index] );
     }
