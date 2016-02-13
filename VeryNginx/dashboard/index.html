@@ -364,7 +364,7 @@
 
                             
                             <div class="config_sub_title">
-                                添加一条配置
+                                Add a rule
                             </div>
                             <hr>
                             <form class="form-horizontal" onsubmit="config.config_add( 'redirect_scheme_rule', {'matcher':this.matcher.value, 'scheme':this.scheme.value}); return false;" >
@@ -380,7 +380,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">访问协议</label>
+                                    <label class="col-sm-2 control-label">Scheme</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" name="scheme">
                                             <option value="http">http only</option>
@@ -391,41 +391,42 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default" >添加</button>
+                                        <button type="submit" class="btn btn-default" >Add</button>
                                     </div>
                                 </div>
                             </form>
-
                         </div>
 
                         <div class="config_container" id="config_action_redirect_uri">
                             <div class="config_title">
-                                URI重定向
+                                URI Redirect
                             </div>
                             <input type="checkbox" id="checkbox" v-model="redirect_uri_enable">
-                            <label>启用</label>
+                            <label>Enable</label>
                             <table class="table table-bordered config_table" id="config_redirect_uri_table">
                                 <thead>
                                     <tr>
                                         <td>#</td>
-                                        <td>URI</td>
-                                        <td>替换目标</td>
+                                        <td>Matcher</td>
+                                        <td>RegEx</td>
+                                        <td>Replacement</td>
                                         <td></td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="rule in redirect_uri_rule">
                                         <td>{{ $index }}</td>
-                                        <td>{{ rule[0] }}</td>
-                                        <td>{{ rule[1] }}</td>
+                                        <td>{{ rule.matcher }}</td>
+                                        <td>{{ rule.replace_re }}</td>
+                                        <td>{{ rule.to_uri }}</td>
                                         <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('uri_redirect_rule',{{$index}},null)">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('redirect_uri_rule',{{$index}},null)">
                                                 DEL
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('uri_redirect_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('redirect_uri_rule',{{$index}})">
                                                 UP
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('uri_redirect_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('redirect_uri_rule',{{$index}})">
                                                 DOWN
                                             </button>
                                         </td>
@@ -434,27 +435,37 @@
                             </table>
 
                             <div class="config_sub_title">
-                                添加一条配置
+                                Add a rule
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_redirect_uri_form_add" 
-                                  onsubmit="config.config_add( 'redirect_uri_rule', [this.uri.value,this.replace.value]); return false;" >
+                                  onsubmit="config.config_add( 'redirect_uri_rule', { 'matcher':this.matcher.value, 'replace_re':this.replace_re.value, 'to_uri':this.to_uri.value }); return false;" >
 
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">URI</label>
+                               <div class="form-group">
+                                    <label class="col-sm-2 control-label">Matcher</label>
                                     <div class="col-sm-10">
-                                        <textarea class="form-control" rows="3" name="uri" placeholder="A RegEx for URI"></textarea>
+                                        <select class="form-control" name="matcher">
+                                            <template v-for="(matcher_name, matcher_conditions) in matcher | orderBy '$key'">
+                                                <option value="{{matcher_name}}">{{matcher_name}}</option>
+                                            </template>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">替换目标</label>
+                                    <label class="col-sm-2 control-label">RegEx</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" name="replace" type="text">
+                                        <input class="form-control" name="replace_re" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Replacement</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="to_uri" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default" >添加</button>
+                                        <button type="submit" class="btn btn-default" >Add</button>
                                     </div>
                                 </div>
                             </form>
@@ -487,7 +498,7 @@
                                 Filter Whitelist
                             </div>
                             <input type="checkbox" id="checkbox" v-model="filter_whitelist_enable">
-                            <label>启用</label>
+                            <label>Enable</label>
                             <table class="table table-bordered config_table" id="config_filter_whitelist_table">
                                 <thead>
                                     <tr>
@@ -510,7 +521,7 @@
                             </table>
 
                             <div class="config_sub_title">
-                                添加一条配置
+                                Add a rule
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_filter_whitelist_form_add" 
@@ -529,146 +540,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default" >添加</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        
-                        <div class="config_container" id="config_action_filter_ip">
-                            <div class="config_title">
-                                IP过滤
-                            </div>
-                            <input type="checkbox" id="checkbox" v-model="filter_ip_enable">
-                            <label>启用</label>
-                            <table class="table table-bordered config_table" id="config_filter_ip_table">
-                                <thead>
-                                    <tr>
-                                        <td>#</td>
-                                        <td>IP</td>
-                                        <td></td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="rule in filter_ip_rule">
-                                        <td>{{ $index }}</td>
-                                        <td>{{ rule }}</td>
-                                        <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('filter_ip_rule',{{$index}},null)">
-                                                DEL
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <div class="config_sub_title">
-                                添加一条配置
-                            </div>
-                            <hr>
-                            <form class="form-horizontal" name="config_filter_ip_form_add" 
-                                  onsubmit="config.config_add( 'filter_ip_rule', [this.ip.value] ); return false;" >
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">IP</label>
-                                    <div class="col-sm-10">
-                                        <input class="form-control" name="ip" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default" >添加</button>
-                                    </div>
-                                </div>
-                            </form>
-
-                            <div class="config_sub_title">
-                                测试规则
-                            </div>
-                            <hr>
-                            <form class="form-horizontal config_test_container" test_rule_table="config_filter_ip_table" test_action="config.test_match_factory('equal')" test_args="[1]" >
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">IP</label>
-                                    <div class="col-sm-10">
-                                        <input class="form-control config_test_input" placeholder="ip address" >
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10 matched config_test_output">
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="config_container" id="config_action_filter_useragent">
-                            <div class="config_title">
-                                UserAgent过滤
-                            </div>
-                            <input type="checkbox" id="checkbox" v-model="filter_useragent_enable">
-                            <label>启用</label>
-                            <table class="table table-bordered config_table" id="config_filter_useragent_table">
-                                <thead>
-                                    <tr>
-                                        <td>#</td>
-                                        <td>UserAgent</td>
-                                        <td></td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="rule in filter_useragent_rule">
-                                        <td>{{ $index }}</td>
-                                        <td>{{ rule[0] }}</td>
-                                        <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('filter_useragent_rule',{{$index}},null)">
-                                                DEL
-                                            </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('filter_useragent_rule',{{$index}})">
-                                                UP
-                                            </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('filter_useragent_rule',{{$index}})">
-                                                DOWN
-                                            </button>
-
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <div class="config_sub_title">
-                                添加一条配置
-                            </div>
-                            <hr>
-                            <form class="form-horizontal" name="config_filter_ip_form_add" 
-                                  onsubmit="config.config_add( 'filter_useragent_rule', [this.useragent.value] ); return false;" >
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">UserAgent</label>
-                                    <div class="col-sm-10">
-                                        <textarea class="form-control" rows="3" name="useragent" placeholder="A RegEx for request UserAgent"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default" >添加</button>
-                                    </div>
-                                </div>
-                            </form>
-
-                            <div class="config_sub_title">
-                                测试规则
-                            </div>
-                            <hr>
-                            <form class="form-horizontal config_test_container" test_rule_table="config_filter_useragent_table" test_action="config.test_match_factory('re')" test_args="[1]" >
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">UserAgent</label>
-                                    <div class="col-sm-10">
-                                        <input class="form-control config_test_input" placeholder="UserAgent" >
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10 matched config_test_output">
+                                        <button type="submit" class="btn btn-default" >Add</button>
                                     </div>
                                 </div>
                             </form>
@@ -679,7 +551,7 @@
                                 URI过滤
                             </div>
                             <input type="checkbox" id="checkbox" v-model="filter_uri_enable">
-                            <label>启用</label>
+                            <label>Enable</label>
                             <table class="table table-bordered config_table" id="config_filter_uri_table">
                                 <thead>
                                     <tr>
@@ -709,7 +581,7 @@
                             </table>
 
                             <div class="config_sub_title">
-                                添加一条配置
+                                Add a rule
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_action_filter_uri_form_add" 
@@ -723,7 +595,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default" >添加</button>
+                                        <button type="submit" class="btn btn-default" >Add</button>
                                     </div>
                                 </div>
                             </form>
@@ -752,7 +624,7 @@
                                 Filter
                             </div>
                             <input type="checkbox" id="checkbox" v-model="filter_enable">
-                            <label>启用</label>
+                            <label>Enable</label>
                             <table class="table table-bordered config_table" id="config_filter_table">
                                 <thead>
                                     <tr>
@@ -782,7 +654,7 @@
                             </table>
 
                             <div class="config_sub_title">
-                                添加一条配置
+                                Add a rule
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_filter_form_add" 
@@ -799,7 +671,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default" >添加</button>
+                                        <button type="submit" class="btn btn-default" >Add</button>
                                     </div>
                                 </div>
                             </form>
@@ -810,7 +682,7 @@
                                 访问统计
                             </div>
                             <input type="checkbox" id="checkbox" v-model="summary_request_enable">
-                            <label>启用</label>
+                            <label>Enable</label>
                         </div>
 
                         <div class="config_container" id="config_system_allconfig">
@@ -835,7 +707,7 @@
 
                         <div class="config_container" id="config_system_admin">
                             <div class="config_title">
-                                用户管理
+                                Users
                             </div>
                             <table class="table table-bordered config_table">
                                 <thead>
@@ -861,7 +733,7 @@
                             </table>
 
                             <div class="config_sub_title">
-                                添加一个用户
+                                Add a user
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_admin_form_add" 
@@ -883,7 +755,7 @@
                                 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default" >添加</button>
+                                        <button type="submit" class="btn btn-default" >Add</button>
                                     </div>
                                 </div>
                             </form>
