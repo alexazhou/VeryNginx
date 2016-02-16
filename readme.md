@@ -51,6 +51,7 @@ VeryNginx 可以统计网站每个URI的访问情况，包括每个URI的:
 
 VeryNginx 基于 OpenResty[^openresty]，所以你需要先安装它：
 
+
 ```sh
 wget https://openresty.org/download/ngx_openresty-1.9.7.1.tar.gz
 tar -xvzf ngx_openresty-1.9.7.1.tar.gz
@@ -60,6 +61,8 @@ sudo su
 gmake
 gmake install
 ```
+
+>以上使用的是openresty-1.9.7.1，当openresty发布更新的稳定版本时，也可以使用最新的稳定版本
 
 VeryNginx 实际使用到了 OpenResty 中的这些模块
 
@@ -150,6 +153,8 @@ sudo su
 gmake
 gmake install
 ```
+
+>At here we used the v1.9.7.1 of openresty, if there is a new stable version of openresty has been released, we alse can use it.  
 
 VeryNginx uses only following modules in OpenResty.
 
