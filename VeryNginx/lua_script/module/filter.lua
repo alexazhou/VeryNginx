@@ -26,17 +26,17 @@ end
 
 function _M.filter_ip()
     if VeryNginxConfig.configs["filter_ip_enable"] ~= true then
-        return false;
+        return true
     end
     
     local remote_addr = ngx.var.remote_addr
     for i, v in ipairs( VeryNginxConfig.configs['filter_ip_rule'] ) do
         if v[1] == remote_addr then
-            return true
+            return false
         end
     end
     
-    return false
+    return true
 end
 
 function _M.filter_useragent()
@@ -46,6 +46,10 @@ function _M.filter_useragent()
 
     local find = ngx.re.find
     local http_user_agent = ngx.var.http_user_agent
+
+    if http_user_agent == nil then
+        return true
+    end
 
     for i, v in ipairs( VeryNginxConfig.configs["filter_useragent_rule"] ) do
         if find( http_user_agent, v[1], "is" ) then
@@ -108,7 +112,7 @@ function _M.filter()
         return
     end
 
-    if _M.filter_ip() == true then
+    if _M.filter_ip() ~= true then
         ngx.exit( ngx.HTTP_SERVICE_UNAVAILABLE ) 
     end
     
