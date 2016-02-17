@@ -358,13 +358,13 @@
                                         <td>{{ rule[0] }}</td>
                                         <td>{{ rule[1] }}</td>
                                         <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('uri_redirect_rule',{{$index}},null)">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('redirect_uri_rule',{{$index}},null)">
                                                 DEL
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('uri_redirect_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('redirect_uri_rule',{{$index}})">
                                                 UP
                                             </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('uri_redirect_rule',{{$index}})">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('redirect_uri_rule',{{$index}})">
                                                 DOWN
                                             </button>
                                         </td>
