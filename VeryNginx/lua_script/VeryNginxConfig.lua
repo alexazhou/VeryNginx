@@ -43,17 +43,12 @@ _M.configs["rewrite_uri_rule"] = {
 }
 
 
-_M.configs["filter_whitelist_enable"] = false
-_M.configs["filter_whitelist_rule"] = {
-    {["matcher"] = "demo6"},
-}
-
 _M.configs["filter_enable"] = false
 _M.configs["filter_rule"] = {
-    {["matcher"] = 'demo1', ["action"] = "" },
-    {["matcher"] = 'demo2' },
-    {["matcher"] = 'demo3' },
-    {["matcher"] = 'demo4' },
+    {["matcher"] = 'demo1', ["action"] = "block" },
+    {["matcher"] = 'demo2', ["action"] = "accept" },
+    {["matcher"] = 'demo3', ["action"] = "block" },
+    {["matcher"] = 'demo4', ["action"] = "block" },
 }
 
 
