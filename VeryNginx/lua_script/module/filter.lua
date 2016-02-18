@@ -84,20 +84,19 @@ function _M.filter_args()
     end
   
     local find = ngx.re.find
-    local tbl_concat = table.concat
-
-  
     for i,re in ipairs( VeryNginxConfig.configs["filter_arg_rule"] ) do
         for k,v in pairs( ngx.req.get_uri_args()) do 
-            local arg_str
+            
             if type(v) == "table" then
-                arg_str = tbl_concat(v, ", ")
-            else
-                arg_str = v
-            end
-
-            if find( arg_str, re[1], "is" ) then
-                return false
+                for arg_name,arg_value in ipairs(v) do
+                    if find( arg_value, re[1], "is" ) then
+                        return false
+                    end
+                end
+            elseif type(v) == "string" then
+                if find( v, re[1], "is" ) then
+                    return false
+                end
             end
         end
     end
