@@ -36,8 +36,8 @@ _M.configs["redirect_rule"] = {
     {["matcher"] = 'demo7', ["to_uri"] = "/verynginx/test/bbb"}, 
 }
 
-_M.configs["rewrite_uri_enable"] = false
-_M.configs["rewrite_uri_rule"] = {
+_M.configs["uri_rewrite_enable"] = false
+_M.configs["uri_rewrite_rule"] = {
     --redirect to a Regex generate uri 
     {["matcher"] = 'demo8', ["replace_re"] = "^/(vg)/", ["to_uri"] = "verynginx"}, 
 }
