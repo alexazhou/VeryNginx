@@ -82,22 +82,47 @@ function _M.filter_args()
     if VeryNginxConfig.configs["filter_arg_enable"] ~= true then
         return true
     end
+
+    ngx.req.read_body()
+    local body_args, err = ngx.req.get_post_args()
+    if not body_args  then
+        ngx.say("failed to get post args: ", err)
+    end
   
     local find = ngx.re.find
-    local tbl_concat = table.concat
-
-  
     for i,re in ipairs( VeryNginxConfig.configs["filter_arg_rule"] ) do
+        --check args in behind uri 
         for k,v in pairs( ngx.req.get_uri_args()) do 
-            local arg_str
+            
             if type(v) == "table" then
-                arg_str = tbl_concat(v, ", ")
-            else
-                arg_str = v
+                for arg_name,arg_value in ipairs(v) do
+                    if find( arg_value, re[1], "is" ) then
+                        return false
+                    end
+                end
+            elseif type(v) == "string" then
+                if find( v, re[1], "is" ) then
+                    return false
+                end
             end
-
-            if find( arg_str, re[1], "is" ) then
-                return false
+        end
+        
+        --check args in body
+        ngx.log(ngx.STDERR,'check post data')
+        if body_args ~= nil then
+            for k,v in pairs( body_args ) do
+                ngx.log(ngx.STDERR,k)
+                if type(v) == "table" then
+                    for arg_name,arg_value in ipairs(v) do
+                        if find( arg_value, re[1], "is" ) then
+                            return false
+                        end
+                    end
+                elseif type(v) == "string" then
+                    if find( v, re[1], "is" ) then
+                        return false
+                    end
+                end
             end
         end
     end
