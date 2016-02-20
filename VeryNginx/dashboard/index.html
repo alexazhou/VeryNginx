@@ -268,13 +268,7 @@
                                             <td>{{ $index }}</td>
                                             <td>{{ matcher_name }}</td>
                                             <td >
-                                                <template v-for="(condition_name,condition_value) in matcher_conditions | orderBy 'v'">
-                                                    <div class="config_matcher_block">
-                                                        <span class="config_matcher_block_type">{{condition_name}}</span> 
-                                                        : 
-                                                        <span class="config_matcher_block_value" >{{condition_value}}</span>
-                                                    </div>
-                                                </template>
+                                                <condition v-bind:matcher_conditions="matcher_conditions" ></condition>
                                             </td>
                                             <td class="no_break">
                                                 <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('matcher','{{matcher_name}}',null)">
@@ -302,15 +296,7 @@
                                     <label class="col-sm-2 control-label">Conditions</label>
                                     <div class="col-sm-10">
                                         <div style="border-style:solid;border-width:1px;border-color:#CCC;border-radius:5px;margin-bottom:5px;min-height:32px">
-                                            <template v-for="(condition_name,condition_value) in conditions | orderBy 'v'">
-                                                <div class="config_matcher_block">
-                                                    <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete" 
-                                                    onclick="matcher_editor.tmp_conditions_delete('{{condition_name}}')"></span> 
-                                                    <span class="config_matcher_block_type">{{condition_name}}</span> 
-                                                    : 
-                                                    <span class="config_matcher_block_value" >{{condition_value}}</span>
-                                                </div>
-                                            </template>
+                                            <condition v-bind:matcher_conditions="conditions" del_action="matcher_editor.tmp_conditions_delete(this)"></condition>
                                         </div>
                                         <button type="button" class="btn btn-default btn-xs" onclick="matcher_editor.modal_condition_open()">New Condition</button>
                                     </div>
@@ -818,32 +804,35 @@
                                                 <option value="Domain">Domain</option>
                                                 <option value="UserAgent">UserAgent</option>
                                                 <option value="IP">IP</option>
+                                                <option value="Args">Args</option>
+                                                <option value="Referer">Referer</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row vn_modal_row config_matcher_value_contain" matcher_type="URI" >
-                                        <label class="col-sm-2 text-right control-label" >Value</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="condition_value" placeholder="A RegEx for URI"></input>
-                                        </div>
-                                    </div>
-                                    <div class="row vn_modal_row config_matcher_value_contain" matcher_type="Domain" >
-                                        <label class="col-sm-2 text-right control-label" >Value</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="condition_value" placeholder="A RegEx for Domain"></input>
-                                        </div>
-                                    </div>
-                                    <div class="row vn_modal_row config_matcher_value_contain"  matcher_type="UserAgent">
-                                        <label class="col-sm-2 text-right control-label" >Value</label>
-                                        <div class="col-sm-10">
-                                            <textarea class="form-control" rows="3" name="condition_value" placeholder="A RegEx for UserAgent"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="row vn_modal_row config_matcher_value_contain" matcher_type="IP">
-                                        <label class="col-sm-2 text-right control-label" >Value</label>
-                                        <div class="col-sm-10">
-                                            <input class="form-control" name="condition_value" placeholder="IP Address"></input>
-                                        </div>
+
+                                    <div class="config_matcher_value_contain" id="config_modal_matcher_input_group" >
+                                        <template v-for="item in input_meta">
+                                            <div class="row vn_modal_row">
+                                                <label class="col-sm-2 text-right control-label" >{{item.name}}</label>
+                                                <div class="col-sm-10">
+                                                    <template v-if="(item.type == 'input')">
+                                                        <input type="text" class="form-control config_matcher_editor_value" name="{{item.name}}" placeholder="{{item.placeholder}}"></input>
+                                                    </template>
+                                                    
+                                                    <template v-if="(item.type == 'textarea')">
+                                                        <textarea class="form-control config_matcher_editor_value" rows='3' name="{{item.name}}" placeholder="{{item.placeholder}}"></textarea>
+                                                    </template>
+                                                    
+                                                    <template v-if="(item.type == 'select')">
+                                                        <select class="form-control config_matcher_editor_value" name="{{item.name}}">
+                                                            <template v-for="(k,v) in item.options">
+                                                                <option value="{{v}}">{{k}}</option>
+                                                            </template>
+                                                        </select>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </template>
                                     </div>
                                 </form>
                             </div>

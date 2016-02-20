@@ -1,7 +1,34 @@
 var config = new Object();
 
+Vue.config.debug = true;
 config.config_vm = null; 
 config.verynginx_config = {};
+
+//the reusable matcher condition template
+config.vue_component_condition = Vue.extend({
+    props : ['matcher_conditions','del_action'],
+    template: '<template v-for="(condition_name,condition_value) in matcher_conditions | orderBy \'v\'">\
+                   <div class="config_matcher_block">\
+                       <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete" v-if="(del_action != null)" onclick="{{del_action}}"></span>\
+                       <span class="config_matcher_block_type">{{condition_name}}</span>\
+                       <span class="config_matcher_block_name"> {{condition_value.name}}</span>\
+                       <span class="config_matcher_block_operator"> {{condition_value.operator | show_operator}}</span>\
+                       <span class="config_matcher_block_value" >{{condition_value.value}}</span>\
+                   </div>\
+               </template>'
+
+});
+
+Vue.component('condition', config.vue_component_condition )
+
+Vue.filter('show_operator', function (operator) {
+    
+    if( operator == '!'){
+        return ' is Null'
+    }
+
+    return operator;
+})
 
 config.get_config = function(){
     $.get("/verynginx/config",function(data,status){

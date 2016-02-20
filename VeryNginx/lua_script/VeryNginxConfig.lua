@@ -14,41 +14,81 @@ _M.configs["admin"] = {
 }
 
 _M.configs['matcher'] = {
-     ["demo1"] = { ["args"] = "select.*from", ["domain"] = "127.0.0.1" },
-     ["demo2"] = { ["ua"] = "(nmap|w3af|netsparker|nikto|fimap|wget)" },
-     ["demo3"] = { ["uri"] = "\\.(git|svn|\\.)" },
-     ["demo4"] = { ["uri"] = "\\.(haccess|bash_history|ssh|sql)$" },
-     ["demo5"] = { ["uri"] = "testhttps"},
-     ["demo6"] = { ["ip"] = "127.0.0.1"},
-     ["demo7"] = { ["uri"] = "^/verynginx/test/aaa/"},
-     ["demo8"] = { ["uri"] = "^/vg/"},
+    ["attack_sql_0"] = { 
+        ["URI"] = { 
+            ['operator'] = "≈",
+            ['value']="select.*from",
+        },
+    },
+    ["attack_backup_0"] = { 
+        ["URI"] = {
+            ['operator'] = "≈",
+            ['value']="\\.(haccess|bash_history|ssh|sql)$",
+        },
+    },
+    ["attack_scan_0"] = { 
+        ["UserAgent"] = {
+            ['operator'] = "≈",
+            ['value']="(nmap|w3af|netsparker|nikto|fimap|wget)",
+        },
+    },
+    ["attack_code_0"] = { 
+        ["URI"] = {
+            ['operator'] = "≈",
+            ['value']="\\.(git|svn|\\.)",
+        },
+    },
+    ["verynginx"] = {
+        ["URI"] = {
+            ['operator'] = "≈",
+            ['value']="^/verynginx/",
+        }
+    },
+    ["localhost"] = {
+        ["IP"] = {
+            ["operator"] = "=",
+            ["value"] = "127.0.0.1"
+        }
+    },
+    ["demo_verynginx_short_uri"] = {
+        ["URI"] = {
+            ['operator'] = "≈",
+            ['value']="^/vn",
+        }
+    },
+    ["demo_other_verynginx_uri"] = {
+        ["URI"] = {
+            ['operator'] = "=",
+            ['value']="^/redirect_to_verynginx",
+        }
+    }
 }
 
 _M.configs["scheme_lock_enable"] = false
 _M.configs["scheme_lock_rule"] = {
-    {["matcher"] = 'demo5', ["scheme"] = "https"},
-    {["matcher"] = 'demo3', ["scheme"] = "http"},
+    {["matcher"] = 'verynginx', ["scheme"] = "https"},
 }
 
 _M.configs["redirect_enable"] = false
 _M.configs["redirect_rule"] = {
     --redirect to a static uri
-    {["matcher"] = 'demo7', ["to_uri"] = "/verynginx/test/bbb"}, 
+    {["matcher"] = 'demo_other_verynginx_uri', ["to_uri"] = "/verynginx/dashboard/index.html"}, 
 }
 
 _M.configs["uri_rewrite_enable"] = false
 _M.configs["uri_rewrite_rule"] = {
     --redirect to a Regex generate uri 
-    {["matcher"] = 'demo8', ["replace_re"] = "^/(vg)/", ["to_uri"] = "verynginx"}, 
+    {["matcher"] = 'demo_verynginx_short_uri', ["replace_re"] = "^/vn/(.*)", ["to_uri"] = "/verynginx/dashboard/$1"}, 
 }
 
 
 _M.configs["filter_enable"] = false
 _M.configs["filter_rule"] = {
-    {["matcher"] = 'demo1', ["action"] = "block" },
-    {["matcher"] = 'demo2', ["action"] = "accept" },
-    {["matcher"] = 'demo3', ["action"] = "block" },
-    {["matcher"] = 'demo4', ["action"] = "block" },
+    {["matcher"] = 'localhost', ["action"] = "accept"},
+    {["matcher"] = 'attack_sql_0', ["action"] = "block" },
+    {["matcher"] = 'attack_backup_0', ["action"] = "block" },
+    {["matcher"] = 'attack_scan_0', ["action"] = "block" },
+    {["matcher"] = 'attack_code_0', ["action"] = "block" },
 }
 
 
