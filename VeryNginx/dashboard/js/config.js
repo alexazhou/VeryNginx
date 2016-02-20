@@ -36,7 +36,7 @@ config.get_config = function(){
             
         if( config.config_vm != null ){
             config.config_vm.$data = config.verynginx_config;
-            dashboard.notify("获取配置成功");
+            dashboard.notify("Reread config success");
             return;
         }
 
@@ -128,9 +128,9 @@ config.save_config = function(){
     $.post("/verynginx/config",{ config:config_json },function(data){
         console.log(data);
         if( data['ret'] == 'success' ){
-            dashboard.notify("保存配置成功");
+            dashboard.notify("save config success");
         }else{
-            dashboard.notify("保存配置失败[" + data['err'] + "]");
+            dashboard.notify("save config failed[" + data['err'] + "]");
         }
     });
 }

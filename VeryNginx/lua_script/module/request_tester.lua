@@ -38,6 +38,10 @@ function _M.test_ua( re )
     return false
 end
 
+function _M.test_referer( re )
+    return false
+end
+
 function _M.test_method( method )
     return false
 end
@@ -51,12 +55,12 @@ function _M.test_domain( )
 end
 
 local tester = {
-    ["uri"] = _M.test_uri,
-	["ip"] = _M.test_ip,
-	["ua"] = _M.test_ua,
-	["method"] = _M.test_method,
-	["args"] = _M.test_args,
-	["domain"] = _M.test_domain,
+    ["URI"] = _M.test_uri,
+	["IP"] = _M.test_ip,
+	["UserAgent"] = _M.test_ua,
+	["Method"] = _M.test_method,
+	["Args"] = _M.test_args,
+	["Domain"] = _M.test_referer,
 }
 
 return _M
