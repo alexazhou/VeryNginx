@@ -132,7 +132,7 @@ function _M.dump_to_file()
     local config_data = _M.report()
     local config_dump_path = _M.home_path() .. "/config.json"
     
-    ngx.log(ngx.STDERR,config_dump_path)
+    --ngx.log(ngx.STDERR,config_dump_path)
 
     file, err = io.open( config_dump_path, "w");
     if file ~= nil then
