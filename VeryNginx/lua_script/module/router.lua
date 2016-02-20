@@ -73,8 +73,8 @@ function _M.check_session()
     end
     
     for i,v in ipairs( VeryNginxConfig.configs['admin'] ) do
-        if v[1] == user then
-            if session == ngx.md5( encrypt_seed.get_seed()..v[1]) then
+        if v["user"] == user and v["enable"] == true then
+            if session == ngx.md5( encrypt_seed.get_seed()..v["password"]) then
                 return true
             else
                 return false
@@ -100,11 +100,11 @@ function _M.login()
     end
 
     for i,v in ipairs( VeryNginxConfig.configs['admin'] ) do
-        if v[1] == args['user'] and v[2] == args["password"] then
-            session = ngx.md5(encrypt_seed.get_seed()..v[1])
+        if v['user'] == args['user'] and v['password'] == args["password"] and v['enable'] == true then
+            session = ngx.md5(encrypt_seed.get_seed()..v['user'])
             ngx.header['Set-Cookie'] = {
                 string.format("verynginx_session=%s; path=/verynginx", session ),
-                string.format("verynginx_user=%s; path=/verynginx", v[1] ),
+                string.format("verynginx_user=%s; path=/verynginx", v['user'] ),
             }
             
             return cjson.encode({["ret"]="success",["err"]=err})

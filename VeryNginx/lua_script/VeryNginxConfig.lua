@@ -10,7 +10,7 @@ _M["configs"] = {}
 
 --------------default config------------
 _M.configs["admin"] = {
-    {"verynginx","verynginx"}
+    { ["user"] = "verynginx", ["password"] = "verynginx", ["enable"] = true}
 }
 
 _M.configs['matcher'] = {
@@ -66,29 +66,29 @@ _M.configs['matcher'] = {
 
 _M.configs["scheme_lock_enable"] = false
 _M.configs["scheme_lock_rule"] = {
-    {["matcher"] = 'verynginx', ["scheme"] = "https"},
+    {["matcher"] = 'verynginx', ["scheme"] = "https", ["enable"] = false},
 }
 
 _M.configs["redirect_enable"] = false
 _M.configs["redirect_rule"] = {
     --redirect to a static uri
-    {["matcher"] = 'demo_other_verynginx_uri', ["to_uri"] = "/verynginx/dashboard/index.html"}, 
+    {["matcher"] = 'demo_other_verynginx_uri', ["to_uri"] = "/verynginx/dashboard/index.html", ["enable"] = true}, 
 }
 
 _M.configs["uri_rewrite_enable"] = false
 _M.configs["uri_rewrite_rule"] = {
     --redirect to a Regex generate uri 
-    {["matcher"] = 'demo_verynginx_short_uri', ["replace_re"] = "^/vn/(.*)", ["to_uri"] = "/verynginx/dashboard/$1"}, 
+    {["matcher"] = 'demo_verynginx_short_uri', ["replace_re"] = "^/vn/(.*)", ["to_uri"] = "/verynginx/dashboard/$1", ["enable"] = true}, 
 }
 
 
 _M.configs["filter_enable"] = false
 _M.configs["filter_rule"] = {
-    {["matcher"] = 'localhost', ["action"] = "accept"},
-    {["matcher"] = 'attack_sql_0', ["action"] = "block" },
-    {["matcher"] = 'attack_backup_0', ["action"] = "block" },
-    {["matcher"] = 'attack_scan_0', ["action"] = "block" },
-    {["matcher"] = 'attack_code_0', ["action"] = "block" },
+    {["matcher"] = 'localhost', ["action"] = "accept", ["enable"] = true},
+    {["matcher"] = 'attack_sql_0', ["action"] = "block", ["enable"] = true },
+    {["matcher"] = 'attack_backup_0', ["action"] = "block", ["enable"] = true },
+    {["matcher"] = 'attack_scan_0', ["action"] = "block", ["enable"] = true },
+    {["matcher"] = 'attack_code_0', ["action"] = "block", ["enable"] = true },
 }
 
 
