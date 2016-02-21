@@ -108,19 +108,17 @@ function _M.filter_args()
         end
         
         --check args in body
-        ngx.log(ngx.STDERR,'check post data')
         if body_args ~= nil then
             for k,v in pairs( body_args ) do
-                ngx.log(ngx.STDERR,k)
                 if type(v) == "table" then
                     for arg_name,arg_value in ipairs(v) do
                         if find( arg_value, re[1], "is" ) then
-                            return false
+                            --return false
                         end
                     end
                 elseif type(v) == "string" then
                     if find( v, re[1], "is" ) then
-                        return false
+                        --return false
                     end
                 end
             end
