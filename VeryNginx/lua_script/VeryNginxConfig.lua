@@ -28,6 +28,7 @@ _M.configs["filter_ipwhitelist_rule"] = {
 
 _M.configs["filter_ip_enable"] = true
 _M.configs["filter_ip_rule"] = {
+    {'127.0.0.1'},
 }
 
 _M.configs["filter_useragent_enable"] = true
