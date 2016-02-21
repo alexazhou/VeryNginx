@@ -140,9 +140,9 @@ function _M.filter()
     local matcher_list = VeryNginxConfig.configs['matcher']
     
     for i,rule in ipairs( VeryNginxConfig.configs["filter_rule"] ) do
-        
+        local enable = rule['enable']
         local matcher = matcher_list[ rule['matcher'] ] 
-        if request_tester.test( matcher ) == true then
+        if enable == true and request_tester.test( matcher ) == true then
             local action = rule['action']
             if action == 'accept' then
                 return

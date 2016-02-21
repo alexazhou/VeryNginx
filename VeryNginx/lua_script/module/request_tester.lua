@@ -28,19 +28,19 @@ function _M.test_uri( condition )
     local uri = ngx.var.uri;
 
     if operator == "=" then
-        if ngx.var.uri == value then
+        if uri == value then
             return true
         end
     elseif operator == "!=" then
-        if ngx.var.uri ~= value then
+        if uri ~= value then
             return true
         end
     elseif operator == '≈' then
-        if ngx.re.find( ngx.var.uri, value, 'isjo' ) ~= nil then
+        if ngx.re.find( uri, value, 'isjo' ) ~= nil then
             return true
         end
     elseif operator == '!≈' then
-        if ngx.re.find( ngx.var.uri, value, 'isjo' ) == nil then
+        if ngx.re.find( uri, value, 'isjo' ) == nil then
             return true
         end
     end
@@ -69,12 +69,29 @@ end
 function _M.test_ua( condition )
     
     local operator = condition['operator']
+    local value =  condition['value']
+    local http_user_agent = ngx.var.http_user_agent;
 
     if operator == "=" then
+        if http_user_agent == value then
+            return true
+        end
     elseif operator == "!=" then
+        if http_user_agent ~= value then
+            return true
+        end
     elseif operator == '≈' then
+        if ngx.re.find( http_user_agent, value, 'isjo' ) ~= nil then
+            return true
+        end
     elseif operator == '!≈' then
+        if ngx.re.find( http_user_agent, value, 'isjo' ) == nil then
+            return true
+        end
     elseif operator == '!' then
+        if http_user_agent == nil then
+            return true
+        end
     end
 
     return false
