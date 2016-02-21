@@ -26,7 +26,7 @@ function _M.test_var( condition, var )
     
    local operator = condition['operator']
    local value =  condition['value']
-
+   
    if operator == "=" then
         if var == value then
             return true
@@ -49,6 +49,7 @@ function _M.test_var( condition, var )
         end
     end
 
+    return false
 end
 
 function _M.test_uri( condition )

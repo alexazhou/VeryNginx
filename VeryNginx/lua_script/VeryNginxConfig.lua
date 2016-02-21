@@ -59,7 +59,7 @@ _M.configs['matcher'] = {
     ["demo_other_verynginx_uri"] = {
         ["URI"] = {
             ['operator'] = "=",
-            ['value']="^/redirect_to_verynginx",
+            ['value']="/redirect_to_verynginx",
         }
     }
 }
@@ -69,7 +69,7 @@ _M.configs["scheme_lock_rule"] = {
     {["matcher"] = 'verynginx', ["scheme"] = "https", ["enable"] = false},
 }
 
-_M.configs["redirect_enable"] = false
+_M.configs["redirect_enable"] = true
 _M.configs["redirect_rule"] = {
     --redirect to a static uri
     {["matcher"] = 'demo_other_verynginx_uri', ["to_uri"] = "/verynginx/dashboard/index.html", ["enable"] = true}, 
