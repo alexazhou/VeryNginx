@@ -149,7 +149,7 @@ log_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_log.lua;
 
 默认用户名和密码是 `verynginx` / `verynginx`。
 
-登录之后就可以查看状态，并对配置进行修改了。修改配置后，记得到 「配置 > 系统 > 全部配置」去保存.
+登录之后就可以查看状态，并对配置进行修改了。修改配置后，记得到 「Config > System > All Configuration」去保存.
 
 ## 提示
 
@@ -244,7 +244,7 @@ Open your web browser and go to `http://127.0.0.1/VeryNginx/dashboard/index.html
 
 Default user and password is `verynginx` / `verynginx`. You should be able to work through all the options now.
 
-Don't forget to visit "配置 > 系统 > 全部配置" to save your changes.
+Don't forget to visit "Config > System > All Configuration" to save your changes.
 
 ## Tips
 
