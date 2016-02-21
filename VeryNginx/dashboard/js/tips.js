@@ -22,21 +22,23 @@ tips.toggle = function(tips_container){
 }
 
 tips.data = {
-    'redirect_scheme':[
-        {"tips":"功能介绍","content":"协议重定向功能可以指定访问URL应该使用https还是http协议"},
-        {"tips":"实现原理","content":"本功能在用户访问一个URI时，检测使用的协议是否和规则一致，\
-		                              不一致则返回302状态码和新的协议地址，使浏览器自动跳转到指定的协议进行访问"},
-        {"tips":"配置说明","content":["参数URI为一个正则表达式，用来匹配网络请求的路径，也就是Nginx变量URI",
-		                              "协议选择https或者http则表示只能通过选中的协议进行访问，选择both则可以使用两种协议进行访问",
-									  "规则匹配时不区分大小写，按照从上到下的顺序进行匹配，仅使用匹配到的第一条规则"]}
+    'basic_matcher':[
+        {"tips":"Purpose","content":"A Matcher used to match request"},
+        {"tips":"Introduce","content":"When a request match all condition in a matcher, the request hit the matcher"},
+        {"tips":"Usage","content":["You can add one or more conditions to a matcher",
+		                              "A empty matcher will match all request"]}
     ],
-    'redirect_uri':[
-        {"tips":"功能介绍","content":"URI重定向功能可以将访问指定URL的请求重定向到其他URI"},
-        {"tips":"实现原理","content":"本功能在用户访问一个URI时，检测该URI是否在列表中，\
-		                              如果在则返回302状态码和新的协议地址，使浏览器自动跳转到指定的URI进行访问"},
-        {"tips":"配置说明","content":["参数URI为一个正则表达式，用来匹配完整或是一部分的的请求URI，也就是Nginx变量URI",
-		                              "替换目标参数将用来替换URI中被正则表达式匹配的部分，这就是新的访问地址",
-									  "规则匹配时不区分大小写，按照从上到下的顺序进行匹配，仅使用匹配到的第一条规则"]}
+    'action_scheme_lock':[
+        {"tips":"Purpose","content":"Lock all request on http or https"},
+        {"tips":"Introduce","content":"This action will check if the scheme current using fit to the rule. If scheme wrong, it will give a 302 redirect to the right scheme" },
+        {"tips":"Usage","content":["https/http means only https/http,both means not limit",
+                                   "From top to bottom to match, and only use the firsh match rule"]
+        
+        },
+    ],
+    'action_redirect':[
+        {"tips":"Purpose","content":"Redirect to other address"},
+        {"tips":"Usage","content":["From top to bottom to match, and only use the firsh match rule"]}
     ],
     'filter_ipwhitelist':[
         {"tips":"功能介绍","content":"IP白名单功能可以指定免过滤的IP"},
