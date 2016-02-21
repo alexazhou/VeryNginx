@@ -49,9 +49,20 @@ function _M.test_uri( condition )
 end
 
 function _M.test_ip( condition )
-    if ngx.var.remote_addr == ip then
-		return true
+
+    local operator = condition['operator']
+    local value =  condition['value']
+
+    if operator == "=" then
+        if ngx.var.remote_addr == value then
+            return true
+        end
+    elseif operator == "!=" then
+        if ngx.var.remote_addr ~= value then
+            return true
+        end
     end
+
     return false
 end
 
