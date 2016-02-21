@@ -6,6 +6,7 @@
 
 _M = {}
 
+local tester = {}
 
 function _M.test( matcher )
     
@@ -20,47 +21,76 @@ function _M.test( matcher )
 	return false
 end
 
-function _M.test_uri( re )
-    if ngx.re.find( ngx.var.uri, re, 'is' ) ~= nil then
-		return true
+function _M.test_uri( condition )
+    
+    local operator = condition['operator']
+    local value =  condition['value']
+    local uri = ngx.var.uri;
+
+    if operator == "=" then
+        if ngx.var.uri == value then
+            return true
+        end
+    elseif operator == "!=" then
+        if ngx.var.uri ~= value then
+            return true
+        end
+    elseif operator == '≈' then
+        if ngx.re.find( ngx.var.uri, value, 'isjo' ) ~= nil then
+            return true
+        end
+    elseif operator == '!≈' then
+        if ngx.re.find( ngx.var.uri, value, 'isjo' ) == nil then
+            return true
+        end
     end
+
     return false
 end
 
-function _M.test_ip( ip )
+function _M.test_ip( condition )
     if ngx.var.remote_addr == ip then
 		return true
     end
     return false
 end
 
-function _M.test_ua( re )
+function _M.test_ua( condition )
+    
+    local operator = condition['operator']
+
+    if operator == "=" then
+    elseif operator == "!=" then
+    elseif operator == '≈' then
+    elseif operator == '!≈' then
+    elseif operator == '!' then
+    end
+
     return false
 end
 
-function _M.test_referer( re )
+function _M.test_referer( condition )
     return false
 end
 
-function _M.test_method( method )
+function _M.test_method( condition )
     return false
 end
 
-function _M.test_args( re )
+function _M.test_args( condition )
     return false
 end
 
-function _M.test_domain( )
+function _M.test_domain( condition )
     return false
 end
 
-local tester = {
-    ["URI"] = _M.test_uri,
-	["IP"] = _M.test_ip,
-	["UserAgent"] = _M.test_ua,
-	["Method"] = _M.test_method,
-	["Args"] = _M.test_args,
-	["Domain"] = _M.test_referer,
-}
+
+tester["URI"] = _M.test_uri
+tester["IP"] = _M.test_ip
+tester["UserAgent"] = _M.test_ua
+tester["Method"] = _M.test_method
+tester["Args"] = _M.test_args
+tester["Domain"] = _M.test_referer
 
 return _M

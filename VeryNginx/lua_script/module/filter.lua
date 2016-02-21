@@ -7,6 +7,7 @@
 local _M = {}
 
 local VeryNginxConfig = require "VeryNginxConfig"
+local request_tester = require "request_tester"
 
 
 function _M.ip_in_whitelist()
@@ -131,27 +132,25 @@ end
 
 
 function _M.filter()
-    if _M.ip_in_whitelist() == true then
+    
+    if VeryNginxConfig.configs["filter_enable"] ~= true then
         return
     end
-
-    if _M.filter_ip() ~= true then
-        ngx.exit( ngx.HTTP_SERVICE_UNAVAILABLE ) 
-    end
     
-    if _M.filter_useragent() ~= true then
-        ngx.exit( ngx.HTTP_SERVICE_UNAVAILABLE ) 
-    end
+    local matcher_list = VeryNginxConfig.configs['matcher']
     
-    if _M.filter_uri() ~= true then
-        ngx.exit( ngx.HTTP_SERVICE_UNAVAILABLE ) 
+    for i,rule in ipairs( VeryNginxConfig.configs["filter_rule"] ) do
+        
+        local matcher = matcher_list[ rule['matcher'] ] 
+        if request_tester.test( matcher ) == true then
+            local action = rule['action']
+            if action == 'accept' then
+                return
+            else 
+                ngx.exit( rule['code'] )
+            end
+        end
     end
-    
-    if _M.filter_args() ~= true then
-        ngx.exit( ngx.HTTP_SERVICE_UNAVAILABLE ) 
-    end
-    
-
 end
 
 return _M
