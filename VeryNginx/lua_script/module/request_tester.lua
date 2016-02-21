@@ -78,6 +78,58 @@ end
 
 --uncompleted
 function _M.test_args( condition )
+    
+    local target_arg_re = condition['name']
+    local find = ngx.find
+    local test_var = _M.test_var
+    
+
+    --handle args behind uri
+    for k,v in pairs( ngx.req.get_uri_args()) do
+        if type(v) == "table" then
+            for arg_idx,arg_value in ipairs(v) do
+                if target_arg_re == nil or find( k, target_arg_re ) ~= nil then
+                    if test_var( condition, arg_value ) == true then
+                        return true
+                    end
+                end
+            end
+        elseif type(v) == "string" then
+            if target_arg_re == nil or find( k, target_arg_re ) ~= nil then
+                if test_var( condition, v ) == true then
+                    return true
+                end
+            end
+        end
+    end
+    
+    
+    ngx.req.read_body()
+    local body_args, err = ngx.req.get_post_args()
+    if body_args == nil then
+        ngx.say("failed to get post args: ", err)
+        return false
+    end
+    
+    --check args in body
+    for k,v in pairs( body_args ) do
+        if type(v) == "table" then
+            for arg_idx,arg_value in ipairs(v) do
+                if target_arg_re == nil or find( k, target_arg_re ) ~= nil then
+                    if test_var( condition, arg_value ) == true then
+                        return true
+                    end
+                end
+            end
+        elseif type(v) == "string" then
+            if target_arg_re == nil or find( k, target_arg_re ) ~= nil then
+                if test_var( condition, v ) == true then
+                    return true
+                end
+            end
+        end
+    end
+
     return false
 end
 

@@ -18,7 +18,6 @@ matcher_editor.condition_input_meta = {
                 'Not Matche RegEx':"!≈",
                 'Equal':"=",
                 'Not Equal':"!=",
-                'is Null':"!",
             }
         },
         {

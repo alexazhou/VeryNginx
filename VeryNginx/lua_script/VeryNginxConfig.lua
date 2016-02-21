@@ -15,7 +15,7 @@ _M.configs["admin"] = {
 
 _M.configs['matcher'] = {
     ["attack_sql_0"] = { 
-        ["URI"] = { 
+        ["Args"] = { 
             ['operator'] = "≈",
             ['value']="select.*from",
         },
@@ -84,7 +84,7 @@ _M.configs["uri_rewrite_rule"] = {
 
 _M.configs["filter_enable"] = true
 _M.configs["filter_rule"] = {
-    {["matcher"] = 'localhost', ["action"] = "accept", ["enable"] = true},
+    {["matcher"] = 'localhost', ["action"] = "accept", ["enable"] = false},
     {["matcher"] = 'attack_sql_0', ["action"] = "block", ["code"] = 403, ["enable"] = true },
     {["matcher"] = 'attack_backup_0', ["action"] = "block", ["code"] = 403, ["enable"] = true },
     {["matcher"] = 'attack_scan_0', ["action"] = "block", ["code"] = 403, ["enable"] = true },
