@@ -38,10 +38,15 @@ function _M.run()
             end
 
             if new_url ~= ngx_var_uri then
+
+                if string.find( new_url, 'http') ~= 1 then
+                    new_url = ngx_var_scheme.."://"..ngx_var_host..new_url
+                end
+
                 if ngx_var.args ~= nil then
-                    ngx_redirect( ngx_var_scheme.."://"..ngx_var_host..new_url.."?"..ngx_var.args , ngx.HTTP_MOVED_TEMPORARILY)
+                    ngx_redirect( new_url.."?"..ngx_var.args , ngx.HTTP_MOVED_TEMPORARILY)
                 else
-                    ngx_redirect( ngx_var_scheme.."://"..ngx_var_host..new_url , ngx.HTTP_MOVED_TEMPORARILY)
+                    ngx_redirect( new_url , ngx.HTTP_MOVED_TEMPORARILY)
                 end
             end
             return
