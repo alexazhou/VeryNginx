@@ -107,7 +107,14 @@ function _M.set()
         return
     end
 
-    local new_config = cjson.decode( args['config'] )
+    local new_config_json_escaped_base64 = args['config']
+    local new_config_json_escaped = ngx.decode_base64( new_config_json_escaped_base64 )
+    --ngx.log(ngx.STDERR,new_config_json_escaped)
+   
+    local new_config_json = ngx.unescape_uri( new_config_json_escaped )
+    --ngx.log(ngx.STDERR,new_config_json)
+
+    local new_config = cjson.decode( new_config_json )
     if _M.verify( new_config ) == true then
         _M["configs"] = new_config
         dump_ret = cjson.decode( _M.dump_to_file() )
