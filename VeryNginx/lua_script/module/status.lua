@@ -13,7 +13,7 @@ local KEY_STATUS_INIT = "I_"
 local KEY_START_TIME = "G_"
 
 local KEY_TOTAL_COUNT = "F_"
-local KEY_TOTAL_COUNT_200 = "H_"
+local KEY_TOTAL_COUNT_SUCCESS = "H_"
 
 local KEY_TRAFFIC_READ = "J_"
 local KEY_TRAFFIC_WRITE = "K_"
@@ -25,7 +25,7 @@ function _M.init()
     local ok, err = ngx.shared.status:add( KEY_STATUS_INIT,true )
     if ok then
 		ngx.shared.status:set( KEY_TOTAL_COUNT, 0 )
-		ngx.shared.status:set( KEY_TOTAL_COUNT_200, 0 )
+		ngx.shared.status:set( KEY_TOTAL_COUNT_SUCCESS, 0 )
 		ngx.shared.status:set( KEY_START_TIME, ngx.time() )
 		
         ngx.shared.status:set( KEY_TRAFFIC_READ, 0 )
@@ -40,8 +40,8 @@ end
 function _M.log()
     ngx.shared.status:incr( KEY_TOTAL_COUNT, 1 )
 
-    if ngx.var.status == '200' then
-        ngx.shared.status:incr( KEY_TOTAL_COUNT_200, 1 )
+    if tonumber(ngx.var.status) < 400 then
+        ngx.shared.status:incr( KEY_TOTAL_COUNT_SUCCESS, 1 )
     end
 
     ngx.shared.status:incr( KEY_TRAFFIC_READ, ngx.var.request_length)
@@ -53,8 +53,8 @@ end
 function _M.report()
 
     local report = {}
-    report['request_count'] = ngx.shared.status:get( KEY_TOTAL_COUNT )
-    report['200_request_count'] = ngx.shared.status:get( KEY_TOTAL_COUNT_200 )
+    report['request_all_count'] = ngx.shared.status:get( KEY_TOTAL_COUNT )
+    report['request_success_count'] = ngx.shared.status:get( KEY_TOTAL_COUNT_SUCCESS )
     report['time'] = ngx.now()
     report['boot_time'] = ngx.shared.status:get( KEY_START_TIME )
     report['response_time_total'] = ngx.shared.status:get( KEY_TIME_TOTAL )
