@@ -74,7 +74,7 @@ function _M.check_session()
     
     for i,v in ipairs( VeryNginxConfig.configs['admin'] ) do
         if v["user"] == user and v["enable"] == true then
-            if session == ngx.md5( encrypt_seed.get_seed()..v["password"]) then
+            if session == ngx.md5( encrypt_seed.get_seed()..v["user"]) then
                 return true
             else
                 return false
