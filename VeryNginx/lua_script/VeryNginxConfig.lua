@@ -75,7 +75,7 @@ _M.configs["redirect_rule"] = {
     {["matcher"] = 'demo_other_verynginx_uri', ["to_uri"] = "/verynginx/dashboard/index.html", ["enable"] = true}, 
 }
 
-_M.configs["uri_rewrite_enable"] = false
+_M.configs["uri_rewrite_enable"] = true
 _M.configs["uri_rewrite_rule"] = {
     --redirect to a Regex generate uri 
     {["matcher"] = 'demo_verynginx_short_uri', ["replace_re"] = "^/vn/(.*)", ["to_uri"] = "/verynginx/dashboard/$1", ["enable"] = true}, 
