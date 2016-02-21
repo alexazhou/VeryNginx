@@ -15,20 +15,44 @@ VeryNginx 基于 `lua_nginx_module(openrestry)` 开发，实现了高级的防�
 ![Nginx 运行状态](http://ww4.sinaimg.cn/mw690/3fcd0ed3jw1f0mhozu43wj20uj0mcgob.jpg)
 
 
-###请求过滤
-VeryNginx 可以基于按照以下信息对请求进行过滤：
+###自定义行为
 
-* IP
+VeryNginx 包含强大的自定义功能，可以做很多事情
+
+自定义行为包含两部分， Matcher 和 Action 。 Matcher 用来对请求进行匹配， Action 为要执行的动作
+
+这样的优势在于把所有的前置判断整合在Matcher里一起来实现了，使复杂(组合)规则的实现变成了可能
+
+####Matcher
+
+一个 Matcher 用来判断一个 Http 请求是否符合指定的条件， 一个 Matcher 可以包含一个或者多个约束条件，目前支持以下几种约束：
+
+* Client IP
+* Domain
 * UserAgent
-* 请求路径 (URI)
-* 请求参数
+* URI
+* Referer
+* Request Args
 
-![Nginx 运行状态](http://ww2.sinaimg.cn/mw690/3fcd0ed3jw1f0mhp07rgoj20vb0n4gof.jpg)
+当一个请求满足了 Matcher 中包含的全部条件时，即命中了这个 Matcher
 
+####Action
+
+每个 Action 会引用一个 Matcher ，当 Matcher 命中时， Action 会被执行
+
+目前已经实现了以下 Action
+
+* Scheme Lock 将访问协议锁定为 Https 或者 Http
+* Redirect 对请求进行重定向
+* URI Rewrite 对请求的 URI 进行内部重写
+* Filter(waf) 过滤器
+
+因为 Matcher 可以对请求进行细致的匹配，所以结合 Filter Action，就可以实现一个高级的WAF，可以利用Matcher中所有的条件来对请求进行过滤，并返回指定状态码
 
 VeryNginx 预置了常用的过滤规则，可以在一定程度上阻止常见的 SQL 注入、Git 及 SVN 文件泄露、目录遍历攻击，并拦截常见的扫描工具。
 
-同时 VeryNginx 的过滤器还支持 IP 黑/白名单设置
+![Nginx 运行状态](http://ww2.sinaimg.cn/mw690/3fcd0ed3jw1f0mhp07rgoj20vb0n4gof.jpg)
+
 
 ###访问统计
 
