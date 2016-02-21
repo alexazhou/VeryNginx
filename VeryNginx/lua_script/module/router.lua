@@ -44,7 +44,7 @@ function _M.filter()
         end
 
         local path = VeryNginxConfig.home_path() .."/dashboard" .. string.sub( ngx.var.uri, string.len( "/verynginx/dashboard") + 1 )
-        ngx.log(ngx.STDERR,"load path:",path)
+        --ngx.log(ngx.STDERR,"load path:",path)
         f = io.open( path, 'r' )
         if f ~= nil then
             ngx.say( f:read("*all") )
