@@ -85,10 +85,10 @@ _M.configs["uri_rewrite_rule"] = {
 _M.configs["filter_enable"] = false
 _M.configs["filter_rule"] = {
     {["matcher"] = 'localhost', ["action"] = "accept", ["enable"] = true},
-    {["matcher"] = 'attack_sql_0', ["action"] = "block", ["enable"] = true },
-    {["matcher"] = 'attack_backup_0', ["action"] = "block", ["enable"] = true },
-    {["matcher"] = 'attack_scan_0', ["action"] = "block", ["enable"] = true },
-    {["matcher"] = 'attack_code_0', ["action"] = "block", ["enable"] = true },
+    {["matcher"] = 'attack_sql_0', ["action"] = "block", ["code"] = 403, ["enable"] = true },
+    {["matcher"] = 'attack_backup_0', ["action"] = "block", ["code"] = 403, ["enable"] = true },
+    {["matcher"] = 'attack_scan_0', ["action"] = "block", ["code"] = 403, ["enable"] = true },
+    {["matcher"] = 'attack_code_0', ["action"] = "block", ["code"] = 403, ["enable"] = true },
 }
 
 

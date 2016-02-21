@@ -640,6 +640,7 @@
                                         <td>#</td>
                                         <td>Matcher</td>
                                         <td>Action</td>
+                                        <td>Return Code</td>
                                         <td>Enable</td>
                                         <td></td>
                                     </tr>
@@ -649,6 +650,11 @@
                                         <td>{{ $index }}</td>
                                         <td>{{ rule.matcher }}</td>
                                         <td>{{ rule.action }}</td>
+                                        <td>
+                                            <template v-if="(rule.action == 'block')">
+                                                {{ rule.code }}
+                                            </template>
+                                        </td>
                                         <td>{{ rule.enable }}</td>
                                         <td class="no_break">
                                             <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('filter_rule',{{$index}},null)">
@@ -671,7 +677,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_filter_form_add" 
-                                  onsubmit="config.config_add( 'filter_rule', {'matcher':this.matcher.value, 'action':this.action.value, 'enable':eval(this.enable.value)} ); return false;" >
+                                  onsubmit="config.config_add( 'filter_rule', {'matcher':this.matcher.value, 'action':this.action.value, 'code':eval(this.code.value), 'enable':eval(this.enable.value)} ); return false;" >
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Matcher</label>
                                     <div class="col-sm-10">
@@ -689,6 +695,34 @@
                                         <select class="form-control" name="action">
                                             <option value="accept">accept</option>
                                             <option value="block">block</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Return Code</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="code">
+                                            <option value="400">400</option>
+                                            <option value="401">401</option>
+                                            <option value="402">402</option>
+                                            <option value="403" selected>403</option>
+                                            <option value="404">404</option>
+                                            <option value="405">405</option>
+                                            <option value="406">406</option>
+                                            <option value="408">408</option>
+                                            <option value="409">409</option>
+                                            <option value="410">410</option>
+                                            <option value="426">426</option>
+                                            <option value="429">429</option>
+                                            <option value="444">444</option>
+                                            <option value="451">451</option>
+                                            <option value="500">500</option>
+                                            <option value="501">501</option>
+                                            <option value="502">502</option>
+                                            <option value="503">503</option>
+                                            <option value="504">504</option>
+                                            <option value="505">505</option>
+                                            <option value="507">507</option>
                                         </select>
                                     </div>
                                 </div>
