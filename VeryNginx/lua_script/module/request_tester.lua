@@ -21,96 +21,69 @@ function _M.test( matcher )
 	return false
 end
 
-function _M.test_uri( condition )
+--test_var is a basic test method, used by other test method 
+function _M.test_var( condition, var )
     
-    local operator = condition['operator']
-    local value =  condition['value']
-    local uri = ngx.var.uri;
+   local operator = condition['operator']
+   local value =  condition['value']
 
-    if operator == "=" then
-        if uri == value then
+   if operator == "=" then
+        if var == value then
             return true
         end
     elseif operator == "!=" then
-        if uri ~= value then
+        if var ~= value then
             return true
         end
     elseif operator == '≈' then
-        if ngx.re.find( uri, value, 'isjo' ) ~= nil then
+        if var ~= nil and ngx.re.find( var, value, 'isjo' ) ~= nil then
             return true
         end
     elseif operator == '!≈' then
-        if ngx.re.find( uri, value, 'isjo' ) == nil then
-            return true
-        end
-    end
-
-    return false
-end
-
-function _M.test_ip( condition )
-
-    local operator = condition['operator']
-    local value =  condition['value']
-
-    if operator == "=" then
-        if ngx.var.remote_addr == value then
-            return true
-        end
-    elseif operator == "!=" then
-        if ngx.var.remote_addr ~= value then
-            return true
-        end
-    end
-
-    return false
-end
-
-function _M.test_ua( condition )
-    
-    local operator = condition['operator']
-    local value =  condition['value']
-    local http_user_agent = ngx.var.http_user_agent;
-
-    if operator == "=" then
-        if http_user_agent == value then
-            return true
-        end
-    elseif operator == "!=" then
-        if http_user_agent ~= value then
-            return true
-        end
-    elseif operator == '≈' then
-        if ngx.re.find( http_user_agent, value, 'isjo' ) ~= nil then
-            return true
-        end
-    elseif operator == '!≈' then
-        if ngx.re.find( http_user_agent, value, 'isjo' ) == nil then
+        if var == nil or ngx.re.find( var, value, 'isjo' ) == nil then
             return true
         end
     elseif operator == '!' then
-        if http_user_agent == nil then
+        if var == nil then
             return true
         end
     end
 
-    return false
+end
+
+function _M.test_uri( condition )
+    local uri = ngx.var.uri;
+    return _M.test_var( condition, uri )
+end
+
+function _M.test_ip( condition )
+    local remote_addr = ngx.var.remote_addr
+    return _M.test_var( condition, remote_addr )
+end
+
+function _M.test_ua( condition )
+    local http_user_agent = ngx.var.http_user_agent;
+    return _M.test_var( condition, http_user_agent )
 end
 
 function _M.test_referer( condition )
-    return false
+    local http_referer = ngx.var.http_referer;
+    return _M.test_var( condition, http_referer )
 end
 
+--uncompleted
 function _M.test_method( condition )
     return false
 end
 
+--uncompleted
 function _M.test_args( condition )
     return false
 end
 
-function _M.test_domain( condition )
-    return false
+function _M.test_host( condition )
+    local hostname = ngx.var.host
+    return _M.test_var( condition, hostname )
 end
 
 
@@ -119,6 +92,7 @@ tester["IP"] = _M.test_ip
 tester["UserAgent"] = _M.test_ua
 tester["Method"] = _M.test_method
 tester["Args"] = _M.test_args
-tester["Domain"] = _M.test_referer
+tester["Referer"] = _M.test_referer
+tester["Host"] = _M.test_host
 
 return _M

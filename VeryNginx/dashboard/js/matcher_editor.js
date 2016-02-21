@@ -44,7 +44,7 @@ matcher_editor.condition_input_meta = {
             'type':'input',
         },
     ],
-    'Domain':[
+    'Host':[
         {   
             'name':'operator',
             'type':"select",
