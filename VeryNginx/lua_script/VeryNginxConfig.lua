@@ -9,6 +9,9 @@ local _M = {}
 _M["configs"] = {}
 
 --------------default config------------
+
+_M.configs["config_version"] = "0.2"
+
 _M.configs["admin"] = {
     { ["user"] = "verynginx", ["password"] = "verynginx", ["enable"] = true}
 }
@@ -122,7 +125,16 @@ function _M.load_from_file()
     --ngx.log(ngx.STDERR, data)
     local tmp = dkjson.decode( data )
     if tmp ~= nil then
-        _M["configs"] =  tmp
+        if tmp['config_version'] ~= _M["configs"]["config_version"] then
+            ngx.log(ngx.STDERR,"load config from config.json error,will use default config")
+            ngx.log(ngx.STDERR,"Except Version:")
+            ngx.log(ngx.STDERR, _M["configs"]["config_version"] )
+            ngx.log(ngx.STDERR,"Config.json Version:")
+            ngx.log(ngx.STDERR,tmp["config_version"])
+        else
+            _M["configs"] =  tmp
+        end
+
         return cjson.encode({["ret"]="success",['config']=_M["configs"]})
     else 
         return cjson.encode({["ret"]="error",["msg"]="config file decode error"})
