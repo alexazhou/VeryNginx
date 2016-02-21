@@ -8,21 +8,26 @@ _M = {}
 
 
 local VeryNginxConfig = require "VeryNginxConfig"
+local request_tester = require "request_tester"
 
 
 function scheme_judge(uri)
 	local ngx_re_find  = ngx.re.find
-    for i, v in ipairs( VeryNginxConfig.configs["redirect_scheme_rule"] ) do
-		if ngx_re_find( uri, v[1], 'is' ) then
-			return v[2]
-		end
+    local matcher_list = VeryNginxConfig.configs['matcher']
+    
+    for i, rule in ipairs( VeryNginxConfig.configs["scheme_lock_rule"] ) do
+        local enable = rule['enable']
+        local matcher = matcher_list[ rule['matcher'] ] 
+        if enable == true and request_tester.test( matcher ) == true then
+            return rule['scheme'] 
+        end
     end
     return 'none'
 end
 
 function _M.run()
 
-    if VeryNginxConfig.configs["redirect_scheme_enable"] ~= true then
+    if VeryNginxConfig.configs["scheme_lock_enable"] ~= true then
         return
     end
 

@@ -1,6 +1,6 @@
-local scheme_redirect = require "scheme_redirect"
+local scheme_lock = require "scheme_lock"
 local path_redirect = require "path_redirect"
-scheme_redirect.run()
+scheme_lock.run()
 path_redirect.run()
 
 
