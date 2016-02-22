@@ -9,6 +9,9 @@ _M = {}
 local tester = {}
 
 function _M.test( matcher )
+    if matcher == nil then
+        return false
+    end
     
 	for name, v in pairs( matcher ) do
         if tester[name] ~= nil then
