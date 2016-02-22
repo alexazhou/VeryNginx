@@ -109,7 +109,12 @@ function _M.test_args( condition )
     
     
     ngx.req.read_body()
-    local body_args, err = ngx.req.get_post_args()
+    --ensure body has not be cached into temp file
+    if ngx.req.get_body_file() ~= nil then
+        return false
+    end
+    
+    local body_args,err = ngx.req.get_post_args()
     if body_args == nil then
         ngx.say("failed to get post args: ", err)
         return false
