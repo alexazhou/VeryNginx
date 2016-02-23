@@ -56,6 +56,8 @@ dashboard.login = function(user,password){
             dashboard.notify("Login Success");
             window.setTimeout( monitor.build_chart, 0 );
             window.setTimeout( monitor.start, 0 );
+        }else{
+            dashboard.notify("login failed");
         }
     });
 }
