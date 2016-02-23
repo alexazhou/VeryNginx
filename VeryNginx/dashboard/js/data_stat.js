@@ -57,18 +57,22 @@ data_stat.get_data = function () {
                 data_stat.url_table.clear().destroy();
             }
 
-            var response = json_data;
             var url_index = 1;
+            for (var key in json_data) {
+                var data_group = json_data[key];
 
-            for (var key in response) {
-                
                 // 计算访问成功率
-                if ("undefined" != typeof(json_data[key].status[200])) {
-                    var success = json_data[key].status[200] / json_data[key].count * 100;
-                } else { // 当200状态不存在的时候成功率为0
-                    var success = 0;
-                };
-
+                var success_count = 0;
+                var total_count = 0;
+                for( var status_code in data_group['status'] ){
+                    var this_status_count = data_group['status'][status_code];
+                    if( parseInt( status_code ) < 400 ){
+                        success_count += this_status_count;
+                    }
+                    total_count += this_status_count;
+                }
+                
+                var success_rate = (success_count / total_count) * 100;
                 var count = parseInt(json_data[key].count);
                 var size = parseFloat(json_data[key].size);
                 var avg_size = size / count;
@@ -81,7 +85,7 @@ data_stat.get_data = function () {
                                "<th style = \"width: 10%\">" + count + "</th>" +
                                "<th style = \"width: 10%\">" + size.toFixed(2) + "</th>" +
                                "<th style = \"width: 15%\">" + avg_size.toFixed(2) + "</th>" +
-                               "<th style = \"width: 10%\">" + success.toFixed(2) + "%</th>" +
+                               "<th style = \"width: 10%\">" + success_rate.toFixed(2) + "%</th>" +
                                "<th style = \"width: 10%\">" + time.toFixed(3) + "</th>" +
                                "<th style = \"width: 12%\">" + avg_time.toFixed(3) + "</th></tr>";
 

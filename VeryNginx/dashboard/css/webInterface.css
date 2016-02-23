@@ -50,6 +50,46 @@
     color:#666;
 }
 
+.config_matcher_block{
+    border-width: 1px;
+	border-style:solid;
+    border-radius: 5px;
+	padding-right:5px;	
+	margin-top:5px;
+	margin-bottom:5px;
+	margin-right:5px;
+	margin-left:5px;
+	border-color:#CCC;
+	background-color:#F5F5F5;
+    position:relative;
+	display:inline-block;
+}
+
+.config_matcher_block_type{
+	padding-left:5px;
+	padding-right:3px;
+    font-weight:bold;
+	display:inline-block;
+}
+
+.config_matcher_block_operator{
+    font-weight:bold;
+	color:#999;
+}
+
+.config_matcher_block_value{
+    color: #555;
+    word-break: break-word;
+}
+
+.config_matcher_block_btn_delete{
+    float:right;
+	margin-left:5px;
+	margin-top: 2px;
+    margin-right: 2px;
+    color: #666;
+}
+
 .matched {
     font-weight:bold;
     color:#337AB7;
@@ -124,13 +164,13 @@
     color:#999;
 }
 
-.status_modal_row {
+.vn_modal_row {
     margin-top:15px;
     margin-bottom:15px;
 }
 
 .vn_modal_mid {
-    width:400px;
+    width:400px ;
 }
 
 .tips_container {

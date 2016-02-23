@@ -242,17 +242,20 @@ monitor.refresh = function(){
                 return;
             }
 
-            var requests_change = data['request_count'] - monitor.latest_status['request_count']; 
-            var requests_200_change = data['200_request_count'] - monitor.latest_status['200_request_count'];
+            var requests_all_change = data['request_all_count'] - monitor.latest_status['request_all_count']; 
+            var requests_success_change = data['request_success_count'] - monitor.latest_status['request_success_count'];
             var connections_active = data['connections_active'];
             var connections_reading = data['connections_reading'];
             var connections_writing = data['connections_writing'];
-            var avg_request = requests_change / time_change;
-            var avg_request_200 = requests_200_change / time_change;
+            var avg_request_all = requests_all_change / time_change;
+            var avg_request_success = requests_success_change / time_change;
             var time_str = monitor.time_str();
             var sub_label = '';
             var response_time_change = data['response_time_total'] - monitor.latest_status['response_time_total'];
-            var avg_response_time = 1000 * response_time_change / time_change;
+            var avg_response_time = 0;
+            if( requests_all_change != 0 ){
+                avg_response_time = 1000 * response_time_change / requests_all_change ;
+            }
             
             var traffic_read_change = data['traffic_read'] - monitor.latest_status['traffic_read'];
             var traffic_write_change = data['traffic_write'] - monitor.latest_status['traffic_write'];
@@ -260,7 +263,7 @@ monitor.refresh = function(){
             var avg_traffic_read = traffic_read_change / (time_change*1024);
             var avg_traffic_write = traffic_write_change / (time_change*1024);
             
-            monitor.chart_request.addData([avg_request,avg_request_200], time_str);
+            monitor.chart_request.addData([avg_request_all,avg_request_success], time_str);
             monitor.chart_connection.addData( [ connections_active,connections_writing,connections_reading ], sub_label )
             monitor.chart_response_time.addData( [ avg_response_time ], sub_label )
             monitor.chart_traffic.addData( [ avg_traffic_read, avg_traffic_write ], sub_label )

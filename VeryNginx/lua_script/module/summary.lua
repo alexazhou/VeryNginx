@@ -4,30 +4,31 @@
 -- -- @Link    : 
 -- -- @Disc    : summary all the request
 
-cjson = require "cjson"
+local cjson = require "cjson"
 
-local M = {}
+local _M = {}
 
-local KEY_SUMMARY_INIT = "A_"
+local KEY_SUMMARY_REFRESHING_FLAG = "A_"
 
 local KEY_URI_STATUS = "B_"
 local KEY_URI_SIZE = "C_"
 local KEY_URI_TIME = "D_"
 local KEY_URI_COUNT = "E_"
 
-function M.refresh()
-    --ngx.log(ngx.STDERR,"do refresh")
-    ngx.timer.at( 60, M.refresh )
+function _M.refresh()
+    ngx.timer.at( 60, _M.refresh )
     ngx.shared.summary_short:flush_all()
+    --update flag timeout 
+    ngx.shared.status:set( KEY_SUMMARY_REFRESHING_FLAG, true, 120 )
 end
 
-function M.log()
+function _M.log()
 
-    --ngx.log(ngx.STDERR,"log start")
-    local ok, err = ngx.shared.status:add( KEY_SUMMARY_INIT,true )
+    local ok, err = ngx.shared.status:add( KEY_SUMMARY_REFRESHING_FLAG, true, 120 )
+    --here use set a 120s timeout for the flag key, so when the nginx worker exit( for example nginx-s reload may cause that ), 
+    --a other worker will continue to refresh the data every 60s
     if ok then
-        --ngx.log(ngx.STDERR,"set timer")
-        ngx.timer.at( 60, M.refresh )
+        ngx.timer.at( 60, _M.refresh )
     end
     
     local uri = ngx.var.uri 
@@ -37,9 +38,6 @@ function M.log()
     local key_time = KEY_URI_TIME..uri
     local key_count = KEY_URI_COUNT..uri
  
-    --ngx.log(ngx.STDERR,"key",key_status)
-    --ngx.log(ngx.STDERR,"status",status_code)
-    
     if ngx.shared.summary_long:get( key_count ) == nil then
         ngx.shared.summary_long:set( key_count, 0 )
     end
@@ -84,12 +82,9 @@ function M.log()
     ngx.shared.summary_short:incr( key_size, ngx.var.body_bytes_sent )
     ngx.shared.summary_short:incr( key_time, ngx.var.request_time )
 
-    
-    --ngx.log(ngx.STDERR,"log end")
 end
 
-function M.report() 
-    --ngx.log(ngx.STDERR,"summary:")
+function _M.report() 
     
     local dict = nil
     local report = {}
@@ -109,6 +104,11 @@ function M.report()
     end
 
     local keys = dict:get_keys(0)
+    local str_sub = string.sub
+    local str_len = string.len
+    local str_format = string.format
+
+
     for k, v in pairs( keys ) do
         record_uri = nil
         status = nil 
@@ -117,16 +117,16 @@ function M.report()
         count = nil 
         
         if v.find(v, KEY_URI_STATUS) == 1 then
-            record_uri = string.sub( v, string.len(KEY_URI_STATUS) + 1, -5 ) 
-            status = string.sub( v,-3 )
+            record_uri = str_sub( v, str_len(KEY_URI_STATUS) + 1, -5 ) 
+            status = str_sub( v,-3 )
         elseif v.find(v, KEY_URI_SIZE) == 1 then
-            record_uri = string.sub( v, string.len(KEY_URI_SIZE) + 1 ) 
+            record_uri = str_sub( v, str_len(KEY_URI_SIZE) + 1 ) 
             size = dict:get( v )
         elseif v.find(v, KEY_URI_TIME) == 1 then
-            record_uri = string.sub( v, string.len(KEY_URI_TIME) + 1 ) 
+            record_uri = str_sub( v, str_len(KEY_URI_TIME) + 1 ) 
             time = dict:get( v )
         elseif v.find(v, KEY_URI_COUNT) == 1 then
-            record_uri = string.sub( v, string.len(KEY_URI_COUNT) + 1 ) 
+            record_uri = str_sub( v, str_len(KEY_URI_COUNT) + 1 ) 
             count = dict:get( v )
         end
         
@@ -151,18 +151,17 @@ function M.report()
 
     for k, v in pairs( report ) do
         if v['time'] ~= nil and v['count'] ~= nil and v['size'] ~= nil then
-            v["avg_time"] = string.format("%.3f", v["time"]/v["count"])
-            v["time"] = string.format("%.3f", v["time"])
-            v["avg_size"] =  string.format("%.2f", v["size"]/v["count"])
-            v["size"] =  string.format("%.2f", v["size"])
+            v["avg_time"] = str_format("%.3f", v["time"]/v["count"])
+            v["time"] = str_format("%.3f", v["time"])
+            v["avg_size"] =  str_format("%.2f", v["size"]/v["count"])
+            v["size"] =  str_format("%.2f", v["size"])
         else
             report[k] = nil
         end
     end
 
-    --ngx.log(ngx.STDERR,"summary end")
     return cjson.encode( report )
     
 end
 
-return M
+return _M

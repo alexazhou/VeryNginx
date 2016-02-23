@@ -4,65 +4,114 @@
 -- @Link    : 
 -- @Disc    : handle VeryNginx configuration
 
-local M = {}
+local _M = {}
 
-M["configs"] = {}
+_M["configs"] = {}
 
 --------------default config------------
-M.configs["admin"] = {
-    {"verynginx","verynginx"}
+
+_M.configs["config_version"] = "0.2"
+
+_M.configs["admin"] = {
+    { ["user"] = "verynginx", ["password"] = "verynginx", ["enable"] = true}
 }
 
-M.configs["redirect_uri_enable"] = true
-M.configs["redirect_uri_rule"] = {
-    {"demowillbereplace","replaced"}
+_M.configs['matcher'] = {
+    ["attack_sql_0"] = { 
+        ["Args"] = { 
+            ['operator'] = "≈",
+            ['value']="select.*from",
+        },
+    },
+    ["attack_backup_0"] = { 
+        ["URI"] = {
+            ['operator'] = "≈",
+            ['value']="\\.(haccess|bash_history|ssh|sql)$",
+        },
+    },
+    ["attack_scan_0"] = { 
+        ["UserAgent"] = {
+            ['operator'] = "≈",
+            ['value']="(nmap|w3af|netsparker|nikto|fimap|wget)",
+        },
+    },
+    ["attack_code_0"] = { 
+        ["URI"] = {
+            ['operator'] = "≈",
+            ['value']="\\.(git|svn|\\.)",
+        },
+    },
+    ["verynginx"] = {
+        ["URI"] = {
+            ['operator'] = "≈",
+            ['value']="^/verynginx/",
+        }
+    },
+    ["localhost"] = {
+        ["IP"] = {
+            ["operator"] = "=",
+            ["value"] = "127.0.0.1"
+        }
+    },
+    ["demo_verynginx_short_uri"] = {
+        ["URI"] = {
+            ['operator'] = "≈",
+            ['value']="^/vn",
+        }
+    },
+    ["demo_other_verynginx_uri"] = {
+        ["URI"] = {
+            ['operator'] = "=",
+            ['value']="/redirect_to_verynginx",
+        }
+    }
 }
 
-M.configs["redirect_scheme_enable"] = false
-M.configs["redirect_scheme_rule"] = {
+_M.configs["scheme_lock_enable"] = false
+_M.configs["scheme_lock_rule"] = {
+    {["matcher"] = 'verynginx', ["scheme"] = "https", ["enable"] = false},
 }
 
-M.configs["filter_ipwhitelist_enable"] = true
-M.configs["filter_ipwhitelist_rule"] = {
+_M.configs["redirect_enable"] = true
+_M.configs["redirect_rule"] = {
+    --redirect to a static uri
+    {["matcher"] = 'demo_other_verynginx_uri', ["to_uri"] = "/verynginx/dashboard/index.html", ["enable"] = true}, 
 }
 
-M.configs["filter_ip_enable"] = true
-M.configs["filter_ip_rule"] = {
+_M.configs["uri_rewrite_enable"] = true
+_M.configs["uri_rewrite_rule"] = {
+    --redirect to a Regex generate uri 
+    {["matcher"] = 'demo_verynginx_short_uri', ["replace_re"] = "^/vn/(.*)", ["to_uri"] = "/verynginx/dashboard/$1", ["enable"] = true}, 
 }
 
-M.configs["filter_useragent_enable"] = true
-M.configs["filter_useragent_rule"] = {
-    {'(nmap|w3af|netsparker|nikto|fimap|wget)'},
+
+_M.configs["filter_enable"] = true
+_M.configs["filter_rule"] = {
+    {["matcher"] = 'localhost', ["action"] = "accept", ["enable"] = false},
+    {["matcher"] = 'attack_sql_0', ["action"] = "block", ["code"] = 403, ["enable"] = true },
+    {["matcher"] = 'attack_backup_0', ["action"] = "block", ["code"] = 403, ["enable"] = true },
+    {["matcher"] = 'attack_scan_0', ["action"] = "block", ["code"] = 403, ["enable"] = true },
+    {["matcher"] = 'attack_code_0', ["action"] = "block", ["code"] = 403, ["enable"] = true },
 }
 
-M.configs["filter_uri_enable"] = true 
-M.configs["filter_uri_rule"] = {
-    {"\\.(git|svn|\\.)"},
-    {"\\.(haccess|bash_history|ssh|sql)$"},
-}
 
-M.configs["filter_arg_enable"] = true
-M.configs["filter_arg_rule"] = {
-    {"select.*from"},
-}
-
-M.configs["summary_request_enable"] = true
+_M.configs["summary_request_enable"] = true
 
 
 --M.configs.url_whitelist = {"aaa"}
 
 ----------------------------------------
-dkjson = require "dkjson"
-cjson = require "cjson"
+local dkjson = require "dkjson"
+local cjson = require "cjson"
 
-function M.home_path()
+function _M.home_path()
     local current_script_path = debug.getinfo(1, "S").source:sub(2)
     local home_path = current_script_path:sub( 1, 0 - string.len("/lua_script/VeryNginxConfig.lua") -1 ) 
     return home_path
 end
 
-function M.load_from_file()
-    local config_dump_path = M.home_path() .. "/config.json"
+function _M.load_from_file()
+    local config_dump_path = _M.home_path() .. "/config.json"
     local file = io.open( config_dump_path, "r")
     
     if file == nil then
@@ -76,26 +125,33 @@ function M.load_from_file()
     --ngx.log(ngx.STDERR, data)
     local tmp = dkjson.decode( data )
     if tmp ~= nil then
-        M["configs"] =  tmp
-        return cjson.encode({["ret"]="success",['config']=M["configs"]})
+        if tmp['config_version'] ~= _M["configs"]["config_version"] then
+            ngx.log(ngx.STDERR,"load config from config.json error,will use default config")
+            ngx.log(ngx.STDERR,"Except Version:")
+            ngx.log(ngx.STDERR, _M["configs"]["config_version"] )
+            ngx.log(ngx.STDERR,"Config.json Version:")
+            ngx.log(ngx.STDERR,tmp["config_version"])
+        else
+            _M["configs"] =  tmp
+        end
+
+        return cjson.encode({["ret"]="success",['config']=_M["configs"]})
     else 
         return cjson.encode({["ret"]="error",["msg"]="config file decode error"})
     end
         
 end 
 
-function M.report()
+function _M.report()
     --return a json contain current config items
-    return dkjson.encode( M["configs"], {indent=true} )
+    return dkjson.encode( _M["configs"], {indent=true} )
 end
 
-function M.verify()
-
+function _M.verify()
     return true  
 end
 
-function M.set()
-    --
+function _M.set()
     local ret = false
     local err = nil
     local args = nil
@@ -108,10 +164,17 @@ function M.set()
         return
     end
 
-    local new_config = cjson.decode( args['config'] )
-    if M.verify( new_config ) == true then
-        M["configs"] = new_config
-        dump_ret = cjson.decode( M.dump_to_file() )
+    local new_config_json_escaped_base64 = args['config']
+    local new_config_json_escaped = ngx.decode_base64( new_config_json_escaped_base64 )
+    --ngx.log(ngx.STDERR,new_config_json_escaped)
+   
+    local new_config_json = ngx.unescape_uri( new_config_json_escaped )
+    --ngx.log(ngx.STDERR,new_config_json)
+
+    local new_config = cjson.decode( new_config_json )
+    if _M.verify( new_config ) == true then
+        _M["configs"] = new_config
+        dump_ret = cjson.decode( _M.dump_to_file() )
         if dump_ret['ret'] == "success" then
             ret = true
             err = nil
@@ -130,14 +193,13 @@ function M.set()
 end
 
 
-function M.dump_to_file()
-    local config_data = M.report()
-    local config_dump_path = M.home_path() .. "/config.json"
+function _M.dump_to_file()
+    local config_data = _M.report()
+    local config_dump_path = _M.home_path() .. "/config.json"
     
-    ngx.log(ngx.STDERR,config_dump_path)
+    --ngx.log(ngx.STDERR,config_dump_path)
 
     file, err = io.open( config_dump_path, "w");
-    --file = io.open( "/tmp/config.json", "w");
     if file ~= nil then
         file:write(config_data);
         file:close();
@@ -149,6 +211,6 @@ function M.dump_to_file()
 end
 
 --auto load config from json file
-M.load_from_file()
+_M.load_from_file()
 
-return M
+return _M

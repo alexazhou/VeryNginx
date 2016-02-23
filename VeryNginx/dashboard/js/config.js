@@ -1,7 +1,34 @@
 var config = new Object();
 
+Vue.config.debug = true;
 config.config_vm = null; 
 config.verynginx_config = {};
+
+//the reusable matcher condition template
+config.vue_component_condition = Vue.extend({
+    props : ['matcher_conditions','del_action'],
+    template: '<template v-for="(condition_name,condition_value) in matcher_conditions | orderBy \'v\'">\
+                   <div class="config_matcher_block">\
+                       <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete" v-if="(del_action != null)" onclick="{{del_action}}"></span>\
+                       <span class="config_matcher_block_type">{{condition_name}}</span>\
+                       <span class="config_matcher_block_name"> {{condition_value.name}}</span>\
+                       <span class="config_matcher_block_operator"> {{condition_value.operator | show_operator}}</span>\
+                       <span class="config_matcher_block_value" >{{condition_value.value}}</span>\
+                   </div>\
+               </template>'
+
+});
+
+Vue.component('condition', config.vue_component_condition )
+
+Vue.filter('show_operator', function (operator) {
+    
+    if( operator == '!'){
+        return ' is Null'
+    }
+
+    return operator;
+})
 
 config.get_config = function(){
     $.get("/verynginx/config",function(data,status){
@@ -9,7 +36,7 @@ config.get_config = function(){
             
         if( config.config_vm != null ){
             config.config_vm.$data = config.verynginx_config;
-            dashboard.notify("获取配置成功");
+            dashboard.notify("Reread config success");
             return;
         }
 
@@ -18,7 +45,7 @@ config.get_config = function(){
             data: config.verynginx_config,
             computed : {
                 all_config_json: function(){
-                    return  JSON.stringify( config.verynginx_config , null, 2);
+                    return JSON.stringify( config.verynginx_config , null, 2);
                 }
             }
         });
@@ -26,16 +53,22 @@ config.get_config = function(){
     }); 
 }
 
-
+//add a config
 config.config_add = function(name,value){
     config.verynginx_config[name].push(value);
 }
 
+//modify a config
+//set value = null to delete
 config.config_mod = function(name,index,value){
     
     //console.log('-->',name,index,value);
     if( value == null ){
-        config.verynginx_config[name].$remove( config.verynginx_config[name][index] );
+        if( typeof index == 'string' ){
+            Vue.delete( config.verynginx_config[name], index );
+        }else{
+            config.verynginx_config[name].splice( index, 1 );
+        }
     }else{
         //config.verynginx_config[name].$set( index, config.verynginx_config[name][index] );
     }
@@ -44,7 +77,7 @@ config.config_mod = function(name,index,value){
 config.config_move_up = function(name,index){
     
     if(index == 0){
-        dashboard.notify("已经是最前面了");
+        dashboard.notify("The item already at the firsh");
         return;
     }
 
@@ -55,7 +88,7 @@ config.config_move_up = function(name,index){
 
 config.config_move_down = function(name,index){
     if(index >= config.verynginx_config[name].length - 1){
-        dashboard.notify("已经是最后面了");
+        dashboard.notify("The item already at the bottom");
         return;
     }
     
@@ -64,16 +97,45 @@ config.config_move_down = function(name,index){
     config.verynginx_config[name].$set(index, tmp);
 }
 
+//for matcher only
+config.config_matcher_delete_condition = function( matcher_name, condition_name ){
+    Vue.delete( config.verynginx_config['matcher'][matcher_name], condition_name  );
+}
+
+//add the content of matcher editor to global config
+config.config_matcher_add = function(){
+    var matcher_name = matcher_editor.matcher_name();
+
+    if( matcher_name == '' ){
+        dashboard.notify('Name of the matcher mush not be empty');
+        return;
+    }
+
+    if( config.verynginx_config['matcher'][matcher_name] != null ){
+        dashboard.notify('Matcher [' + matcher_name + '] already existed');
+        return;
+    }
+
+    Vue.set( config.verynginx_config['matcher'], matcher_name ,matcher_editor.tmp_conditions );
+
+    matcher_editor.clean();
+}
+
 config.save_config = function(){
     console.log("save_config");
     var config_json = JSON.stringify( config.verynginx_config , null, 2);
 
-    $.post("/verynginx/config",{ config:config_json },function(data){
+    //step 1, use encodeURIComponent to escape special char 
+    var config_json_escaped = window.encodeURIComponent( config_json );
+    //step 2, use base64 to encode data to avoid be blocked by verynginx args filter
+    var config_json_escaped_base64 = window.btoa( config_json_escaped );
+
+    $.post("/verynginx/config",{ config:config_json_escaped_base64 },function(data){
         console.log(data);
         if( data['ret'] == 'success' ){
-            dashboard.notify("保存配置成功");
+            dashboard.notify("save config success");
         }else{
-            dashboard.notify("保存配置失败[" + data['err'] + "]");
+            dashboard.notify("save config failed[" + data['err'] + "]");
         }
     });
 }

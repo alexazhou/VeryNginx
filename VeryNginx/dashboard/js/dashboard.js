@@ -1,5 +1,7 @@
 var dashboard = new Object();
 
+dashboard.disable_log = false;
+
 paceOptions = {
     catchupTime: 1,
     minTime: 1,
@@ -11,6 +13,11 @@ paceOptions = {
 };
 
 dashboard.init = function(){
+    
+    if( dashboard.disable_log == true ){
+        window.console={log:function(){}};	
+    }
+
     dashboard.switch_to_interface('login');
     $(".init_click").click();
 
@@ -35,7 +42,9 @@ dashboard.init = function(){
         var form_input = $(this).find(".config_test_input");
         
         form_input.on( 'input',test_action );
-    })
+    });
+
+    matcher_editor.init(); 
 }
 
 dashboard.login = function(user,password){
@@ -115,7 +124,7 @@ dashboard.notify = function(message){
     });
 }
 
-dashboard.open_dashboard_config = function(){
+dashboard.open_modal_dashboard_config = function(){
     //load status dashboard config
     $('#status_config_modal').modal('show');
 
@@ -155,6 +164,8 @@ dashboard.status_dashboard_update_interval_label = function(){
     var refresh_interval = $('#status_config_modal [name=refresh_interval]').val();
     $('#status_config_modal [name=refresh_interval_label]').text(refresh_interval + "s");
 }
+
+
 
 /**
  * Vertically center Bootstrap 3 modals so they aren't always stuck at the top

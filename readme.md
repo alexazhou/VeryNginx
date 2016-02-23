@@ -12,23 +12,49 @@ VeryNginx 基于 `lua_nginx_module(openrestry)` 开发，实现了高级的防�
 * 网络流量
 * 网络连接数
 
-![Nginx 运行状态](http://ww4.sinaimg.cn/mw690/3fcd0ed3jw1f0mhozu43wj20uj0mcgob.jpg)
+![Nginx 运行状态](http://ww2.sinaimg.cn/mw690/3fcd0ed3jw1f17en7oc1yj20z00ol0wl.jpg)
 
 
-###请求过滤
-VeryNginx 可以基于按照以下信息对请求进行过滤：
+###自定义行为
 
-* IP
+VeryNginx 包含强大的自定义功能，可以做很多事情
+
+自定义行为包含两部分， Matcher 和 Action 。 Matcher 用来对请求进行匹配， Action 为要执行的动作
+
+这样的优势在于把所有的前置判断整合在Matcher里一起来实现了，使复杂(组合)规则的实现变成了可能
+
+####Matcher
+
+一个 Matcher 用来判断一个 Http 请求是否符合指定的条件， 一个 Matcher 可以包含一个或者多个约束条件，目前支持以下几种约束：
+
+* Client IP
+* Domain
 * UserAgent
-* 请求路径 (URI)
-* 请求参数
+* URI
+* Referer
+* Request Args
 
-![Nginx 运行状态](http://ww2.sinaimg.cn/mw690/3fcd0ed3jw1f0mhp07rgoj20vb0n4gof.jpg)
+当一个请求满足了 Matcher 中包含的全部条件时，即命中了这个 Matcher
 
+####Action
+
+每个 Action 会引用一个 Matcher ，当 Matcher 命中时， Action 会被执行
+
+目前已经实现了以下 Action
+
+* Scheme Lock 将访问协议锁定为 Https 或者 Http
+* Redirect 对请求进行重定向
+* URI Rewrite 对请求的 URI 进行内部重写
+* Filter(waf) 过滤器
+
+因为 Matcher 可以对请求进行细致的匹配，所以结合 Filter Action，就可以实现一个高级的WAF，可以利用Matcher中所有的条件来对请求进行过滤，并返回指定状态码
 
 VeryNginx 预置了常用的过滤规则，可以在一定程度上阻止常见的 SQL 注入、Git 及 SVN 文件泄露、目录遍历攻击，并拦截常见的扫描工具。
 
-同时 VeryNginx 的过滤器还支持 IP 黑/白名单设置
+![VeryNginx Matcher](http://ww2.sinaimg.cn/mw690/3fcd0ed3jw1f17en8ovthj20zs0pdn1x.jpg)
+
+![VeryNginx filter](http://ww3.sinaimg.cn/mw690/3fcd0ed3jw1f17en9lrarj20zw0piq77.jpg)
+
 
 ###访问统计
 
@@ -43,13 +69,14 @@ VeryNginx 可以统计网站每个URI的访问情况，包括每个URI的:
 
 并且可以按各种规则排序进行分析。
 
-![Nginx 运行状态](http://ww4.sinaimg.cn/mw690/3fcd0ed3jw1f0mhp0lq5ij20vb0n4aes.jpg)
+![Nginx 运行状态](http://ww1.sinaimg.cn/mw690/3fcd0ed3jw1f17ena2ipyj20zw0piqag.jpg)
 
 ##安装说明
 
 ### 安装 Nginx / OpenResty
 
 VeryNginx 基于 OpenResty[^openresty]，所以你需要先安装它：
+
 
 ```sh
 wget https://openresty.org/download/ngx_openresty-1.9.7.1.tar.gz
@@ -60,6 +87,8 @@ sudo su
 gmake
 gmake install
 ```
+
+>以上使用的是openresty-1.9.7.1，当openresty发布更新的稳定版本时，也可以使用最新的稳定版本
 
 VeryNginx 实际使用到了 OpenResty 中的这些模块
 
@@ -120,7 +149,7 @@ log_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_log.lua;
 
 默认用户名和密码是 `verynginx` / `verynginx`。
 
-登录之后就可以查看状态，并对配置进行修改了。修改配置后，记得到 「配置 > 系统 > 全部配置」去保存.
+登录之后就可以查看状态，并对配置进行修改了。修改配置后，记得到 「Config > System > All Configuration」去保存.
 
 ## 提示
 
@@ -150,6 +179,8 @@ sudo su
 gmake
 gmake install
 ```
+
+>At here we used the v1.9.7.1 of openresty, if there is a new stable version of openresty has been released, we alse can use it.  
 
 VeryNginx uses only following modules in OpenResty.
 
@@ -213,7 +244,7 @@ Open your web browser and go to `http://127.0.0.1/VeryNginx/dashboard/index.html
 
 Default user and password is `verynginx` / `verynginx`. You should be able to work through all the options now.
 
-Don't forget to visit "配置 > 系统 > 全部配置" to save your changes.
+Don't forget to visit "Config > System > All Configuration" to save your changes.
 
 ## Tips
 
@@ -222,7 +253,6 @@ Don't forget to visit "配置 > 系统 > 全部配置" to save your changes.
 * When you save config, VeryNginx will write all configs to `/opt/VeryNginx/VeryNginx/config.json`.
 
 * If you lock yourself out of VeryNginx by doing something stupid, you can always delete `config.json` to revert VeryNginx to its default.
-
 
 ###Enjoy~
 

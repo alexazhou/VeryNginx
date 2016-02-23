@@ -1,7 +1,8 @@
-scheme_redirect = require "scheme_redirect"
-scheme_redirect.run()
-
-path_redirect = require "path_redirect"
-path_redirect.run()
+local scheme_lock = require "scheme_lock"
+local redirect = require "redirect"
+local uri_rewrite = require "uri_rewrite"
+scheme_lock.run()
+redirect.run()
+uri_rewrite.run()
 
 
