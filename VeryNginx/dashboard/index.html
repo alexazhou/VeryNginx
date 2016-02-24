@@ -235,6 +235,7 @@
                                 <div class="leftnav leftnav_2" config_name="action_scheme_lock" onclick="dashboard.switch_to_config(this)">Scheme Lock</div>
                                 <div class="leftnav leftnav_2" config_name="action_redirect" onclick="dashboard.switch_to_config(this)">Redirect</div>
                                 <div class="leftnav leftnav_2" config_name="action_uri_rewrite" onclick="dashboard.switch_to_config(this)">URI Rewrite</div>
+                                <div class="leftnav leftnav_2" config_name="action_browser_verify" onclick="dashboard.switch_to_config(this)">Browser Verify</div>
                                 <div class="leftnav leftnav_2" config_name="action_filter" onclick="dashboard.switch_to_config(this)">Filter</div>
                             </div>
                             <div class="leftnav leftnav_1" group="summary" onclick="dashboard.switch_config_nav_group(this)">Summary</div>
@@ -632,6 +633,106 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10 matched config_test_output">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+
+                        <div class="config_container" id="config_action_browser_verify">
+                            <div class="config_title">
+                                Browser Verify
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="filter_browser_verify_enable">
+                            <label>Enable</label>
+                            <table class="table table-bordered config_table" id="config_browser_verify_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Enable</td>
+                                        <td>Matcher</td>
+                                        <td>Verify Type</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="rule in browser_verify_rule">
+                                        <td>{{ $index }}</td>
+                                        <td>{{ rule.enable }}</td>
+                                        <td>{{ rule.matcher }}</td>
+                                        <td>
+                                            <span v-if="(rule.v_cookie == true)">Cookie</span>
+                                            <span v-if="(rule.v_js == true)">JavaScript </span>
+                                            <span v-if="(rule.v_hash == true)">Hash</span>
+                                        </td>
+                                        <td class="no_break">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('browser_verify_rule',{{$index}},null)">
+                                                DEL
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('browser_verify_rule',{{$index}})">
+                                                UP
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('browser_verify_rule',{{$index}})">
+                                                DOWN
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="config_sub_title">
+                                Add Rule
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" name="config_action_browser_verify_form_add" onsubmit="
+                                  config.config_add( 'browser_verify_rule', {'enable':this.enable.value,'matcher':this.matcher.value,'v_cookie':this.v_cookie.checked,'v_js':this.v_js.checked,'v_hash':this.v_hash.checked } ); return false;" >
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Enable</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="enable">
+                                            <option value="true">true</option>
+                                            <option value="false">false</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Matcher</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="matcher">
+                                            <template v-for="(matcher_name, matcher_conditions) in matcher | orderBy '$key'">
+                                                <option value="{{matcher_name}}">{{matcher_name}}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Verify Type</label>
+                                    <div class="col-sm-10">
+                                        <div style="padding-top:5px">
+                                            <input type="checkbox" name="v_cookie" >
+                                            <label>Cookie</label>
+                                        </div>
+                                        <div>
+                                            <input type="checkbox" name="v_js" >
+                                            <label>JavaScript</label>
+                                        </div>
+                                        <div style="display:none">
+                                            <input type="checkbox" name="v_hash" >
+                                            <label>Hash</label>
+                                        </div>
+                                        <div style="color:#AAA">
+                                            If no option is selected, the request will be released
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-default" >Add</button>
                                     </div>
                                 </div>
                             </form>

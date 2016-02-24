@@ -84,6 +84,9 @@ _M.configs["uri_rewrite_rule"] = {
     {["matcher"] = 'demo_verynginx_short_uri', ["replace_re"] = "^/vn/(.*)", ["to_uri"] = "/verynginx/dashboard/$1", ["enable"] = true}, 
 }
 
+_M.configs["browser_verify"] = true
+_M.configs["browser_verify_rule"] = {
+}
 
 _M.configs["filter_enable"] = true
 _M.configs["filter_rule"] = {
