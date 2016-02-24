@@ -83,7 +83,7 @@ data_stat.get_data = function () {
                 var dyn_tab =  "<tr><td >" + url_index + "</td>" +
                                "<td>" + key + "</td>" +
                                "<td>" + count + "</td>" +
-                               "<td>" + size.toFixed(2) + "</td>" +
+                               "<td>" + size + "</td>" +
                                "<td>" + avg_size.toFixed(2) + "</td>" +
                                "<td>" + success_rate.toFixed(2) + "%</td>" +
                                "<td>" + time.toFixed(3) + "</td>" +
