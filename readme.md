@@ -1,6 +1,8 @@
 # VeryNginx
 VeryNginx is a very powerful and friendly nginx .
 
+[English document](#Description)
+
 ##介绍
 
 VeryNginx 基于 `lua_nginx_module(openrestry)` 开发，实现了高级的防火墙、访问统计和其他的一些功能。 强化了 Nginx 本身的功能，并提供了友好的 Web 交互界面。
@@ -162,6 +164,68 @@ log_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_log.lua;
 
 ###Enjoy~
 
+
+##Description
+
+VeryNginx base on `lua_nginx_module(openrestry)` ,implements advanced firewall(waf), access statistics and some other features. Strengthen the Nginx own function, and provides a friendly Web interface.
+
+###Nginx run status analyzing
+
+* Request per second
+* Response time
+* Net Traffic
+* Tcp connectinn num
+
+###Custom Action
+
+VeryNginx support custom actions, can do a lot os things.
+
+Custom action consists of two parts, `Matcher`和 `Action` . `Matcher` used to test whether a request meets the rule， `Action` is the logic you want run.
+
+>The advantage of this disign is that the `Matcher` include all select rule, and can be reused, make use rule to describe a very complex logic becomes possible
+
+####Matcher
+
+`Matcher` used to select a part of all requests, a `Matcher` may contain one or more condition, these conditions are currently supported:
+
+* Client IP
+* Domain
+* UserAgent
+* URI
+* Referer
+* Request Args
+
+When a request meets all the conditions of the Matcher, the request will be selected by the `Matcher`
+
+####Action
+
+Every `Action` refers to a `Matcher` , and will run on the requests selected by the `Matcher` 
+
+Now we has these `Action`
+
+* Scheme Lock 
+>lock the scheme to http/https
+* Redirect 
+>redirect request
+* URI Rewrite 
+>do internal rewrite on the request
+* Filter
+>block some request, can do the WAF
+
+Matcher can select requests by multiple conditions, so with Filter Action, we got a powerful waf. The waf can filter requests wich complex rules and return special status code when it block a request.
+
+VeryNginx preset some simple filter rules, can prevent simple SQL injection , Git and SVN file disclosure, directory traversal attacks and common scanning tool.
+
+###Request statistics
+
+VeryNginx can record the request of URI, include these data of every URI:
+
+* All Request Count
+* Request count of every status code
+* Total Bytes 
+* Avg Bytes
+* Total response time
+* Avg reqponse time
 
 
 ##Installation
