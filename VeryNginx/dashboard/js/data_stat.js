@@ -80,14 +80,14 @@ data_stat.get_data = function () {
                 var avg_time = time / count;
 
                 // 动态增加每一列关于各URL/URI的详细访问信息
-                var dyn_tab =  "<tr><th style = \"width: 5%\">" + url_index + "</th>" +
-                               "<th style = \"width: 28%\">" + key + "</th>" +
-                               "<th style = \"width: 10%\">" + count + "</th>" +
-                               "<th style = \"width: 10%\">" + size.toFixed(2) + "</th>" +
-                               "<th style = \"width: 15%\">" + avg_size.toFixed(2) + "</th>" +
-                               "<th style = \"width: 10%\">" + success_rate.toFixed(2) + "%</th>" +
-                               "<th style = \"width: 10%\">" + time.toFixed(3) + "</th>" +
-                               "<th style = \"width: 12%\">" + avg_time.toFixed(3) + "</th></tr>";
+                var dyn_tab =  "<tr><td >" + url_index + "</td>" +
+                               "<td>" + key + "</td>" +
+                               "<td>" + count + "</td>" +
+                               "<td>" + size.toFixed(2) + "</td>" +
+                               "<td>" + avg_size.toFixed(2) + "</td>" +
+                               "<td>" + success_rate.toFixed(2) + "%</td>" +
+                               "<td>" + time.toFixed(3) + "</td>" +
+                               "<td>" + avg_time.toFixed(3) + "</td></tr>";
 
                 $('#url_details').append(dyn_tab);
 
@@ -97,7 +97,7 @@ data_stat.get_data = function () {
 
             // 添加表格排序
             data_stat.url_table = $('#url_table').DataTable( {
-                                autoWidth: true, // 设置表格自动适配宽度
+                                autoWidth: false, // 设置表格自动适配宽度
                                 paging: false, // 去掉页头页脚信息
                                 "stripeClasses": [], // 去掉斑马色
                                 renderer: true,

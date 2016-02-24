@@ -251,3 +251,7 @@
     font-weight: normal;
     color: #777;
 }
+
+.summary_url_table td {
+    word-break: break-word;
+}
