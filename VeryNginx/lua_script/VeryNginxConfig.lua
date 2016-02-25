@@ -17,6 +17,7 @@ _M.configs["admin"] = {
 }
 
 _M.configs['matcher'] = {
+    ["all_request"] = {},
     ["attack_sql_0"] = { 
         ["Args"] = { 
             ['operator'] = "≈",

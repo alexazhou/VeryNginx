@@ -140,6 +140,40 @@ config.save_config = function(){
     });
 }
 
+config.get_form_data = function( form ){
+    var data = {}
+    var inputs = $(form).find("input,checkbox,select");
+
+    for( var i=0; i < inputs.length; i++ ){
+        var item = $(inputs[i]);
+        if( item.prop('tagName').toLowerCase() == "input" && item.attr('type') == "checkbox" ){
+
+            var config_group = item.attr('config_group');
+            if( config_group != null ){
+                if( data[config_group] == null ){
+                    data[config_group] = [];
+                }
+
+                if( item.prop( "checked" ) ){
+                    data[config_group].push( item.attr('name') );
+                }
+            }else{
+                if( item.prop( "checked" )){
+                    data[item.attr('name')] = true;
+                }else{
+                    data[item.attr('name')] = false;
+                }
+            }
+
+        }else if( item.prop('tagName').toLowerCase() == "select" ){
+            data[ item.attr('name') ] = item.val();
+        }
+    }
+
+    //console.log('output data:',data);
+    return data;
+}
+
 config.test_match_factory = function( type ){
 
     var match_core = function(){

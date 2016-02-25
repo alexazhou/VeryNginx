@@ -661,9 +661,9 @@
                                         <td>{{ rule.enable }}</td>
                                         <td>{{ rule.matcher }}</td>
                                         <td>
-                                            <span v-if="(rule.v_cookie == true)">Cookie</span>
-                                            <span v-if="(rule.v_js == true)">JavaScript </span>
-                                            <span v-if="(rule.v_hash == true)">Hash</span>
+                                            <template v-for="type_name in rule.type">
+                                                <span >{{type_name}}</span>
+                                            </template>
                                         </td>
                                         <td class="no_break">
                                             <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('browser_verify_rule',{{$index}},null)">
@@ -686,15 +686,12 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_action_browser_verify_form_add" onsubmit="
-                                  config.config_add( 'browser_verify_rule', {'enable':this.enable.value,'matcher':this.matcher.value,'v_cookie':this.v_cookie.checked,'v_js':this.v_js.checked,'v_hash':this.v_hash.checked } ); return false;" >
+                                 config.config_add( 'browser_verify_rule', config.get_form_data(this)); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Enable</label>
                                     <div class="col-sm-10">
-                                        <select class="form-control" name="enable">
-                                            <option value="true">true</option>
-                                            <option value="false">false</option>
-                                        </select>
+                                        <input type="checkbox" name="enable">
                                     </div>
                                 </div>
 
@@ -710,18 +707,18 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Verify Type</label>
+                                    <label class="col-sm-2 control-label">Verify Action</label>
                                     <div class="col-sm-10">
                                         <div style="padding-top:5px">
-                                            <input type="checkbox" name="v_cookie" >
+                                            <input type="checkbox" name="cookie" config_group="type" >
                                             <label>Cookie</label>
                                         </div>
                                         <div>
-                                            <input type="checkbox" name="v_js" >
+                                            <input type="checkbox" name="javascript" config_group="type">
                                             <label>JavaScript</label>
                                         </div>
                                         <div style="display:none">
-                                            <input type="checkbox" name="v_hash" >
+                                            <input type="checkbox" name="hash" config_group="type">
                                             <label>Hash</label>
                                         </div>
                                         <div style="color:#AAA">
