@@ -662,7 +662,7 @@
                                         <td>{{ rule.matcher }}</td>
                                         <td>
                                             <template v-for="type_name in rule.type">
-                                                <span >{{type_name}}</span>
+                                                <div class="config_card">{{type_name}}</div>
                                             </template>
                                         </td>
                                         <td class="no_break">
@@ -690,8 +690,10 @@
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Enable</label>
-                                    <div class="col-sm-10">
-                                        <input type="checkbox" name="enable">
+                                    <div class="col-sm-10" >
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="enable" >
+                                        </div>
                                     </div>
                                 </div>
 
@@ -709,7 +711,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Verify Action</label>
                                     <div class="col-sm-10">
-                                        <div style="padding-top:5px">
+                                        <div class="config_form_line">
                                             <input type="checkbox" name="cookie" config_group="type" >
                                             <label>Cookie</label>
                                         </div>

@@ -110,6 +110,23 @@
     color:#BBB;
 }
 
+.config_form_line{
+    padding-top:5px;
+}
+
+.config_card{
+    background-color:#F0F0F0;
+    border:solid;
+	border-width:1px ;
+	border-radius:3px;
+	border-color:#CCC;
+    display:inline-block;
+	margin-left:5px;
+	margin-right:5px;
+	padding-left:3px;
+	padding-right:3px;
+}
+
 .no_break {
     white-space: nowrap;
 }
