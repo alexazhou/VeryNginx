@@ -321,9 +321,9 @@
                                 <thead>
                                     <tr>
                                         <td>#</td>
+                                        <td>Enable</td>
                                         <td>Matcher</td>
                                         <td>Scheme</td>
-                                        <td>Enable</td>
                                         <td></td>
                                     </tr>
                                 </thead>
@@ -331,9 +331,16 @@
                                     <template v-for="rule in scheme_lock_rule">
                                         <tr>
                                             <td >{{ $index }}</td>
+                                            <td >
+                                                <template v-if="(rule.enable)">
+                                                    ✓
+                                                </template>
+                                                <template v-else>
+                                                    ✗
+                                                </template>
+                                            </td>
                                             <td >{{ rule.matcher }}</td>
                                             <td >{{ rule.scheme }}</td>
-                                            <td >{{ rule.enable }}</td>
                                             <td class="no_break">
                                                 <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('scheme_lock_rule',{{$index}},null)">
                                                     DEL
@@ -404,20 +411,27 @@
                                 <thead>
                                     <tr>
                                         <td>#</td>
+                                        <td>Enable</td>
                                         <td>Matcher</td>
                                         <td>RegEx</td>
                                         <td>Redirect to</td>
-                                        <td>Enable</td>
                                         <td></td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="rule in redirect_rule">
                                         <td>{{ $index }}</td>
+                                        <td>
+                                            <template v-if="(rule.enable)">
+                                                ✓
+                                            </template>
+                                            <template v-else>
+                                                ✗
+                                            </template>
+                                        </td>
                                         <td>{{ rule.matcher }}</td>
                                         <td>{{ rule.replace_re }}</td>
                                         <td>{{ rule.to_uri }}</td>
-                                        <td>{{ rule.enable }}</td>
                                         <td class="no_break">
                                             <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('redirect_rule',{{$index}},null)">
                                                 DEL
@@ -489,20 +503,27 @@
                                 <thead>
                                     <tr>
                                         <td>#</td>
+                                        <td>Enabled</td>
                                         <td>Matcher</td>
                                         <td>RegEx</td>
                                         <td>Redirect to</td>
-                                        <td>Enabled</td>
                                         <td></td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="rule in uri_rewrite_rule">
                                         <td>{{ $index }}</td>
+                                        <td>
+                                            <template v-if="(rule.enable)">
+                                                ✓
+                                            </template>
+                                            <template v-else>
+                                                ✗
+                                            </template>
+                                        </td>
                                         <td>{{ rule.matcher }}</td>
                                         <td>{{ rule.replace_re }}</td>
                                         <td>{{ rule.to_uri }}</td>
-                                        <td>{{ rule.enable }}</td>
                                         <td class="no_break">
                                             <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('uri_rewrite_rule',{{$index}},null)">
                                                 DEL
@@ -658,7 +679,14 @@
                                 <tbody>
                                     <tr v-for="rule in browser_verify_rule">
                                         <td>{{ $index }}</td>
-                                        <td>{{ rule.enable }}</td>
+                                        <td>
+                                            <template v-if="(rule.enable)">
+                                                ✓
+                                            </template>
+                                            <template v-else>
+                                                ✗
+                                            </template>
+                                        </td>
                                         <td>{{ rule.matcher }}</td>
                                         <td>
                                             <template v-for="type_name in rule.type">
@@ -747,16 +775,24 @@
                                 <thead>
                                     <tr>
                                         <td>#</td>
+                                        <td>Enable</td>
                                         <td>Matcher</td>
                                         <td>Action</td>
                                         <td>Return Code</td>
-                                        <td>Enable</td>
                                         <td></td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="rule in filter_rule">
                                         <td>{{ $index }}</td>
+                                        <td>
+                                            <template v-if="(rule.enable)">
+                                                ✓
+                                            </template>
+                                            <template v-else>
+                                                ✗
+                                            </template>
+                                        </td>
                                         <td>{{ rule.matcher }}</td>
                                         <td>{{ rule.action }}</td>
                                         <td>
@@ -764,7 +800,6 @@
                                                 {{ rule.code }}
                                             </template>
                                         </td>
-                                        <td>{{ rule.enable }}</td>
                                         <td class="no_break">
                                             <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('filter_rule',{{$index}},null)">
                                                 DEL
