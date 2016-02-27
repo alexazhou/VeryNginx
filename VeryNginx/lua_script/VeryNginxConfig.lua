@@ -178,7 +178,7 @@ function _M.set()
     local dump_ret = nil
 
     ngx.req.read_body()
-    local args, err = ngx.req.get_post_args()
+    args, err = ngx.req.get_post_args()
     if not args then
         ngx.say("failed to get post args: ", err)
         return
