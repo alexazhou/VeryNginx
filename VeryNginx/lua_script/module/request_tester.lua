@@ -15,13 +15,13 @@ function _M.test( matcher )
     
 	for name, v in pairs( matcher ) do
         if tester[name] ~= nil then
-            if tester[name]( v ) == true then
-                return true
+            if tester[name]( v ) ~= true then
+                return false
 			end
 		end
 	end
 
-	return false
+	return true
 end
 
 --test_var is a basic test method, used by other test method 

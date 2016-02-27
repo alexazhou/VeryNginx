@@ -6,6 +6,9 @@
 
 local _M = {}
 
+--The md5 of config string
+_M.config_hash = nil
+
 _M["configs"] = {}
 
 --------------default config------------
@@ -114,6 +117,16 @@ function _M.home_path()
     return home_path
 end
 
+function _M.update_config()
+    --save a hash of current in lua environment
+    local new_config_hash = ngx.shared.status:get('vn_config_hash')
+    if new_config_hash ~= nil and new_config_hash ~= _M.config_hash then
+        ngx.log(ngx.STDERR,"config Hash Changed:now reload config from config.json")
+        _M.load_from_file()
+    end
+end
+
+
 function _M.load_from_file()
     local config_dump_path = _M.home_path() .. "/config.json"
     local file = io.open( config_dump_path, "r")
@@ -125,6 +138,9 @@ function _M.load_from_file()
     --file = io.open( "/tmp/config.json", "w");
     local data = file:read("*all");
     file:close();
+
+    --save config hash in module
+    _M.config_hash = ngx.md5( data )
 
     --ngx.log(ngx.STDERR, data)
     local tmp = dkjson.decode( data )
@@ -162,7 +178,7 @@ function _M.set()
     local dump_ret = nil
 
     ngx.req.read_body()
-    args, err = ngx.req.get_post_args()
+    local args, err = ngx.req.get_post_args()
     if not args then
         ngx.say("failed to get post args: ", err)
         return
@@ -176,16 +192,9 @@ function _M.set()
     --ngx.log(ngx.STDERR,new_config_json)
 
     local new_config = cjson.decode( new_config_json )
+    
     if _M.verify( new_config ) == true then
-        _M["configs"] = new_config
-        dump_ret = cjson.decode( _M.dump_to_file() )
-        if dump_ret['ret'] == "success" then
-            ret = true
-            err = nil
-        else
-            ret = false
-            err = dump_ret['err']
-        end
+        ret, err = _M.dump_to_file( new_config ) 
     end
 
     if ret == true then
@@ -193,23 +202,23 @@ function _M.set()
     else
         return cjson.encode({["ret"]="failed",["err"]=err})
     end
-
 end
 
 
-function _M.dump_to_file()
-    local config_data = _M.report()
+function _M.dump_to_file( config_table )
+    local config_data = dkjson.encode( config_table , {indent=true} )
     local config_dump_path = _M.home_path() .. "/config.json"
     
     --ngx.log(ngx.STDERR,config_dump_path)
-
-    file, err = io.open( config_dump_path, "w");
+    local file, err = io.open( config_dump_path, "w")
     if file ~= nil then
-        file:write(config_data);
-        file:close();
-        return cjson.encode({["ret"]="success"})
+        file:write(config_data)
+        file:close()
+        --update config hash in shared dict
+        ngx.shared.status:set('vn_config_hash', ngx.md5(config_data) )
+        return true
     else
-        return cjson.encode({["ret"]="failed",["err"]="open file failed"})
+        return false, "open file failed"
     end
 
 end
