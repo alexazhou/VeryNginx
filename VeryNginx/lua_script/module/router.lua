@@ -44,7 +44,6 @@ function _M.filter()
         end
 
         local path = VeryNginxConfig.home_path() .."/dashboard" .. string.sub( ngx.var.uri, string.len( "/verynginx/dashboard") + 1 )
-        --ngx.log(ngx.STDERR,"load path:",path)
         f = io.open( path, 'r' )
         if f ~= nil then
             ngx.say( f:read("*all") )
@@ -121,7 +120,6 @@ _M.url_route["get /verynginx/summary"] = summary.report
 _M.url_route["get /verynginx/status"] = status.report
 _M.url_route["get /verynginx/config"] = VeryNginxConfig.report
 _M.url_route["post /verynginx/config"] = VeryNginxConfig.set
-_M.url_route["get /verynginx/dumpconfig"] = VeryNginxConfig.dump_to_file
 _M.url_route["get /verynginx/loadconfig"] = VeryNginxConfig.load_from_file
 
 return _M
