@@ -372,7 +372,7 @@
                                 Edit Rule
                             </div>
                             <hr>
-                            <form class="form-horizontal" id="config_scheme_form" onsubmit="config.save_form_data( 'scheme_lock_rule', form.get_data(this)); return false;" >
+                            <form class="form-horizontal" id="config_scheme_form" onsubmit="config.save_form_data( 'scheme_lock_rule', form.get_data('config_scheme_form')); return false;" >
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
                                         <div class="notice" v-if="( scheme_lock_rule._editing != undefined )" >
@@ -443,31 +443,41 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="rule in redirect_rule">
-                                        <td>{{ $index }}</td>
-                                        <td>
-                                            <template v-if="(rule.enable)">
-                                                ✓
-                                            </template>
-                                            <template v-else>
-                                                ✗
-                                            </template>
-                                        </td>
-                                        <td>{{ rule.matcher }}</td>
-                                        <td>{{ rule.replace_re }}</td>
-                                        <td>{{ rule.to_uri }}</td>
-                                        <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('redirect_rule',{{$index}},null)">
-                                                DEL
-                                            </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('redirect_rule',{{$index}})">
-                                                UP
-                                            </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('redirect_rule',{{$index}})">
-                                                DOWN
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    <template v-for="rule in redirect_rule">
+                                        <tr v-bind:class="[ redirect_rule._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>
+                                                <template v-if="(rule.enable)">
+                                                    ✓
+                                                </template>
+                                                <template v-else>
+                                                    ✗
+                                                </template>
+                                            </td>
+                                            <td>{{ rule.matcher }}</td>
+                                            <td>{{ rule.replace_re }}</td>
+                                            <td>{{ rule.to_uri }}</td>
+                                            <td class="no_break">
+                                                <template v-if="(redirect_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('redirect_rule',{{$index}})">
+                                                        UP
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('redirect_rule',{{$index}})">
+                                                        DOWN
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('redirect_rule',{{$index}},null)">
+                                                        DEL
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('redirect_rule',{{$index}},'config_redirect_form')">
+                                                        EDIT
+                                                    </button>
+                                                </template>
+                                                <template v-if="(redirect_rule._editing == $index )">
+                                                    Editing
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
                                 </tbody>
                             </table>
 
@@ -475,9 +485,24 @@
                                 Add Rule
                             </div>
                             <hr>
-                            <form class="form-horizontal" name="config_redirect_form_add" 
-                                  onsubmit="config.config_add( 'redirect_rule', { 'matcher':this.matcher.value, 'replace_re':this.replace_re.value, 'to_uri':this.to_uri.value, 'enable':eval(this.enable.value) }); return false;" >
+                            <form class="form-horizontal" id="config_redirect_form" 
+                                  onsubmit="config.save_form_data( 'redirect_rule', form.get_data('config_redirect_form')); return false;" >
 
+                               <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( redirect_rule._editing != undefined )" >
+                                            Now is editing rule {{redirect_rule._editing}}
+                                        </div>
+                                    </div>
+                               </div>
+                               <div class="form-group">
+                                    <label class="col-sm-2 control-label">Enable</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="enable" >
+                                        </div>
+                                    </div>
+                                </div>
                                <div class="form-group">
                                     <label class="col-sm-2 control-label">Matcher</label>
                                     <div class="col-sm-10">
@@ -501,17 +526,16 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Enable</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-control" name="enable">
-                                            <option value="true">true</option>
-                                            <option value="false">false</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default" >Add</button>
+                                        <template v-if="(redirect_rule._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" >Save</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('redirect_rule')">
+                                                Cancel
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" >Add</button>
+                                        </template>
                                     </div>
                                 </div>
                             </form>
@@ -737,8 +761,8 @@
                                 Add Rule
                             </div>
                             <hr>
-                            <form class="form-horizontal" name="config_action_browser_verify_form_add" onsubmit="
-                                 config.config_add( 'browser_verify_rule', form.get_data(this)); return false;" >
+                            <form class="form-horizontal" id="config_browser_verify_form" onsubmit="
+                                 config.config_add( 'browser_verify_rule', form.get_data(config_browser_verify_form)); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Enable</label>
