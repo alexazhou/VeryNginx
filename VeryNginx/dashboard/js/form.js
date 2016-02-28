@@ -47,18 +47,17 @@ form.set_data = function( form_id, data ){
     for( var i=0; i < inputs.length; i++ ){
         var item = $(inputs[i]);
         var name = item.attr('name');
-        console.log('process item',item)
+        //console.log('process item',item)
+        //console.log('name',name)
         if( item.prop('tagName').toLowerCase() == "input" ){
             if( item.attr('type') == "checkbox" ){
                 var config_group = item.attr('config_group');
                 if( config_group != null && data[config_group] != null ){
-
-                    if( name in data[config_group] ){
+                    if(  data[config_group].indexOf( name ) >= 0 ){
                         item.prop('checked',true);
                     }else{
                         item.prop('checked',false);
                     }
-
                 }else{
                     if( data[name] == true ){
                         item.prop('checked',true);
@@ -71,7 +70,6 @@ form.set_data = function( form_id, data ){
             }
 
         }else if( item.prop('tagName').toLowerCase() == "select" ){
-             console.log('flag 2')
              item.val( data[ item.attr('name') ] );
         }
     }
