@@ -127,6 +127,10 @@
 	padding-right:3px;
 }
 
+.editing {
+    background-color:#EEE;
+}
+
 .no_break {
     white-space: nowrap;
 }
@@ -217,6 +221,18 @@
 
 .tips_content ul {
     padding-left:20px;
+}
+
+.notice{
+   font-size:1.2em;
+   border-style:solid;
+   border-left-width:3px;
+   border-right-width:1px;
+   border-top-width:1px;
+   border-bottom-width:1px;
+   padding:5px;
+   border-color:#ddd;
+   color:#333;
 }
 
 #interface_login {

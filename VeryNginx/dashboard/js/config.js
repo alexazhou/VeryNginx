@@ -22,11 +22,9 @@ config.vue_component_condition = Vue.extend({
 Vue.component('condition', config.vue_component_condition )
 
 Vue.filter('show_operator', function (operator) {
-    
     if( operator == '!'){
         return ' is Null'
     }
-
     return operator;
 })
 
@@ -54,47 +52,87 @@ config.get_config = function(){
 }
 
 //add a config
-config.config_add = function(name,value){
-    config.verynginx_config[name].push(value);
+config.config_add = function(rule_group_name,value){
+    config.verynginx_config[rule_group_name].push(value);
 }
 
 //modify a config
 //set value = null to delete
-config.config_mod = function(name,index,value){
+config.config_mod = function(rule_group_name,index,value){
     
-    //console.log('-->',name,index,value);
+    //console.log('-->',rule_group_name,index,value);
     if( value == null ){
         if( typeof index == 'string' ){
-            Vue.delete( config.verynginx_config[name], index );
+            Vue.delete( config.verynginx_config[rule_group_name], index );
         }else{
-            config.verynginx_config[name].splice( index, 1 );
+            config.verynginx_config[rule_group_name].splice( index, 1 );
         }
     }else{
-        //config.verynginx_config[name].$set( index, config.verynginx_config[name][index] );
+        config.verynginx_config[rule_group_name].$set( index, value );
     }
 }
 
-config.config_move_up = function(name,index){
+//rule_group_name: config group
+//index: the config index(key) in the config group
+config.save_form_data = function( rule_group_name,value ){
+
+    var editing = config.verynginx_config[rule_group_name]._editing;
+    if( editing == undefined ){
+        config.config_add( rule_group_name, value );
+    }else{
+        config.verynginx_config[rule_group_name]._editing = null;
+        config.config_mod( rule_group_name,editing,value ) 
+    }
+}
+
+//set a rule to edit status and fill data of the rule into editor form
+config.config_edit_begin = function( rule_group_name, index, form_id ){
+    
+    console.log('config.config_edit:',rule_group_name,index,form_id)
+    var config_group = config.verynginx_config[ rule_group_name ];
+    config_group = JSON.parse( JSON.stringify(config_group) );
+    
+    Object.defineProperty( config_group , "_editing", { value : index, enumerable:false, writable:true });
+
+    //reset data to refresh the view
+    config.config_vm.$set( rule_group_name, config_group );
+
+    console.log( 'new_config_group:',config_group );
+    
+    form.set_data( form_id, config_group[index] );
+}
+
+config.config_edit_cacel = function( rule_group_name ){
+    
+    var config_group = config.verynginx_config[ rule_group_name ];
+    //use json and parse to clean "_editing" property
+    config_group = JSON.parse( JSON.stringify(config_group) );
+    //reset data to refresh the view
+    config.config_vm.$set( rule_group_name, config_group );
+}
+
+
+config.config_move_up = function(rule_group_name,index){
     
     if(index == 0){
         dashboard.notify("The item already at the firsh");
         return;
     }
 
-    var tmp = config.verynginx_config[name][index-1];
-    config.verynginx_config[name].$set(index-1, config.verynginx_config[name][index]);
-    config.verynginx_config[name].$set(index, tmp);
+    var tmp = config.verynginx_config[rule_group_name][index-1];
+    config.verynginx_config[rule_group_name].$set(index-1, config.verynginx_config[rule_group_name][index]);
+    config.verynginx_config[rule_group_name].$set(index, tmp);
 }
 
-config.config_move_down = function(name,index){
-    if(index >= config.verynginx_config[name].length - 1){
+config.config_move_down = function(rule_group_name,index){
+    if(index >= config.verynginx_config[rule_group_name].length - 1){
         dashboard.notify("The item already at the bottom");
         return;
     }
     
-    var tmp = config.verynginx_config[name][index+1];
-    config.verynginx_config[name].$set(index+1, config.verynginx_config[name][index]);
-    config.verynginx_config[name].$set(index, tmp);
+    var tmp = config.verynginx_config[rule_group_name][index+1];
+    config.verynginx_config[rule_group_name].$set(index+1, config.verynginx_config[rule_group_name][index]);
+    config.verynginx_config[rule_group_name].$set(index, tmp);
 }
 
 //for matcher only
@@ -108,6 +146,11 @@ config.config_matcher_add = function(){
 
     if( matcher_name == '' ){
         dashboard.notify('Name of the matcher mush not be empty');
+        return;
+    }
+    
+    if( matcher_name.substring(0,1) == '_' ){
+        dashboard.notify('Name of the matcher must not started with "_"');
         return;
     }
 
@@ -140,39 +183,7 @@ config.save_config = function(){
     });
 }
 
-config.get_form_data = function( form ){
-    var data = {}
-    var inputs = $(form).find("input,checkbox,select");
 
-    for( var i=0; i < inputs.length; i++ ){
-        var item = $(inputs[i]);
-        if( item.prop('tagName').toLowerCase() == "input" && item.attr('type') == "checkbox" ){
-
-            var config_group = item.attr('config_group');
-            if( config_group != null ){
-                if( data[config_group] == null ){
-                    data[config_group] = [];
-                }
-
-                if( item.prop( "checked" ) ){
-                    data[config_group].push( item.attr('name') );
-                }
-            }else{
-                if( item.prop( "checked" )){
-                    data[item.attr('name')] = true;
-                }else{
-                    data[item.attr('name')] = false;
-                }
-            }
-
-        }else if( item.prop('tagName').toLowerCase() == "select" ){
-            data[ item.attr('name') ] = item.val();
-        }
-    }
-
-    //console.log('output data:',data);
-    return data;
-}
 
 config.test_match_factory = function( type ){
 

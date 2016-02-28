@@ -21,6 +21,7 @@
 <script src="//cdn.bootcss.com/Chart.js/1.0.2/Chart.js"></script>
 <!-- 表格扩展js文件 -->
 <script src="//cdn.bootcss.com/datatables/1.10.10/js/jquery.dataTables.min.js"></script>
+<script src="js/form.js"></script>
 <script src="js/monitor.js"></script>
 <script src="js/matcher_editor.js"></script>
 <script src="js/config.js"></script>
@@ -329,7 +330,7 @@
                                 </thead>
                                 <tbody>
                                     <template v-for="rule in scheme_lock_rule">
-                                        <tr>
+                                        <tr v-bind:class="[ scheme_lock_rule._editing == $index ? 'editing' : '']">
                                             <td >{{ $index }}</td>
                                             <td >
                                                 <template v-if="(rule.enable)">
@@ -342,15 +343,24 @@
                                             <td >{{ rule.matcher }}</td>
                                             <td >{{ rule.scheme }}</td>
                                             <td class="no_break">
-                                                <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('scheme_lock_rule',{{$index}},null)">
-                                                    DEL
-                                                </button>
-                                                <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('scheme_lock_rule',{{$index}})">
-                                                    UP
-                                                </button>
-                                                <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('scheme_lock_rule',{{$index}})">
-                                                    DOWN
-                                                </button>
+                                                <template v-if="(scheme_lock_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('scheme_lock_rule',{{$index}})">
+                                                        UP
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('scheme_lock_rule',{{$index}})">
+                                                        DOWN
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('scheme_lock_rule',{{$index}},null)">
+                                                        DEL
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('scheme_lock_rule',{{$index}},'config_scheme_form')">
+                                                        EDIT
+                                                    </button>
+                                                </template> 
+
+                                                <template v-if="(scheme_lock_rule._editing == $index )">
+                                                    Editing
+                                                </template>
                                             </td>
                                         </tr>
                                     </template>
@@ -359,11 +369,26 @@
 
                             
                             <div class="config_sub_title">
-                                Add Rule
+                                Edit Rule
                             </div>
                             <hr>
-                            <form class="form-horizontal" onsubmit="config.config_add( 'scheme_lock_rule', {'matcher':this.matcher.value, 'scheme':this.scheme.value, 'enable':eval(this.enable.value)}); return false;" >
+                            <form class="form-horizontal" id="config_scheme_form" onsubmit="config.save_form_data( 'scheme_lock_rule', form.get_data(this)); return false;" >
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( scheme_lock_rule._editing != undefined )" >
+                                            Now is editing rule {{scheme_lock_rule._editing}}
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Enable</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="enable" >
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Matcher</label>
                                     <div class="col-sm-10">
@@ -385,17 +410,16 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Enable</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-control" name="enable">
-                                            <option value="true">true</option>
-                                            <option value="false">false</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default" >Add</button>
+                                        <template v-if="(scheme_lock_rule._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" >Save</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('scheme_lock_rule')">
+                                                Cancel
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" >Add</button>
+                                        </template>
                                     </div>
                                 </div>
                             </form>
@@ -714,7 +738,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" name="config_action_browser_verify_form_add" onsubmit="
-                                 config.config_add( 'browser_verify_rule', config.get_form_data(this)); return false;" >
+                                 config.config_add( 'browser_verify_rule', form.get_data(this)); return false;" >
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Enable</label>
