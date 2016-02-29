@@ -95,10 +95,10 @@ _M.configs["browser_verify_rule"] = {
 _M.configs["filter_enable"] = true
 _M.configs["filter_rule"] = {
     {["matcher"] = 'localhost', ["action"] = "accept", ["enable"] = false},
-    {["matcher"] = 'attack_sql_0', ["action"] = "block", ["code"] = 403, ["enable"] = true },
-    {["matcher"] = 'attack_backup_0', ["action"] = "block", ["code"] = 403, ["enable"] = true },
-    {["matcher"] = 'attack_scan_0', ["action"] = "block", ["code"] = 403, ["enable"] = true },
-    {["matcher"] = 'attack_code_0', ["action"] = "block", ["code"] = 403, ["enable"] = true },
+    {["matcher"] = 'attack_sql_0', ["action"] = "block", ["code"] = '403', ["enable"] = true },
+    {["matcher"] = 'attack_backup_0', ["action"] = "block", ["code"] = '403', ["enable"] = true },
+    {["matcher"] = 'attack_scan_0', ["action"] = "block", ["code"] = '403', ["enable"] = true },
+    {["matcher"] = 'attack_code_0', ["action"] = "block", ["code"] = '403', ["enable"] = true },
 }
 
 
