@@ -110,6 +110,27 @@
     color:#BBB;
 }
 
+.config_form_line{
+    padding-top:5px;
+}
+
+.config_card{
+    background-color:#F0F0F0;
+    border:solid;
+	border-width:1px ;
+	border-radius:3px;
+	border-color:#CCC;
+    display:inline-block;
+	margin-left:5px;
+	margin-right:5px;
+	padding-left:3px;
+	padding-right:3px;
+}
+
+.editing {
+    background-color:#EEE;
+}
+
 .no_break {
     white-space: nowrap;
 }
@@ -200,6 +221,18 @@
 
 .tips_content ul {
     padding-left:20px;
+}
+
+.notice{
+   font-size:1.2em;
+   border-style:solid;
+   border-left-width:3px;
+   border-right-width:1px;
+   border-top-width:1px;
+   border-bottom-width:1px;
+   padding:5px;
+   border-color:#ddd;
+   color:#333;
 }
 
 #interface_login {

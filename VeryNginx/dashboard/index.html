@@ -21,6 +21,7 @@
 <script src="//cdn.bootcss.com/Chart.js/1.0.2/Chart.js"></script>
 <!-- 表格扩展js文件 -->
 <script src="//cdn.bootcss.com/datatables/1.10.10/js/jquery.dataTables.min.js"></script>
+<script src="js/form.js"></script>
 <script src="js/monitor.js"></script>
 <script src="js/matcher_editor.js"></script>
 <script src="js/config.js"></script>
@@ -235,6 +236,7 @@
                                 <div class="leftnav leftnav_2" config_name="action_scheme_lock" onclick="dashboard.switch_to_config(this)">Scheme Lock</div>
                                 <div class="leftnav leftnav_2" config_name="action_redirect" onclick="dashboard.switch_to_config(this)">Redirect</div>
                                 <div class="leftnav leftnav_2" config_name="action_uri_rewrite" onclick="dashboard.switch_to_config(this)">URI Rewrite</div>
+                                <div class="leftnav leftnav_2" config_name="action_browser_verify" onclick="dashboard.switch_to_config(this)">Browser Verify</div>
                                 <div class="leftnav leftnav_2" config_name="action_filter" onclick="dashboard.switch_to_config(this)">Filter</div>
                             </div>
                             <div class="leftnav leftnav_1" group="summary" onclick="dashboard.switch_config_nav_group(this)">Summary</div>
@@ -320,29 +322,45 @@
                                 <thead>
                                     <tr>
                                         <td>#</td>
+                                        <td>Enable</td>
                                         <td>Matcher</td>
                                         <td>Scheme</td>
-                                        <td>Enable</td>
                                         <td></td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <template v-for="rule in scheme_lock_rule">
-                                        <tr>
+                                        <tr v-bind:class="[ scheme_lock_rule._editing == $index ? 'editing' : '']">
                                             <td >{{ $index }}</td>
+                                            <td >
+                                                <template v-if="(rule.enable)">
+                                                    ✓
+                                                </template>
+                                                <template v-else>
+                                                    ✗
+                                                </template>
+                                            </td>
                                             <td >{{ rule.matcher }}</td>
                                             <td >{{ rule.scheme }}</td>
-                                            <td >{{ rule.enable }}</td>
                                             <td class="no_break">
-                                                <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('scheme_lock_rule',{{$index}},null)">
-                                                    DEL
-                                                </button>
-                                                <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('scheme_lock_rule',{{$index}})">
-                                                    UP
-                                                </button>
-                                                <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('scheme_lock_rule',{{$index}})">
-                                                    DOWN
-                                                </button>
+                                                <template v-if="(scheme_lock_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('scheme_lock_rule',{{$index}})">
+                                                        UP
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('scheme_lock_rule',{{$index}})">
+                                                        DOWN
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('scheme_lock_rule',{{$index}},null)">
+                                                        DEL
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('scheme_lock_rule',{{$index}},'config_scheme_form')">
+                                                        EDIT
+                                                    </button>
+                                                </template> 
+
+                                                <template v-if="(scheme_lock_rule._editing == $index )">
+                                                    Editing
+                                                </template>
                                             </td>
                                         </tr>
                                     </template>
@@ -351,11 +369,26 @@
 
                             
                             <div class="config_sub_title">
-                                Add Rule
+                                Edit Rule
                             </div>
                             <hr>
-                            <form class="form-horizontal" onsubmit="config.config_add( 'scheme_lock_rule', {'matcher':this.matcher.value, 'scheme':this.scheme.value, 'enable':eval(this.enable.value)}); return false;" >
+                            <form class="form-horizontal" id="config_scheme_form" onsubmit="config.save_form_data( 'scheme_lock_rule', form.get_data('config_scheme_form')); return false;" >
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( scheme_lock_rule._editing != undefined )" >
+                                            Now is editing rule {{scheme_lock_rule._editing}}
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Enable</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="enable" >
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Matcher</label>
                                     <div class="col-sm-10">
@@ -377,17 +410,16 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Enable</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-control" name="enable">
-                                            <option value="true">true</option>
-                                            <option value="false">false</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default" >Add</button>
+                                        <template v-if="(scheme_lock_rule._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" >Save</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('scheme_lock_rule')">
+                                                Cancel
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" >Add</button>
+                                        </template>
                                     </div>
                                 </div>
                             </form>
@@ -403,32 +435,49 @@
                                 <thead>
                                     <tr>
                                         <td>#</td>
+                                        <td>Enable</td>
                                         <td>Matcher</td>
                                         <td>RegEx</td>
                                         <td>Redirect to</td>
-                                        <td>Enable</td>
                                         <td></td>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="rule in redirect_rule">
-                                        <td>{{ $index }}</td>
-                                        <td>{{ rule.matcher }}</td>
-                                        <td>{{ rule.replace_re }}</td>
-                                        <td>{{ rule.to_uri }}</td>
-                                        <td>{{ rule.enable }}</td>
-                                        <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('redirect_rule',{{$index}},null)">
-                                                DEL
-                                            </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('redirect_rule',{{$index}})">
-                                                UP
-                                            </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('redirect_rule',{{$index}})">
-                                                DOWN
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    <template v-for="rule in redirect_rule">
+                                        <tr v-bind:class="[ redirect_rule._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>
+                                                <template v-if="(rule.enable)">
+                                                    ✓
+                                                </template>
+                                                <template v-else>
+                                                    ✗
+                                                </template>
+                                            </td>
+                                            <td>{{ rule.matcher }}</td>
+                                            <td>{{ rule.replace_re }}</td>
+                                            <td>{{ rule.to_uri }}</td>
+                                            <td class="no_break">
+                                                <template v-if="(redirect_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('redirect_rule',{{$index}})">
+                                                        UP
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('redirect_rule',{{$index}})">
+                                                        DOWN
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('redirect_rule',{{$index}},null)">
+                                                        DEL
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('redirect_rule',{{$index}},'config_redirect_form')">
+                                                        EDIT
+                                                    </button>
+                                                </template>
+                                                <template v-if="(redirect_rule._editing == $index )">
+                                                    Editing
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
                                 </tbody>
                             </table>
 
@@ -436,9 +485,24 @@
                                 Add Rule
                             </div>
                             <hr>
-                            <form class="form-horizontal" name="config_redirect_form_add" 
-                                  onsubmit="config.config_add( 'redirect_rule', { 'matcher':this.matcher.value, 'replace_re':this.replace_re.value, 'to_uri':this.to_uri.value, 'enable':eval(this.enable.value) }); return false;" >
+                            <form class="form-horizontal" id="config_redirect_form" 
+                                  onsubmit="config.save_form_data( 'redirect_rule', form.get_data('config_redirect_form')); return false;" >
 
+                               <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( redirect_rule._editing != undefined )" >
+                                            Now is editing rule {{redirect_rule._editing}}
+                                        </div>
+                                    </div>
+                               </div>
+                               <div class="form-group">
+                                    <label class="col-sm-2 control-label">Enable</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="enable" >
+                                        </div>
+                                    </div>
+                                </div>
                                <div class="form-group">
                                     <label class="col-sm-2 control-label">Matcher</label>
                                     <div class="col-sm-10">
@@ -462,17 +526,16 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Enable</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-control" name="enable">
-                                            <option value="true">true</option>
-                                            <option value="false">false</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default" >Add</button>
+                                        <template v-if="(redirect_rule._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" >Save</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('redirect_rule')">
+                                                Cancel
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" >Add</button>
+                                        </template>
                                     </div>
                                 </div>
                             </form>
@@ -488,32 +551,50 @@
                                 <thead>
                                     <tr>
                                         <td>#</td>
+                                        <td>Enabled</td>
                                         <td>Matcher</td>
                                         <td>RegEx</td>
                                         <td>Redirect to</td>
-                                        <td>Enabled</td>
                                         <td></td>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="rule in uri_rewrite_rule">
-                                        <td>{{ $index }}</td>
-                                        <td>{{ rule.matcher }}</td>
-                                        <td>{{ rule.replace_re }}</td>
-                                        <td>{{ rule.to_uri }}</td>
-                                        <td>{{ rule.enable }}</td>
-                                        <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('uri_rewrite_rule',{{$index}},null)">
-                                                DEL
-                                            </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('uri_rewrite_rule',{{$index}})">
-                                                UP
-                                            </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('uri_rewrite_rule',{{$index}})">
-                                                DOWN
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    <template v-for="rule in uri_rewrite_rule">
+                                        <tr v-bind:class="[ uri_rewrite_rule._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>
+                                                <template v-if="(rule.enable)">
+                                                    ✓
+                                                </template>
+                                                <template v-else>
+                                                    ✗
+                                                </template>
+                                            </td>
+                                            <td>{{ rule.matcher }}</td>
+                                            <td>{{ rule.replace_re }}</td>
+                                            <td>{{ rule.to_uri }}</td>
+                                            <td class="no_break">
+                                                <template v-if="(uri_rewrite_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('uri_rewrite_rule',{{$index}})">
+                                                        UP
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('uri_rewrite_rule',{{$index}})">
+                                                        DOWN
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('uri_rewrite_rule',{{$index}},null)">
+                                                        DEL
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('uri_rewrite_rule',{{$index}},'config_uri_rewrite_form')">
+                                                        EDIT
+                                                    </button>
+                                                </template> 
+
+                                                <template v-if="(uri_rewrite_rule._editing == $index )">
+                                                    Editing
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
                                 </tbody>
                             </table>
 
@@ -521,9 +602,25 @@
                                 Add Rule
                             </div>
                             <hr>
-                            <form class="form-horizontal" name="config_uri_rewrite_form_add" 
-                                  onsubmit="config.config_add( 'uri_rewrite_rule', { 'matcher':this.matcher.value, 'replace_re':this.replace_re.value, 'to_uri':this.to_uri.value, 'enable':eval(this.enable.value)}); return false;" >
+                            <form class="form-horizontal" id="config_uri_rewrite_form" 
+                                  onsubmit="config.save_form_data( 'uri_rewrite_rule', form.get_data('config_uri_rewrite_form')); return false;" >
 
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( uri_rewrite_rule._editing != undefined )" >
+                                            Now is editing rule {{uri_rewrite_rule._editing}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Enable</label>
+                                    <div class="col-sm-10">
+                                         <div class="config_form_line">
+                                             <input type="checkbox" name="enable" >
+                                         </div>
+                                     </div>
+                                </div>
                                <div class="form-group">
                                     <label class="col-sm-2 control-label">Matcher</label>
                                     <div class="col-sm-10">
@@ -547,17 +644,16 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Enable</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-control" name="enable">
-                                            <option value="true">true</option>
-                                            <option value="false">false</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default" >Add</button>
+                                        <template v-if="(uri_rewrite_rule._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" >Save</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('uri_rewrite_rule')">
+                                                Cancel
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" >Add</button>
+                                        </template>
                                     </div>
                                 </div>
                             </form>
@@ -636,6 +732,137 @@
                                 </div>
                             </form>
                         </div>
+
+
+                        <div class="config_container" id="config_action_browser_verify">
+                            <div class="config_title">
+                                Browser Verify
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="browser_verify_enable">
+                            <label>Enable</label>
+                            <table class="table table-bordered config_table" id="config_browser_verify_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Enable</td>
+                                        <td>Matcher</td>
+                                        <td>Verify Type</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="rule in browser_verify_rule">
+                                        <tr v-bind:class="[ browser_verify_rule._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>
+                                                <template v-if="(rule.enable)">
+                                                    ✓
+                                                </template>
+                                                <template v-else>
+                                                    ✗
+                                                </template>
+                                            </td>
+                                            <td>{{ rule.matcher }}</td>
+                                            <td>
+                                                <template v-for="type_name in rule.type">
+                                                    <div class="config_card">{{type_name}}</div>
+                                                </template>
+                                            </td>
+                                            <td class="no_break">
+                                                <template v-if="(browser_verify_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('browser_verify_rule',{{$index}})">
+                                                        UP
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('browser_verify_rule',{{$index}})">
+                                                        DOWN
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('browser_verify_rule',{{$index}},null)">
+                                                        DEL
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('browser_verify_rule',{{$index}},'config_browser_verify_form')">
+                                                        EDIT
+                                                    </button>
+                                                </template> 
+                                                <template v-if="(browser_verify_rule._editing == $index )">
+                                                    Editing
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+                            <div class="config_sub_title">
+                                Add Rule
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" id="config_browser_verify_form" onsubmit="
+                                 config.save_form_data( 'browser_verify_rule', form.get_data('config_browser_verify_form')); return false;" >
+
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( browser_verify_rule._editing != undefined )" >
+                                            Now is editing rule {{browser_verify_rule._editing}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Enable</label>
+                                    <div class="col-sm-10" >
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="enable" >
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Matcher</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="matcher">
+                                            <template v-for="(matcher_name, matcher_conditions) in matcher | orderBy '$key'">
+                                                <option value="{{matcher_name}}">{{matcher_name}}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Verify Action</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="cookie" config_group="type" >
+                                            <label>Cookie</label>
+                                        </div>
+                                        <div>
+                                            <input type="checkbox" name="javascript" config_group="type">
+                                            <label>JavaScript</label>
+                                        </div>
+                                        <div style="display:none">
+                                            <input type="checkbox" name="hash" config_group="type">
+                                            <label>Hash</label>
+                                        </div>
+                                        <div style="color:#AAA">
+                                            If no option is selected, the request will be released
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <template v-if="(browser_verify_rule._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" >Save</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('browser_verify_rule')">
+                                                Cancel
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" >Add</button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                         
                         <div class="config_container" id="config_action_filter">
                             <div class="config_title">
@@ -647,37 +874,53 @@
                                 <thead>
                                     <tr>
                                         <td>#</td>
+                                        <td>Enable</td>
                                         <td>Matcher</td>
                                         <td>Action</td>
                                         <td>Return Code</td>
-                                        <td>Enable</td>
                                         <td></td>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="rule in filter_rule">
-                                        <td>{{ $index }}</td>
-                                        <td>{{ rule.matcher }}</td>
-                                        <td>{{ rule.action }}</td>
-                                        <td>
-                                            <template v-if="(rule.action == 'block')">
-                                                {{ rule.code }}
-                                            </template>
-                                        </td>
-                                        <td>{{ rule.enable }}</td>
-                                        <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('filter_rule',{{$index}},null)">
-                                                DEL
-                                            </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('filter_rule',{{$index}})">
-                                                UP
-                                            </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('filter_rule',{{$index}})">
-                                                DOWN
-                                            </button>
-
-                                        </td>
-                                    </tr>
+                                    <template v-for="rule in filter_rule">
+                                        <tr v-bind:class="[ filter_rule._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>
+                                                <template v-if="(rule.enable)">
+                                                    ✓
+                                                </template>
+                                                <template v-else>
+                                                    ✗
+                                                </template>
+                                            </td>
+                                            <td>{{ rule.matcher }}</td>
+                                            <td>{{ rule.action }}</td>
+                                            <td>
+                                                <template v-if="(rule.action == 'block')">
+                                                    {{ rule.code }}
+                                                </template>
+                                            </td>
+                                            <td class="no_break">
+                                                 <template v-if="(filter_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('filter_rule',{{$index}})">
+                                                        UP
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('filter_rule',{{$index}})">
+                                                        DOWN
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('filter_rule',{{$index}},null)">
+                                                        DEL
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('filter_rule',{{$index}},'config_filter_form')">
+                                                        EDIT
+                                                    </button>
+                                                </template> 
+                                                <template v-if="(filter_rule._editing == $index )">
+                                                    Editing
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
                                 </tbody>
                             </table>
 
@@ -685,8 +928,24 @@
                                 Add Rule
                             </div>
                             <hr>
-                            <form class="form-horizontal" name="config_filter_form_add" 
-                                  onsubmit="config.config_add( 'filter_rule', {'matcher':this.matcher.value, 'action':this.action.value, 'code':eval(this.code.value), 'enable':eval(this.enable.value)} ); return false;" >
+                            <form class="form-horizontal" id="config_filter_form" 
+                                  onsubmit="config.save_form_data( 'filter_rule', form.get_data('config_filter_form') ); return false;" >
+                                
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( filter_rule._editing != undefined )" >
+                                            Now is editing rule {{filter_rule._editing}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Enable</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="enable" >
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Matcher</label>
                                     <div class="col-sm-10">
@@ -736,17 +995,16 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Enable</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-control" name="enable">
-                                            <option value="true">true</option>
-                                            <option value="false">false</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default" >Add</button>
+                                        <template v-if="(filter_rule._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" >Save</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('filter_rule')">
+                                                Cancel
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" >Add</button>
+                                        </template>
                                     </div>
                                 </div>
                             </form>
@@ -788,24 +1046,41 @@
                                 <thead>
                                     <tr>
                                         <td>#</td>
+                                        <td>Enable</td>
                                         <td>User</td>
                                         <td>Password</td>
-                                        <td>Enable</td>
                                         <td></td>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="rule in admin">
-                                        <td>{{ $index }}</td>
-                                        <td>{{ rule.user }}</td>
-                                        <td>{{ rule.password }}</td>
-                                        <td>{{ rule.enable }}</td>
-                                        <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('admin',{{$index}},null)">
-                                                DEL
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    <template v-for="rule in admin">
+                                        <tr v-bind:class="[ admin._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>
+                                                <template v-if="(rule.enable)">
+                                                    ✓
+                                                </template>
+                                                <template v-else>
+                                                    ✗
+                                                </template>
+                                            </td>
+                                            <td>{{ rule.user }}</td>
+                                            <td>{{ rule.password }}</td>
+                                            <td class="no_break">
+                                                <template v-if="(admin._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('admin',{{$index}},null)">
+                                                        DEL
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('admin',{{$index}},'config_admin_form')">
+                                                        EDIT
+                                                    </button>
+                                                </template> 
+                                                <template v-if="(admin._editing == $index )">
+                                                    Editing
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
                                 </tbody>
                             </table>
 
@@ -813,9 +1088,24 @@
                                 Add a user
                             </div>
                             <hr>
-                            <form class="form-horizontal" name="config_admin_form_add" 
-                                  onsubmit="config.config_add( 'admin', {'user':this.user.value, 'password':this.password.value, 'enable':eval(this.enable.value)}); return false;" >
-
+                            <form class="form-horizontal" id="config_admin_form" 
+                                  onsubmit="config.save_form_data( 'admin', form.get_data('config_admin_form')); return false;" >
+                                
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( admin._editing != undefined )" >
+                                            Now is editing rule {{admin._editing}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Enable</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="enable" >
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">User</label>
                                     <div class="col-sm-10">
@@ -829,17 +1119,16 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Enable</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-control" name="enable">
-                                            <option value="true">true</option>
-                                            <option value="false">false</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default" >Add</button>
+                                        <template v-if="(admin._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" >Save</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('admin')">
+                                                Cancel
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" >Add</button>
+                                        </template>
                                     </div>
                                 </div>
                             </form>

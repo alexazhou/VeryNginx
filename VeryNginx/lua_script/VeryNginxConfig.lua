@@ -20,6 +20,7 @@ _M.configs["admin"] = {
 }
 
 _M.configs['matcher'] = {
+    ["all_request"] = {},
     ["attack_sql_0"] = { 
         ["Args"] = { 
             ['operator'] = "≈",
@@ -87,14 +88,17 @@ _M.configs["uri_rewrite_rule"] = {
     {["matcher"] = 'demo_verynginx_short_uri', ["replace_re"] = "^/vn/(.*)", ["to_uri"] = "/verynginx/dashboard/$1", ["enable"] = true}, 
 }
 
+_M.configs["browser_verify"] = true
+_M.configs["browser_verify_rule"] = {
+}
 
 _M.configs["filter_enable"] = true
 _M.configs["filter_rule"] = {
     {["matcher"] = 'localhost', ["action"] = "accept", ["enable"] = false},
-    {["matcher"] = 'attack_sql_0', ["action"] = "block", ["code"] = 403, ["enable"] = true },
-    {["matcher"] = 'attack_backup_0', ["action"] = "block", ["code"] = 403, ["enable"] = true },
-    {["matcher"] = 'attack_scan_0', ["action"] = "block", ["code"] = 403, ["enable"] = true },
-    {["matcher"] = 'attack_code_0', ["action"] = "block", ["code"] = 403, ["enable"] = true },
+    {["matcher"] = 'attack_sql_0', ["action"] = "block", ["code"] = '403', ["enable"] = true },
+    {["matcher"] = 'attack_backup_0', ["action"] = "block", ["code"] = '403', ["enable"] = true },
+    {["matcher"] = 'attack_scan_0', ["action"] = "block", ["code"] = '403', ["enable"] = true },
+    {["matcher"] = 'attack_code_0', ["action"] = "block", ["code"] = '403', ["enable"] = true },
 }
 
 

@@ -47,6 +47,7 @@ function _M.filter()
         f = io.open( path, 'r' )
         if f ~= nil then
             ngx.say( f:read("*all") )
+            f:close()
             ngx.exit(200)
         else        
             ngx.exit(404)
