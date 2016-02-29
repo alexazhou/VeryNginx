@@ -26,7 +26,7 @@ function _M.verify_cookie()
         end
     end
 
-    ngx.header["Set-Cookie"] = "verynginx_sign_cookie=" .. sign
+    ngx.header["Set-Cookie"] = "verynginx_sign_cookie=" .. sign .. '; path=/' 
     
     if ngx.var.args ~= nil then
 		ngx.redirect( ngx.var.scheme.."://"..ngx.var.host..ngx.var.uri.."?"..ngx.var.args , ngx.HTTP_MOVED_TEMPORARILY)
@@ -99,6 +99,8 @@ function _M.filter()
             if verify_javascript == true then
                 _M.verify_javascript()
             end
+
+            return
         end
     end
 end
