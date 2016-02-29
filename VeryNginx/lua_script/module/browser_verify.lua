@@ -10,11 +10,12 @@ local VeryNginxConfig = require "VeryNginxConfig"
 local request_tester = require "request_tester"
 local encrypt_seed = require "encrypt_seed"
 
+_M.verify_javascript_html = nil
+
 function _M.sign( mark )
     local sign = ngx.md5( 'VN' .. ngx.var.remote_addr .. ngx.var.http_user_agent .. mark .. encrypt_seed.get_seed() )
     return sign 
 end
-
 
 function _M.verify_cookie()
     local sign = _M.sign('cookie')
@@ -34,19 +35,48 @@ function _M.verify_cookie()
 end
 
 function _M.verify_javascript()
+    local sign = _M.sign('javascript')
+    if ngx.var.http_cookie ~= nil then
+        if string.find( ngx.var.http_cookie , sign) ~= nil then
+            return
+        end
+    end
+    
+    if _M.verify_javascript_html == nil then
+        local path = VeryNginxConfig.home_path() .."/support/verify_javascript.html"
+        f = io.open( path, 'r' )
+        if f ~= nil then
+            _M.verify_javascript_html = f:read("*all")
+            f:close()
+        end
+    end
 
+    local redirect_to = nil
+    local html = _M.verify_javascript_html
+
+    html = string.gsub( html,'INFOCOOKIE',sign )
+
+    if ngx.var.args ~= nil then
+		redirect_to =  ngx.var.scheme.."://"..ngx.var.host..ngx.var.uri.."?"..ngx.var.args , ngx.HTTP_MOVED_TEMPORARILY
+	else
+		redirect_to =  ngx.var.scheme.."://"..ngx.var.host..ngx.var.uri , ngx.HTTP_MOVED_TEMPORARILY
+	end
+
+    html = string.gsub( html,'INFOURI',redirect_to )
+    
+    ngx.header.content_type = "text/html"
+    ngx.header.charset = "utf-8"
+    ngx.say( html )
+    
+    ngx.exit(200)
 end
 
 function _M.filter()
-
-    ngx.log(ngx.STDERR,'----')
-
     if VeryNginxConfig.configs["browser_verify_enable"] ~= true then
         return
     end
     
     ngx.log(ngx.STDERR,'++++')
-    
     local matcher_list = VeryNginxConfig.configs['matcher']
     
     for i,rule in ipairs( VeryNginxConfig.configs["browser_verify_rule"] ) do
@@ -72,7 +102,6 @@ function _M.filter()
             end
         end
     end
-
 end
 
 return _M
