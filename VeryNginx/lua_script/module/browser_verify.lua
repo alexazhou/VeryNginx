@@ -9,6 +9,7 @@ local _M = {}
 local VeryNginxConfig = require "VeryNginxConfig"
 local request_tester = require "request_tester"
 local encrypt_seed = require "encrypt_seed"
+local util = require "util"
 
 _M.verify_javascript_html = nil
 
@@ -62,7 +63,7 @@ function _M.verify_javascript()
 		redirect_to =  ngx.var.scheme.."://"..ngx.var.host..ngx.var.uri , ngx.HTTP_MOVED_TEMPORARILY
 	end
 
-    html = string.gsub( html,'INFOURI',redirect_to )
+    html = util.string_replace( html,'INFOURI',redirect_to, 1 )
     
     ngx.header.content_type = "text/html"
     ngx.header.charset = "utf-8"
@@ -76,9 +77,7 @@ function _M.filter()
         return
     end
     
-    ngx.log(ngx.STDERR,'++++')
     local matcher_list = VeryNginxConfig.configs['matcher']
-    
     for i,rule in ipairs( VeryNginxConfig.configs["browser_verify_rule"] ) do
         local enable = rule['enable']
         local matcher = matcher_list[ rule['matcher'] ] 
