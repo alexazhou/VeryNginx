@@ -147,7 +147,7 @@ function _M.filter()
             if action == 'accept' then
                 return
             else 
-                ngx.exit( rule['code'] )
+                ngx.exit( tonumber(rule['code']) )
             end
         end
     end
