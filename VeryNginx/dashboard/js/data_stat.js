@@ -81,7 +81,7 @@ data_stat.get_data = function () {
 
                 // 动态增加每一列关于各URL/URI的详细访问信息
                 var dyn_tab =  "<tr><td >" + url_index + "</td>" +
-                               "<td>" + key + "</td>" +
+                               "<td>" + util.html_encode(key) + "</td>" +
                                "<td>" + count + "</td>" +
                                "<td>" + size + "</td>" +
                                "<td>" + avg_size.toFixed(2) + "</td>" +
