@@ -224,15 +224,16 @@
 }
 
 .notice{
-   font-size:1.2em;
-   border-style:solid;
-   border-left-width:3px;
-   border-right-width:1px;
-   border-top-width:1px;
-   border-bottom-width:1px;
-   padding:5px;
-   border-color:#ddd;
-   color:#333;
+    font-size:1.2em;
+    border-style:solid;
+    border-left-width:3px;
+    border-right-width:1px;
+    border-top-width:1px;
+    border-bottom-width:1px;
+    padding:5px;
+    border-color:#ddd;
+    color:#333;
+    border-radius:3px;
 }
 
 #interface_login {
