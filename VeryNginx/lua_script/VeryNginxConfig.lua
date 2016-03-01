@@ -13,7 +13,7 @@ _M["configs"] = {}
 
 --------------default config------------
 
-_M.configs["config_version"] = "0.2"
+_M.configs["config_version"] = "0.21"
 
 _M.configs["admin"] = {
     { ["user"] = "verynginx", ["password"] = "verynginx", ["enable"] = true}
@@ -103,11 +103,23 @@ _M.configs["filter_rule"] = {
 
 
 _M.configs["summary_request_enable"] = true
+----------------------Config End-------------
+
+------------------Config Updater----------------------
+
+function _M.version_updater_02( configs )
+    configs['browser_verify'] = false
+    configs['browser_verify_rule'] = {}
+    configs["config_version"] = "0.21"
+    return configs
+end
 
 
---M.configs.url_whitelist = {"aaa"}
+_M.version_updater = {
+    ['0.2'] = _M.version_updater_02,
+}
 
-----------------------------------------
+-------------------Config Updater end---------------------
 local dkjson = require "dkjson"
 local cjson = require "cjson"
 
@@ -145,6 +157,17 @@ function _M.load_from_file()
     --ngx.log(ngx.STDERR, data)
     local tmp = dkjson.decode( data )
     if tmp ~= nil then
+        --update config version if need
+        local loop = true
+        while loop do
+            local handle = _M.version_updater[ tmp['config_version'] ] 
+            if handle ~= nil then
+                tmp = handle( tmp )
+            else
+                loop = false
+            end 
+        end
+
         if tmp['config_version'] ~= _M["configs"]["config_version"] then
             ngx.log(ngx.STDERR,"load config from config.json error,will use default config")
             ngx.log(ngx.STDERR,"Except Version:")
