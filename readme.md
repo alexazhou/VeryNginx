@@ -44,11 +44,16 @@ VeryNginx 包含强大的自定义功能，可以做很多事情
 
 目前已经实现了以下 Action
 
-* Scheme Lock 将访问协议锁定为 Https 或者 Http
-* Redirect 对请求进行重定向
-* URI Rewrite 对请求的 URI 进行内部重写
-* 浏览器验证 通过set-cookies 和 js 验证客户端是否为浏览器
-* Filter(waf) 过滤器
+* Scheme Lock 
+>将访问协议锁定为 Https 或者 Http
+* Redirect
+>对请求进行重定向
+* URI Rewrite
+>对请求的 URI 进行内部重写
+* 浏览器验证
+>通过set-cookies 和 js 验证客户端是否为浏览器，并拦截非浏览器流量。本功能可能会阻拦搜索引擎爬虫，建议仅在被攻击时开启，或者针对搜索引擎编写特别的规则。
+* Filter(waf)
+>过滤器
 
 因为 Matcher 可以对请求进行细致的匹配，所以结合 Filter Action，就可以实现一个高级的WAF，可以利用Matcher中所有的条件来对请求进行过滤，并返回指定状态码
 
@@ -211,7 +216,7 @@ Now we has these `Action`
 * URI Rewrite 
 >do internal rewrite on the request
 * Browser Verify 
->use set-cookies and javascript to verify the client is a browser
+>use set-cookies and javascript to verify the client is a browser，and block traffic of the robot. This action may block the spider of search engine, so please enable it when under attack only.
 * Filter
 >block some request, can do the WAF
 
