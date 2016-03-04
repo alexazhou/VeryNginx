@@ -14,7 +14,11 @@ local util = require "util"
 _M.verify_javascript_html = nil
 
 function _M.sign( mark )
-    local sign = ngx.md5( 'VN' .. ngx.var.remote_addr .. ngx.var.http_user_agent .. mark .. encrypt_seed.get_seed() )
+    local ua = ngx.var.http_user_agent
+    if ua == nil then
+        ua = ''
+    end
+    local sign = ngx.md5( 'VN' .. ngx.var.remote_addr .. ua .. mark .. encrypt_seed.get_seed() )
     return sign 
 end
 
