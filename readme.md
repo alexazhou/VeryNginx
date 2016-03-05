@@ -30,7 +30,7 @@ VeryNginx 包含强大的自定义功能，可以做很多事情
 一个 Matcher 用来判断一个 Http 请求是否符合指定的条件， 一个 Matcher 可以包含一个或者多个约束条件，目前支持以下几种约束：
 
 * Client IP
-* Domain
+* Host
 * UserAgent
 * URI
 * Referer
@@ -195,7 +195,7 @@ Custom action consists of two parts, `Matcher`和 `Action` . `Matcher` used to t
 `Matcher` used to select a part of all requests, a `Matcher` may contain one or more condition, these conditions are currently supported:
 
 * Client IP
-* Domain
+* Host
 * UserAgent
 * URI
 * Referer

@@ -88,6 +88,9 @@ dashboard.switch_to_page = function( page ){
     //if switch to summary page, make sure has a summary table
     if( page == "summary" ){
         data_stat.make_sure_have_table();
+    }else if( page == "status" ){
+        //generate a resize event to work around chart disapple bug of chart.js
+        window.setTimeout( function(){ $(window).resize(); }, 100);
     }
 }
 
