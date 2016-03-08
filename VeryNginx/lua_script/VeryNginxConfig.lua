@@ -14,6 +14,7 @@ _M["configs"] = {}
 --------------default config------------
 
 _M.configs["config_version"] = "0.21"
+_M.configs["readonly"] = false
 
 _M.configs["admin"] = {
     { ["user"] = "verynginx", ["password"] = "verynginx", ["enable"] = true}
@@ -114,9 +115,17 @@ function _M.version_updater_02( configs )
     return configs
 end
 
+function _M.version_updater_021( configs )
+    configs['readonly'] = false
+    configs["config_version"] = "0.22"
+    return configs
+end
+
+
 
 _M.version_updater = {
     ['0.2'] = _M.version_updater_02,
+    ['0.21'] = _M.version_updater_021,
 }
 
 -------------------Config Updater end---------------------
@@ -216,8 +225,11 @@ function _M.set()
     --ngx.log(ngx.STDERR,new_config_json)
 
     local new_config = json.decode( new_config_json )
-    
-    if _M.verify( new_config ) == true then
+
+    if _M.configs['readonly'] == true then
+        ret = false
+        err = "all configs was set to readonly"
+    elseif _M.verify( new_config ) == true then
         ret, err = _M.dump_to_file( new_config ) 
     end
 
