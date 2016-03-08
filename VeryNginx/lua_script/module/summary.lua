@@ -4,7 +4,7 @@
 -- -- @Link    : 
 -- -- @Disc    : summary all the request
 
-local cjson = require "cjson"
+local json = require(require("ffi").os=="Windows" and "dkjson" or "cjson")
 
 local _M = {}
 
@@ -100,7 +100,7 @@ function _M.report()
     elseif args['type'] == 'short' then
         dict = ngx.shared.summary_short
     else
-        return cjson.encode({["ret"]="failed",["err"]="type error"})
+        return json.encode({["ret"]="failed",["err"]="type error"})
     end
 
     local keys = dict:get_keys(0)
@@ -160,7 +160,7 @@ function _M.report()
         end
     end
 
-    return cjson.encode( report )
+    return json.encode( report )
     
 end
 

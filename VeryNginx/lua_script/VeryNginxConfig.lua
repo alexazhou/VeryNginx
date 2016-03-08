@@ -121,7 +121,8 @@ _M.version_updater = {
 
 -------------------Config Updater end---------------------
 local dkjson = require "dkjson"
-local cjson = require "cjson"
+local json = require(require("ffi").os=="Windows" and "dkjson" or "cjson")
+
 
 function _M.home_path()
     local current_script_path = debug.getinfo(1, "S").source:sub(2)
@@ -144,7 +145,7 @@ function _M.load_from_file()
     local file = io.open( config_dump_path, "r")
     
     if file == nil then
-        return cjson.encode({["ret"]="error",["msg"]="config file not found"})
+        return json.encode({["ret"]="error",["msg"]="config file not found"})
     end
 
     --file = io.open( "/tmp/config.json", "w");
@@ -178,16 +179,16 @@ function _M.load_from_file()
             _M["configs"] =  tmp
         end
 
-        return cjson.encode({["ret"]="success",['config']=_M["configs"]})
+        return json.encode({["ret"]="success",['config']=_M["configs"]})
     else 
-        return cjson.encode({["ret"]="error",["msg"]="config file decode error"})
+        return json.encode({["ret"]="error",["msg"]="config file decode error"})
     end
         
 end 
 
 function _M.report()
     --return a json contain current config items
-    return dkjson.encode( _M["configs"], {indent=true} )
+    return json.encode( _M["configs"] )
 end
 
 function _M.verify()
@@ -204,7 +205,7 @@ function _M.set()
     args, err = ngx.req.get_post_args()
     if not args then
         ngx.say("failed to get post args: ", err)
-        return
+        return 
     end
 
     local new_config_json_escaped_base64 = args['config']
@@ -214,16 +215,16 @@ function _M.set()
     local new_config_json = ngx.unescape_uri( new_config_json_escaped )
     --ngx.log(ngx.STDERR,new_config_json)
 
-    local new_config = cjson.decode( new_config_json )
+    local new_config = json.decode( new_config_json )
     
     if _M.verify( new_config ) == true then
         ret, err = _M.dump_to_file( new_config ) 
     end
 
     if ret == true then
-        return cjson.encode({["ret"]="success",["err"]=err})
+        return json.encode({["ret"]="success",["err"]=err})
     else
-        return cjson.encode({["ret"]="failed",["err"]=err})
+        return json.encode({["ret"]="failed",["err"]=err})
     end
 end
 
