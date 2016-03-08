@@ -9,7 +9,7 @@ local status = require "status"
 local cookie = require "cookie"
 local VeryNginxConfig = require "VeryNginxConfig"
 local encrypt_seed = require "encrypt_seed"
-local cjson = require "cjson"
+local json = require(require("ffi").os=="Windows" and "dkjson" or "cjson")
 
 local _M = {}
 
@@ -29,7 +29,7 @@ function _M.filter()
             ngx.say( handle() )
             ngx.exit(200)
         else
-            local info = cjson.encode({["ret"]="failed",["err"]="need login"})
+            local info = json.encode({["ret"]="failed",["err"]="need login"})
             ngx.say( info )
             ngx.exit(200)
         end
@@ -107,11 +107,11 @@ function _M.login()
                 string.format("verynginx_user=%s; path=/verynginx", v['user'] ),
             }
             
-            return cjson.encode({["ret"]="success",["err"]=err})
+            return json.encode({["ret"]="success",["err"]=err})
         end
     end 
     
-    return cjson.encode({["ret"]="failed",["err"]=err})
+    return json.encode({["ret"]="failed",["err"]=err})
 
 end
 

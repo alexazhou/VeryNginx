@@ -4,7 +4,7 @@
 -- -- @Link    : 
 -- -- @Disc    : record nginx infomation 
 
-local cjson = require "cjson"
+local json = require(require("ffi").os=="Windows" and "dkjson" or "cjson")
 
 local _M = {}
 
@@ -68,7 +68,7 @@ function _M.report()
     
     report['ret'] = 'success'
     
-    return cjson.encode( report )
+    return json.encode( report )
 
 end
 
