@@ -36,7 +36,7 @@ VeryNginx 包含强大的自定义功能，可以做很多事情
 * Referer
 * Request Args
 
-当一个请求满足了 Matcher 中包含的全部条件时，即命中了这个 Matcher
+当一个请求没有违反 Matcher 中包含的全部条件时，即命中了这个 Matcher 
 
 ####Action
 
@@ -154,6 +154,8 @@ log_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_log.lua;
 
 登录之后就可以查看状态，并对配置进行修改了。修改配置后，记得到 「Config > System > All Configuration」去保存.
 
+如果需要详细的配置说明，请查看 [VeryNginx Wiki](https://github.com/alexazhou/VeryNginx/wiki)
+
 ## 提示
 
 * 通过 VeryNginx 控制面板保存新配置之后，会立刻生效，并不需要 restart/reload Nginx。
@@ -196,7 +198,7 @@ Custom action consists of two parts, `Matcher`和 `Action` . `Matcher` used to t
 * Referer
 * Request Args
 
-When a request meets all the conditions of the Matcher, the request will be selected by the `Matcher`
+When a request not conflicted with all the conditions of the Matcher, the request will be selected by the `Matcher`
 
 ####Action
 
@@ -307,6 +309,8 @@ Open your web browser and go to `http://127.0.0.1/VeryNginx/dashboard/index.html
 Default user and password is `verynginx` / `verynginx`. You should be able to work through all the options now.
 
 Don't forget to visit "Config > System > All Configuration" to save your changes.
+
+The full version of config guide can be found in [VeryNginx Wiki](https://github.com/alexazhou/VeryNginx/) .
 
 ## Tips
 
