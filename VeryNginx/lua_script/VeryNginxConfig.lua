@@ -121,7 +121,7 @@ _M.version_updater = {
 
 -------------------Config Updater end---------------------
 local dkjson = require "dkjson"
-local json = require(require("ffi").os=="Windows" and "dkjson" or "cjson")
+local json = require "json"
 
 
 function _M.home_path()

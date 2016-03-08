@@ -9,7 +9,7 @@ local status = require "status"
 local cookie = require "cookie"
 local VeryNginxConfig = require "VeryNginxConfig"
 local encrypt_seed = require "encrypt_seed"
-local json = require(require("ffi").os=="Windows" and "dkjson" or "cjson")
+local json = require "json"
 
 local _M = {}
 

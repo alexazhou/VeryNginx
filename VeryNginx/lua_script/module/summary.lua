@@ -4,7 +4,7 @@
 -- -- @Link    : 
 -- -- @Disc    : summary all the request
 
-local json = require(require("ffi").os=="Windows" and "dkjson" or "cjson")
+local json = require "json"
 
 local _M = {}
 

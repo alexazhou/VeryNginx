@@ -4,7 +4,7 @@
 -- -- @Link    : 
 -- -- @Disc    : record nginx infomation 
 
-local json = require(require("ffi").os=="Windows" and "dkjson" or "cjson")
+local json = require "json"
 
 local _M = {}
 
