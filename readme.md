@@ -162,6 +162,8 @@ log_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_log.lua;
 
 * VeryNginx 把配置保存在 `/opt/VeryNginx/VeryNginx/config.json` 里面。
 
+* 状态页面图表默认带有动画效果，如果有卡顿，可以点右上角齿轮图标关掉动画效果
+
 * 如果因为配错了什么选项，导致无法登录，可以手动删除 `config.json` 来清空配置。
 
 
@@ -317,6 +319,8 @@ The full version of config guide can be found in [VeryNginx Wiki](https://github
 * New configs will be effective immediately upon saving. It's not necessary to restart or reload nginx.
 
 * When you save config, VeryNginx will write all configs to `/opt/VeryNginx/VeryNginx/config.json`.
+
+* If the chat in status page is stuck, you can click the gear icon in the upper right corner to turn off animation
 
 * If you lock yourself out of VeryNginx by doing something stupid, you can always delete `config.json` to revert VeryNginx to its default.
 
