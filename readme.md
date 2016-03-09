@@ -7,6 +7,10 @@ VeryNginx is a very powerful and friendly nginx .
 
 VeryNginx 基于 `lua_nginx_module(openrestry)` 开发，实现了高级的防火墙、访问统计和其他的一些功能。 强化了 Nginx 本身的功能，并提供了友好的 Web 交互界面。
 
+[VeryNginx在线实例](http://alexazhou.xyz/vn/index.html) 
+
+用户名 / 密码: **verynginx / verynginx**
+
 ###Nginx 运行状态分析
 
 * 每秒请求数
@@ -173,6 +177,10 @@ log_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_log.lua;
 ##Description
 
 VeryNginx base on `lua_nginx_module(openrestry)` ,implements advanced firewall(waf), access statistics and some other features. Strengthen the Nginx own function, and provides a friendly Web interface.
+
+[VeryNginx online demo](http://alexazhou.xyz/vn/index.html) 
+
+User / Password: **verynginx / verynginx**
 
 ###Nginx run status analyzing
 
