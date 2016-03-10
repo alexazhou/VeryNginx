@@ -89,7 +89,7 @@ _M.configs["uri_rewrite_rule"] = {
     {["matcher"] = 'demo_verynginx_short_uri', ["replace_re"] = "^/vn/(.*)", ["to_uri"] = "/verynginx/dashboard/$1", ["enable"] = true}, 
 }
 
-_M.configs["browser_verify"] = true
+_M.configs["browser_verify_enable"] = true
 _M.configs["browser_verify_rule"] = {
 }
 
@@ -109,7 +109,7 @@ _M.configs["summary_request_enable"] = true
 ------------------Config Updater----------------------
 
 function _M.version_updater_02( configs )
-    configs['browser_verify'] = false
+    configs['browser_verify_enable'] = false
     configs['browser_verify_rule'] = {}
     configs["config_version"] = "0.21"
     return configs
