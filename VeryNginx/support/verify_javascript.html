@@ -29,12 +29,10 @@
             
             function jump(){
                 setCookie('verynginx_sign_javascript',data['cookie'],365);
-                window.setTimeout(function(){
-                    window.location = data['uri'];
-                },0);
+                window.location = data['uri'];
             }
         </script>
     </head>
-    <body onLoad="jump()">
+    <body onLoad="javascript:jump()">
     </body>
 </html>
