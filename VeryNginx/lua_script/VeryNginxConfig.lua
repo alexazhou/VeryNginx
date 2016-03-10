@@ -197,7 +197,7 @@ end
 
 function _M.report()
     --return a json contain current config items
-    return json.encode( _M["configs"] )
+    return dkjson.encode( _M["configs"] )
 end
 
 function _M.verify()
