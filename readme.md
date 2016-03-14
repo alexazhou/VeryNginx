@@ -170,6 +170,10 @@ log_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_log.lua;
 
 * 如果因为配错了什么选项，导致无法登录，可以手动删除 `config.json` 来清空配置。
 
+## 致谢
+
+[感谢大家对VeryNginx的帮助](https://github.com/alexazhou/VeryNginx/wiki/Thanks)
+
 
 ###Enjoy~
 
@@ -331,6 +335,12 @@ The full version of config guide can be found in [VeryNginx Wiki](https://github
 * If the chat in status page is stuck, you can click the gear icon in the upper right corner to turn off animation
 
 * If you lock yourself out of VeryNginx by doing something stupid, you can always delete `config.json` to revert VeryNginx to its default.
+
+## Thanks
+
+[VeryNginx thanks for the help](https://github.com/alexazhou/VeryNginx/wiki/Thanks)
+
+
 
 ###Enjoy~
 
