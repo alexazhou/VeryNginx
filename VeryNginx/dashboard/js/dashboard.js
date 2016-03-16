@@ -44,7 +44,8 @@ dashboard.init = function(){
         form_input.on( 'input',test_action );
     });
 
-    matcher_editor.init(); 
+    matcher_editor.init();
+    window.onbeforeunload = dashboard.check_saved;
 }
 
 dashboard.login = function(user,password){
@@ -70,6 +71,15 @@ dashboard.logout = function(){
     dashboard.notify("Logout Success");
 }
 
+dashboard.check_saved = function(){
+
+    if( config.config_vm == null )
+        return null;
+    if( config.config_vm.config_changed )
+        return "Configs hasn't been saved. If you leave, then the new configuration will be lost.";
+
+    return null;
+}
 
 dashboard.switch_to_interface = function( name ){
     $(".interface").hide();

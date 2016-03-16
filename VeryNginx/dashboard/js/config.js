@@ -4,6 +4,8 @@ Vue.config.debug = true;
 config.config_vm = null; 
 config.verynginx_config = {};
 
+config.original_config_json = null;
+
 //the reusable matcher condition template
 config.vue_component_condition = Vue.extend({
     props : ['matcher_conditions','del_action'],
@@ -19,14 +21,15 @@ config.vue_component_condition = Vue.extend({
 
 });
 
-Vue.component('condition', config.vue_component_condition )
+Vue.component('condition', config.vue_component_condition );
 
 Vue.filter('show_operator', function (operator) {
     if( operator == '!'){
         return ' is Null'
     }
     return operator;
-})
+});
+
 
 config.get_config = function(){
     $.get("/verynginx/config",function(data,status){
@@ -38,16 +41,24 @@ config.get_config = function(){
             return;
         }
 
+        config.original_config_json = JSON.stringify( config.verynginx_config , null, 2);
+
         config.config_vm = new Vue({
             el: '#verynginx_config',
             data: config.verynginx_config,
             computed : {
                 all_config_json: function(){
                     return JSON.stringify( config.verynginx_config , null, 2);
-                }
+                },
+                config_changed: function(){
+                    if( config.original_config_json == this.all_config_json ){
+                        return false;
+                    }else{
+                        return true;
+                    }
+                } 
             }
         });
-
     }); 
 }
 
@@ -176,6 +187,7 @@ config.save_config = function(){
     $.post("/verynginx/config",{ config:config_json_escaped_base64 },function(data){
         console.log(data);
         if( data['ret'] == 'success' ){
+            config.original_config_json = config.config_vm.all_config_json;
             dashboard.notify("save config success");
         }else{
             dashboard.notify("save config failed[" + data['err'] + "]");
