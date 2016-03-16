@@ -62,9 +62,9 @@ config.get_config = function(){
 
         config.config_vm.$watch('config_changed',function(){
             if( config.config_vm.config_changed == true ){
-                $('#config_bottom_bar').show();
+                $('#config_bottom_div').show();
             }else{
-                $('#config_bottom_bar').hide();
+                $('#config_bottom_div').hide();
             }
         });
     }); 

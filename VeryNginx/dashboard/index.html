@@ -1159,13 +1159,18 @@
                     </div>
                 </div>
 
-                <div class="row" id="config_bottom_bar" style="display:none">
-                    <div id="config_bottom_bar_message">
-                        Configuration has been modified, you can click the button to save or revert it.
+                <div class="row" id="config_bottom_div" style="display:none">
+                    <div style="height:45px">
                     </div>
-                    <div class="pull-right" id="config_bottom_bar_btns">
-                        <button type="button" class="btn btn-default btn-sm bottom_bar_btn" onclick="config.get_config()">ReRead</button>
-                        <button type="button" class="btn btn-default btn-sm bottom_bar_btn" onclick="config.save_config()">Save</button>
+                    
+                    <div id="config_bottom_bar">
+                        <div id="config_bottom_bar_message">
+                            Configuration has been modified, you can click the button to save or revert it.
+                        </div>
+                        <div class="pull-right" id="config_bottom_bar_btns">
+                            <button type="button" class="btn btn-default btn-sm bottom_bar_btn" onclick="config.get_config()">ReRead</button>
+                            <button type="button" class="btn btn-default btn-sm bottom_bar_btn" onclick="config.save_config()">Save</button>
+                        </div>
                     </div>
                 </div>
             </div>
