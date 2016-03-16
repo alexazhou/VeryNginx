@@ -660,7 +660,6 @@
                             </form>
                         </div>
 
-
                         <div class="config_container" id="config_action_filter_uri">
                             <div class="config_title">
                                 URI过滤
@@ -733,7 +732,6 @@
                                 </div>
                             </form>
                         </div>
-
 
                         <div class="config_container" id="config_action_browser_verify">
                             <div class="config_title">
@@ -1159,7 +1157,17 @@
                             </div>
                         </template>
                     </div>
-                </div>  
+                </div>
+
+                <div class="row" id="config_bottom_bar" style="display:none">
+                    <div id="config_bottom_bar_message">
+                        Configuration has been modified, you can click the button to save or revert it.
+                    </div>
+                    <div class="pull-right" id="config_bottom_bar_btns">
+                        <button type="button" class="btn btn-default btn-sm bottom_bar_btn" onclick="config.get_config()">ReRead</button>
+                        <button type="button" class="btn btn-default btn-sm bottom_bar_btn" onclick="config.save_config()">Save</button>
+                    </div>
+                </div>
             </div>
 
             <!-- Modal -->
