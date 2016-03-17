@@ -30,8 +30,8 @@ function _M.filter()
             ngx.exit(200)
         else
             local info = json.encode({["ret"]="failed",["err"]="need login"})
+            ngx.status = 401
             ngx.say( info )
-            ngx.exit(200)
         end
     elseif string.find(action,"get /verynginx/dashboard") == 1 then
         ngx.header.content_type = "text/html"

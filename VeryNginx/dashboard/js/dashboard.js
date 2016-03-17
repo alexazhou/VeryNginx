@@ -1,6 +1,7 @@
 var dashboard = new Object();
 
 dashboard.disable_log = false;
+dashboard.last_failed_jqxhr;
 
 paceOptions = {
     catchupTime: 1,
@@ -44,8 +45,18 @@ dashboard.init = function(){
         form_input.on( 'input',test_action );
     });
 
-    $( document ).ajaxError(function() {
-        dashboard.notify('Ajax request failed');
+    $( document ).ajaxError(function( e,jqxhr ) {
+        dashboard.last_failed_jqxhr = jqxhr;
+        var err = '';
+        if( jqxhr.responseJSON != null && jqxhr.responseJSON['err'] != null ){
+            err = '[' + jqxhr.responseJSON['err'] + ']' ;
+        }else if( jqxhr.status != 0 ) {
+            err = '[status code = ' + jqxhr.status + ']';
+        }else{
+            err = '[Network error]';
+        }
+        
+        dashboard.notify('Ajax request failed' + err);
     });
 
     matcher_editor.init();
