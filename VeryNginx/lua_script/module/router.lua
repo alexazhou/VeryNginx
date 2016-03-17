@@ -90,7 +90,6 @@ function _M.login()
     
     local args = nil
     local err = nil
-    local session = nil
 
     ngx.req.read_body()
     args, err = ngx.req.get_post_args()
@@ -101,13 +100,13 @@ function _M.login()
 
     for i,v in ipairs( VeryNginxConfig.configs['admin'] ) do
         if v['user'] == args['user'] and v['password'] == args["password"] and v['enable'] == true then
-            session = ngx.md5(encrypt_seed.get_seed()..v['user'])
-            ngx.header['Set-Cookie'] = {
-                string.format("verynginx_session=%s; path=/verynginx", session ),
-                string.format("verynginx_user=%s; path=/verynginx", v['user'] ),
-            }
+            local data = {}
+            data['ret'] = 'success'
+            data['err'] = err
+            data['verynginx_session'] = ngx.md5(encrypt_seed.get_seed()..v['user'])
+            data['verynginx_user'] = v['user']
             
-            return json.encode({["ret"]="success",["err"]=err})
+            return json.encode( data )
         end
     end 
     

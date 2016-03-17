@@ -38,7 +38,7 @@ function _M.run()
             end
 
             if new_uri ~= ngx_var_uri then
-                ngx_set_uri( new_uri , true )
+                ngx_set_uri( new_uri , false )
             end
             return
         end

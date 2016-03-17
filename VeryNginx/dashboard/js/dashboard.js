@@ -67,6 +67,11 @@ dashboard.login = function(user,password){
     console.log("login with:",user,password);
     $.post("./login",data={user:user,password:password},function(data,status){
         if( data['ret'] == "success" ){
+            var uri = document.location.pathname;
+            var path = uri.substring(0, uri.lastIndexOf('/') );
+            $.cookie( 'verynginx_user', data['verynginx_user'],{ path: path} );
+            $.cookie( 'verynginx_session', data['verynginx_session'], { path: path} ); 
+
             dashboard.switch_to_interface('dashboard');
             config.get_config();
             dashboard.notify("Login Success");
