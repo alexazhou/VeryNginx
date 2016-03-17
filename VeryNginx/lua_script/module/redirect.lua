@@ -31,7 +31,7 @@ function _M.run()
         local matcher = matcher_list[ rule['matcher'] ] 
         if enable == true and request_tester.test( matcher ) == true then
             replace_re = rule['replace_re']
-            if replace_re ~= nil and string.len( replace_re ) ~= 0  then
+            if replace_re ~= nil and string.len( replace_re ) > 0  then
                 new_url = re_gsub( ngx_var_uri, replace_re, rule['to_uri'] ) 
             else
                 new_url = rule['to_uri']
