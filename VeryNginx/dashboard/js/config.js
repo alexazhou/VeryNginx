@@ -30,6 +30,13 @@ Vue.filter('show_operator', function (operator) {
     return operator;
 });
 
+config.refresh_bottom_bar = function(){
+    if( config.original_config_json == config.config_vm.all_config_json ){
+        $('#config_bottom_div').hide();
+    }else{
+        $('#config_bottom_div').show();
+    } 
+};
 
 config.get_config = function(){
     $.get("/verynginx/config",function(data,status){
@@ -49,24 +56,11 @@ config.get_config = function(){
             computed : {
                 all_config_json: function(){
                     return JSON.stringify( config.verynginx_config , null, 2);
-                },
-                config_changed: function(){
-                    if( config.original_config_json == this.all_config_json ){
-                        return false;
-                    }else{
-                        return true;
-                    }
-                } 
+                }
             }
         });
 
-        config.config_vm.$watch('config_changed',function(){
-            if( config.config_vm.config_changed == true ){
-                $('#config_bottom_div').show();
-            }else{
-                $('#config_bottom_div').hide();
-            }
-        });
+        config.config_vm.$watch('all_config_json',config.refresh_bottom_bar);
     }); 
 }
 
@@ -196,6 +190,7 @@ config.save_config = function(){
         console.log(data);
         if( data['ret'] == 'success' ){
             config.original_config_json = config.config_vm.all_config_json;
+            config.refresh_bottom_bar();
             dashboard.notify("save config success");
         }else{
             dashboard.notify("save config failed[" + data['err'] + "]");
