@@ -33,7 +33,7 @@ function _M.filter()
             ngx.status = 401
             ngx.say( info )
         end
-    elseif string.find(action,"get /verynginx/dashboard") == 1 then
+    elseif string.find(action,"get /verynginx/") == 1 then
         ngx.header.content_type = "text/html"
         ngx.header.charset = "utf-8"
         for k,v in pairs( _M.mime_type ) do
@@ -43,7 +43,7 @@ function _M.filter()
             end
         end
 
-        local path = VeryNginxConfig.home_path() .."/dashboard" .. string.sub( ngx.var.uri, string.len( "/verynginx/dashboard") + 1 )
+        local path = VeryNginxConfig.home_path() .."/dashboard" .. string.sub( ngx.var.uri, string.len( "/verynginx") + 1 )
         f = io.open( path, 'r' )
         if f ~= nil then
             ngx.say( f:read("*all") )
