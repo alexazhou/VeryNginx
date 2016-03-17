@@ -44,6 +44,10 @@ dashboard.init = function(){
         form_input.on( 'input',test_action );
     });
 
+    $( document ).ajaxError(function() {
+        dashboard.notify('Ajax request failed');
+    });
+
     matcher_editor.init();
     window.onbeforeunload = dashboard.check_saved;
 }
