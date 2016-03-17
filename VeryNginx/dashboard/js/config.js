@@ -39,7 +39,7 @@ config.refresh_bottom_bar = function(){
 };
 
 config.get_config = function(){
-    $.get("/verynginx/config",function(data,status){
+    $.get("./config",function(data,status){
         config.verynginx_config = data;
         config.original_config_json = JSON.stringify( config.verynginx_config , null, 2);
             
@@ -185,7 +185,7 @@ config.save_config = function(){
     //step 2, use base64 to encode data to avoid be blocked by verynginx args filter
     var config_json_escaped_base64 = window.btoa( config_json_escaped );
 
-    $.post("/verynginx/config",{ config:config_json_escaped_base64 },function(data){
+    $.post("./config",{ config:config_json_escaped_base64 },function(data){
         console.log(data);
         if( data['ret'] == 'success' ){
             config.original_config_json = config.config_vm.all_config_json;

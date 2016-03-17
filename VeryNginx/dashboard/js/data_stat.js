@@ -32,8 +32,8 @@ data_stat.get_data = function () {
 
     $('#url_details').html(""); // 动态生成表格前将表格清空
 
-    var url_short = "/verynginx/summary?type=short";
-    var url_long  = "/verynginx/summary?type=long";
+    var url_short = "./summary?type=short";
+    var url_long  = "./summary?type=long";
     var data_url;
 
     // 判断数据量

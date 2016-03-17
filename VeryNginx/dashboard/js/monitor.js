@@ -228,7 +228,7 @@ monitor.animation_enable = function(){
 monitor.refresh = function(){
     //console.log("monitor refresh");
 
-    $.get("/verynginx/status",function(data,status){
+    $.get("./status",function(data,status){
         if( status != 'success' ){
             return;
         }

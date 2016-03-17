@@ -65,7 +65,7 @@ dashboard.init = function(){
 
 dashboard.login = function(user,password){
     console.log("login with:",user,password);
-    $.post("/verynginx/login",data={user:user,password:password},function(data,status){
+    $.post("./login",data={user:user,password:password},function(data,status){
         if( data['ret'] == "success" ){
             dashboard.switch_to_interface('dashboard');
             config.get_config();
