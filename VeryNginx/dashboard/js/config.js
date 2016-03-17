@@ -41,14 +41,13 @@ config.refresh_bottom_bar = function(){
 config.get_config = function(){
     $.get("/verynginx/config",function(data,status){
         config.verynginx_config = data;
+        config.original_config_json = JSON.stringify( config.verynginx_config , null, 2);
             
         if( config.config_vm != null ){
             config.config_vm.$data = config.verynginx_config;
             dashboard.notify("Reread config success");
             return;
         }
-
-        config.original_config_json = JSON.stringify( config.verynginx_config , null, 2);
 
         config.config_vm = new Vue({
             el: '#verynginx_config',
