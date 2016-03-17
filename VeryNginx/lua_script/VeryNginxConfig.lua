@@ -80,13 +80,13 @@ _M.configs["scheme_lock_rule"] = {
 _M.configs["redirect_enable"] = true
 _M.configs["redirect_rule"] = {
     --redirect to a static uri
-    {["matcher"] = 'demo_other_verynginx_uri', ["to_uri"] = "/verynginx/dashboard/index.html", ["enable"] = true}, 
+    {["matcher"] = 'demo_other_verynginx_uri', ["to_uri"] = "/verynginx/index.html", ["enable"] = true}, 
 }
 
 _M.configs["uri_rewrite_enable"] = true
 _M.configs["uri_rewrite_rule"] = {
     --redirect to a Regex generate uri 
-    {["matcher"] = 'demo_verynginx_short_uri', ["replace_re"] = "^/vn/(.*)", ["to_uri"] = "/verynginx/dashboard/$1", ["enable"] = true}, 
+    {["matcher"] = 'demo_verynginx_short_uri', ["replace_re"] = "^/vn/(.*)", ["to_uri"] = "/verynginx/$1", ["enable"] = true}, 
 }
 
 _M.configs["browser_verify_enable"] = true

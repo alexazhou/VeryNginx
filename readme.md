@@ -152,7 +152,7 @@ log_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_log.lua;
  `/opt/VeryNginx/nginx/sbin/nginx -s stop`
 
 ##对 VeryNginx 进行配置
-打开浏览器访问 `http://127.0.0.1/VeryNginx/dashboard/index.html`。
+打开浏览器访问 `http://127.0.0.1/VeryNginx/index.html`。
 
 默认用户名和密码是 `verynginx` / `verynginx`。
 
@@ -318,7 +318,7 @@ log_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_log.lua;
  `/opt/VeryNginx/nginx/sbin/nginx -s stop`
 
 ##Configure VeryNginx
-Open your web browser and go to `http://127.0.0.1/VeryNginx/dashboard/index.html`.
+Open your web browser and go to `http://127.0.0.1/VeryNginx/index.html`.
 
 Default user and password is `verynginx` / `verynginx`. You should be able to work through all the options now.
 
