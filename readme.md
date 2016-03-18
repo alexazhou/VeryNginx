@@ -3,6 +3,9 @@ VeryNginx is a very powerful and friendly nginx .
 
 [English document](#description)
 
+###Notice
+After v0.2 , The entry uri of control panel was moved to `/verynginx/index.html`
+
 ##介绍
 
 VeryNginx 基于 `lua_nginx_module(openrestry)` 开发，实现了高级的防火墙、访问统计和其他的一些功能。 强化了 Nginx 本身的功能，并提供了友好的 Web 交互界面。
