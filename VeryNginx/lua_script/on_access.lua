@@ -9,3 +9,6 @@ router.filter()
 
 local backend_static = require "backend_static"
 backend_static.filter()
+
+local backend_proxy = require "backend_proxy"
+backend_proxy.filter()
