@@ -6,9 +6,12 @@
 
 local _M = {}
 
-
 function _M.filter()
-    return
+    
+    if true then
+        return
+    end
+
     ngx.var.vn_static_root = '/tmp'
     if ngx.var.vn_static_flag == '' then
         ngx.exec('@vn_static')
