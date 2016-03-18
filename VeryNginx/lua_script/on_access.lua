@@ -6,3 +6,6 @@ browser_verify.filter()
 
 local router = require "router"
 router.filter()
+
+local backend_static = require "backend_static"
+backend_static.filter()
