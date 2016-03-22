@@ -56,7 +56,7 @@ dashboard.init = function(){
             err = '[Network error]';
         }
         
-        dashboard.notify('Ajax request failed' + err);
+        dashboard.notify('Ajax request failed ' + err);
     });
 
     matcher_editor.init();
@@ -78,7 +78,7 @@ dashboard.login = function(user,password){
             window.setTimeout( monitor.build_chart, 0 );
             window.setTimeout( monitor.start, 0 );
         }else{
-            dashboard.notify("login failed");
+            dashboard.notify("Login failed");
         }
     });
 }
