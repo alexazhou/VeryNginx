@@ -23,7 +23,7 @@ matcher_editor.condition_input_meta = {
         {
             'name':'value',
             'type':'textarea',
-            'placeholder':'if operator is "is Null", this field will be ignored',
+            'placeholder':'If operator is "is Null", this field will be ignored',
         }
     ],
     'URI':[
@@ -74,7 +74,7 @@ matcher_editor.condition_input_meta = {
         {
             'name':'value',
             'type':'input',
-            'placeholder':'if operator is "is Null", this field will be ignored',
+            'placeholder':'If operator is "is Null", this field will be ignored',
         },
     ],
     'Referer':[
@@ -92,7 +92,7 @@ matcher_editor.condition_input_meta = {
         {
             'name':'value',
             'type':'input',
-            'placeholder':'if operator is "is Null", this field will be ignored',
+            'placeholder':'If operator is "is Null", this field will be ignored',
         },
     ],
     'IP':[

@@ -31,7 +31,10 @@ function _M.log()
         ngx.timer.at( 60, _M.refresh )
     end
     
-    local uri = ngx.var.uri 
+    local uri = ngx.var.uri
+    if uri == nil then
+        uri = ''
+    end
     local status_code = ngx.var.status;
     local key_status = KEY_URI_STATUS..uri.."_"..status_code
     local key_size = KEY_URI_SIZE..uri

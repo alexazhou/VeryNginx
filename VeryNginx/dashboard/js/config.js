@@ -190,9 +190,9 @@ config.save_config = function(){
         if( data['ret'] == 'success' ){
             config.original_config_json = config.config_vm.all_config_json;
             config.refresh_bottom_bar();
-            dashboard.notify("save config success");
+            dashboard.notify("Save config success.");
         }else{
-            dashboard.notify("save config failed[" + data['err'] + "]");
+            dashboard.notify("Save config failed [" + data['err'] + "].");
         }
     });
 }
