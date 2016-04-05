@@ -14,7 +14,7 @@ function _M.filter()
     end
 
     ngx.var.vn_proxy_target = 'http://123.125.114.224'
-    if ngx.var.vn_proxy_flag == '' then
+    if ngx.var.vn_exec_flag == '' then
         ngx.exec('@vn_proxy')
     end
 end

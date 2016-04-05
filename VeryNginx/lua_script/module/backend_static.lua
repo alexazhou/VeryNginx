@@ -13,7 +13,7 @@ function _M.filter()
     end
 
     ngx.var.vn_static_root = '/tmp'
-    if ngx.var.vn_static_flag == '' then
+    if ngx.var.vn_exec_flag == '' then
         ngx.exec('@vn_static')
     end
 end
