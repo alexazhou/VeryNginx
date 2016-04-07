@@ -32,9 +32,14 @@ def main():
     #os.system( 'tar -xzf ' + openresty_pkg )
 
     #step 2, configure && compile && install openresty
+    print('### configure openrestry ...')
     os.chdir( openresty_pkg.replace('.tar.gz','') )
     os.system( './configure --prefix=/opt/verynginx/openrestry --user=nginx --group=nginx --with-http_stub_status_module --with-luajit' )
+    
+    print('### compile openrestry ...')
     os.system( 'make' )
+    
+    print('### install openrestry ...')
     os.system( 'make install' )
 
     #step 3, install VeryNginx file
