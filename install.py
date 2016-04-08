@@ -6,6 +6,8 @@
 # @Disc    : install VeryNginx
 
 import os
+import sys
+import getopt
 
 openresty_pkg_url = 'https://openresty.org/download/openresty-1.9.7.3.tar.gz'
 openresty_pkg = 'openresty-1.9.7.3.tar.gz'
@@ -49,6 +51,19 @@ def main():
 
 
 if __name__ == '__main__':
+    help_doc = 'usage: install.py <cmd> ... \n\
+    install\n\
+        all        :  install verynginx and openresty\n\
+        openresty  :  install openresty\n\
+        verynginx  :  install verynginx\n\
+    update\n\
+        verynginx  :  update the installed verynginx\n\
+    '
+
+    opts, args = getopt.getopt(sys.argv[1:], '', []) 
+    
+    print( help_doc )
+    
     main()
 
 else:
