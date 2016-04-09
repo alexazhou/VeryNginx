@@ -19,7 +19,7 @@ function _M.get_seed()
     end
     
     --return saved seed
-    local seed_path = VeryNginxConfig.home_path() .. "/encrypt_seed.json"
+    local seed_path = VeryNginxConfig.home_path() .. "/configs/encrypt_seed.json"
     
     local file = io.open( seed_path, "r")
     if file ~= nil then

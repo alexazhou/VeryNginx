@@ -150,7 +150,7 @@ end
 
 
 function _M.load_from_file()
-    local config_dump_path = _M.home_path() .. "/config.json"
+    local config_dump_path = _M.home_path() .. "/configs/config.json"
     local file = io.open( config_dump_path, "r")
     
     if file == nil then
@@ -243,7 +243,7 @@ end
 
 function _M.dump_to_file( config_table )
     local config_data = dkjson.encode( config_table , {indent=true} )
-    local config_dump_path = _M.home_path() .. "/config.json"
+    local config_dump_path = _M.home_path() .. "/configs/config.json"
     
     --ngx.log(ngx.STDERR,config_dump_path)
     local file, err = io.open( config_dump_path, "w")
