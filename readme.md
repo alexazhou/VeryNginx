@@ -83,22 +83,35 @@ VeryNginx 可以统计网站每个URI的访问情况，包括每个URI的:
 
 ##安装说明
 
-### 安装 Nginx / OpenResty
+### 安装 VeryNginx
 
-VeryNginx 基于 OpenResty[^openresty]，所以你需要先安装它：
+克隆 VeryNginx 仓库到本地, 然后进入仓库目录，执行以下命令 
 
-
-```sh
-wget https://openresty.org/download/ngx_openresty-1.9.7.1.tar.gz
-tar -xvzf ngx_openresty-1.9.7.1.tar.gz
-cd ngx_openresty-1.9.7.1
-sudo su
-./configure --prefix=/opt/VeryNginx --user=nginx --group=nginx --with-http_stub_status_module --with-luajit
-gmake
-gmake install
+```
+python install.py install
 ```
 
->以上使用的是openresty-1.9.7.1，当openresty发布更新的稳定版本时，也可以使用最新的稳定版本
+即可一键安装 VeryNginx 和 以及依赖的 OpenResty
+
+### 更新 VeryNginx
+
+在 VeryNginx 仓库中执行git pull, 然后执行以下命令 
+
+```
+python install.py update verynginx
+```
+
+即可升级 VeryNginx 到最新版本，更新的过程不会丢失配置
+
+### 安装过程说明
+
+VeryNginx 基于 OpenResty[^openresty]，所以 install.py 在安装 VeryNginx 的过程中，会自动安装依赖的 OpenResty，安装之后的目录结构如下：
+
+* /opt/verynginx/openresty  **依赖的 openresty**
+* /opt/verynginx/verynginx  **verynginx 程序目录**
+
+接着脚本将复制 /opt/verynginx/verynginx/nginx.conf 到 openresty 目录中，使得 nginx 在处理网络请求的过程中调用 VeryNginx 的相关方法来完成处理
+
 
 VeryNginx 实际使用到了 OpenResty 中的这些模块
 
@@ -106,22 +119,7 @@ VeryNginx 实际使用到了 OpenResty 中的这些模块
 *  http_stub_status_module
 *  lua-cjson library
 
-如果你不想安装 OpenResty，或者你已经有了一个正在工作的 Nginx，你也可以自己手动为 Nginx 编译安装这些模块
-
-### 部署 VeryNginx
-
-克隆 VeryNginx 仓库到本地, 复制 nginx.conf 和 VeryNginx 文件夹到 Nginx 的工作目录.
-
-```sh
-cd ~
-git clone https://github.com/alexazhou/VeryNginx.git
-rm -f /opt/VeryNginx/nginx/conf/nginx.conf
-cp ~/VeryNginx/nginx.conf /opt/VeryNginx/nginx/conf/nginx.conf
-cp -r ~/VeryNginx/VeryNginx /opt/VeryNginx/VeryNginx
-# 下面是使 /opt/VeryNginx 对 nginx 是可写的, 这样 VeryNginx 可以把自己的配置保存在里面
-# 修改/opt/VeryNginx目录的所有者为nginx用户
-chown -R nginx:nginx /opt/VeryNginx
-```
+如果你不想安装 OpenResty，或者你已经有了一个正在工作的 Nginx，你也可以自己手动为 Nginx 编译安装这些模块，然后再仿照 VeryNginx 提供 nginx.conf，向自己的 nginx.conf 中加入响应配置行 
 
 ### 编辑 Nginx 配置文件
 
@@ -149,10 +147,10 @@ log_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_log.lua;
 > 如果不使用 VeryNginx 提供的配置模版，你也可以手动把这部分加入到自己的 Nginx 配置文件中. (如果安装路径不是 `/opt/VeryNginx`，需要对 `lua_package_cpath` 和 `lua_package_path` 的值进行修改)
 
 ##启动服务
- `/opt/VeryNginx/nginx/sbin/nginx`
+ `/opt/verynginx/verynginx/nginx/sbin/nginx`
 
 ##停止服务
- `/opt/VeryNginx/nginx/sbin/nginx -s stop`
+ `/opt/verynginx/verynginx/nginx/sbin/nginx -s stop`
 
 ##对 VeryNginx 进行配置
 打开浏览器访问 `http://127.0.0.1/VeryNginx/index.html`。
