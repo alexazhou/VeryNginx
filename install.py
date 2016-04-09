@@ -36,7 +36,7 @@ def install_openresty( ):
 
     if down_flag == True:
         print('### start download openresty package...')
-        exec_sys_cmd('rm -f ' + openresty_pkg)
+        exec_sys_cmd('rm -rf ' + openresty_pkg)
         exec_sys_cmd( 'wget ' + openresty_pkg_url )
     else:
         print('### use local openresty package...')
@@ -59,7 +59,6 @@ def install_verynginx():
     #install VeryNginx file
     print('### copy VeryNginx files ...')
     os.chdir( work_path )
-    exec_sys_cmd( 'pwd' )
     if os.path.exists('/opt/verynginx/') == False:
         exec_sys_cmd( 'mkdir -p /opt/verynginx' )
     
@@ -71,7 +70,10 @@ def update_verynginx():
 
 def exec_sys_cmd(cmd):
     print( cmd )
-    os.system( cmd )
+    ret = os.system( cmd )
+    if ret != 0:
+        print('*** The installing stopped because something was wrong')
+        exit(1)
 
 
 def common_input( s ):
@@ -124,7 +126,7 @@ if __name__ == '__main__':
     else:
         show_help_and_exit()
 
-    print('All work finished successfully, enjoy it~')
+    print('*** All work finished successfully, enjoy it~')
 
 
 else:
