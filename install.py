@@ -9,6 +9,7 @@
 import os
 import sys
 import getopt
+import filecmp
 
 openresty_pkg_url = 'https://openresty.org/download/openresty-1.9.7.3.tar.gz'
 openresty_pkg = 'openresty-1.9.7.3.tar.gz'
@@ -45,17 +46,18 @@ def install_openresty( ):
     exec_sys_cmd( 'tar -xzf ' + openresty_pkg )
 
     #configure && compile && install openresty
-    print('### configure openrestry ...')
+    print('### configure openresty ...')
     os.chdir( openresty_pkg.replace('.tar.gz','') )
-    exec_sys_cmd( './configure --prefix=/opt/verynginx/openrestry --user=nginx --group=nginx --with-http_stub_status_module --with-luajit' )
+    exec_sys_cmd( './configure --prefix=/opt/verynginx/openresty --user=nginx --group=nginx --with-http_stub_status_module --with-luajit' )
     
-    print('### compile openrestry ...')
+    print('### compile openresty ...')
     exec_sys_cmd( 'make' )
     
-    print('### install openrestry ...')
+    print('### install openresty ...')
     exec_sys_cmd( 'make install' )
 
 def install_verynginx():
+    
     #install VeryNginx file
     print('### copy VeryNginx files ...')
     os.chdir( work_path )
@@ -63,6 +65,12 @@ def install_verynginx():
         exec_sys_cmd( 'mkdir -p /opt/verynginx' )
     
     exec_sys_cmd( 'cp -r -f ./verynginx /opt/verynginx/verynginx' )
+
+    #copy nginx config file to openresty
+    if filecmp.cmp( '/opt/verynginx/openresty/nginx/conf/nginx.conf', '/opt/verynginx/openresty/nginx/conf/nginx.conf.default', False ) == True:
+        print('cp nginx config file to openresty')
+        exec_sys_cmd( 'cp -f ./nginx.conf  /opt/verynginx/openresty/nginx/conf/' )
+
 
 def update_verynginx():
     install_verynginx()    
