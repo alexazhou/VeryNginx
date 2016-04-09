@@ -4,6 +4,7 @@
 # @Author  : Alexa (AlexaZhou@163.com)
 # @Link    : https://github.com/alexazhou/VeryNginx
 # @Disc    : install VeryNginx
+# @Disc    : support python 2.x and 3.x
 
 import os
 import sys
@@ -46,13 +47,13 @@ def install_openresty( ):
     #configure && compile && install openresty
     print('### configure openrestry ...')
     os.chdir( openresty_pkg.replace('.tar.gz','') )
-    #exec_sys_cmd( './configure --prefix=/opt/verynginx/openrestry --user=nginx --group=nginx --with-http_stub_status_module --with-luajit' )
+    exec_sys_cmd( './configure --prefix=/opt/verynginx/openrestry --user=nginx --group=nginx --with-http_stub_status_module --with-luajit' )
     
     print('### compile openrestry ...')
-    #exec_sys_cmd( 'make' )
+    exec_sys_cmd( 'make' )
     
     print('### install openrestry ...')
-    #exec_sys_cmd( 'make install' )
+    exec_sys_cmd( 'make install' )
 
 def install_verynginx():
     #install VeryNginx file
