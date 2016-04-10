@@ -1038,7 +1038,7 @@
                                 </thead>
                                 <tbody>
                                     <template v-for="rule in backend_upstream">
-                                        <tr v-bind:class="[ filter_rule._editing == $index ? 'editing' : '']">
+                                        <tr v-bind:class="[ backend_upstream._editing == $index ? 'editing' : '']">
                                             <td>{{ $index }}</td>
                                             <td>{{ $key }}</td>
                                             <td>{{ rule.method }}</td>
@@ -1047,20 +1047,20 @@
                                             </td>
                                             <td class="no_break">
                                                  <template v-if="(filter_rule._editing == undefined )">
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('filter_rule',{{$index}})">
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('backend_upstream',{{$index}})">
                                                         UP
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('filter_rule',{{$index}})">
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('backend_upstream',{{$index}})">
                                                         DOWN
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('filter_rule',{{$index}},null)">
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('backend_upstream',{{$index}},null)">
                                                         DEL
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('filter_rule',{{$index}},'config_filter_form')">
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('backend_upstream',{{$index}},'config_filter_form')">
                                                         EDIT
                                                     </button>
                                                 </template> 
-                                                <template v-if="(filter_rule._editing == $index )">
+                                                <template v-if="(backend_upstream._editing == $index )">
                                                     Editing
                                                 </template>
                                             </td>
