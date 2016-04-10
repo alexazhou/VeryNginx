@@ -240,6 +240,12 @@
                                 <div class="leftnav leftnav_2" config_name="action_browser_verify" onclick="dashboard.switch_to_config(this)">Browser Verify</div>
                                 <div class="leftnav leftnav_2" config_name="action_filter" onclick="dashboard.switch_to_config(this)">Filter</div>
                             </div>
+                            
+                            <div class="leftnav leftnav_1" group="backend" onclick="dashboard.switch_config_nav_group(this)">Backend</div>
+                            <div class="leftnav_group" group="backend">
+                                <div class="leftnav leftnav_2" config_name="backend_proxy_pass" onclick="dashboard.switch_to_config(this)">Proxy Pass</div>
+                            </div>
+
                             <div class="leftnav leftnav_1" group="summary" onclick="dashboard.switch_config_nav_group(this)">Summary</div>
                             <div class="leftnav_group" group="summary">
                                 <div class="leftnav leftnav_2" config_name="summary_request" onclick="dashboard.switch_to_config(this)">Request Summary</div>
@@ -1008,6 +1014,64 @@
                                 </div>
                             </form>
                         </div>
+
+                        <div class="config_container" id="config_backend_proxy_pass">
+                            <div class="config_title">
+                                Proxy Pass
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="proxy_pass_enable">
+                            <label>Enable</label>
+                            
+                            <div class="config_title_2">
+                                Up Stream
+                            </div>
+
+                            <table class="table table-bordered config_table" id="config_upstream_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Name</td>
+                                        <td>Method</td>
+                                        <td>Nodes</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="rule in backend_upstream">
+                                        <tr v-bind:class="[ filter_rule._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>{{ $key }}</td>
+                                            <td>{{ rule.method }}</td>
+                                            <td>
+                                                <upstream v-bind:node="rule.node" ></upstream>
+                                            </td>
+                                            <td class="no_break">
+                                                 <template v-if="(filter_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('filter_rule',{{$index}})">
+                                                        UP
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('filter_rule',{{$index}})">
+                                                        DOWN
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('filter_rule',{{$index}},null)">
+                                                        DEL
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('filter_rule',{{$index}},'config_filter_form')">
+                                                        EDIT
+                                                    </button>
+                                                </template> 
+                                                <template v-if="(filter_rule._editing == $index )">
+                                                    Editing
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+
+                        </div>
+
                         
                         <div class="config_container" id="config_summary_request">
                             <div class="config_title">

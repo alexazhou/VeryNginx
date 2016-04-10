@@ -21,7 +21,20 @@ config.vue_component_condition = Vue.extend({
 
 });
 
+config.vue_upstream_node = Vue.extend({
+    props : ['node','del_action'],
+    template: '<template v-for="(node_name,node_value) in node ">\
+              <div class="config_matcher_block">\
+                  <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete" v-if="(del_action != null)" onclick="{{del_action}}"></span>\
+                  <span class="config_matcher_block_type">{{node_name}}</span>\
+                  <span class="config_matcher_block_name"> {{node_value.ip}}</span>\
+                  <span class="config_matcher_block_weight"> {{node_value.weight }}</span>\
+              </div>\
+          </template>'
+});
+
 Vue.component('condition', config.vue_component_condition );
+Vue.component('upstream', config.vue_upstream_node );
 
 Vue.filter('show_operator', function (operator) {
     if( operator == '!'){

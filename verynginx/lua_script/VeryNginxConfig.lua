@@ -72,7 +72,16 @@ _M.configs['matcher'] = {
     }
 }
 
-_M.configs["backend_proxy"] = {
+_M.configs["backend_upstream"] = {
+    ["test"] = {
+        ["method"] = "random",
+        ["node"] = {
+           ["test_node_1"] = {
+               ["ip"] = "61.135.169.125",
+               ["weight"] = 1,
+           } 
+        }
+    },
 }
 
 _M.configs["scheme_lock_enable"] = false
@@ -130,7 +139,7 @@ end
 function _M.version_updater_022( configs )
     configs["proxy_pass_enable"] = true
     configs["proxy_pass_rule"] = {}
-    configs["backend_proxy"] = {}
+    configs["backend_upstream"] = {}
     configs["config_version"] = "0.3"
     return configs
 end
