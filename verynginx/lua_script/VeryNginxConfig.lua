@@ -72,6 +72,9 @@ _M.configs['matcher'] = {
     }
 }
 
+_M.configs["backend_proxy"] = {
+}
+
 _M.configs["scheme_lock_enable"] = false
 _M.configs["scheme_lock_rule"] = {
     {["matcher"] = 'verynginx', ["scheme"] = "https", ["enable"] = false},
@@ -102,6 +105,9 @@ _M.configs["filter_rule"] = {
     {["matcher"] = 'attack_code_0', ["action"] = "block", ["code"] = '403', ["enable"] = true },
 }
 
+_M.configs["proxy_pass_enable"] = true
+_M.configs["proxy_pass_rule"] = {
+}
 
 _M.configs["summary_request_enable"] = true
 ----------------------Config End-------------
@@ -121,11 +127,20 @@ function _M.version_updater_021( configs )
     return configs
 end
 
+function _M.version_updater_022( configs )
+    configs["proxy_pass_enable"] = true
+    configs["proxy_pass_rule"] = {}
+    configs["backend_proxy"] = {}
+    configs["config_version"] = "0.3"
+    return configs
+end
+
 
 
 _M.version_updater = {
     ['0.2'] = _M.version_updater_02,
     ['0.21'] = _M.version_updater_021,
+    ['0.22'] = _M.version_updater_022,
 }
 
 -------------------Config Updater end---------------------
