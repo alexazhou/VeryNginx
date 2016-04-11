@@ -1093,6 +1093,12 @@
                                             <td>{{ rule.upstream }}</td>
                                             <td class="no_break">
                                                  <template v-if="(proxy_pass_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('proxy_pass_rule',{{$index}})">
+                                                        UP
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('proxy_pass_rule',{{$index}})">
+                                                        DOWN
+                                                    </button>
                                                     <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('proxy_pass_rule',{{$index}},null)">
                                                         DEL
                                                     </button>
