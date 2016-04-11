@@ -71,6 +71,9 @@ def install_verynginx():
         print('cp nginx config file to openresty')
         exec_sys_cmd( 'cp -f ./nginx.conf  /opt/verynginx/openresty/nginx/conf/' )
 
+    #set mask for the path which used for save configs
+    exec_sys_cmd( 'chmod -R 666 /opt/verynginx/verynginx/configs' )
+
 
 def update_verynginx():
     install_verynginx()    
