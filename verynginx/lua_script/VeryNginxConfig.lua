@@ -79,7 +79,12 @@ _M.configs["backend_upstream"] = {
            ["test_node_1"] = {
                ["ip"] = "61.135.169.125",
                ["weight"] = 1,
+           },
+           ["test_node_2"] = {
+               ["ip"] = "61.135.169.125",
+               ["weight"] = 3,
            } 
+
         }
     },
 }
@@ -116,6 +121,7 @@ _M.configs["filter_rule"] = {
 
 _M.configs["proxy_pass_enable"] = true
 _M.configs["proxy_pass_rule"] = {
+    {["matcher"] = 'localhost', ["upstream"] = "test", ["enable"] = false},
 }
 
 _M.configs["summary_request_enable"] = true

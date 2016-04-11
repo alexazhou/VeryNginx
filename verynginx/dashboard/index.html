@@ -1063,9 +1063,52 @@
                                 </tbody>
                             </table>
 
+                            <div class="config_title_2">
+                                Proxy Pass
+                            </div>
 
+                            <table class="table table-bordered config_table" id="config_proxy_pass_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Enable</td>
+                                        <td>Matcher</td>
+                                        <td>UpStream</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="rule in proxy_pass_rule">
+                                        <tr v-bind:class="[ proxy_pass_rule._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>
+                                            <template v-if="(rule.enable)">
+                                                ✓
+                                            </template>
+                                            <template v-else>
+                                                ✗
+                                            </template>
+                                            </td>
+                                            <td>{{ rule.matcher }}</td>
+                                            <td>{{ rule.upstream }}</td>
+                                            <td class="no_break">
+                                                 <template v-if="(proxy_pass_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('proxy_pass_rule',{{$index}},null)">
+                                                        DEL
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('proxy_pass_rule',{{$index}},'config_filter_form')">
+                                                        EDIT
+                                                    </button>
+                                                </template> 
+                                                <template v-if="(proxy_pass_rule._editing == $index )">
+                                                    Editing
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
                         </div>
-
                         
                         <div class="config_container" id="config_summary_request">
                             <div class="config_title">

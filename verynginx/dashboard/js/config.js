@@ -27,8 +27,8 @@ config.vue_upstream_node = Vue.extend({
               <div class="config_matcher_block">\
                   <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete" v-if="(del_action != null)" onclick="{{del_action}}"></span>\
                   <span class="config_matcher_block_type">{{node_name}}</span>\
-                  <span class="config_matcher_block_name"> {{node_value.ip}}</span>\
-                  <span class="config_matcher_block_weight"> {{node_value.weight }}</span>\
+                  <span class="config_matcher_block_name"> ip : {{node_value.ip}}</span>; \
+                  <span class="config_matcher_block_weight"> weight : {{node_value.weight }}</span>\
               </div>\
           </template>'
 });
