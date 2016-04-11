@@ -1046,17 +1046,11 @@
                                                 <upstream v-bind:node="rule.node" ></upstream>
                                             </td>
                                             <td class="no_break">
-                                                 <template v-if="(filter_rule._editing == undefined )">
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('backend_upstream',{{$index}})">
-                                                        UP
-                                                    </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('backend_upstream',{{$index}})">
-                                                        DOWN
-                                                    </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('backend_upstream',{{$index}},null)">
+                                                 <template v-if="(backend_upstream._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('backend_upstream','{{$key}}',null)">
                                                         DEL
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('backend_upstream',{{$index}},'config_filter_form')">
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('backend_upstream','{{$key}}','config_filter_form')">
                                                         EDIT
                                                     </button>
                                                 </template> 
