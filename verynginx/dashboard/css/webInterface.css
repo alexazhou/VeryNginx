@@ -33,7 +33,13 @@
 .config_title {
     font-size:2em;
     font-weight:bold;
-    padding-bottom:15px;
+    margin-bottom:15px;
+}
+
+.config_title_2 {
+    font-size:1.2em;
+    font-weight:bold;
+	margin-bottom:10px;
 }
 
 .config_sub_title {
