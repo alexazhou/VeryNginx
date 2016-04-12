@@ -45,6 +45,7 @@
 .config_sub_title {
     font-size:1.2em;
     font-weight:bold;
+	margin-bottom:10px;
 }
 
 .config_table thead{
