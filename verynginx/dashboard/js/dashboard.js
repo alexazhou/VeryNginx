@@ -166,8 +166,6 @@ dashboard.nav_tab_click = function( item ){
     var group = $(item).attr('group');
     var tag = $(item).attr('tag');
     
-    console.log( '--->' + group + tag );
-
     dashboard.switch_tab_bar( group, tag );
 }
 
