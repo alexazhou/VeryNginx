@@ -97,6 +97,10 @@
     color: #666;
 }
 
+.config_node_block_weight{
+    color: #888;
+}
+
 .matched {
     font-weight:bold;
     color:#337AB7;

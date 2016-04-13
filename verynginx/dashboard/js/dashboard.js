@@ -61,6 +61,13 @@ dashboard.init = function(){
 
     matcher_editor.init();
     window.onbeforeunload = dashboard.check_saved;
+
+dashboard.start = function(){
+    dashboard.switch_to_interface('dashboard');
+    config.get_config();
+    dashboard.notify("Login Success");
+    window.setTimeout( monitor.build_chart, 0 );
+    window.setTimeout( monitor.start, 0 );
 }
 
 dashboard.login = function(user,password){
@@ -70,13 +77,8 @@ dashboard.login = function(user,password){
             var uri = document.location.pathname;
             var path = uri.substring(0, uri.lastIndexOf('/') );
             $.cookie( 'verynginx_user', data['verynginx_user'],{ path: path} );
-            $.cookie( 'verynginx_session', data['verynginx_session'], { path: path} ); 
-
-            dashboard.switch_to_interface('dashboard');
-            config.get_config();
-            dashboard.notify("Login Success");
-            window.setTimeout( monitor.build_chart, 0 );
-            window.setTimeout( monitor.start, 0 );
+            $.cookie( 'verynginx_session', data['verynginx_session'], { path: path} );
+            dashboard.start();
         }else{
             dashboard.notify("Login failed");
         }
@@ -150,6 +152,23 @@ dashboard.switch_to_config = function( item ){
 
     //show tips of the config 
     tips.show_tips(config_name);
+}
+
+dashboard.switch_tab_bar = function( group, tag ){
+    $(".nav [group=" + group + "]").removeClass('active');
+    $(".nav [group=" + group + "][tag=" + tag + "]").addClass('active');
+
+    $(".nav_box[group=" + group + "]").hide();
+    $(".nav_box[group=" + group + "][tag=" + tag + "]").show();
+}
+
+dashboard.nav_tab_click = function( item ){
+    var group = $(item).attr('group');
+    var tag = $(item).attr('tag');
+    
+    console.log( '--->' + group + tag );
+
+    dashboard.switch_tab_bar( group, tag );
 }
 
 dashboard.notify = function(message){

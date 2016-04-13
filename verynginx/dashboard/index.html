@@ -1120,9 +1120,17 @@
                             </div>
 
                             <ul class="nav nav-tabs">
-                                <li role="presentation" class="active"><a href="#">Up Stream</a></li>
-                                <li role="presentation"><a href="#">Proxy Pass</a></li>
+                                <li class="active" group="config_proxy_pass_editor" tag="upstream" onclick="dashboard.nav_tab_click(this)"><a href="#" >Up Stream</a></li>
+                                <li group="config_proxy_pass_editor" tag="proxypass" onclick="dashboard.nav_tab_click(this)"><a href="#">Proxy Pass</a></li>
                             </ul>
+
+                            <div class="nav_box" group="config_proxy_pass_editor" tag="upstream">
+                                test1
+                            </div>
+                            
+                            <div class="nav_box" group="config_proxy_pass_editor" tag="proxypass" style="display:none">
+                                test2
+                            </div>
                         </div>
                         
                         <div class="config_container" id="config_summary_request">
