@@ -1102,7 +1102,7 @@
                                                     <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('proxy_pass_rule',{{$index}},null)">
                                                         DEL
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('proxy_pass_rule',{{$index}},'config_filter_form')">
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('proxy_pass_rule',{{$index}},'config_proxy_pass_form')">
                                                         EDIT
                                                     </button>
                                                 </template> 
@@ -1130,7 +1130,59 @@
                             </div>
                             
                             <div class="nav_box" group="config_proxy_pass_editor" tag="proxypass" style="display:none">
-                                test2
+                                <form class="form-horizontal" id="config_proxy_pass_form" 
+                                  onsubmit="config.save_form_data( 'proxy_pass_rule', form.get_data('config_proxy_pass_form') ); return false;" >
+                                
+                                    <div class="form-group">
+                                        <div class="col-sm-10 col-sm-offset-2 ">
+                                            <div class="notice" v-if="( proxy_pass_rule._editing != undefined )" >
+                                                Now is editing rule {{proxy_pass_rule._editing}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Enable</label>
+                                        <div class="col-sm-10">
+                                            <div class="config_form_line">
+                                                <input type="checkbox" name="enable" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Matcher</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" name="matcher">
+                                                <template v-for="(matcher_name, matcher_conditions) in matcher | orderBy '$key'">
+                                                    <option value="{{matcher_name}}">{{matcher_name}}</option>
+                                                </template>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">UpStream</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" name="upstream">
+                                                <template v-for="rule in backend_upstream | orderBy '$key'">
+                                                    <option value="{{$key}}">{{$key}}</option>
+                                                </template>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <template v-if="(proxy_pass_rule._editing != undefined )">
+                                                <button type="submit" class="btn btn-default" >Save</button>
+                                                <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('proxy_pass_rule')">
+                                                    Cancel
+                                                </button>
+                                            </template>
+                                            <template v-else>
+                                                <button type="submit" class="btn btn-default" >Add</button>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         
