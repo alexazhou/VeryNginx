@@ -31,7 +31,7 @@ _M.configs['matcher'] = {
     ["attack_backup_0"] = { 
         ["URI"] = {
             ['operator'] = "≈",
-            ['value']="\\.(haccess|bash_history|ssh|sql)$",
+            ['value']="\\.(htaccess|bash_history|ssh|sql)$",
         },
     },
     ["attack_scan_0"] = { 
