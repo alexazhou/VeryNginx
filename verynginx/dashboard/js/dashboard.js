@@ -59,8 +59,11 @@ dashboard.init = function(){
         dashboard.notify('Ajax request failed ' + err);
     });
 
+    //init the small vue vm at first
     matcher_editor.init();
+    upstream_editor.init();
     window.onbeforeunload = dashboard.check_saved;
+}
 
 dashboard.start = function(){
     dashboard.switch_to_interface('dashboard');

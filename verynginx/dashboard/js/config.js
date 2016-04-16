@@ -130,7 +130,7 @@ config.config_edit_begin = function( rule_group_name, index, form_id ){
 config.config_edit_cacel = function( rule_group_name ){
     
     var config_group = config.verynginx_config[ rule_group_name ];
-    //use json and parse to clean "_editing" property
+    //use json and parse to clear "_editing" property
     config_group = JSON.parse( JSON.stringify(config_group) );
     //reset data to refresh the view
     config.config_vm.$set( rule_group_name, config_group );
@@ -186,7 +186,7 @@ config.config_matcher_add = function(){
 
     Vue.set( config.verynginx_config['matcher'], matcher_name ,matcher_editor.tmp_conditions );
 
-    matcher_editor.clean();
+    matcher_editor.clear();
 }
 
 config.save_config = function(){

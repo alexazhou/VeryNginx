@@ -25,6 +25,7 @@
 <script src="js/form.js"></script>
 <script src="js/monitor.js"></script>
 <script src="js/matcher_editor.js"></script>
+<script src="js/upstream_editor.js"></script>
 <script src="js/config.js"></script>
 <script src="js/tips.js"></script>
 <script src="js/pace.min.js"></script>
@@ -1125,7 +1126,7 @@
                                 <li group="config_proxy_pass_editor" tag="proxypass" onclick="dashboard.nav_tab_click(this)"><a href="#">Proxy Pass</a></li>
                             </ul>
 
-                            <div class="nav_box" group="config_proxy_pass_editor" tag="upstream">
+                            <div class="nav_box" group="config_proxy_pass_editor" tag="upstream" >
                                 <form class="form-horizontal" id="config_upstream_form" 
                                   onsubmit="config.save_form_data( 'backend_upstream', form.get_data('config_upstream_form') ); return false;" >
                                 
@@ -1153,13 +1154,13 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group" id="config_proxy_upstream_editor_node">
                                         <label class="col-sm-2 control-label">Node</label>
                                         <div class="col-sm-10">
                                             <div style="border-style:solid;border-width:1px;border-color:#CCC;border-radius:5px;margin-bottom:5px;min-height:32px">
-                                                <upstream v-bind:node="conditions" del_action="upstream_editor.tmp_conditions_delete(this)"></upstream>
+                                                <upstream v-bind:node="node" ></upstream>
                                             </div>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="upstream_editor.modal_condition_open()">New Condition</button>
+                                            <button type="button" class="btn btn-default btn-xs" onclick="upstream_editor.modal_node_open()">New UpStream Node</button>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -1401,64 +1402,100 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Modal -->
-                <div class="modal fade" id="config_modal_condition">
-                    <div class="modal-dialog ">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">Add Condition</h4>
-                            </div>
-                            <div class="modal-body" >
-
-                                <form class="form-horizontal">
-                                    <div class="row vn_modal_row"   >
-                                        <label class="col-sm-2 text-right control-label">Type</label>
-                                        <div class="col-sm-10">
-                                            <select class="form-control" name="condition_type" onchange="matcher_editor.modal_condition_switch_input()">
-                                                <option value="URI">URI</option>
-                                                <option value="Host">Host</option>
-                                                <option value="UserAgent">UserAgent</option>
-                                                <option value="IP">IP</option>
-                                                <option value="Args">Args</option>
-                                                <option value="Referer">Referer</option>
-                                            </select>
-                                        </div>
+            
+            <!-- Add UpStream node Modal -->
+            <div class="modal fade" id="config_modal_node">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Add UpStream Node</h4>
+                        </div>
+                        <div class="modal-body" >
+                            <form class="form-horizontal" id="config_modal_node_form">
+                                <div class="row vn_modal_row"   >
+                                    <label class="col-sm-2 text-right control-label">Name</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="name" type="text" placeholder='Name of the node'>
                                     </div>
+                                </div>
+                                <div class="row vn_modal_row"   >
+                                    <label class="col-sm-2 text-right control-label">Ip</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="ip" type="text" placeholder='Ip of the node'>
+                                    </div>
+                                </div>
+                                 <div class="row vn_modal_row"   >
+                                    <label class="col-sm-2 text-right control-label">Weight</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="weight" type="text" placeholder='A number'>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" onclick="upstream_editor.modal_node_save()">Add</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
 
-                                    <div class="config_matcher_value_contain" id="config_modal_matcher_input_group" onsubmit="return false;" >
-                                        <template v-for="item in input_meta">
-                                            <div class="row vn_modal_row">
-                                                <label class="col-sm-2 text-right control-label" >{{item.name}}</label>
-                                                <div class="col-sm-10">
-                                                    <template v-if="(item.type == 'input')">
-                                                        <input type="text" class="form-control config_matcher_editor_value" name="{{item.name}}" placeholder="{{item.placeholder}}"></input>
-                                                    </template>
-                                                    
-                                                    <template v-if="(item.type == 'textarea')">
-                                                        <textarea class="form-control config_matcher_editor_value" rows='3' name="{{item.name}}" placeholder="{{item.placeholder}}"></textarea>
-                                                    </template>
-                                                    
-                                                    <template v-if="(item.type == 'select')">
-                                                        <select class="form-control config_matcher_editor_value" name="{{item.name}}">
-                                                            <template v-for="(k,v) in item.options">
-                                                                <option value="{{v}}">{{k}}</option>
-                                                            </template>
-                                                        </select>
-                                                    </template>
-                                                </div>
+            <!-- Add Condition Modal -->
+            <div class="modal fade" id="config_modal_condition">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Add Condition</h4>
+                        </div>
+                        <div class="modal-body" >
+                            <form class="form-horizontal">
+                                <div class="row vn_modal_row"   >
+                                    <label class="col-sm-2 text-right control-label">Type</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="condition_type" onchange="matcher_editor.modal_condition_switch_input()">
+                                            <option value="URI">URI</option>
+                                            <option value="Host">Host</option>
+                                            <option value="UserAgent">UserAgent</option>
+                                            <option value="IP">IP</option>
+                                            <option value="Args">Args</option>
+                                            <option value="Referer">Referer</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="config_matcher_value_contain" id="config_modal_matcher_input_group" onsubmit="return false;" >
+                                    <template v-for="item in input_meta">
+                                        <div class="row vn_modal_row">
+                                            <label class="col-sm-2 text-right control-label" >{{item.name}}</label>
+                                            <div class="col-sm-10">
+                                                <template v-if="(item.type == 'input')">
+                                                    <input type="text" class="form-control config_matcher_editor_value" name="{{item.name}}" placeholder="{{item.placeholder}}"></input>
+                                                </template>
+                                                
+                                                <template v-if="(item.type == 'textarea')">
+                                                    <textarea class="form-control config_matcher_editor_value" rows='3' name="{{item.name}}" placeholder="{{item.placeholder}}"></textarea>
+                                                </template>
+                                                
+                                                <template v-if="(item.type == 'select')">
+                                                    <select class="form-control config_matcher_editor_value" name="{{item.name}}">
+                                                        <template v-for="(k,v) in item.options">
+                                                            <option value="{{v}}">{{k}}</option>
+                                                        </template>
+                                                    </select>
+                                                </template>
                                             </div>
-                                        </template>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" onclick="matcher_editor.modal_condition_save()">Save</button>
-                              </div>
-                        </div><!-- /.modal-content -->
-                    </div><!-- /.modal-dialog -->
-                </div><!-- /.modal -->
+                                        </div>
+                                    </template>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" onclick="matcher_editor.modal_condition_save()">Add</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
 
         </div>
 

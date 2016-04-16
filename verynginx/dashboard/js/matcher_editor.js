@@ -131,7 +131,7 @@ matcher_editor.matcher_name = function(){
     return $.trim(name);    
 }
 
-matcher_editor.clean = function(){
+matcher_editor.clear = function(){
     $('#config_matcher_editor_name').val('');
 
     matcher_editor.tmp_conditions = {};
