@@ -3,7 +3,7 @@ var upstream_editor = new Object();
 upstream_editor.tmp_node_vm = null;
 //upstream_editor.tmp_node = [];
 
-upstream_editor.tmp_node = [{name: "node1", ip: "0.0.0.1", weight: "1"}, {name: "node2", ip: "192.168.1.2", weight: "0"}];
+upstream_editor.tmp_node = [];
 
 upstream_editor.init = function(){
     
@@ -31,11 +31,13 @@ upstream_editor.modal_node_open = function(){
 upstream_editor.modal_node_save = function(){
     var data = form.get_data('config_modal_node_form');
     console.log( data );
-
+    var node_name = data['name'];
+    delete data['name'];
+    
     //verify
     //todo
 
-    upstream_editor.tmp_node.push( data );
+    upstream_editor.tmp_node.$set( node_name, data );
     $('#config_modal_node').modal('hide');
     upstream_editor.clean_modal(); 
 }
