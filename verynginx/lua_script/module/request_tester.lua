@@ -84,7 +84,7 @@ end
 function _M.test_args( condition )
     
     local target_arg_re = condition['name']
-    local find = ngx.find
+    local find = ngx.re.find
     local test_var = _M.test_var
     
 

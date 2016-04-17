@@ -119,7 +119,7 @@ VeryNginx 实际使用到了 OpenResty 中的这些模块
 *  http_stub_status_module
 *  lua-cjson library
 
-如果你不想安装 OpenResty，或者你已经有了一个正在工作的 Nginx，你也可以自己手动为 Nginx 编译安装这些模块，然后再仿照 VeryNginx 提供 nginx.conf，向自己的 nginx.conf 中加入响应配置行 
+如果你不想安装 OpenResty，或者你已经有了一个正在工作的 Nginx，你也可以自己手动为 Nginx 编译安装这些模块，然后再仿照 VeryNginx 提供 nginx.conf，向自己的 nginx.conf 中加入相应配置行 
 
 ### 编辑 Nginx 配置文件
 
@@ -280,7 +280,7 @@ cd ~
 git clone https://github.com/alexazhou/VeryNginx.git
 rm -f /opt/VeryNginx/nginx/conf/nginx.conf
 cp ~/VeryNginx/nginx.conf /opt/VeryNginx/nginx/conf/nginx.conf
-cp -r ~/VeryNginx/VeryNginx /opt/VeryNginx/VeryNginx
+cp -r ~/VeryNginx/VeryNginx /opt/VeryNginx
 
 # The following line makes /opt/VeryNginx writable for nginx, so that VeryNginx can modify configs inside it.
 # Change user and group name to the actual account.
