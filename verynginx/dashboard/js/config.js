@@ -189,7 +189,7 @@ config.config_matcher_add = function(){
 }
 
 config.config_upstream_node_add = function(){
-    var data = upstream_editor.get_data();
+    var data = form.get_data('config_upstream_form') ;
     
     //verify
     if( data['name'] == '' ){
@@ -203,7 +203,7 @@ config.config_upstream_node_add = function(){
     }
     
     Vue.set( config.verynginx_config['backend_upstream'], data['name'], data );
-    matcher_editor.clear();
+    upstream_editor.clear();
 }
 
 config.save_config = function(){

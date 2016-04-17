@@ -33,9 +33,6 @@ upstream_editor.get_data = function(){
     return data;
 }
 
-upstream_editor.save = function(){
-} 
-
 upstream_editor.modal_node_open = function(){
     $('#config_modal_node').modal('show');
 }
@@ -51,14 +48,17 @@ upstream_editor.modal_node_save = function(){
     
     Vue.set(upstream_editor.tmp_node, node_name, data);
     $('#config_modal_node').modal('hide');
-    upstream_editor.clean_modal(); 
+    upstream_editor.clean_modal();
 }
 
 upstream_editor.clear =function(){
-      
+    $('#config_upstream_form [name=name]').val('');
+    $('#config_upstream_form [name=method]').val('random');
+    
+    upstream_editor.tmp_node = {};
+    upstream_editor.tmp_node_vm.$data = {node:upstream_editor.tmp_node};
 }
 
 upstream_editor.clean_modal = function(){
     $('#config_modal_node input').val('');
 }
-

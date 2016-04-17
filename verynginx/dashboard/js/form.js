@@ -28,7 +28,14 @@ form.get_data = function( form_id ){
                     }
                 }
             }else{
-                data[name] = item.val();
+                var getter = item.attr['vn_data_getter'];
+                var val = null;
+                if( getter != null){
+                    val = eval( getter )();
+                }else{
+                    val = item.val();
+                }
+                data[name] = val;
             }
 
         }else if( item.prop('tagName').toLowerCase() == "select" ){
@@ -73,5 +80,9 @@ form.set_data = function( form_id, data ){
              item.val( data[ item.attr('name') ] );
         }
     }
+}
+
+form.clear = function(){
+    
 }
 
