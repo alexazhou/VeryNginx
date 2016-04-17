@@ -185,7 +185,24 @@ config.config_matcher_add = function(){
     }
 
     Vue.set( config.verynginx_config['matcher'], matcher_name ,matcher_editor.tmp_conditions );
+    matcher_editor.clear();
+}
 
+config.config_upstream_node_add = function(){
+    var data = upstream_editor.get_data();
+    
+    //verify
+    if( data['name'] == '' ){
+        dashboard.notify('Name of the node mush not be empty');
+        return;
+    }
+    
+    if( config.verynginx_config['backend_upstream'][ data['name'] ] != null ){
+        dashboard.notify('Upstream node [' + data['name'] + '] already existed');
+        return;
+    }
+    
+    Vue.set( config.verynginx_config['backend_upstream'], data['name'], data );
     matcher_editor.clear();
 }
 

@@ -3,7 +3,7 @@ var upstream_editor = new Object();
 upstream_editor.tmp_node_vm = null;
 //upstream_editor.tmp_node = [];
 
-upstream_editor.tmp_node = [];
+upstream_editor.tmp_node = {};
 
 upstream_editor.init = function(){
     
@@ -24,6 +24,18 @@ upstream_editor.tmp_conditions_delete = function( btn ){
     Vue.delete( upstream_editor.tmp_node, key );
 }
 
+upstream_editor.get_data = function(){
+    var data = {};
+    data['name'] = $('#config_upstream_form [name=name]').val();
+    data['method'] = $('#config_upstream_form [name=method]').val();
+    data['node'] = upstream_editor.tmp_node;
+
+    return data;
+}
+
+upstream_editor.save = function(){
+} 
+
 upstream_editor.modal_node_open = function(){
     $('#config_modal_node').modal('show');
 }
@@ -36,8 +48,8 @@ upstream_editor.modal_node_save = function(){
     
     //verify
     //todo
-
-    upstream_editor.tmp_node.$set( node_name, data );
+    
+    Vue.set(upstream_editor.tmp_node, node_name, data);
     $('#config_modal_node').modal('hide');
     upstream_editor.clean_modal(); 
 }
