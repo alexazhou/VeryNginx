@@ -117,7 +117,7 @@ cd ~
 git clone https://github.com/alexazhou/VeryNginx.git
 rm -f /opt/VeryNginx/nginx/conf/nginx.conf
 cp ~/VeryNginx/nginx.conf /opt/VeryNginx/nginx/conf/nginx.conf
-cp -r ~/VeryNginx/VeryNginx /opt/VeryNginx/VeryNginx
+cp -r ~/VeryNginx/VeryNginx /opt/VeryNginx
 # 下面是使 /opt/VeryNginx 对 nginx 是可写的, 这样 VeryNginx 可以把自己的配置保存在里面
 # 修改/opt/VeryNginx目录的所有者为nginx用户
 chown -R nginx:nginx /opt/VeryNginx
@@ -282,7 +282,7 @@ cd ~
 git clone https://github.com/alexazhou/VeryNginx.git
 rm -f /opt/VeryNginx/nginx/conf/nginx.conf
 cp ~/VeryNginx/nginx.conf /opt/VeryNginx/nginx/conf/nginx.conf
-cp -r ~/VeryNginx/VeryNginx /opt/VeryNginx/VeryNginx
+cp -r ~/VeryNginx/VeryNginx /opt/VeryNginx
 
 # The following line makes /opt/VeryNginx writable for nginx, so that VeryNginx can modify configs inside it.
 # Change user and group name to the actual account.
