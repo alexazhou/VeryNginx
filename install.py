@@ -20,7 +20,7 @@ def install_openresty( ):
     #check if the old version of VeryNginx installed
     if os.path.exists('/opt/VeryNginx/VeryNginx') == True:
         print("Seems that a old version of VeryNginx was installed in /opt/VeryNginx/...\nBefore install, please delete it and backup the configs if you need.")
-        return
+        sys.exit(1)
     
     #makesure the dir is clean
     print('### makesure the work directory is clean')
@@ -72,7 +72,7 @@ def install_verynginx():
         exec_sys_cmd( 'cp -f ./nginx.conf  /opt/verynginx/openresty/nginx/conf/' )
 
     #set mask for the path which used for save configs
-    exec_sys_cmd( 'chmod -R 666 /opt/verynginx/verynginx/configs' )
+    exec_sys_cmd( 'chmod -R 777 /opt/verynginx/verynginx/configs' )
 
 
 def update_verynginx():
@@ -100,7 +100,8 @@ def safe_pop(l):
         return l.pop(0)
 
 def show_help_and_exit():
-    help_doc = 'usage: install.py <cmd> ... \n\
+    help_doc = 'usage: install.py <cmd> <args> ... \n\n\
+install cmds and args:\n\
     install\n\
         all        :  install verynginx and openresty(default)\n\
         openresty  :  install openresty\n\
