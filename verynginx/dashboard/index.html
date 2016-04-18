@@ -667,79 +667,6 @@
                             </form>
                         </div>
 
-                        <div class="config_container" id="config_action_filter_uri">
-                            <div class="config_title">
-                                URI过滤
-                            </div>
-                            <input type="checkbox" id="checkbox" v-model="filter_uri_enable">
-                            <label>Enable</label>
-                            <table class="table table-bordered config_table" id="config_filter_uri_table">
-                                <thead>
-                                    <tr>
-                                        <td>#</td>
-                                        <td>URI</td>
-                                        <td></td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="rule in filter_uri_rule">
-                                        <td>{{ $index }}</td>
-                                        <td>{{ rule[0] }}</td>
-                                        <td class="no_break">
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('filter_uri_rule',{{$index}},null)">
-                                                DEL
-                                            </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('filter_uri_rule',{{$index}})">
-                                                UP
-                                            </button>
-                                            <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('filter_uri_rule',{{$index}})">
-                                                DOWN
-                                            </button>
-
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <div class="config_sub_title">
-                                Add Rule
-                            </div>
-                            <hr>
-                            <form class="form-horizontal" name="config_action_filter_uri_form_add" 
-                                  onsubmit="config.config_add( 'filter_uri_rule', [this.uri.value] ); return false;" >
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">URI</label>
-                                    <div class="col-sm-10">
-                                        <input class="form-control" name="uri" type="text" placeholder="A RegEx for request uri" >
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default" >Add</button>
-                                    </div>
-                                </div>
-                            </form>
-
-                            <div class="config_sub_title">
-                                测试规则
-                            </div>
-                            <hr>
-                            <form class="form-horizontal config_test_container" test_rule_table="config_filter_uri_table" test_action="config.test_match_factory('re')" test_args="[1]" >
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">URI</label>
-                                    <div class="col-sm-10">
-                                        <input class="form-control config_test_input" placeholder="URI not include the domain, a uri will be like /aaa/bbb/index.html" >
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10 matched config_test_output">
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
                         <div class="config_container" id="config_action_browser_verify">
                             <div class="config_title">
                                 Browser Verify
@@ -1131,7 +1058,7 @@
                             <div class="nav_box" group="config_proxy_pass_editor" tag="upstream" >
                                 <form class="form-horizontal" id="config_upstream_form" 
                                  vn_data_getter="upstream_editor.get_data" vn_data_setter="upstream_editor.set_data" vn_data_resetter="upstream_editor.reset" vn_data_verify="" 
-                                  onsubmit="config.config_upstream_node_add(); return false;" >
+                                  onsubmit="config.save_form_data( 'backend_upstream', vnform.get_data('config_upstream_form') ); return false;" >
                                 
                                     <div class="form-group">
                                         <div class="col-sm-10 col-sm-offset-2 ">

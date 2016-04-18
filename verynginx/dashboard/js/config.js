@@ -76,18 +76,15 @@ config.get_config = function(){
     }); 
 }
 
-//add a config
-config.config_add = function(rule_group_name,value,key){
-    if( key == undefined ){
-        config.verynginx_config[rule_group_name].push(value);
-    }else{
-        Vue.set( rule_group_name, key, value );
-    }
-}
-
 //modify a config
 //set value = null to delete
+//index == null means push
 config.config_mod = function(rule_group_name,index,value){
+
+    if( index == null && value == null ){
+        //is a error call
+        return;
+    }
     
     //console.log('-->',rule_group_name,index,value);
     if( value == null ){
@@ -97,7 +94,11 @@ config.config_mod = function(rule_group_name,index,value){
             config.verynginx_config[rule_group_name].splice( index, 1 );
         }
     }else{
-        config.verynginx_config[rule_group_name].$set( index, value );
+        if( index == undefined || index == null ){
+            config.verynginx_config[rule_group_name].push(value);
+        }else{
+            config.verynginx_config[rule_group_name].$set( index, value );
+        }
     }
 }
 
@@ -106,18 +107,16 @@ config.config_mod = function(rule_group_name,index,value){
 config.save_form_data = function( rule_group_name,value ){
 
     var editing = config.verynginx_config[rule_group_name]._editing;
-    if( editing == undefined ){
-        config.config_add( rule_group_name, value );
-    }else{
+    if( editing != undefined ){
         config.verynginx_config[rule_group_name]._editing = null;
-        config.config_mod( rule_group_name,editing,value ) 
     }
+    
+    config.config_mod( rule_group_name, editing, value ); 
 }
 
 //set a rule to edit status and fill data of the rule into editor form
 //default: include_key == undefined
 config.config_edit_begin = function( rule_group_name, index, form_id, include_index_with_name ){
-    
     console.log('config.config_edit:',rule_group_name,index,form_id)
     var config_group = config.verynginx_config[ rule_group_name ];
     config_group = JSON.parse( JSON.stringify(config_group) );
@@ -134,7 +133,6 @@ config.config_edit_begin = function( rule_group_name, index, form_id, include_in
 }
 
 config.config_edit_cacel = function( rule_group_name ){
-    
     var config_group = config.verynginx_config[ rule_group_name ];
     //use json and parse to clear "_editing" property
     config_group = JSON.parse( JSON.stringify(config_group) );
@@ -194,25 +192,6 @@ config.config_matcher_add = function(){
     matcher_editor.clear();
 }
 
-config.config_upstream_node_add = function(){
-    var data = vnform.get_data('config_upstream_form') ;
-    
-    //verify
-    if( data['name'] == '' ){
-        dashboard.notify('Name of the node mush not be empty');
-        return;
-    }
-    
-    //if( config.verynginx_config['backend_upstream'][ data['name'] ] != null ){
-    //    dashboard.notify('Upstream node [' + data['name'] + '] already existed');
-    //    return;
-    //}
-    
-    config.save_form_data( 'backend_upstream', data );
-    
-    Vue.set( config.verynginx_config['backend_upstream'], data['name'], data );
-    upstream_editor.reset();
-}
 
 config.save_config = function(){
     console.log("save_config");
