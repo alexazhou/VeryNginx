@@ -77,8 +77,12 @@ config.get_config = function(){
 }
 
 //add a config
-config.config_add = function(rule_group_name,value){
-    config.verynginx_config[rule_group_name].push(value);
+config.config_add = function(rule_group_name,value,key){
+    if( key == undefined ){
+        config.verynginx_config[rule_group_name].push(value);
+    }else{
+        Vue.set( rule_group_name, key, value );
+    }
 }
 
 //modify a config
@@ -111,20 +115,22 @@ config.save_form_data = function( rule_group_name,value ){
 }
 
 //set a rule to edit status and fill data of the rule into editor form
-config.config_edit_begin = function( rule_group_name, index, form_id ){
+//default: include_key == undefined
+config.config_edit_begin = function( rule_group_name, index, form_id, include_index_with_name ){
     
     console.log('config.config_edit:',rule_group_name,index,form_id)
     var config_group = config.verynginx_config[ rule_group_name ];
     config_group = JSON.parse( JSON.stringify(config_group) );
-    
     Object.defineProperty( config_group , "_editing", { value : index, enumerable:false, writable:true });
-
     //reset data to refresh the view
     config.config_vm.$set( rule_group_name, config_group );
-
     console.log( 'new_config_group:',config_group );
-    
-    form.set_data( form_id, config_group[index] );
+    var data = config_group[index];
+    if( include_index_with_name != undefined ){
+        data[ include_index_with_name ] = index;
+    }
+
+    vnform.set_data( form_id, config_group[index] );
 }
 
 config.config_edit_cacel = function( rule_group_name ){
@@ -189,7 +195,7 @@ config.config_matcher_add = function(){
 }
 
 config.config_upstream_node_add = function(){
-    var data = form.get_data('config_upstream_form') ;
+    var data = vnform.get_data('config_upstream_form') ;
     
     //verify
     if( data['name'] == '' ){
@@ -197,13 +203,15 @@ config.config_upstream_node_add = function(){
         return;
     }
     
-    if( config.verynginx_config['backend_upstream'][ data['name'] ] != null ){
-        dashboard.notify('Upstream node [' + data['name'] + '] already existed');
-        return;
-    }
+    //if( config.verynginx_config['backend_upstream'][ data['name'] ] != null ){
+    //    dashboard.notify('Upstream node [' + data['name'] + '] already existed');
+    //    return;
+    //}
+    
+    config.save_form_data( 'backend_upstream', data );
     
     Vue.set( config.verynginx_config['backend_upstream'], data['name'], data );
-    upstream_editor.clear();
+    upstream_editor.reset();
 }
 
 config.save_config = function(){

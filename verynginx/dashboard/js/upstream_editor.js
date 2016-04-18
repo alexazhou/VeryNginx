@@ -33,12 +33,19 @@ upstream_editor.get_data = function(){
     return data;
 }
 
+upstream_editor.set_data = function( data ){
+    $('#config_upstream_form [name=name]').val( data['name'] );
+    $('#config_upstream_form [name=method]').val( data['method'] );
+    upstream_editor.tmp_node = data['node'];
+    upstream_editor.tmp_node_vm.$data = {node:upstream_editor.tmp_node};
+}
+
 upstream_editor.modal_node_open = function(){
     $('#config_modal_node').modal('show');
 }
 
 upstream_editor.modal_node_save = function(){
-    var data = form.get_data('config_modal_node_form');
+    var data = vnform.get_data('config_modal_node_form');
     console.log( data );
     var node_name = data['name'];
     delete data['name'];
@@ -51,7 +58,9 @@ upstream_editor.modal_node_save = function(){
     upstream_editor.clean_modal();
 }
 
-upstream_editor.clear =function(){
+upstream_editor.reset = function(){
+
+    console.log('upstream_editor.reset');
     $('#config_upstream_form [name=name]').val('');
     $('#config_upstream_form [name=method]').val('random');
     

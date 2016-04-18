@@ -1,8 +1,16 @@
-var form = new Object();
+var vnform = new Object();
 
 
-form.get_data = function( form_id ){
+vnform.get_data = function( form_id ){
+    
     var data = {}
+    var form_obj = $('#'+form_id);
+    var form_data_getter = form_obj.attr('vn_data_getter');
+    if( form_data_getter != null ){
+        data = eval( form_data_getter )( );
+        return data;
+    }
+
     var inputs = $('#' + form_id).find("input,checkbox,select");
 
     for( var i=0; i < inputs.length; i++ ){
@@ -47,8 +55,18 @@ form.get_data = function( form_id ){
     return data;
 }
 
-form.set_data = function( form_id, data ){
-    console.log('form.set_data:',form_id,data);
+vnform.set_data = function( form_id, data ){
+    console.log('vnform.set_data:',form_id,data);
+
+    var form_obj = $('#'+form_id);
+    var form_data_setter = form_obj.attr('vn_data_setter');
+    if( form_data_setter != null ){
+        console.log('----flag1');
+        console.log('setter:',form_data_setter);
+        console.log('setter:',data);
+        eval( form_data_setter )( data );
+        return;
+    }
     
     var inputs = $('#'+form_id).find("input,checkbox,select");
     for( var i=0; i < inputs.length; i++ ){
@@ -82,7 +100,15 @@ form.set_data = function( form_id, data ){
     }
 }
 
-form.clear = function(){
-    
+vnform.reset = function(form_id){
+
+    var form_obj = $('#'+form_id);
+    var form_data_resetter = form_obj.attr('vn_data_resetter');
+    if( form_data_resetter != null ){
+         eval( form_data_resetter )();
+         return;   
+    }
+
+    form_obj.reset();
 }
 

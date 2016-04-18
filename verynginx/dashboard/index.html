@@ -22,7 +22,7 @@
 <!-- 表格扩展js文件 -->
 <script src="//cdn.bootcss.com/datatables/1.10.10/js/jquery.dataTables.min.js"></script>
 <script src="js/util.js"></script>
-<script src="js/form.js"></script>
+<script src="js/vnform.js"></script>
 <script src="js/monitor.js"></script>
 <script src="js/matcher_editor.js"></script>
 <script src="js/upstream_editor.js"></script>
@@ -380,7 +380,7 @@
                                 Edit Rule
                             </div>
                             <hr>
-                            <form class="form-horizontal" id="config_scheme_form" onsubmit="config.save_form_data( 'scheme_lock_rule', form.get_data('config_scheme_form')); return false;" >
+                            <form class="form-horizontal" id="config_scheme_form" onsubmit="config.save_form_data( 'scheme_lock_rule', vnform.get_data('config_scheme_form')); return false;" >
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
                                         <div class="notice" v-if="( scheme_lock_rule._editing != undefined )" >
@@ -494,7 +494,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" id="config_redirect_form" 
-                                  onsubmit="config.save_form_data( 'redirect_rule', form.get_data('config_redirect_form')); return false;" >
+                                  onsubmit="config.save_form_data( 'redirect_rule', vnform.get_data('config_redirect_form')); return false;" >
 
                                <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
@@ -611,7 +611,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" id="config_uri_rewrite_form" 
-                                  onsubmit="config.save_form_data( 'uri_rewrite_rule', form.get_data('config_uri_rewrite_form')); return false;" >
+                                  onsubmit="config.save_form_data( 'uri_rewrite_rule', vnform.get_data('config_uri_rewrite_form')); return false;" >
 
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
@@ -803,7 +803,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" id="config_browser_verify_form" onsubmit="
-                                 config.save_form_data( 'browser_verify_rule', form.get_data('config_browser_verify_form')); return false;" >
+                                 config.save_form_data( 'browser_verify_rule', vnform.get_data('config_browser_verify_form')); return false;" >
 
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
@@ -935,7 +935,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" id="config_filter_form" 
-                                  onsubmit="config.save_form_data( 'filter_rule', form.get_data('config_filter_form') ); return false;" >
+                                  onsubmit="config.save_form_data( 'filter_rule', vnform.get_data('config_filter_form') ); return false;" >
                                 
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
@@ -1051,11 +1051,12 @@
                                                     <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('backend_upstream','{{$key}}',null)">
                                                         DEL
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('backend_upstream','{{$key}}','config_filter_form')">
+                                                    <button type="button" class="btn btn-default btn-xs" 
+                                                        onclick="config.config_edit_begin('backend_upstream','{{$key}}','config_upstream_form','name');dashboard.switch_tab_bar('config_proxy_pass_editor','upstream');">
                                                         EDIT
                                                     </button>
                                                 </template> 
-                                                <template v-if="(backend_upstream._editing == $index )">
+                                                <template v-if="(backend_upstream._editing == $key )">
                                                     Editing
                                                 </template>
                                             </td>
@@ -1103,7 +1104,8 @@
                                                     <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('proxy_pass_rule',{{$index}},null)">
                                                         DEL
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('proxy_pass_rule',{{$index}},'config_proxy_pass_form')">
+                                                    <button type="button" class="btn btn-default btn-xs" 
+                                                           onclick="config.config_edit_begin('proxy_pass_rule',{{$index}},'config_proxy_pass_form');dashboard.switch_tab_bar('config_proxy_pass_editor','proxypass');">
                                                         EDIT
                                                     </button>
                                                 </template> 
@@ -1128,6 +1130,7 @@
 
                             <div class="nav_box" group="config_proxy_pass_editor" tag="upstream" >
                                 <form class="form-horizontal" id="config_upstream_form" 
+                                 vn_data_getter="upstream_editor.get_data" vn_data_setter="upstream_editor.set_data" vn_data_resetter="upstream_editor.reset" vn_data_verify="" 
                                   onsubmit="config.config_upstream_node_add(); return false;" >
                                 
                                     <div class="form-group">
@@ -1155,7 +1158,6 @@
                                     </div>
 
                                     <div class="form-group" id="config_proxy_upstream_editor_node">
-                                        <input type="hidden" vn_data_getter="upstream_editor.get_data" vn_data_setter="" vn_data_verify="">
                                         <label class="col-sm-2 control-label">Node</label>
                                         <div class="col-sm-10">
                                             <div style="border-style:solid;border-width:1px;border-color:#CCC;border-radius:5px;margin-bottom:5px;min-height:32px">
@@ -1168,7 +1170,7 @@
                                         <div class="col-sm-offset-2 col-sm-10">
                                             <template v-if="(backend_upstream._editing != undefined )">
                                                 <button type="submit" class="btn btn-default" >Save</button>
-                                                <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('backend_upstream')">
+                                                <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('backend_upstream');vnform.reset('config_upstream_form');">
                                                     Cancel
                                                 </button>
                                             </template>
@@ -1183,7 +1185,7 @@
                             
                             <div class="nav_box" group="config_proxy_pass_editor" tag="proxypass" style="display:none">
                                 <form class="form-horizontal" id="config_proxy_pass_form" 
-                                  onsubmit="config.save_form_data( 'proxy_pass_rule', form.get_data('config_proxy_pass_form') ); return false;" >
+                                  onsubmit="config.save_form_data( 'proxy_pass_rule', vnform.get_data('config_proxy_pass_form') ); return false;" >
                                 
                                     <div class="form-group">
                                         <div class="col-sm-10 col-sm-offset-2 ">
@@ -1317,7 +1319,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" id="config_admin_form" 
-                                  onsubmit="config.save_form_data( 'admin', form.get_data('config_admin_form')); return false;" >
+                                  onsubmit="config.save_form_data( 'admin', vnform.get_data('config_admin_form')); return false;" >
                                 
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
