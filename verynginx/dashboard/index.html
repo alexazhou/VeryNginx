@@ -421,7 +421,7 @@
                                     <div class="col-sm-offset-2 col-sm-10">
                                         <template v-if="(scheme_lock_rule._editing != undefined )">
                                             <button type="submit" class="btn btn-default" >Save</button>
-                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('scheme_lock_rule')">
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('scheme_lock_rule','config_scheme_form')">
                                                 Cancel
                                             </button>
                                         </template>
@@ -537,7 +537,7 @@
                                     <div class="col-sm-offset-2 col-sm-10">
                                         <template v-if="(redirect_rule._editing != undefined )">
                                             <button type="submit" class="btn btn-default" >Save</button>
-                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('redirect_rule')">
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('redirect_rule','config_redirect_form')">
                                                 Cancel
                                             </button>
                                         </template>
@@ -655,7 +655,7 @@
                                     <div class="col-sm-offset-2 col-sm-10">
                                         <template v-if="(uri_rewrite_rule._editing != undefined )">
                                             <button type="submit" class="btn btn-default" >Save</button>
-                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('uri_rewrite_rule')">
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('uri_rewrite_rule','config_uri_rewrite_form')">
                                                 Cancel
                                             </button>
                                         </template>
@@ -785,7 +785,7 @@
                                     <div class="col-sm-offset-2 col-sm-10">
                                         <template v-if="(browser_verify_rule._editing != undefined )">
                                             <button type="submit" class="btn btn-default" >Save</button>
-                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('browser_verify_rule')">
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('browser_verify_rule','config_browser_verify_form')">
                                                 Cancel
                                             </button>
                                         </template>
@@ -931,7 +931,7 @@
                                     <div class="col-sm-offset-2 col-sm-10">
                                         <template v-if="(filter_rule._editing != undefined )">
                                             <button type="submit" class="btn btn-default" >Save</button>
-                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('filter_rule')">
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('filter_rule','config_filter_form')">
                                                 Cancel
                                             </button>
                                         </template>
@@ -1097,7 +1097,7 @@
                                         <div class="col-sm-offset-2 col-sm-10">
                                             <template v-if="(backend_upstream._editing != undefined )">
                                                 <button type="submit" class="btn btn-default" >Save</button>
-                                                <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('backend_upstream');vnform.reset('config_upstream_form');">
+                                                <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('backend_upstream','config_upstream_form');">
                                                     Cancel
                                                 </button>
                                             </template>
@@ -1154,7 +1154,7 @@
                                         <div class="col-sm-offset-2 col-sm-10">
                                             <template v-if="(proxy_pass_rule._editing != undefined )">
                                                 <button type="submit" class="btn btn-default" >Save</button>
-                                                <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('proxy_pass_rule')">
+                                                <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('proxy_pass_rule','config_proxy_pass_form')">
                                                     Cancel
                                                 </button>
                                             </template>
@@ -1279,7 +1279,7 @@
                                     <div class="col-sm-offset-2 col-sm-10">
                                         <template v-if="(admin._editing != undefined )">
                                             <button type="submit" class="btn btn-default" >Save</button>
-                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('admin')">
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('admin','config_admin_form')">
                                                 Cancel
                                             </button>
                                         </template>

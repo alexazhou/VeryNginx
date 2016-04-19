@@ -190,8 +190,12 @@ config.config_edit_save = function( rule_group_name, form_id , index_key_name ){
     vnform.reset( form_id ); 
 }
 
-config.config_edit_cacel = function( rule_group_name ){
+config.config_edit_cacel = function( rule_group_name, form_id ){
     config.edit_flag_set( rule_group_name, null );
+
+    if( form_id != undefined ){
+        vnform.reset( form_id ); 
+    }
 }
 
 

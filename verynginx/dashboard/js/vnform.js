@@ -101,14 +101,12 @@ vnform.set_data = function( form_id, data ){
 }
 
 vnform.reset = function(form_id){
-
     var form_obj = $('#'+form_id);
     var form_data_resetter = form_obj.attr('vn_data_resetter');
     if( form_data_resetter != null ){
          eval( form_data_resetter )();
          return;   
     }
-
-    form_obj.reset();
+    form_obj[0].reset();
 }
 
