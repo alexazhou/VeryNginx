@@ -56,14 +56,10 @@ vnform.get_data = function( form_id ){
 }
 
 vnform.set_data = function( form_id, data ){
-    console.log('vnform.set_data:',form_id,data);
 
     var form_obj = $('#'+form_id);
     var form_data_setter = form_obj.attr('vn_data_setter');
     if( form_data_setter != null ){
-        console.log('----flag1');
-        console.log('setter:',form_data_setter);
-        console.log('setter:',data);
         eval( form_data_setter )( data );
         return;
     }

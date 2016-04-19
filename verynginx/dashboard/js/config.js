@@ -166,7 +166,7 @@ config.edit_flag_set = function( group, flag ){
 //default: include_key == undefined
 config.config_edit_begin = function( rule_group_name, index, form_id, index_key_name ){
     var config_group = config.verynginx_config[ rule_group_name ];
-    var data = config_group[index];
+    var data = util.clone( config_group[index] );
     if( index_key_name != undefined ){
         data[index_key_name] = index;
     }
@@ -187,6 +187,7 @@ config.config_edit_save = function( rule_group_name, form_id , index_key_name ){
     }
     
     config.config_mod( rule_group_name, editing, value );
+    config.edit_flag_set( rule_group_name, null );
     vnform.reset( form_id ); 
 }
 

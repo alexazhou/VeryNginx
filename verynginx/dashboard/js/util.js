@@ -8,3 +8,6 @@ util.html_decode = function( value ){
   return $('<div/>').html(value).text();
 }
 
+util.clone = function( data ){
+    return JSON.parse( JSON.stringify( data ) );
+}
