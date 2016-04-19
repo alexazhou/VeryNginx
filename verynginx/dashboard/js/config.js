@@ -76,9 +76,31 @@ config.get_config = function(){
     }); 
 }
 
-//modify a config
-//set value = null to delete
-//index == null means push
+
+config.save_config = function(){
+    console.log("save_config");
+    var config_json = JSON.stringify( config.verynginx_config , null, 2);
+
+    //step 1, use encodeURIComponent to escape special char 
+    var config_json_escaped = window.encodeURIComponent( config_json );
+    //step 2, use base64 to encode data to avoid be blocked by verynginx args filter
+    var config_json_escaped_base64 = window.btoa( config_json_escaped );
+
+    $.post("./config",{ config:config_json_escaped_base64 },function(data){
+        console.log(data);
+        if( data['ret'] == 'success' ){
+            config.original_config_json = config.config_vm.all_config_json;
+            config.refresh_bottom_bar();
+            dashboard.notify("Save config success.");
+        }else{
+            dashboard.notify("Save config failed [" + data['err'] + "].");
+        }
+    });
+}
+
+//modify: give group, index ,value
+//delete: let value = null
+//add: let index == null 
 config.config_mod = function(rule_group_name,index,value){
 
     if( index == null && value == null ){
@@ -86,7 +108,7 @@ config.config_mod = function(rule_group_name,index,value){
         return;
     }
     
-    //console.log('-->',rule_group_name,index,value);
+    console.log('-->',rule_group_name,index,value);
     if( value == null ){
         if( typeof index == 'string' ){
             Vue.delete( config.verynginx_config[rule_group_name], index );
@@ -96,48 +118,12 @@ config.config_mod = function(rule_group_name,index,value){
     }else{
         if( index == undefined || index == null ){
             config.verynginx_config[rule_group_name].push(value);
+        }else if( typeof index == 'string' ){
+            Vue.set( config.verynginx_config[rule_group_name], index ,value );
         }else{
             config.verynginx_config[rule_group_name].$set( index, value );
         }
     }
-}
-
-//rule_group_name: config group
-//index: the config index(key) in the config group
-config.save_form_data = function( rule_group_name,value ){
-
-    var editing = config.verynginx_config[rule_group_name]._editing;
-    if( editing != undefined ){
-        config.verynginx_config[rule_group_name]._editing = null;
-    }
-    
-    config.config_mod( rule_group_name, editing, value ); 
-}
-
-//set a rule to edit status and fill data of the rule into editor form
-//default: include_key == undefined
-config.config_edit_begin = function( rule_group_name, index, form_id, include_index_with_name ){
-    console.log('config.config_edit:',rule_group_name,index,form_id)
-    var config_group = config.verynginx_config[ rule_group_name ];
-    config_group = JSON.parse( JSON.stringify(config_group) );
-    Object.defineProperty( config_group , "_editing", { value : index, enumerable:false, writable:true });
-    //reset data to refresh the view
-    config.config_vm.$set( rule_group_name, config_group );
-    console.log( 'new_config_group:',config_group );
-    var data = config_group[index];
-    if( include_index_with_name != undefined ){
-        data[ include_index_with_name ] = index;
-    }
-
-    vnform.set_data( form_id, config_group[index] );
-}
-
-config.config_edit_cacel = function( rule_group_name ){
-    var config_group = config.verynginx_config[ rule_group_name ];
-    //use json and parse to clear "_editing" property
-    config_group = JSON.parse( JSON.stringify(config_group) );
-    //reset data to refresh the view
-    config.config_vm.$set( rule_group_name, config_group );
 }
 
 
@@ -163,6 +149,66 @@ config.config_move_down = function(rule_group_name,index){
     config.verynginx_config[rule_group_name].$set(index+1, config.verynginx_config[rule_group_name][index]);
     config.verynginx_config[rule_group_name].$set(index, tmp);
 }
+
+
+config.edit_flag_set = function( group, flag ){
+    var config_group = config.verynginx_config[ group ];
+    config_group = JSON.parse( JSON.stringify(config_group) );
+
+    if( flag != null ){
+        Object.defineProperty( config_group , "_editing", { value : flag, enumerable:false, writable:true });
+    }
+    //reset data to refresh the view
+    config.config_vm.$set( group, config_group );
+}
+
+//set a rule to edit status and fill data of the rule into editor form
+//default: include_key == undefined
+config.config_edit_begin = function( rule_group_name, index, form_id, index_key_name ){
+    var config_group = config.verynginx_config[ rule_group_name ];
+    var data = config_group[index];
+    if( index_key_name != undefined ){
+        data[index_key_name] = index;
+    }
+    config.edit_flag_set( rule_group_name, index );
+    vnform.set_data( form_id, data );
+}
+
+config.config_edit_save = function( rule_group_name, form_id , index_key_name ){
+    var editing = config.verynginx_config[rule_group_name]._editing;
+    var value = vnform.get_data( form_id );
+    if( editing != undefined ){
+        config.verynginx_config[rule_group_name]._editing = null;
+    }
+
+    if( index_key_name != undefined){
+        editing = value[index_key_name];
+        delete value[index_key_name];
+    }
+    
+    config.config_mod( rule_group_name, editing, value );
+    vnform.reset( form_id ); 
+}
+
+config.config_edit_cacel = function( rule_group_name ){
+    config.edit_flag_set( rule_group_name, null );
+}
+
+
+//rule_group_name: config group
+//index: the config index(key) in the config group
+config.save_form_data = function( rule_group_name,value ){
+
+    var editing = config.verynginx_config[rule_group_name]._editing;
+    if( editing != undefined ){
+        config.verynginx_config[rule_group_name]._editing = null;
+    }
+    
+    config.config_mod( rule_group_name, editing, value ); 
+}
+
+
+
 
 //for matcher only
 config.config_matcher_delete_condition = function( matcher_name, condition_name ){
@@ -192,27 +238,6 @@ config.config_matcher_add = function(){
     matcher_editor.clear();
 }
 
-
-config.save_config = function(){
-    console.log("save_config");
-    var config_json = JSON.stringify( config.verynginx_config , null, 2);
-
-    //step 1, use encodeURIComponent to escape special char 
-    var config_json_escaped = window.encodeURIComponent( config_json );
-    //step 2, use base64 to encode data to avoid be blocked by verynginx args filter
-    var config_json_escaped_base64 = window.btoa( config_json_escaped );
-
-    $.post("./config",{ config:config_json_escaped_base64 },function(data){
-        console.log(data);
-        if( data['ret'] == 'success' ){
-            config.original_config_json = config.config_vm.all_config_json;
-            config.refresh_bottom_bar();
-            dashboard.notify("Save config success.");
-        }else{
-            dashboard.notify("Save config failed [" + data['err'] + "].");
-        }
-    });
-}
 
 
 
