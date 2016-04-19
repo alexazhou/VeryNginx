@@ -246,6 +246,7 @@
                             <div class="leftnav leftnav_1" group="backend" onclick="dashboard.switch_config_nav_group(this)">Backend</div>
                             <div class="leftnav_group" group="backend">
                                 <div class="leftnav leftnav_2" config_name="backend_proxy_pass" onclick="dashboard.switch_to_config(this)">Proxy Pass</div>
+                                <div class="leftnav leftnav_2" config_name="backend_static_file" onclick="dashboard.switch_to_config(this)">Static file</div>
                             </div>
 
                             <div class="leftnav leftnav_1" group="summary" onclick="dashboard.switch_config_nav_group(this)">Summary</div>
@@ -1186,6 +1187,121 @@
                                 </form>
                             </div>
                         </div>
+
+                        <div class="config_container" id="config_backend_static_file">
+                            <div class="config_title">
+                                Static File
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="static_file_enable">
+                            <label>Enable</label>
+
+                            <table class="table table-bordered config_table" id="config_proxy_pass_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Enable</td>
+                                        <td>Matcher</td>
+                                        <td>Document Root</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="rule in static_file_rule">
+                                        <tr v-bind:class="[ static_file_rule._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>
+                                            <template v-if="(rule.enable)">
+                                                ✓
+                                            </template>
+                                            <template v-else>
+                                                ✗
+                                            </template>
+                                            </td>
+                                            <td>{{ rule.matcher }}</td>
+                                            <td>{{ rule.root }}</td>
+                                            <td class="no_break">
+                                                 <template v-if="(static_file_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('static_file_rule',{{$index}})">
+                                                        UP
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('static_file_rule',{{$index}})">
+                                                        DOWN
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('static_file_rule',{{$index}},null)">
+                                                        DEL
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs" 
+                                                           onclick="config.config_edit_begin('static_file_rule',{{$index}},'config_static_file_form');">
+                                                        EDIT
+                                                    </button>
+                                                </template> 
+                                                <template v-if="(static_file_rule._editing == $index )">
+                                                    Editing
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+                            <div class="config_sub_title">
+                                Edit Rule
+                            </div>
+
+                            <div class="nav_box">
+                                <form class="form-horizontal" id="config_static_file_form" 
+                                  onsubmit="config.config_edit_save( 'static_file_rule', 'config_static_file_form'); return false;" >
+                                
+                                    <div class="form-group">
+                                        <div class="col-sm-10 col-sm-offset-2 ">
+                                            <div class="notice" v-if="( static_file_rule._editing != undefined )" >
+                                                Now is editing rule {{static_file_rule._editing}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Enable</label>
+                                        <div class="col-sm-10">
+                                            <div class="config_form_line">
+                                                <input type="checkbox" name="enable" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Matcher</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" name="matcher">
+                                                <template v-for="(matcher_name, matcher_conditions) in matcher | orderBy '$key'">
+                                                    <option value="{{matcher_name}}">{{matcher_name}}</option>
+                                                </template>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Root</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="root" class="form-control" placeholder="Document Root,like /var/www" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <template v-if="(static_file_rule._editing != undefined )">
+                                                <button type="submit" class="btn btn-default" >Save</button>
+                                                <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('static_file_rule','config_static_file_form')">
+                                                    Cancel
+                                                </button>
+                                            </template>
+                                            <template v-else>
+                                                <button type="submit" class="btn btn-default" >Add</button>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            
+                        </div>
                         
                         <div class="config_container" id="config_summary_request">
                             <div class="config_title">
@@ -1378,7 +1494,7 @@
                                  <div class="row vn_modal_row"   >
                                     <label class="col-sm-2 text-right control-label">Weight</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" name="weight" type="text" placeholder='A number'>
+                                        <input class="form-control" name="weight" type="text" placeholder='A int number'>
                                     </div>
                                 </div>
                             </form>

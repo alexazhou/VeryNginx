@@ -51,8 +51,26 @@ upstream_editor.modal_node_save = function(){
     delete data['name'];
     
     //verify
-    //todo
+    if( node_name == '' ){
+        dashboard.notify("node name can't be empty");
+        return;
+    }
     
+    if( upstream_editor.tmp_node[node_name] != undefined ){
+        dashboard.notify("node name existed");
+        return;
+    }
+    
+    if( data['ip'] == '' ){
+        dashboard.notify("ip can't be empty");
+        return;
+    }
+    
+    if( data['weight'] == '' ){
+        dashboard.notify("weight can't be empty");
+        return;
+    }
+
     Vue.set(upstream_editor.tmp_node, node_name, data);
     $('#config_modal_node').modal('hide');
     upstream_editor.clean_modal();
