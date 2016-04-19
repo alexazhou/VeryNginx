@@ -240,6 +240,7 @@
                                 <div class="leftnav leftnav_2" config_name="action_redirect" onclick="dashboard.switch_to_config(this)">Redirect</div>
                                 <div class="leftnav leftnav_2" config_name="action_uri_rewrite" onclick="dashboard.switch_to_config(this)">URI Rewrite</div>
                                 <div class="leftnav leftnav_2" config_name="action_browser_verify" onclick="dashboard.switch_to_config(this)">Browser Verify</div>
+                                <div class="leftnav leftnav_2" config_name="action_frequency_limit" onclick="dashboard.switch_to_config(this)">Frequency Limit</div>
                                 <div class="leftnav leftnav_2" config_name="action_filter" onclick="dashboard.switch_to_config(this)">Filter</div>
                             </div>
                             
@@ -818,6 +819,143 @@
                             </form>
                         </div>
                         
+                        <div class="config_container" id="config_action_frequency_limit">
+
+                            <div class="config_title">
+                                Frequency Limit
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="frequency_limit_enable">
+                            <label>Enable</label>
+                            <table class="table table-bordered config_table" id="config_frequency_limit_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Enable</td>
+                                        <td>Matcher</td>
+                                        <td>Request count</td>
+                                        <td>time</td>
+                                        <td>Count by each</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="rule in frequency_limit_rule">
+                                        <tr v-bind:class="[ frequency_limit_rule._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>
+                                                <template v-if="(rule.enable)">
+                                                    ✓
+                                                </template>
+                                                <template v-else>
+                                                    ✗
+                                                </template>
+                                            </td>
+                                            <td>{{ rule.matcher }}</td>
+                                            <td>{{ rule.count }}</td>
+                                            <td>{{ rule.time }}</td>
+                                            <td>
+                                                <template v-for="type_name in rule.separate_count">
+                                                    <div class="config_card">{{type_name}}</div>
+                                                </template>
+                                            </td>
+                                            <td class="no_break">
+                                                 <template v-if="(frequency_limit_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('frequency_limit_rule',{{$index}})">
+                                                        UP
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_down" onclick="config.config_move_down('frequency_limit_rule',{{$index}})">
+                                                        DOWN
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('frequency_limit_rule',{{$index}},null)">
+                                                        DEL
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('frequency_limit_rule',{{$index}},'config_frequency_limit_form')">
+                                                        EDIT
+                                                    </button>
+                                                </template> 
+                                                <template v-if="(frequency_limit_rule._editing == $index )">
+                                                    Editing
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+                            <div class="config_sub_title">
+                                Add Rule
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" id="config_frequency_limit_form" 
+                                  onsubmit="config.config_edit_save( 'frequency_limit_rule', 'config_frequency_limit_form'); return false;" >
+                                
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( frequency_limit_rule._editing != undefined )" >
+                                            Now is editing rule {{frequency_limit_rule._editing}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Enable</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="enable" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Matcher</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="matcher">
+                                            <template v-for="(matcher_name, matcher_conditions) in matcher | orderBy '$key'">
+                                                <option value="{{matcher_name}}">{{matcher_name}}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Request count</label>
+                                    <div class="col-sm-10">
+                                         <input class="form-control" name="count" type="text" placeholder='Max request times in a appointed times'>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Time</label>
+                                    <div class="col-sm-10">
+                                         <input class="form-control" name="time" type="text" placeholder='The appoint time'>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Separate Count</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="ip" config_group="separate_count" >
+                                            <label>Client IP</label>
+                                        </div>
+                                        <div>
+                                            <input type="checkbox" name="uri" config_group="separate_count">
+                                            <label>URI</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <template v-if="(frequency_limit_rule._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" >Save</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('frequency_limit_rule','config_filter_form')">
+                                                Cancel
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" >Add</button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
                         <div class="config_container" id="config_action_filter">
                             <div class="config_title">
                                 Filter
@@ -1299,8 +1437,6 @@
                                     </div>
                                 </form>
                             </div>
-
-                            
                         </div>
                         
                         <div class="config_container" id="config_summary_request">

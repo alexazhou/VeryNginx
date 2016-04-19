@@ -127,6 +127,9 @@ _M.configs["proxy_pass_rule"] = {
 _M.configs["static_file_enable"] = true
 _M.configs["static_file_rule"] = {}
 
+_M.configs["frequency_limit_enable"] = true
+_M.configs["frequency_limit_rule"] = {}
+
 _M.configs["summary_request_enable"] = true
 ----------------------Config End-------------
 
@@ -151,6 +154,8 @@ function _M.version_updater_022( configs )
     configs["backend_upstream"] = {}
     configs["static_file_enable"] = true
     configs["static_file_rule"] = {}
+    configs["frequency_limit_enable"] = true
+    configs["frequency_limit_rule"] = {}
     configs["config_version"] = "0.3"
     return configs
 end
