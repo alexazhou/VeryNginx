@@ -44,7 +44,10 @@ Vue.filter('show_operator', function (operator) {
 });
 
 config.refresh_bottom_bar = function(){
-    if( config.original_config_json == config.config_vm.all_config_json ){
+    var original_config = JSON.parse( config.original_config_json );
+    var new_config = JSON.parse( config.config_vm.all_config_json );
+
+    if( _.isEqual( original_config, new_config ) == true ){
         $('#config_bottom_div').hide();
     }else{
         $('#config_bottom_div').show();
