@@ -380,7 +380,7 @@
                                 Edit Rule
                             </div>
                             <hr>
-                            <form class="form-horizontal" id="config_scheme_form" onsubmit="config.save_form_data( 'scheme_lock_rule', vnform.get_data('config_scheme_form')); return false;" >
+                            <form class="form-horizontal" id="config_scheme_form" onsubmit="config.config_edit_save( 'scheme_lock_rule', 'config_scheme_form'); return false;" >
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
                                         <div class="notice" v-if="( scheme_lock_rule._editing != undefined )" >
@@ -494,7 +494,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" id="config_redirect_form" 
-                                  onsubmit="config.save_form_data( 'redirect_rule', vnform.get_data('config_redirect_form')); return false;" >
+                                  onsubmit="config.config_edit_save( 'redirect_rule', 'config_redirect_form'); return false;" >
 
                                <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
@@ -611,7 +611,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" id="config_uri_rewrite_form" 
-                                  onsubmit="config.save_form_data( 'uri_rewrite_rule', vnform.get_data('config_uri_rewrite_form')); return false;" >
+                                  onsubmit="config.config_edit_save( 'uri_rewrite_rule', 'config_uri_rewrite_form'); return false;" >
 
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
@@ -730,7 +730,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" id="config_browser_verify_form" onsubmit="
-                                 config.save_form_data( 'browser_verify_rule', vnform.get_data('config_browser_verify_form')); return false;" >
+                                 config.config_edit_save( 'browser_verify_rule', 'config_browser_verify_form'); return false;" >
 
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
@@ -862,7 +862,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" id="config_filter_form" 
-                                  onsubmit="config.save_form_data( 'filter_rule', vnform.get_data('config_filter_form') ); return false;" >
+                                  onsubmit="config.config_edit_save( 'filter_rule', 'config_filter_form'); return false;" >
                                 
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
@@ -1112,7 +1112,7 @@
                             
                             <div class="nav_box" group="config_proxy_pass_editor" tag="proxypass" style="display:none">
                                 <form class="form-horizontal" id="config_proxy_pass_form" 
-                                  onsubmit="config.save_form_data( 'proxy_pass_rule', vnform.get_data('config_proxy_pass_form') ); return false;" >
+                                  onsubmit="config.config_edit_save( 'proxy_pass_rule', 'config_proxy_pass_form'); return false;" >
                                 
                                     <div class="form-group">
                                         <div class="col-sm-10 col-sm-offset-2 ">
@@ -1246,7 +1246,7 @@
                             </div>
                             <hr>
                             <form class="form-horizontal" id="config_admin_form" 
-                                  onsubmit="config.save_form_data( 'admin', vnform.get_data('config_admin_form')); return false;" >
+                                  onsubmit="config.config_edit_save( 'admin', 'config_admin_form'); return false;" >
                                 
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">

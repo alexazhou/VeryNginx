@@ -199,21 +199,6 @@ config.config_edit_cacel = function( rule_group_name, form_id ){
 }
 
 
-//rule_group_name: config group
-//index: the config index(key) in the config group
-config.save_form_data = function( rule_group_name,value ){
-
-    var editing = config.verynginx_config[rule_group_name]._editing;
-    if( editing != undefined ){
-        config.verynginx_config[rule_group_name]._editing = null;
-    }
-    
-    config.config_mod( rule_group_name, editing, value ); 
-}
-
-
-
-
 //for matcher only
 config.config_matcher_delete_condition = function( matcher_name, condition_name ){
     Vue.delete( config.verynginx_config['matcher'][matcher_name], condition_name  );
