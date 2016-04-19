@@ -15,7 +15,7 @@ upstream_editor.init = function(){
     });
 }
 
-upstream_editor.tmp_conditions_delete = function( btn ){
+upstream_editor.tmp_node_delete = function( btn ){
     
     //console.log('tmp_conditions_delete:',btn);
     var key = $(btn).parent().children('.config_matcher_block_type').text();

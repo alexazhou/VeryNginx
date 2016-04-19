@@ -1089,7 +1089,7 @@
                                         <label class="col-sm-2 control-label">Node</label>
                                         <div class="col-sm-10">
                                             <div style="border-style:solid;border-width:1px;border-color:#CCC;border-radius:5px;margin-bottom:5px;min-height:32px">
-                                                <upstream v-bind:node="node" ></upstream>
+                                                <upstream v-bind:node="node" del_action="upstream_editor.tmp_node_delete(this)" ></upstream>
                                             </div>
                                             <button type="button" class="btn btn-default btn-xs" onclick="upstream_editor.modal_node_open()">New UpStream Node</button>
                                         </div>
