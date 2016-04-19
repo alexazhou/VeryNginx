@@ -126,14 +126,23 @@ matcher_editor.init = function(){
     });
 }
 
-matcher_editor.matcher_name = function(){
+
+matcher_editor.get_data = function(){
+    var data = util.clone( matcher_editor.tmp_conditions ); 
     var name = $('#config_matcher_editor_name').val()
-    return $.trim(name);    
+    data['name'] = $.trim(name);
+    return data;
 }
 
-matcher_editor.clear = function(){
-    $('#config_matcher_editor_name').val('');
+matcher_editor.set_data = function( data ){
+    $('#config_matcher_editor_name').val( data['name'] ) ;
+    delete data['name'];
+    matcher_editor.tmp_conditions = data;
+    matcher_editor.tmp_conditions_vm.$data = {conditions:matcher_editor.tmp_conditions};
+}
 
+matcher_editor.reset = function(){
+    $('#config_matcher_editor_name').val('');
     matcher_editor.tmp_conditions = {};
     matcher_editor.tmp_conditions_vm.$data = {conditions:matcher_editor.tmp_conditions};
 }
