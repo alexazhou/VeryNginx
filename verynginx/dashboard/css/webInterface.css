@@ -258,6 +258,7 @@
 	font-size:1.2em;
 	margin-left:10px;
 	margin-top:10px;
+	font-weight:lighter;
 }
 
 #config_bottom_bar_btns {
@@ -270,6 +271,10 @@
     border-color:#fff;
 	background-color:rgba(0,0,0,0);
 	color:#fff;
+}
+
+.bottom_bar_btn_save {
+    font-weight:bold;
 }
 
 .notice{
