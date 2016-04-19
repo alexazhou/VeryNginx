@@ -9,7 +9,7 @@ local _M = {}
 
 function _M.filter()
 
-    if true then
+    if VeryNginxConfig.configs["proxy_pass_enable"] ~= true then
         return
     end
 

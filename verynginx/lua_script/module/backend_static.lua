@@ -8,7 +8,7 @@ local _M = {}
 
 function _M.filter()
     
-    if true then
+    if VeryNginxConfig.configs["static_file_enable"] ~= true then
         return
     end
 
