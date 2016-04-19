@@ -285,10 +285,10 @@
                                             <td class="no_break">
 
                                                 <template v-if="(matcher._editing == undefined )">
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('matcher','{{$key}}','matcher_form','name')">
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('matcher','{{$key}}','matcher_form','name')">
                                                         EDIT
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('matcher','{{matcher_name}}',null)">
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('matcher','{{matcher_name}}',null)">
                                                         DEL
                                                     </button>
                                                 </template> 
@@ -373,16 +373,16 @@
                                             <td >{{ rule.scheme }}</td>
                                             <td class="no_break">
                                                 <template v-if="(scheme_lock_rule._editing == undefined )">
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('scheme_lock_rule',{{$index}})">
+                                                    <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('scheme_lock_rule',{{$index}})">
                                                         UP
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('scheme_lock_rule',{{$index}})">
+                                                    <button type="button" class="btn btn-default btn-xs btn_down" onclick="config.config_move_down('scheme_lock_rule',{{$index}})">
                                                         DOWN
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('scheme_lock_rule',{{$index}},null)">
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('scheme_lock_rule',{{$index}},null)">
                                                         DEL
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('scheme_lock_rule',{{$index}},'config_scheme_form')">
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('scheme_lock_rule',{{$index}},'config_scheme_form')">
                                                         EDIT
                                                     </button>
                                                 </template> 
@@ -488,16 +488,16 @@
                                             <td>{{ rule.to_uri }}</td>
                                             <td class="no_break">
                                                 <template v-if="(redirect_rule._editing == undefined )">
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('redirect_rule',{{$index}})">
+                                                    <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('redirect_rule',{{$index}})">
                                                         UP
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('redirect_rule',{{$index}})">
+                                                    <button type="button" class="btn btn-default btn-xs btn_down" onclick="config.config_move_down('redirect_rule',{{$index}})">
                                                         DOWN
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('redirect_rule',{{$index}},null)">
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('redirect_rule',{{$index}},null)">
                                                         DEL
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('redirect_rule',{{$index}},'config_redirect_form')">
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('redirect_rule',{{$index}},'config_redirect_form')">
                                                         EDIT
                                                     </button>
                                                 </template>
@@ -604,16 +604,16 @@
                                             <td>{{ rule.to_uri }}</td>
                                             <td class="no_break">
                                                 <template v-if="(uri_rewrite_rule._editing == undefined )">
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('uri_rewrite_rule',{{$index}})">
+                                                    <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('uri_rewrite_rule',{{$index}})">
                                                         UP
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('uri_rewrite_rule',{{$index}})">
+                                                    <button type="button" class="btn btn-default btn-xs btn_down" onclick="config.config_move_down('uri_rewrite_rule',{{$index}})">
                                                         DOWN
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('uri_rewrite_rule',{{$index}},null)">
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('uri_rewrite_rule',{{$index}},null)">
                                                         DEL
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('uri_rewrite_rule',{{$index}},'config_uri_rewrite_form')">
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('uri_rewrite_rule',{{$index}},'config_uri_rewrite_form')">
                                                         EDIT
                                                     </button>
                                                 </template> 
@@ -724,16 +724,16 @@
                                             </td>
                                             <td class="no_break">
                                                 <template v-if="(browser_verify_rule._editing == undefined )">
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('browser_verify_rule',{{$index}})">
+                                                    <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('browser_verify_rule',{{$index}})">
                                                         UP
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('browser_verify_rule',{{$index}})">
+                                                    <button type="button" class="btn btn-default btn-xs btn_down" onclick="config.config_move_down('browser_verify_rule',{{$index}})">
                                                         DOWN
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('browser_verify_rule',{{$index}},null)">
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('browser_verify_rule',{{$index}},null)">
                                                         DEL
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('browser_verify_rule',{{$index}},'config_browser_verify_form')">
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('browser_verify_rule',{{$index}},'config_browser_verify_form')">
                                                         EDIT
                                                     </button>
                                                 </template> 
@@ -856,16 +856,16 @@
                                             </td>
                                             <td class="no_break">
                                                  <template v-if="(filter_rule._editing == undefined )">
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('filter_rule',{{$index}})">
+                                                    <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('filter_rule',{{$index}})">
                                                         UP
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('filter_rule',{{$index}})">
+                                                    <button type="button" class="btn btn-default btn-xs btn_down" onclick="config.config_move_down('filter_rule',{{$index}})">
                                                         DOWN
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('filter_rule',{{$index}},null)">
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('filter_rule',{{$index}},null)">
                                                         DEL
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('filter_rule',{{$index}},'config_filter_form')">
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('filter_rule',{{$index}},'config_filter_form')">
                                                         EDIT
                                                     </button>
                                                 </template> 
@@ -996,10 +996,10 @@
                                             </td>
                                             <td class="no_break">
                                                  <template v-if="(backend_upstream._editing == undefined )">
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('backend_upstream','{{$key}}',null)">
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('backend_upstream','{{$key}}',null)">
                                                         DEL
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" 
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" 
                                                         onclick="config.config_edit_begin('backend_upstream','{{$key}}','config_upstream_form','name');dashboard.switch_tab_bar('config_proxy_pass_editor','upstream');">
                                                         EDIT
                                                     </button>
@@ -1043,16 +1043,16 @@
                                             <td>{{ rule.upstream }}</td>
                                             <td class="no_break">
                                                  <template v-if="(proxy_pass_rule._editing == undefined )">
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('proxy_pass_rule',{{$index}})">
+                                                    <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('proxy_pass_rule',{{$index}})">
                                                         UP
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('proxy_pass_rule',{{$index}})">
+                                                    <button type="button" class="btn btn-default btn-xs btn_down" onclick="config.config_move_down('proxy_pass_rule',{{$index}})">
                                                         DOWN
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('proxy_pass_rule',{{$index}},null)">
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('proxy_pass_rule',{{$index}},null)">
                                                         DEL
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" 
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" 
                                                            onclick="config.config_edit_begin('proxy_pass_rule',{{$index}},'config_proxy_pass_form');dashboard.switch_tab_bar('config_proxy_pass_editor','proxypass');">
                                                         EDIT
                                                     </button>
@@ -1221,16 +1221,16 @@
                                             <td>{{ rule.root }}</td>
                                             <td class="no_break">
                                                  <template v-if="(static_file_rule._editing == undefined )">
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_up('static_file_rule',{{$index}})">
+                                                    <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('static_file_rule',{{$index}})">
                                                         UP
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_move_down('static_file_rule',{{$index}})">
+                                                    <button type="button" class="btn btn-default btn-xs btn_down" onclick="config.config_move_down('static_file_rule',{{$index}})">
                                                         DOWN
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('static_file_rule',{{$index}},null)">
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('static_file_rule',{{$index}},null)">
                                                         DEL
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" 
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" 
                                                            onclick="config.config_edit_begin('static_file_rule',{{$index}},'config_static_file_form');">
                                                         EDIT
                                                     </button>
@@ -1361,10 +1361,10 @@
                                             <td>{{ rule.password }}</td>
                                             <td class="no_break">
                                                 <template v-if="(admin._editing == undefined )">
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_mod('admin',{{$index}},null)">
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('admin',{{$index}},null)">
                                                         DEL
                                                     </button>
-                                                    <button type="button" class="btn btn-default btn-xs" onclick="config.config_edit_begin('admin',{{$index}},'config_admin_form')">
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('admin',{{$index}},'config_admin_form')">
                                                         EDIT
                                                     </button>
                                                 </template> 
