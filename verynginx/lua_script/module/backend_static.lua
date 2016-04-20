@@ -6,6 +6,8 @@
 
 local _M = {}
 
+local VeryNginxConfig = require "VeryNginxConfig"
+
 function _M.filter()
     
     if VeryNginxConfig.configs["static_file_enable"] ~= true then

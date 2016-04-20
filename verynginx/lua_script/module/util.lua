@@ -8,8 +8,6 @@ local _M = {}
 
 
 function _M.string_replace(s, pattern, replace, times)
-    
-    
     local ret = nil
     while times >= 0 do
         times =  times - 1
@@ -18,8 +16,16 @@ function _M.string_replace(s, pattern, replace, times)
             s = string.sub( s, 1, s_start-1 ) .. replace .. string.sub( s, s_stop+1 )
         end
     end
-
     return s
+end
+
+function _M.existed( list, value )
+    for idx,item in ipairs( list ) do
+        if item == value then
+            return true
+        end
+    end
+    return false
 end
 
 return _M

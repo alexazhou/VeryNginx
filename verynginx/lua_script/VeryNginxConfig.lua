@@ -13,7 +13,7 @@ _M["configs"] = {}
 
 --------------default config------------
 
-_M.configs["config_version"] = "0.22"
+_M.configs["config_version"] = "0.3"
 _M.configs["readonly"] = false
 
 _M.configs["admin"] = {

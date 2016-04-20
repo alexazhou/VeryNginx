@@ -6,6 +6,7 @@
 
 local _M = {}
 
+local VeryNginxConfig = require "VeryNginxConfig"
 
 function _M.filter()
 

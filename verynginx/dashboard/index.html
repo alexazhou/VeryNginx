@@ -832,9 +832,9 @@
                                         <td>#</td>
                                         <td>Enable</td>
                                         <td>Matcher</td>
-                                        <td>Request count</td>
-                                        <td>time</td>
-                                        <td>Count by each</td>
+                                        <td>Time</td>
+                                        <td>Max Request Times</td>
+                                        <td>Count Alone</td>
                                         <td></td>
                                     </tr>
                                 </thead>
@@ -854,7 +854,7 @@
                                             <td>{{ rule.count }}</td>
                                             <td>{{ rule.time }}</td>
                                             <td>
-                                                <template v-for="type_name in rule.separate_count">
+                                                <template v-for="type_name in rule.separate">
                                                     <div class="config_card">{{type_name}}</div>
                                                 </template>
                                             </td>
@@ -931,11 +931,11 @@
                                     <label class="col-sm-2 control-label">Separate Count</label>
                                     <div class="col-sm-10">
                                         <div class="config_form_line">
-                                            <input type="checkbox" name="ip" config_group="separate_count" >
+                                            <input type="checkbox" name="ip" config_group="separate" >
                                             <label>Client IP</label>
                                         </div>
                                         <div>
-                                            <input type="checkbox" name="uri" config_group="separate_count">
+                                            <input type="checkbox" name="uri" config_group="separate">
                                             <label>URI</label>
                                         </div>
                                     </div>

@@ -4,6 +4,9 @@ filter.filter()
 local browser_verify = require "browser_verify"
 browser_verify.filter()
 
+local frequency_limit = require "frequency_limit"
+frequency_limit.filter()
+
 local router = require "router"
 router.filter()
 
