@@ -13,21 +13,6 @@ local util = require "util"
 
 local limit_dict = ngx.shared.frequency_limit
 
-function scheme_judge(uri)
-	local ngx_re_find  = ngx.re.find
-    local matcher_list = VeryNginxConfig.configs['matcher']
-    
-    for i, rule in ipairs( VeryNginxConfig.configs["scheme_lock_rule"] ) do
-        local enable = rule['enable']
-        local matcher = matcher_list[ rule['matcher'] ] 
-        if enable == true and request_tester.test( matcher ) == true then
-            return rule['scheme'] 
-        end
-    end
-    return 'none'
-end
-
-
 function _M.filter()
 
     if VeryNginxConfig.configs["frequency_limit_enable"] ~= true then
