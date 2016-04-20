@@ -51,15 +51,28 @@ function _M.filter()
 
             local time = rule['time']
             local count = rule['count']
+            local code = rule['code']
 
             --ngx.log(ngx.STDERR,'-----');
             --ngx.log(ngx.STDERR,key);
+            
+            local count_now = limit_dict:get( key )
+            ngx.log(ngx.STDERR, tonumber(count_now) );
+            
+            if count_now == nil then
+                limit_dict:set( key, 1, tonumber(time) )
+                count_now = 0
+            end
+            
+            limit_dict:incr( key, 1 )
 
-            return;
+            if count_now > tonumber(count) then
+                ngx.exit( tonumber(rule['code']) )
+            end
+            
+            return
         end
     end
-    
-    return;
 end
 
 return _M
