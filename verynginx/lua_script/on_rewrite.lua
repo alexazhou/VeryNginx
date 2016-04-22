@@ -1,3 +1,7 @@
+if ngx.var.vn_exec_flag ~= '' then
+    return
+end
+
 --At first , make sure every request use latest running config
 local VeryNginxConfig = require "VeryNginxConfig"
 VeryNginxConfig.update_config()

@@ -7,16 +7,23 @@
 local _M = {}
 
 local VeryNginxConfig = require "VeryNginxConfig"
+local request_tester = require "request_tester"
 
 function _M.filter()
     
     if VeryNginxConfig.configs["static_file_enable"] ~= true then
         return
     end
-
-    ngx.var.vn_static_root = '/tmp'
-    if ngx.var.vn_exec_flag == '' then
-        ngx.exec('@vn_static')
+    
+    local matcher_list = VeryNginxConfig.configs['matcher']
+    for i, rule in ipairs( VeryNginxConfig.configs["static_file_rule"] ) do
+        local enable = rule['enable']
+        local matcher = matcher_list[ rule['matcher'] ] 
+        if enable == true and request_tester.test( matcher ) == true then
+            ngx.var.vn_static_root = '/tmp'
+            ngx.exec('@vn_static')
+            return
+        end
     end
 end
 

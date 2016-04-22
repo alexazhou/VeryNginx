@@ -1,3 +1,7 @@
+if ngx.var.vn_exec_flag ~= '' then
+    return
+end
+
 local filter = require "filter"
 filter.filter()
 
