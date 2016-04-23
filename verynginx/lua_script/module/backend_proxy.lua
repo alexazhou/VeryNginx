@@ -14,10 +14,16 @@ function _M.filter()
     if VeryNginxConfig.configs["proxy_pass_enable"] ~= true then
         return
     end
-
-    ngx.var.vn_proxy_target = 'http://123.125.114.224'
-    if ngx.var.vn_exec_flag == '' then
-        ngx.exec('@vn_proxy')
+    
+    local matcher_list = VeryNginxConfig.configs['matcher']
+    for i, rule in ipairs( VeryNginxConfig.configs["backend_upstream"] ) do
+        local enable = rule['enable']
+        local matcher = matcher_list[ rule['matcher'] ] 
+        if enable == true and request_tester.test( matcher ) == true then
+            ngx.var.vn_proxy_target = rule['upstream']
+            ngx.exec('@vn_proxy') --will jump out at the exec, so the return not run in fact
+            return
+        end
     end
 end
 
