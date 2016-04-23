@@ -77,14 +77,15 @@ _M.configs["backend_upstream"] = {
         ["method"] = "random",
         ["node"] = {
            ["test_node_1"] = {
-               ["ip"] = "61.135.169.125",
-               ["weight"] = 1,
+               ["ip"] = "127.0.0.1",
+               ["port"] = "1024",
+               ["rate"] = 1,
            },
            ["test_node_2"] = {
-               ["ip"] = "61.135.169.125",
-               ["weight"] = 3,
+               ["ip"] = "127.0.0.1",
+               ["port"] = "8080",
+               ["rate"] = 3,
            } 
-
         }
     },
 }
