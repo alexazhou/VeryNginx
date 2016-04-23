@@ -1,5 +1,5 @@
 -- -*- coding: utf-8 -*-
--- @Date    : 2016-03-18 
+-- @Date    : 2016-04-20 
 -- @Author  : Alexa (AlexaZhou@163.com)
 -- @Link    : 
 -- @Disc    : proxy_pass backend for verynginx
@@ -16,7 +16,7 @@ function _M.filter()
     end
     
     local matcher_list = VeryNginxConfig.configs['matcher']
-    for i, rule in ipairs( VeryNginxConfig.configs["backend_upstream"] ) do
+    for i, rule in ipairs( VeryNginxConfig.configs["proxy_pass_rule"] ) do
         local enable = rule['enable']
         local matcher = matcher_list[ rule['matcher'] ] 
         if enable == true and request_tester.test( matcher ) == true then
