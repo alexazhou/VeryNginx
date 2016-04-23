@@ -282,7 +282,23 @@ end
 
 
 function _M.dump_to_file( config_table )
-    local config_data = dkjson.encode( config_table , {indent=true} )
+
+    --make sure empty table trans to right type
+    local meta_table = {}
+    meta_table['__jsontype'] = 'object'
+    setmetatable( config_table['matcher'], meta_table )
+    setmetatable( config_table['backend_upstream'], meta_table )
+    
+    for key, t in pairs( config_table["backend_upstream"] ) do
+        setmetatable( t['node'], meta_table )
+    end
+    
+    for key, t in pairs( config_table["matcher"] ) do
+        setmetatable( t, meta_table )
+    end
+    --set table meta_data end
+
+    local config_data = dkjson.encode( config_table , {indent=true} ) --must use dkjson at here because it can handle the metadata
     local config_dump_path = _M.home_path() .. "/configs/config.json"
     
     --ngx.log(ngx.STDERR,config_dump_path)
