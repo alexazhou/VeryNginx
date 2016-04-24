@@ -30,7 +30,7 @@ config.vue_upstream_node = Vue.extend({
                   <span class="config_matcher_block_name">\
                       {{node_value.scheme}}://{{node_value.host}}<template v-if="(node_value.port.length != 0)">:{{node_value.port}};</template>\
                   </span>\
-                  <span class="config_node_block_weight"> rate:{{node_value.rate}}</span>\
+                  <span class="config_node_block_weight"> weight:{{node_value.weight}}</span>\
               </div>\
           </template>'
 });

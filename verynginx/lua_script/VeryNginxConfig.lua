@@ -80,13 +80,13 @@ _M.configs["backend_upstream"] = {
                ["scheme"] = "https",
                ["host"] = "www.baidu.com",
                ["port"] = "1024",
-               ["rate"] = 1,
+               ["weight"] = 1,
            },
            ["test_node_2"] = {
                ["scheme"] = "https",
                ["host"] = "www.baidu.com",
                ["port"] = "8080",
-               ["rate"] = 3,
+               ["weight"] = 3,
            } 
         }
     },
@@ -124,7 +124,7 @@ _M.configs["filter_rule"] = {
 
 _M.configs["proxy_pass_enable"] = true
 _M.configs["proxy_pass_rule"] = {
-    {["matcher"] = 'localhost', ["upstream"] = "test", ["enable"] = false},
+    {["matcher"] = 'localhost', ["upstream"] = "test", ["enable"] = false, ["proxy_host"] = "", ["replace_response"] = false},
 }
 
 _M.configs["static_file_enable"] = true
