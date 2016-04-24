@@ -1652,15 +1652,24 @@
                                     </div>
                                 </div>
                                 <div class="row vn_modal_row"   >
-                                    <label class="col-sm-2 text-right control-label">Ip</label>
+                                    <label class="col-sm-2 text-right control-label">Scheme</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" name="ip" type="text" placeholder='Ip of the node'>
+                                        <select class="form-control " name="scheme">
+                                            <option value="http">http</option>
+                                            <option value="https">https</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row vn_modal_row"   >
+                                    <label class="col-sm-2 text-right control-label">Host</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="host" type="text" placeholder='Ip of the node'>
                                     </div>
                                 </div>
                                 <div class="row vn_modal_row"   >
                                     <label class="col-sm-2 text-right control-label">Port</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" name="port" type="text" placeholder='Port of the node'>
+                                        <input class="form-control" name="port" type="text" placeholder='Port of the node,will use the default 80/443 if leave blank'>
                                     </div>
                                 </div>
                                  <div class="row vn_modal_row"   >

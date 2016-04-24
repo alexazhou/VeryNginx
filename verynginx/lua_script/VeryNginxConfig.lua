@@ -77,12 +77,14 @@ _M.configs["backend_upstream"] = {
         ["method"] = "random",
         ["node"] = {
            ["test_node_1"] = {
-               ["ip"] = "127.0.0.1",
+               ["scheme"] = "https",
+               ["host"] = "www.baidu.com",
                ["port"] = "1024",
                ["rate"] = 1,
            },
            ["test_node_2"] = {
-               ["ip"] = "127.0.0.1",
+               ["scheme"] = "https",
+               ["host"] = "www.baidu.com",
                ["port"] = "8080",
                ["rate"] = 3,
            } 

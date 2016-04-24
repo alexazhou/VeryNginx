@@ -61,13 +61,13 @@ upstream_editor.modal_node_save = function(){
         return;
     }
     
-    if( data['ip'] == '' ){
-        dashboard.notify("ip can't be empty");
+    if( data['host'] == '' ){
+        dashboard.notify("host can't be empty");
         return;
     }
     
-    if( data['weight'] == '' ){
-        dashboard.notify("weight can't be empty");
+    if( data['rate'] == '' ){
+        dashboard.notify("rate can't be empty");
         return;
     }
 
