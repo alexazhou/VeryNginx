@@ -55,23 +55,23 @@ function _M.filter()
             
             ngx.var.vn_proxy_scheme = node['scheme']
             ngx.var.vn_proxy_host = node['host']
+            
             if node['port'] == '' then
                 if node['scheme'] == 'http' then
                     ngx.var.vn_proxy_port = 80
-                elseif node['scheme'] == 'http' then 
+                elseif node['scheme'] == 'https' then 
                     ngx.var.vn_proxy_port = 443
                 end
-            else
-                ngx.var.vn_proxy_port = tonumber(node['port'])
             end
             
+            --set vn_header_host
             if rule['proxy_host'] ~= '' then
                 ngx.var.vn_header_host = rule['proxy_host']
             else
-                ngx.var.vn_header_host = host
+                ngx.var.vn_header_host = ngx.var.host
             end
-            
-            ngx.exec('@vn_proxy') --will jump out at the exec, so the return not run in fact
+                
+            ngx.exec('@vn_proxy_with_replace') --will jump out at the exec, so the return not run in fact
             return
         end
     end
