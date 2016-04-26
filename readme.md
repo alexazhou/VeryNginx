@@ -81,7 +81,7 @@ VeryNginx 可以统计网站每个URI的访问情况，包括每个URI的:
 
 ![Nginx 运行状态](http://ww1.sinaimg.cn/mw690/3fcd0ed3jw1f17ena2ipyj20zw0piqag.jpg)
 
-##安装说明
+##安装和使用说明
 
 ### 安装 VeryNginx
 
@@ -92,6 +92,12 @@ python install.py install
 ```
 
 即可一键安装 VeryNginx 和 以及依赖的 OpenResty
+
+### 编辑 Nginx 配置文件
+
+Nginx 配置文件位置为 /opt/verynginx/openresty/nginx/conf/nginx.conf
+
+你可以将自己的 Nginx 配置加入其中来使用 VeryNginx 
 
 ### 更新 VeryNginx
 
@@ -120,31 +126,6 @@ VeryNginx 实际使用到了 OpenResty 中的这些模块
 *  lua-cjson library
 
 如果你不想安装 OpenResty，或者你已经有了一个正在工作的 Nginx，你也可以自己手动为 Nginx 编译安装这些模块，然后再仿照 VeryNginx 提供 nginx.conf，向自己的 nginx.conf 中加入相应配置行 
-
-### 编辑 Nginx 配置文件
-
-VeryNginx 项目提供了一个配置模版 `/opt/VeryNginx/nginx/nginx.conf`。你需要把自己站点的 Nginx 配置加到这个模版里面。 但是记得不要修改配置 VeryNginx 的那部分代码（除非你知道自己在干啥 😈）。
-
-配置 VeryNginx 的代码是下面这部分:
-
-```
-#-----------------VeryNginx config code------------------
-lua_package_path '/opt/VeryNginx/VeryNginx/lua_script/?.lua;;/opt/VeryNginx/VeryNginx/lua_script/module/?.lua;;';
-lua_package_cpath '/opt/VeryNginx/VeryNginx/lua_script/?.so;;';
-lua_code_cache on;
-
-lua_shared_dict status 1m;
-lua_shared_dict summary_long 10m;
-lua_shared_dict summary_short 10m;
-
-init_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_init.lua;
-rewrite_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_rewrite.lua;
-access_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_access.lua;
-log_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_log.lua;
-#---------------VeryNginx config code end-----------------
-```
-
-> 如果不使用 VeryNginx 提供的配置模版，你也可以手动把这部分加入到自己的 Nginx 配置文件中. (如果安装路径不是 `/opt/VeryNginx`，需要对 `lua_package_cpath` 和 `lua_package_path` 的值进行修改)
 
 ##启动服务
  `/opt/verynginx/verynginx/nginx/sbin/nginx`
