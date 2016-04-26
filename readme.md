@@ -83,6 +83,11 @@ VeryNginx 可以统计网站每个URI的访问情况，包括每个URI的:
 
 ##安装和使用说明
 
+### 背景知识 
+
+VeryNginx 基于 OpenResty[^openresty]，所以安装 VeryNginx 需要先安装好 OpenResty。不过并不用担心安装过程中可能的麻烦，VeryNginx 自身提供了脚本来进行安装工作。
+
+
 ### 安装 VeryNginx
 
 克隆 VeryNginx 仓库到本地, 然后进入仓库目录，执行以下命令 
@@ -108,24 +113,6 @@ python install.py update verynginx
 ```
 
 即可升级 VeryNginx 到最新版本，更新的过程不会丢失配置
-
-### 安装过程说明
-
-VeryNginx 基于 OpenResty[^openresty]，所以 install.py 在安装 VeryNginx 的过程中，会自动安装依赖的 OpenResty，安装之后的目录结构如下：
-
-* /opt/verynginx/openresty  **依赖的 openresty**
-* /opt/verynginx/verynginx  **verynginx 程序目录**
-
-接着脚本将复制 /opt/verynginx/verynginx/nginx.conf 到 openresty 目录中，使得 nginx 在处理网络请求的过程中调用 VeryNginx 的相关方法来完成处理
-
-
-VeryNginx 实际使用到了 OpenResty 中的这些模块
-
-*  [lua-nginx-module](https://github.com/openresty/lua-nginx-module)
-*  http_stub_status_module
-*  lua-cjson library
-
-如果你不想安装 OpenResty，或者你已经有了一个正在工作的 Nginx，你也可以自己手动为 Nginx 编译安装这些模块，然后再仿照 VeryNginx 提供 nginx.conf，向自己的 nginx.conf 中加入相应配置行 
 
 ##启动服务
  `/opt/verynginx/verynginx/nginx/sbin/nginx`
