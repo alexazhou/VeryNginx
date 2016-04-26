@@ -8,7 +8,7 @@ After v0.2 , The entry uri of control panel was moved to `/verynginx/index.html`
 
 ##介绍
 
-VeryNginx 基于 `lua_nginx_module(openrestry)` 开发，实现了高级的防火墙、访问统计和其他的一些功能。 强化了 Nginx 本身的功能，并提供了友好的 Web 交互界面。
+VeryNginx 基于 `lua_nginx_module(openrestry)` 开发，实现了高级的防火墙、访问统计和其他的一些功能。 扩展了 Nginx 本身的功能，并提供了友好的 Web 交互界面。
 
 [VeryNginx在线实例](http://alexazhou.xyz/vn/index.html) 
 
@@ -83,10 +83,7 @@ VeryNginx 可以统计网站每个URI的访问情况，包括每个URI的:
 
 ##安装和使用说明
 
-### 背景知识 
-
 VeryNginx 基于 OpenResty[^openresty]，所以安装 VeryNginx 需要先安装好 OpenResty。不过并不用担心安装过程中可能的麻烦，VeryNginx 自身提供了脚本来进行安装工作。
-
 
 ### 安装 VeryNginx
 
@@ -98,30 +95,29 @@ python install.py install
 
 即可一键安装 VeryNginx 和 以及依赖的 OpenResty
 
-### 编辑 Nginx 配置文件
+### 使用
+
+#### 编辑 Nginx 配置文件
 
 Nginx 配置文件位置为 /opt/verynginx/openresty/nginx/conf/nginx.conf
 
-你可以将自己的 Nginx 配置加入其中来使用 VeryNginx 
+你可以将自己的 Nginx 配置加入其中来使用 VeryNginx
 
-### 更新 VeryNginx
-
-在 VeryNginx 仓库中执行git pull, 然后执行以下命令 
+### 启动／停止／重启 服务
 
 ```
-python install.py update verynginx
+#启动服务
+/opt/verynginx/verynginx/nginx/sbin/nginx
+
+#停止服务
+/opt/verynginx/verynginx/nginx/sbin/nginx -s stop
+
+#重启服务
+/opt/verynginx/verynginx/nginx/sbin/nginx -s reload
 ```
 
-即可升级 VeryNginx 到最新版本，更新的过程不会丢失配置
-
-##启动服务
- `/opt/verynginx/verynginx/nginx/sbin/nginx`
-
-##停止服务
- `/opt/verynginx/verynginx/nginx/sbin/nginx -s stop`
-
-##对 VeryNginx 进行配置
-打开浏览器访问 `http://127.0.0.1/VeryNginx/index.html`。
+###通过web面板对 VeryNginx 进行配置
+打开浏览器访问 `http://{{your_machine_address}}/VeryNginx/index.html`。
 
 默认用户名和密码是 `verynginx` / `verynginx`。
 
@@ -129,7 +125,7 @@ python install.py update verynginx
 
 如果需要详细的配置说明，请查看 [VeryNginx Wiki](https://github.com/alexazhou/VeryNginx/wiki)
 
-## 提示
+#### 提示
 
 * 通过 VeryNginx 控制面板保存新配置之后，会立刻生效，并不需要 restart/reload Nginx。
 
@@ -138,6 +134,26 @@ python install.py update verynginx
 * 状态页面图表默认带有动画效果，如果有卡顿，可以点右上角齿轮图标关掉动画效果
 
 * 如果因为配错了什么选项，导致无法登录，可以手动删除 `config.json` 来清空配置。
+
+### 更新 VeryNginx ／ OpenResty
+
+随着时间的发展，VeryNginx 本身的代码会演进，也可以会支持更新版本的 OpenResty ，更新的代码可能会支持一些新的功能，或是修复了一些旧的bug。可以先 pull github 上最新的代码，然后通过以下命令来进行更新：
+
+#### 
+
+```
+#更新 Verynginx
+python install.py update verynginx
+
+#更新 OpenResty
+python install.py update openresty
+
+```
+
+更新的过程并不会丢失配置
+> install.py脚本在升级过程中，将保留原有的 config.js 和 nginx.conf, 所以原有的配置并不会被丢失
+
+
 
 ## 致谢
 
