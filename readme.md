@@ -55,6 +55,7 @@ VeryNginx 包含强大的自定义功能，可以做很多事情
 * **Redirect** 对请求进行重定向
 * **URI Rewrite** 对请求的 URI 进行内部重写
 * **Browser Verify** 通过set-cookies 和 js 验证客户端是否为浏览器，并拦截非浏览器流量。本功能可能会阻拦搜索引擎爬虫，建议仅在被攻击时开启，或者针对搜索引擎编写特别的规则。
+* **Frequency Limit** 访问频率限制
 * **Filter(waf)** 过滤器
 
 因为 Matcher 可以对请求进行细致的匹配，所以结合 Filter Action，就可以实现一个高级的WAF，可以利用Matcher中所有的条件来对请求进行过滤，并返回指定状态码
@@ -65,6 +66,14 @@ VeryNginx 预置了常用的过滤规则，可以在一定程度上阻止常见�
 
 ![VeryNginx filter](http://ww3.sinaimg.cn/mw690/3fcd0ed3jw1f17en9lrarj20zw0piq77.jpg)
 
+####Backend
+
+每个 Backend 会引用一个 Matcher ，当 Matcher 命中时， 请求会通过 Backend 进行处理
+
+目前已经实现了以下 Backend
+
+* **Proxy Pass** 将请求反向代理到其它服务器
+* **Static File** 使用本地文件处理请求
 
 ###访问统计
 
