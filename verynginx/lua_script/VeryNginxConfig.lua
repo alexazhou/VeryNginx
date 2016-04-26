@@ -124,7 +124,7 @@ _M.configs["filter_rule"] = {
 
 _M.configs["proxy_pass_enable"] = true
 _M.configs["proxy_pass_rule"] = {
-    {["matcher"] = 'localhost', ["upstream"] = "test", ["enable"] = false, ["proxy_host"] = "", ["replace_response"] = false},
+    {["matcher"] = 'localhost', ["upstream"] = "test", ["enable"] = false, ["proxy_host"] = "" },
 }
 
 _M.configs["static_file_enable"] = true

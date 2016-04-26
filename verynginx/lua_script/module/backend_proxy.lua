@@ -70,8 +70,10 @@ function _M.filter()
             else
                 ngx.var.vn_header_host = ngx.var.host
             end
+
+            --will jump out at the exec, so the return not run in fact
+            ngx.exec('@vn_proxy') 
                 
-            ngx.exec('@vn_proxy_with_replace') --will jump out at the exec, so the return not run in fact
             return
         end
     end
