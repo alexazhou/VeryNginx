@@ -9,12 +9,7 @@ local _M = {}
 local balancer = require "ngx.balancer"
 
 function _M.run()
-    ngx.log( ngx.ERR, "---ngx.balancer---")
     --ngx.log( ngx.ERR, ngx.var.vn_proxy_target)
-    
-    ngx.log( ngx.ERR, 'host:', ngx.var.vn_proxy_host )
-    ngx.log( ngx.ERR, 'port:', ngx.var.vn_proxy_port)
-
     --local ok, err = balancer.set_current_peer( ngx.ctx.vn_proxy_host , ngx.ctx.vn_proxy_port )
     local ok, err = balancer.set_current_peer( ngx.var.vn_proxy_host , 443 )
     if not ok then
