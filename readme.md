@@ -111,6 +111,8 @@ VeryNginx 的配置文件位置为 **/opt/verynginx/openresty/nginx/conf/nginx.c
 
 ### 启动／停止／重启 服务
 
+完成安装工作以后，可以通过以下命令来运行 VeryNginx
+
 ```
 #启动服务
 /opt/verynginx/verynginx/nginx/sbin/nginx
@@ -123,7 +125,10 @@ VeryNginx 的配置文件位置为 **/opt/verynginx/openresty/nginx/conf/nginx.c
 ```
 
 ###通过web面板对 VeryNginx 进行配置
-打开浏览器访问 `http://{{your_machine_address}}/VeryNginx/index.html`。
+
+VeryNginx 启动后，可以通过浏览器访问管理面板来查看状态以及进行配置。
+
+管理面板地址为 `http://{{your_machine_address}}/VeryNginx/index.html`。
 
 默认用户名和密码是 `verynginx` / `verynginx`。
 
