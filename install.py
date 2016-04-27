@@ -67,9 +67,12 @@ def install_verynginx():
     exec_sys_cmd( 'cp -r -f ./verynginx /opt/verynginx' )
 
     #copy nginx config file to openresty
-    if filecmp.cmp( '/opt/verynginx/openresty/nginx/conf/nginx.conf', '/opt/verynginx/openresty/nginx/conf/nginx.conf.default', False ) == True:
-        print('cp nginx config file to openresty')
-        exec_sys_cmd( 'cp -f ./nginx.conf  /opt/verynginx/openresty/nginx/conf/' )
+    if os.path.exists('/opt/verynginx/openresty') == True:
+        if filecmp.cmp( '/opt/verynginx/openresty/nginx/conf/nginx.conf', '/opt/verynginx/openresty/nginx/conf/nginx.conf.default', False ) == True:
+            print('cp nginx config file to openresty')
+            exec_sys_cmd( 'cp -f ./nginx.conf  /opt/verynginx/openresty/nginx/conf/' )
+    else:
+        print( 'openresty not fount, so not copy nginx.conf' )
 
     #set mask for the path which used for save configs
     exec_sys_cmd( 'chmod -R 777 /opt/verynginx/verynginx/configs' )
