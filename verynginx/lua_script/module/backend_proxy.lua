@@ -62,6 +62,8 @@ function _M.filter()
                 elseif node['scheme'] == 'https' then 
                     ngx.var.vn_proxy_port = 443
                 end
+            else
+                ngx.var.vn_proxy_port = tonumber( node['port'] )
             end
             
             --set vn_header_host
