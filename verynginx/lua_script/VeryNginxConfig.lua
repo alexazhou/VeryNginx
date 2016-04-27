@@ -287,7 +287,7 @@ end
 
 function _M.dump_to_file( config_table )
 
-    _M.set_config_metadata( config_data )
+    _M.set_config_metadata( config_table )
 
     local config_data = dkjson.encode( config_table , {indent=true} ) --must use dkjson at here because it can handle the metadata
     local config_dump_path = _M.home_path() .. "/configs/config.json"
