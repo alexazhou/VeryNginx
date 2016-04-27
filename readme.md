@@ -104,9 +104,11 @@ python install.py install
 
 即可一键安装 VeryNginx 和 以及依赖的 OpenResty
 
-####
+#### 想使用自己的 Nginx?
 
-如果你想要使用自己编译的 Nginx(OpenResty)，请阅读Wiki中的这篇说明:[Use own nginx](https://github.com/alexazhou/VeryNginx/wiki/Use-own-nginx)
+VeryNginx 可以自动为你安装依赖的 OpenResty，通常情况下你**没有必要**再自己安装 OpenResty。
+
+但如果你想要使用自己编译的 Nginx( OpenResty )，也是可以的。具体方法请阅读Wiki中的这篇说明:[Use own nginx](https://github.com/alexazhou/VeryNginx/wiki/Use-own-nginx)
 ### 使用
 
 #### 编辑 Nginx 配置文件
