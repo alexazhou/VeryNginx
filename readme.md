@@ -124,13 +124,13 @@ VeryNginx 的配置文件位置为 **/opt/verynginx/openresty/nginx/conf/nginx.c
 
 ```
 #启动服务
-/opt/verynginx/verynginx/nginx/sbin/nginx
+/opt/verynginx/openresty/nginx/sbin/nginx
 
 #停止服务
-/opt/verynginx/verynginx/nginx/sbin/nginx -s stop
+/opt/verynginx/openresty/nginx/sbin/nginx -s stop
 
 #重启服务
-/opt/verynginx/verynginx/nginx/sbin/nginx -s reload
+/opt/verynginx/openresty/nginx/sbin/nginx -s reload
 ```
 
 ###通过web面板对 VeryNginx 进行配置
