@@ -220,8 +220,9 @@ function _M.load_from_file()
         
 end 
 
+--return a json contain current config items
 function _M.report()
-    --return a json contain current config items
+    _M.set_config_metadata( _M["configs"] )
     return dkjson.encode( _M["configs"] )
 end
 
@@ -265,8 +266,7 @@ function _M.set()
     end
 end
 
-
-function _M.dump_to_file( config_table )
+function _M.set_config_metadata( config_table )
 
     --make sure empty table trans to right type
     local meta_table = {}
@@ -282,6 +282,12 @@ function _M.dump_to_file( config_table )
         setmetatable( t, meta_table )
     end
     --set table meta_data end
+
+end
+
+function _M.dump_to_file( config_table )
+
+    _M.set_config_metadata( config_data )
 
     local config_data = dkjson.encode( config_table , {indent=true} ) --must use dkjson at here because it can handle the metadata
     local config_dump_path = _M.home_path() .. "/configs/config.json"
