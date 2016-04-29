@@ -287,57 +287,23 @@ VeryNginx uses only following modules in OpenResty.
 
 ### Deploy VeryNginx
 
-Checkout VeryNginx repository, link nginx.conf and VeryNginx folder to nginx config directory.
-
-```sh
-cd ~
-git clone https://github.com/alexazhou/VeryNginx.git
-rm -f /opt/VeryNginx/nginx/conf/nginx.conf
-cp ~/VeryNginx/nginx.conf /opt/VeryNginx/nginx/conf/nginx.conf
-cp -r ~/VeryNginx/VeryNginx /opt/VeryNginx
-
-# The following line makes /opt/VeryNginx writable for nginx, so that VeryNginx can modify configs inside it.
-# Change user and group name to the actual account.
-chown -R nginx:nginx /opt/VeryNginx
-```
+Updating...
 
 ### Configure Nginx
 
-You should add your sites into `/opt/VeryNginx/nginx/nginx.conf`. However you should not modify the VeryNginx config code in the file unless you know what you're doing 😈.
-
-VeryNginx config code looks like the following:
-
-```
-#-----------------VeryNginx config code------------------
-lua_package_path '/opt/VeryNginx/VeryNginx/lua_script/?.lua;;/opt/VeryNginx/VeryNginx/lua_script/module/?.lua;;';
-lua_package_cpath '/opt/VeryNginx/VeryNginx/lua_script/?.so;;';
-lua_code_cache on;
-
-lua_shared_dict status 1m;
-lua_shared_dict summary_long 10m;
-lua_shared_dict summary_short 10m;
-
-init_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_init.lua;
-rewrite_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_rewrite.lua;
-access_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_access.lua;
-log_by_lua_file /opt/VeryNginx/VeryNginx/lua_script/on_log.lua;
-#---------------VeryNginx config code end-----------------
-```
-
-> You can have your own Nginx installation to work with VeryNginx by integrating its config code into you own config file.
+Updating...
 
 ##Start service
- `/opt/VeryNginx/nginx/sbin/nginx`
+ `/opt/verynginx/openresty/nginx/sbin/nginx`
 
 ##Stop service
- `/opt/VeryNginx/nginx/sbin/nginx -s stop`
+ `/opt/verynginx/openresty/nginx/sbin/nginx -s stop`
 
 ##Configure VeryNginx
+
 Open your web browser and go to `http://127.0.0.1/VeryNginx/index.html`.
 
 Default user and password is `verynginx` / `verynginx`. You should be able to work through all the options now.
-
-Don't forget to visit "Config > System > All Configuration" to save your changes.
 
 The full version of config guide can be found in [VeryNginx Wiki](https://github.com/alexazhou/VeryNginx/) .
 
