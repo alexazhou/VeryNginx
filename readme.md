@@ -14,7 +14,7 @@ VeryNginx 基于 `lua_nginx_module(openrestry)` 开发，实现了高级的防�
 
 用户名 / 密码: **verynginx / verynginx**
 
-详细配置说明见VeryNginx Github WiKi：[VeryNginx Wiki](https://github.com/alexazhou/VeryNginx/wiki/目录)
+详细配置说明见：[VeryNginx Github WiKi](https://github.com/alexazhou/VeryNginx/wiki/目录)
 
 ###Nginx 运行状态分析
 
@@ -110,7 +110,7 @@ python install.py install
 
 VeryNginx 可以自动为你安装依赖的 OpenResty，通常情况下你**没有必要**再自己安装 OpenResty。
 
-但如果你想要使用自己编译的 Nginx( OpenResty )，也是可以的。具体方法请阅读Wiki中的这篇说明:[Use own nginx](https://github.com/alexazhou/VeryNginx/wiki/Use-own-nginx)
+但如果你想要**使用自己编译的 Nginx( OpenResty )**，也是可以的。具体方法请阅读Wiki中的这篇说明:[Use own nginx](https://github.com/alexazhou/VeryNginx/wiki/Use-own-nginx)
 ### 使用
 
 #### 编辑 Nginx 配置文件
@@ -150,7 +150,12 @@ VeryNginx 启动后，可以通过浏览器访问管理面板来查看状态以�
 
 登录之后就可以查看状态，并对配置进行修改了。修改配置后，记得到 「Config > System > All Configuration」去保存.
 
-如果需要 **详细的配置说明**，请查看 [VeryNginx Wiki](https://github.com/alexazhou/VeryNginx/wiki/目录)
+#### 详细的配置说明
+
+VeryNginx 按照易于使用的思想进行设计，如果你有一定的基础，或是对 Nginx 较了解，那么你应该可以直接在界面上使用。
+
+当然 VeryNginx 也提供了详细的文档供你查阅。
+[VeryNginx Wiki](https://github.com/alexazhou/VeryNginx/wiki/目录)
 
 #### 提示
 
