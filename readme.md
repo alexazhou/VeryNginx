@@ -14,6 +14,8 @@ VeryNginx 基于 `lua_nginx_module(openrestry)` 开发，实现了高级的防�
 
 用户名 / 密码: **verynginx / verynginx**
 
+详细配置说明见VeryNginx Github WiKi：[VeryNginx Wiki](https://github.com/alexazhou/VeryNginx/wiki/目录)
+
 ###Nginx 运行状态分析
 
 * 每秒请求数
@@ -148,7 +150,7 @@ VeryNginx 启动后，可以通过浏览器访问管理面板来查看状态以�
 
 登录之后就可以查看状态，并对配置进行修改了。修改配置后，记得到 「Config > System > All Configuration」去保存.
 
-如果需要 **详细的配置说明**，请查看 [VeryNginx Wiki](https://github.com/alexazhou/VeryNginx/wiki)
+如果需要 **详细的配置说明**，请查看 [VeryNginx Wiki](https://github.com/alexazhou/VeryNginx/wiki/目录)
 
 #### 提示
 
