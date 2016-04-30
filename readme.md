@@ -284,12 +284,12 @@ But if you want use a nginx compiled by you self, that also ok. You can see that
 
 ### Usage
 
-#### Edit nginx.conf 
+#### Edit nginx configuration file
 
-The configure file of VeryNginx is /opt/verynginx/openresty/nginx/conf/nginx.conf, that a demo. It just can let verynginx run and you can see the dashboard of verynginx. If you want do something really useful, you need edit that file and add your own nginx configuration into it.
+The configuration file of VeryNginx is `/opt/verynginx/openresty/nginx/conf/nginx.conf`, that's a demo. It just can let verynginx run so that you can see the dashboard of verynginx. If you want do something really useful, you need edit that file and add your own nginx configuration into it.
 
 >
-This configure file add three `include` command to embeded verynginx into original nginx( openresty ) 
+This configuration file add three `include` command to embeded verynginx into original nginx( openresty ) 
 
 >
 * include /opt/verynginx/verynginx/nginx_conf/in_external.conf;
