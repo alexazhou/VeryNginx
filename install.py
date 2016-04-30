@@ -82,13 +82,17 @@ def update_verynginx():
     install_verynginx()    
 
 
-def exec_sys_cmd(cmd):
+def exec_sys_cmd(cmd, accept_failed = False):
     print( cmd )
     ret = os.system( cmd )
-    if ret != 0:
-        print('*** The installing stopped because something was wrong')
-        exit(1)
-
+    if  ret == 0:
+        return ret
+    else:
+        if accept_failed == False:
+            print('*** The installing stopped because something was wrong')
+            exit(1)
+        else:
+            return False
 
 def common_input( s ):
     if sys.version_info.major == 3:
