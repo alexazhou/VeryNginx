@@ -148,7 +148,7 @@ VeryNginx 启动后，可以通过浏览器访问管理面板来查看状态以�
 
 默认用户名和密码是 `verynginx` / `verynginx`。
 
-登录之后就可以查看状态，并对配置进行修改了。修改配置后，记得到 「Config > System > All Configuration」去保存.
+登录之后就可以查看状态，并对配置进行修改了。修改配置后，点击保存才会生效.
 
 #### 详细的配置说明
 
@@ -182,7 +182,7 @@ python install.py update openresty
 
 ```
 
-install.py脚本在升级过程中，将保留原有的 config.js 和 nginx.conf, 所以**更新的过程并不会丢失配置**
+install.py脚本在升级过程中，将保留原有的 config.json 和 nginx.conf, 所以**更新的过程并不会丢失配置**
 
 
 ## 致谢
@@ -200,6 +200,9 @@ VeryNginx base on `lua_nginx_module(openrestry)` ,implements advanced firewall(w
 [VeryNginx online demo](http://alexazhou.xyz/vn/index.html) 
 
 User / Password: **verynginx / verynginx**
+
+The full version of config guide can be found in: [VeryNginx Wiki](https://github.com/alexazhou/VeryNginx/wiki) .
+
 
 ###Nginx run status analyzing
 
@@ -239,6 +242,7 @@ Now we has these `Action`
 * **Redirect** redirect request
 * **URI Rewrite** do internal rewrite on the request
 * **Browser Verify** use set-cookies and javascript to verify the client is a browser，and block traffic of the robot. This action may block the spider of search engine, so please enable it when under attack only.
+* **Frequency Limit** limit max request time in a specified time period
 * **Filter** block some request, can do the WAF
 
 Matcher can select requests by multiple conditions, so with Filter Action, we got a powerful waf. The waf can filter requests wich complex rules and return special status code when it block a request.
@@ -261,61 +265,88 @@ VeryNginx can record the request of URI, include these data of every URI:
 
 ### Install Nginx / OpenResty
 
-VeryNginx is based on OpenResty, so you need to install it first.
+VeryNginx is based on OpenResty, so you need to install it first. But don't warry, VeryNginx give a script to do it automatic.
 
-```sh
-wget https://openresty.org/download/ngx_openresty-1.9.7.1.tar.gz
-tar -xvzf ngx_openresty-1.9.7.1.tar.gz
-cd ngx_openresty-1.9.7.1
-sudo su
-./configure --prefix=/opt/VeryNginx --user=nginx --group=nginx --with-http_stub_status_module --with-luajit
-gmake
-gmake install
+
+```
+python install.py install
 ```
 
->At here we used the v1.9.7.1 of openresty, if there is a new stable version of openresty has been released, we alse can use it.  
+Just run this command, openresty and verynginx will be installed
+ 
+####Want using custom nginx?
 
-VeryNginx uses only following modules in OpenResty.
+VeryNginx can install openresty automatic so that you needn't install nginx(openresty) manually.
 
-*  [lua-nginx-module](https://github.com/openresty/lua-nginx-module)
-*  http_stub_status_module
-*  lua-cjson library
+But if you want use a nginx compiled by you self, that also ok. You can see that for some help 
 
-> If you don't want to install OpenResty, or you already have a working installation of Nginx, you can always configure your Nginx with those modules manually.
+[Use-own-nginx](https://github.com/alexazhou/VeryNginx/wiki/Use-own-nginx)
+
+### Usage
+
+#### Edit nginx.conf 
+
+The configure file of VeryNginx is /opt/verynginx/openresty/nginx/conf/nginx.conf, that a demo. It just can let verynginx run and you can see the dashboard of verynginx. If you want do something really useful, you need edit that file and add your own nginx configuration into it.
+
 >
-> The `nginx-extras` package from your Linux distro is usually a good start.
+This configure file add three `include` command to embeded verynginx into original nginx( openresty ) 
 
-### Deploy VeryNginx
+>
+* include /opt/verynginx/verynginx/nginx_conf/in_external.conf;
+* include /opt/verynginx/verynginx/nginx_conf/in_http_block.conf;
+* include /opt/verynginx/verynginx/nginx_conf/in_server_block.conf;
 
-Updating...
+There `include` command were placed outside a block, block http internal configuration, server configuration block inside, Remenber keep these three line when modifying. If you add a new Server configuration block or http configuration block, also need add suitable `include` line into it.
 
-### Configure Nginx
+### Start / Stop / Restart Service
 
-Updating...
+```
+#Start Service
+/opt/verynginx/openresty/nginx/sbin/nginx
 
-##Start service
- `/opt/verynginx/openresty/nginx/sbin/nginx`
+#Stop Service
+/opt/verynginx/openresty/nginx/sbin/nginx -s stop
 
-##Stop service
- `/opt/verynginx/openresty/nginx/sbin/nginx -s stop`
+#Restart Service
+/opt/verynginx/openresty/nginx/sbin/nginx -s reload
 
-##Configure VeryNginx
+```
 
-Open your web browser and go to `http://127.0.0.1/VeryNginx/index.html`.
+### Configure VeryNginx on dashboard
+
+After the service begin running, you can see server status and do config on dashboard.
+
+The address  of dashboard is `http://{{your_machine_address}}/VeryNginx/index.html`.
 
 Default user and password is `verynginx` / `verynginx`. You should be able to work through all the options now.
 
 The full version of config guide can be found in [VeryNginx Wiki](https://github.com/alexazhou/VeryNginx/) .
 
-## Tips
+
+#### Tips
 
 * New configs will be effective immediately upon saving. It's not necessary to restart or reload nginx.
 
-* When you save config, VeryNginx will write all configs to `/opt/VeryNginx/VeryNginx/config.json`.
+* When you save config, VeryNginx will write all configs to `/opt/verynginx/verynginx/configs/config.json`.
 
 * If the chat in status page is stuck, you can click the gear icon in the upper right corner to turn off animation
 
 * If you lock yourself out of VeryNginx by doing something stupid, you can always delete `config.json` to revert VeryNginx to its default.
+
+Update VeryNginx / OpenResty
+
+```
+#Update VeryNginx
+python install.py update verynginx
+
+#Update OpenResty
+python install.py update openresty
+
+```
+
+install.py will keep the old config.json and  nginx.conf during updating. So that you **willn't lost configuration** after update.
+
+
 
 ## Thanks
 
