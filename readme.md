@@ -25,6 +25,9 @@ The full version of config guide can be found in: [VeryNginx Wiki](https://githu
 * Net Traffic
 * Tcp connectinn num
 
+![Nginx status](http://ww2.sinaimg.cn/mw690/3fcd0ed3jw1f17en7oc1yj20z00ol0wl.jpg)
+
+
 ###Custom Action
 
 VeryNginx support custom actions, can do a lot os things.
@@ -53,15 +56,28 @@ Every `Action` refers to a `Matcher` , and will run on the requests selected by 
 Now we has these `Action`
 
 * **Scheme** Lock lock the scheme to http/https
-* **Redirect** redirect request
-* **URI Rewrite** do internal rewrite on the request
-* **Browser Verify** use set-cookies and javascript to verify the client is a browser，and block traffic of the robot. This action may block the spider of search engine, so please enable it when under attack only.
-* **Frequency Limit** limit max request time in a specified time period
-* **Filter** block some request, can do the WAF
+* **Redirect** Redirect request
+* **URI Rewrite** Do internal rewrite on the request
+* **Browser Verify** Use set-cookies and javascript to verify the client is a browser，and block traffic of the robot. This action may block the spider of search engine, so please enable it when under attack only.
+* **Frequency Limit** Limit max request time in a specified time period
+* **Filter** Block some request, can do the WAF
 
 Matcher can select requests by multiple conditions, so with Filter Action, we got a powerful waf. The waf can filter requests wich complex rules and return special status code when it block a request.
 
 VeryNginx preset some simple filter rules, can prevent simple SQL injection , Git and SVN file disclosure, directory traversal attacks and common scanning tool.
+
+![VeryNginx Matcher](http://ww2.sinaimg.cn/mw690/3fcd0ed3jw1f17en8ovthj20zs0pdn1x.jpg)
+
+![VeryNginx filter](http://ww3.sinaimg.cn/mw690/3fcd0ed3jw1f17en9lrarj20zw0piq77.jpg)
+
+####Backend
+
+Every `Backend` refers to a `Matcher`，and will handle the requests selected by the `Matcher`
+
+Now we has these `Backend`
+
+* **Proxy Pass** Proxy the request to other server
+* **Static File** Use local file to handle the request file 
 
 ###Request statistics
 
@@ -73,6 +89,9 @@ VeryNginx can record the request of URI, include these data of every URI:
 * Avg Bytes
 * Total response time
 * Avg reqponse time
+
+
+![request statistics](http://ww1.sinaimg.cn/mw690/3fcd0ed3jw1f17ena2ipyj20zw0piqag.jpg)
 
 
 ##Installation
