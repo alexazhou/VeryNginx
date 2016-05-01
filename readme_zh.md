@@ -167,9 +167,8 @@ VeryNginx 按照易于使用的思想进行设计，如果你有一定的基础�
 
 ### 更新 VeryNginx ／ OpenResty
 
-随着时间的发展，VeryNginx 本身的代码会演进，也可以会支持更新版本的 OpenResty ，更新的代码可能会支持一些新的功能，或是修复了一些旧的bug。可以先 pull github 上最新的代码，然后通过以下命令来进行更新：
+随着时间的发展，VeryNginx 本身的代码会演进，也可以会支持更新版本的 OpenResty ，更新的代码可能会支持一些新的功能，或是修复了一些旧的bug。如果要更新本地已经安装的 VeryNginx ，你只需要先 pull github 上最新的代码到本地，然后通过以下命令来进行更新：
 
-#### 
 
 ```
 #更新 Verynginx
