@@ -14,15 +14,24 @@ local math = require "math"
 math.randomseed(ngx.time()) 
 
 
-function _M.find_node( node_list )
-    
+function _M.find_node( upstream )
+   
+    local node_list = upstream['node']
+    local balance_method = upstream['method']
     local rate_sum = 0
+    
     for name,node in pairs( node_list ) do
         rate_sum = rate_sum + tonumber(node['weight']) 
     end
     --ngx.log( ngx.ERR, 'rate_sum',rate_sum)
-    
-    local p = math.random( rate_sum )
+   
+    local p = nil
+    if balance_method == 'ip_hash' then
+        p =  math.fmod( ngx.crc32_short( ngx.var.remote_addr), rate_sum) + 1
+    else
+        p = math.random( rate_sum )
+    end
+
     --ngx.log( ngx.ERR, 'p',p)
 
     for name,node in pairs( node_list ) do
@@ -51,7 +60,7 @@ function _M.filter()
             --ngx.log(ngx.STDERR,'upstream:',rule['upstream'])
 
             local upstream = upstream_list[ rule['upstream'] ]
-            local node = _M.find_node( upstream['node']  )
+            local node = _M.find_node( upstream )
             
             ngx.var.vn_proxy_scheme = node['scheme']
             ngx.var.vn_proxy_host = node['host']

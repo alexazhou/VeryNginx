@@ -189,5 +189,5 @@ install.py will keep the old config.json and nginx.conf during update. So that y
 
 ###Enjoy~
 
-[^openresty]: [OpenResty](https://github.com/openresty/openresty) 是一个Nginx再发行版本，包含了标准Nginx以及很多扩展模块. 
+[^openresty]: [OpenResty](https://github.com/openresty/openresty) Openresty is a enhanced nginx，bundle standard nginx core and lots of 3rd-party nginx module. 
 
