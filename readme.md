@@ -9,14 +9,13 @@ After v0.2 , The entry uri of control panel was moved to `/verynginx/index.html`
 
 ##Description
 
-VeryNginx base on `lua_nginx_module(openrestry)` ,implements advanced firewall(waf), access statistics and some other features. Strengthen the Nginx own function, and provides a friendly Web interface.
+VeryNginx is based on `lua_nginx_module(openrestry)`. It implements advanced firewall(waf), access statistics and some other features. It strengthens the Nginx's functions, and provides a friendly Web interface.
 
 [VeryNginx online demo](http://alexazhou.xyz/vn/index.html) 
 
 User / Password: **verynginx / verynginx**
 
-The full version of config guide can be found in: [VeryNginx Wiki](https://github.com/alexazhou/VeryNginx/wiki) .
-
+The full version of config guide can be found on: [VeryNginx Wiki](https://github.com/alexazhou/VeryNginx/wiki) .
 
 ###Nginx run status analyzing
 
@@ -30,15 +29,15 @@ The full version of config guide can be found in: [VeryNginx Wiki](https://githu
 
 ###Custom Action
 
-VeryNginx support custom actions, can do a lot os things.
+VeryNginx supports custom actions, which can do a lot of things.
 
-Custom action consists of two parts, `Matcher`和 `Action` . `Matcher` used to test whether a request meets the rule， `Action` is the logic you want run.
+Custom action consists of two parts, `Matcher` and `Action` . `Matcher` is used to test whether a request meets the rule， `Action` is the logic you want to run.
 
->The advantage of this disign is that the `Matcher` include all select rule, and can be reused, make use rule to describe a very complex logic becomes possible
+>The advantage of this design is that the `Matcher` includes all select rule, and can be reused, making use of rules to describe a very complex logic possible.
 
 ####Matcher
 
-`Matcher` used to select a part of all requests, a `Matcher` may contain one or more condition, these conditions are currently supported:
+A `Matcher` is used to select a part of all requests, a `Matcher` may contain one or more condition. The following conditions are currently supported:
 
 * Client IP
 * Host
@@ -47,13 +46,13 @@ Custom action consists of two parts, `Matcher`和 `Action` . `Matcher` used to t
 * Referer
 * Request Args
 
-When a request not conflicted with all the conditions of the Matcher, the request will be selected by the `Matcher`
+When a request does not conflict with any of the conditions of the Matcher, the request will be selected by the `Matcher`
 
 ####Action
 
 Every `Action` refers to a `Matcher` , and will run on the requests selected by the `Matcher` 
 
-Now we has these `Action`
+Now we have these `Action`s
 
 * **Scheme** Lock lock the scheme to http/https
 * **Redirect** Redirect request
@@ -62,9 +61,9 @@ Now we has these `Action`
 * **Frequency Limit** Limit max request time in a specified time period
 * **Filter** Block some request, can do the WAF
 
-Matcher can select requests by multiple conditions, so with Filter Action, we got a powerful waf. The waf can filter requests wich complex rules and return special status code when it block a request.
+Matcher can select requests by multiple conditions, so with Filter Action, we got a powerful waf. The waf can filter requests with complex rules and return special status code when it block a request.
 
-VeryNginx preset some simple filter rules, can prevent simple SQL injection , Git and SVN file disclosure, directory traversal attacks and common scanning tool.
+VeryNginx presets some simple filter rules, which can prevent simple SQL injection, Git and SVN file disclosure, directory traversal attacks and common scanning tool.
 
 ![VeryNginx Matcher](http://ww2.sinaimg.cn/mw690/3fcd0ed3jw1f17en8ovthj20zs0pdn1x.jpg)
 
@@ -74,7 +73,7 @@ VeryNginx preset some simple filter rules, can prevent simple SQL injection , Gi
 
 Every `Backend` refers to a `Matcher`，and will handle the requests selected by the `Matcher`
 
-Now we has these `Backend`
+Now we have these `Backend`
 
 * **Proxy Pass** Proxy the request to other server
 * **Static File** Use local file to handle the request file 
@@ -98,18 +97,18 @@ VeryNginx can record the request of URI, include these data of every URI:
 
 ### Install Nginx / OpenResty
 
-VeryNginx is based on OpenResty, so you need to install it first. But don't warry, VeryNginx give a script to do it automatic.
+VeryNginx is based on OpenResty, so you need to install it first. But don't warry, VeryNginx gives a script to do it automatically.
 
 
 ```
 python install.py install
 ```
 
-Just run this command, openresty and verynginx will be installed automatic.
+Just run this command, openresty and verynginx will be installed automatically.
  
 ####Want using custom nginx?
 
-VeryNginx can install openresty automatic so that you **needn't install nginx(openresty) manually**.
+VeryNginx can install openresty automatically so that you **needn't install nginx(openresty) manually**.
 
 But if you want use a nginx compiled by you self, that also ok. You can see that for some help 
 
@@ -168,8 +167,7 @@ The full version of config guide can be found in [VeryNginx Wiki](https://github
 
 ###Update VeryNginx / OpenResty
 
-Over time, VeryNginx own will evolution, and can also supported new version of OpenResty. New version of verynginx might support some new features or fixes some old bug. If you want to update locally installed VeryNginx, you just need pull latest code from github to local, and run following command:
-
+Over time, VeryNginx own will evolve, and can also support newer version of OpenResty. New version of VeryNginx might support some new features or fix some old bugs. If you want to update locally installed VeryNginx, you just need pull the latest code from github to local, and run the following commands:
 
 ```
 #Update VeryNginx
@@ -180,7 +178,7 @@ python install.py update openresty
 
 ```
 
-install.py will keep the old config.json and  nginx.conf during updating. So that you **willn't lost configuration** after update.
+install.py will keep the old config.json and nginx.conf during update. So that you **will not lost configuration** after update.
 
 
 
