@@ -256,6 +256,7 @@
                             </div>
                             <div class="leftnav leftnav_1" group="system" onclick="dashboard.switch_config_nav_group(this)">System</div>
                             <div class="leftnav_group" group="system">
+                                <div class="leftnav leftnav_2" config_name="system_general" onclick="dashboard.switch_to_config(this)">General</div>
                                 <div class="leftnav leftnav_2" config_name="system_admin" onclick="dashboard.switch_to_config(this)">User</div>
                                 <div class="leftnav leftnav_2" config_name="system_allconfig" onclick="dashboard.switch_to_config(this)">All Configuration</div>
                             </div>
@@ -1482,6 +1483,24 @@
                             </div>
                             <input type="checkbox" id="checkbox" v-model="summary_request_enable">
                             <label>Enable</label>
+                        </div>
+
+                        <div class="config_container" id="config_system_general">
+                            <div class="config_title">
+                                General
+                            </div>
+                            <hr>
+                            
+                            <div class="config_sub_title">
+                                Control Panel
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Base URI</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" type="text" v-model="base_uri" placeholder="/verynginx">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="config_container" id="config_system_allconfig">
