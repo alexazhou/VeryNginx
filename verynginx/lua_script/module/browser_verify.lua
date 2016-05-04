@@ -15,10 +15,17 @@ _M.verify_javascript_html = nil
 
 function _M.sign( mark )
     local ua = ngx.var.http_user_agent
+    local forwarded  = ngx.var.http_x_forwarded_for
+    
     if ua == nil then
         ua = ''
     end
-    local sign = ngx.md5( 'VN' .. ngx.var.remote_addr .. ua .. mark .. encrypt_seed.get_seed() )
+    
+    if forwarded == nil then
+        forwarded = ''
+    end
+
+    local sign = ngx.md5( 'VN' .. ngx.var.remote_addr .. forwarded .. ua .. mark .. encrypt_seed.get_seed() )
     return sign 
 end
 
