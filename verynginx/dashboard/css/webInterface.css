@@ -215,6 +215,15 @@
     width:400px ;
 }
 
+.vn-config-box {
+    max-width:600px;
+}
+
+.vn-config-label {
+    text-align:right;
+	margin-top:5px;
+}
+
 .tips_container {
     margin-right:5px;
     padding:5px;
