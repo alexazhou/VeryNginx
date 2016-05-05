@@ -20,7 +20,7 @@ function _M.filter()
         local enable = rule['enable']
         local matcher = matcher_list[ rule['matcher'] ] 
         if enable == true and request_tester.test( matcher ) == true then
-            ngx.var.vn_static_root = '/tmp'
+            ngx.var.vn_static_root = rule['root']
             ngx.exec('@vn_static') -- will jump out at the exec, so the return not run in fact
             return
         end
