@@ -2,7 +2,7 @@
 -- -- @Date    : 2016-01-02 00:35
 -- -- @Author  : Alexa (AlexaZhou@163.com)
 -- -- @Link    : 
--- -- @Disc    : url router
+-- -- @Disc    : url router of verynginx's control panel 
 
 local summary = require "summary"
 local status = require "status"
@@ -19,39 +19,36 @@ _M.mime_type['.js'] = "application/x-javascript"
 _M.mime_type['.css'] = "text/css"
 _M.mime_type['.html'] = "text/html"
 
-function _M.filter() 
-    local action = string.lower(ngx.req.get_method().." "..ngx.var.uri)
-    local handle = _M.url_route[ action ]
-    if handle ~= nil then
-        ngx.header.content_type = "application/json"
-        ngx.header.charset = "utf-8"
-        if action == "post /verynginx/login" or _M.check_session() == true then
-            ngx.say( handle() )
-            ngx.exit(200)
-        else
-            local info = json.encode({["ret"]="failed",["err"]="need login"})
-            ngx.status = 401
-            ngx.say( info )
-        end
-    elseif string.find(action,"get /verynginx/") == 1 then
-        ngx.header.content_type = "text/html"
-        ngx.header.charset = "utf-8"
-        for k,v in pairs( _M.mime_type ) do
-            if string.sub(action, string.len(action) - string.len(k) + 1 ) == k then
-                ngx.header.content_type = v
-                break
+
+function _M.filter()
+    
+    local method = ngx.req.get_method()
+    local uri = ngx.var.uri
+    --local base_uri = VeryNginxConfig.configs['base_uri']
+    local base_uri = "/very"
+
+    if string.find( uri, base_uri ) then
+
+        local path = string.sub( uri, string.len( base_uri ) + 1 )
+       
+        for i,item in ipairs( _M.route_table ) do
+            if method == item['method'] and path == item['path'] then
+                ngx.header.content_type = "application/json"
+                ngx.header.charset = "utf-8"
+                if item['auth'] == true and _M.check_session() == false then
+                    local info = json.encode({["ret"]="failed",["err"]="need login"})
+                    ngx.say( info )
+                    ngx.exit(401)
+                else
+                    ngx.say( item['handle']() )
+                    ngx.exit(200)
+                end
             end
         end
 
-        local path = VeryNginxConfig.home_path() .."/dashboard" .. string.sub( ngx.var.uri, string.len( "/verynginx") + 1 )
-        f = io.open( path, 'r' )
-        if f ~= nil then
-            ngx.say( f:read("*all") )
-            f:close()
-            ngx.exit(200)
-        else        
-            ngx.exit(404)
-        end
+        ngx.req.set_uri( path )
+        ngx.var.vn_static_root = VeryNginxConfig.home_path() .."/dashboard" 
+        ngx.exec('@vn_static') -- will jump out at the exec 
     end
 end
 
@@ -114,12 +111,15 @@ function _M.login()
 
 end
 
+_M.route_table = {
+    { ['method'] = "POST", ['auth']= false, ["path"] = "/login", ['handle'] = _M.login },
+    { ['method'] = "GET",  ['auth']= true,  ["path"] = "/summary", ['handle'] = summary.report },
+    { ['method'] = "GET",  ['auth']= true,  ["path"] = "/status", ['handle'] = status.report },
+    { ['method'] = "GET",  ['auth']= true,  ["path"] = "/config", ['handle'] = VeryNginxConfig.report },
+    { ['method'] = "POST", ['auth']= true,  ["path"] = "/config", ['handle'] = VeryNginxConfig.set },
+    { ['method'] = "GET",  ['auth']= true,  ["path"] = "/loadconfig", ['handle'] = VeryNginxConfig.load_from_file },
+}
 
-_M.url_route["post /verynginx/login"] = _M.login
-_M.url_route["get /verynginx/summary"] = summary.report
-_M.url_route["get /verynginx/status"] = status.report
-_M.url_route["get /verynginx/config"] = VeryNginxConfig.report
-_M.url_route["post /verynginx/config"] = VeryNginxConfig.set
-_M.url_route["get /verynginx/loadconfig"] = VeryNginxConfig.load_from_file
+
 
 return _M
