@@ -1371,13 +1371,14 @@
                             <input type="checkbox" id="checkbox" v-model="static_file_enable">
                             <label>Enable</label>
 
-                            <table class="table table-bordered config_table" id="config_proxy_pass_table">
+                            <table class="table table-bordered config_table" id="config_static_file_table">
                                 <thead>
                                     <tr>
                                         <td>#</td>
                                         <td>Enable</td>
                                         <td>Matcher</td>
                                         <td>Document Root</td>
+                                        <td>Expires</td>
                                         <td></td>
                                     </tr>
                                 </thead>
@@ -1395,6 +1396,7 @@
                                             </td>
                                             <td>{{ rule.matcher }}</td>
                                             <td>{{ rule.root }}</td>
+                                            <td>{{ rule.expires }}</td>
                                             <td class="no_break">
                                                  <template v-if="(static_file_rule._editing == undefined )">
                                                     <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('static_file_rule',{{$index}})">
@@ -1453,11 +1455,16 @@
                                             </select>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Root</label>
                                         <div class="col-sm-10">
                                             <input type="text" name="root" class="form-control" placeholder="Document Root,like /var/www" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Expires</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="expires" class="form-control" placeholder='Expires time,some as "Expires" in nginx. Can be 1s,1m,1h,1d or epoch'>
                                         </div>
                                     </div>
                                     <div class="form-group">

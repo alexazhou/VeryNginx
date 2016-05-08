@@ -21,6 +21,9 @@ function _M.filter()
         local matcher = matcher_list[ rule['matcher'] ] 
         if enable == true and request_tester.test( matcher ) == true then
             ngx.var.vn_static_root = rule['root']
+            if rule['expires'] != nil then
+                ngx.var.vn_static_expires = rule['expires']
+            end
             ngx.exec('@vn_static') -- will jump out at the exec, so the return not run in fact
             return
         end
