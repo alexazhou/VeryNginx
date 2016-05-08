@@ -25,7 +25,7 @@ function _M.filter()
     local method = ngx.req.get_method()
     local uri = ngx.var.uri
     --local base_uri = VeryNginxConfig.configs['base_uri']
-    local base_uri = "/very"
+    local base_uri = VeryNginxConfig.configs['base_uri']
 
     if string.find( uri, base_uri ) then
 

@@ -13,9 +13,9 @@ _M["configs"] = {}
 
 --------------default config------------
 
-_M.configs["config_version"] = "0.3"
+_M.configs["config_version"] = "0.31"
 _M.configs["readonly"] = false
-
+_M.configs["base_uri"] = "/verynginx"
 _M.configs["admin"] = {
     { ["user"] = "verynginx", ["password"] = "verynginx", ["enable"] = true}
 }
@@ -145,15 +145,24 @@ function _M.version_updater_022( configs )
     return configs
 end
 
+function _M.version_updater_03( configs )
+    configs['base_uri'] = "/verynginx"
+    configs["config_version"] = "0.31"
+    return configs
+end
+
 
 
 _M.version_updater = {
     ['0.2'] = _M.version_updater_02,
     ['0.21'] = _M.version_updater_021,
     ['0.22'] = _M.version_updater_022,
+    ['0.3'] = _M.version_updater_03,
 }
 
 -------------------Config Updater end---------------------
+
+
 local dkjson = require "dkjson"
 local json = require "json"
 
