@@ -27,7 +27,7 @@ function _M.filter()
     --local base_uri = VeryNginxConfig.configs['base_uri']
     local base_uri = VeryNginxConfig.configs['base_uri']
 
-    if string.find( uri, base_uri ) then
+    if string.find( uri, base_uri ) == 1 then
 
         local path = string.sub( uri, string.len( base_uri ) + 1 )
        
