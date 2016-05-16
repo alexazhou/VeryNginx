@@ -212,6 +212,9 @@ verify.port = function()
     return this.range(0,65535);
 }
 
+verify.base_uri = function(){
+    return true;
+}
 
 
 

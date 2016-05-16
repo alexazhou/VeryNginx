@@ -821,7 +821,6 @@
                         </div>
                         
                         <div class="config_container" id="config_action_frequency_limit">
-
                             <div class="config_title">
                                 Frequency Limit
                             </div>
@@ -1505,7 +1504,7 @@
                             <div class="vn-config-box row">
                                 <div class="col-sm-2 vn-config-label">Base URI</div>
                                 <div class="col-sm-10">
-                                    <input class="form-control vn-config-input" type="text" v-model="base_uri" placeholder="/verynginx">
+                                    <input class="form-control vn-config-input" type="text" v-model="base_uri" placeholder="/verynginx" vn_data_verify="verify.base_uri()">
                                 </div>
                             </div>
                         </div>

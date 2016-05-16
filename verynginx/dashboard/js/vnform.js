@@ -1,5 +1,12 @@
 var vnform = new Object();
 
+vnform.verify = function( form_id ){
+   console.log('verify form:',form_id);
+   var inputs = $('#' + form_id).find("input,checkbox,select");
+   for( var i=0; i < inputs.length; i++ ){
+       
+   }
+}
 
 vnform.get_data = function( form_id ){
     
