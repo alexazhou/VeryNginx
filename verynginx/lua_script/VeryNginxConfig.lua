@@ -196,7 +196,9 @@ function _M.load_from_file()
     file:close();
 
     --save config hash in module
-    _M.config_hash = ngx.md5( data )
+    local config_hash = ngx.md5(data)
+    _M.config_hash = config_hash
+    ngx.shared.status:set('vn_config_hash', config_hash )
 
     --ngx.log(ngx.STDERR, data)
     local tmp = dkjson.decode( data )
