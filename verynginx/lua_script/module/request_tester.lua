@@ -92,7 +92,7 @@ function _M.test_args( condition )
     for k,v in pairs( ngx.req.get_uri_args()) do
         if type(v) == "table" then
             for arg_idx,arg_value in ipairs(v) do
-                if target_arg_re == nil or find( k, target_arg_re ) ~= nil then
+                if type(arg_value) == "string" and ( target_arg_re == nil or find( k, target_arg_re ) ~= nil ) then
                     if test_var( condition, arg_value ) == true then
                         return true
                     end
@@ -124,7 +124,7 @@ function _M.test_args( condition )
     for k,v in pairs( body_args ) do
         if type(v) == "table" then
             for arg_idx,arg_value in ipairs(v) do
-                if target_arg_re == nil or find( k, target_arg_re ) ~= nil then
+                if type(arg_value) == "string" and ( target_arg_re == nil or find( k, target_arg_re ) ~= nil ) then
                     if test_var( condition, arg_value ) == true then
                         return true
                     end
