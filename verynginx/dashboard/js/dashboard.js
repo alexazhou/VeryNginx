@@ -84,7 +84,7 @@ dashboard.login = function(user,password){
             $.cookie( 'verynginx_session', data['verynginx_session'], { path: path} );
             dashboard.start();
         }else{
-            dashboard.show_notice( 'warning', "Login failed");
+            dashboard.show_notice( 'danger', "Login failed");
         }
     });
 }
