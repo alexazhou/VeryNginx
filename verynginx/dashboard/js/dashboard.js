@@ -57,7 +57,7 @@ dashboard.init = function(){
             err = '[Network error]';
         }
         
-        dashboard.notify('Ajax request failed ' + err);
+        dashboard.show_notice( 'warning', 'Ajax request failed ' + err);
     });
 
     //init the small vue vm at first
@@ -84,7 +84,7 @@ dashboard.login = function(user,password){
             $.cookie( 'verynginx_session', data['verynginx_session'], { path: path} );
             dashboard.start();
         }else{
-            dashboard.notify("Login failed");
+            dashboard.show_notice( 'warning', "Login failed");
         }
     });
 }
@@ -168,6 +168,16 @@ dashboard.nav_tab_click = function( item ){
     var tag = $(item).attr('tag');
     
     dashboard.switch_tab_bar( group, tag );
+}
+
+
+dashboard.show_notice = function( type, message ){
+    $.smkAlert({
+        text: message,
+        type: type,
+        position:"top-right",
+        time:5,
+    });
 }
 
 dashboard.notify = function(message){
