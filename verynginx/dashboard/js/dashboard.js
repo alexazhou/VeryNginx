@@ -93,8 +93,7 @@ dashboard.logout = function(){
     monitor.stop();
     $.cookie( 'verynginx_user', null,{ path: '/verynginx'} );
     $.cookie( 'verynginx_session', null, { path: '/verynginx'} );  
-    dashboard.switch_to_interface('login');
-    dashboard.notify("Logout Success");
+    location.reload(); 
 }
 
 dashboard.check_saved = function(){
