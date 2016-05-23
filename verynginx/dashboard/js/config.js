@@ -45,14 +45,26 @@ Vue.filter('show_operator', function (operator) {
     return operator;
 });
 
-config.refresh_bottom_bar = function(){
+config.config_changed = function(){
+    
+    if( config.config_vm == null )
+        return false;
+    
     var original_config = JSON.parse( config.original_config_json );
     var new_config = JSON.parse( config.config_vm.all_config_json );
 
-    if( _.isEqual( original_config, new_config ) == true ){
-        $('#config_bottom_div').hide();
-    }else{
+    if( _.isEqual( original_config, new_config ) == true )
+        return false;
+    else
+        return true;
+}
+
+config.refresh_bottom_bar = function(){
+
+    if( config.config_changed() ){
         $('#config_bottom_div').show();
+    }else{
+        $('#config_bottom_div').hide();
     } 
 };
 

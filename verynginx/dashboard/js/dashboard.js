@@ -99,9 +99,7 @@ dashboard.logout = function(){
 
 dashboard.check_saved = function(){
 
-    if( config.config_vm == null )
-        return null;
-    if( config.config_vm.config_changed )
+    if( config.config_changed() )
         return "Configs hasn't been saved. If you leave, then the new configuration will be lost.";
 
     return null;
