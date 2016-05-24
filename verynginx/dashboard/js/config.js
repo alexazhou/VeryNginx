@@ -193,7 +193,7 @@ config.config_edit_begin = function( rule_group_name, index, form_id, index_key_
 
 config.config_edit_save = function( rule_group_name, form_id , index_key_name ){
     var editing = config.verynginx_config[rule_group_name]._editing;
-    var err_msg = vnform.verify( form_id ); 
+    var err_msg = vnform.verify_form( form_id ); 
     if( err_msg != null ){
         dashboard.show_notice('warning', err_msg );
         return;
