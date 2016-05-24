@@ -1,11 +1,49 @@
 var vnform = new Object();
 
-vnform.verify = function( form_id ){
+vnform.verify_input_with_notice = function( input_item ){
+    var err_msg = vnform.verify_input( input_item );
+
+    if( err_msg != null )
+        dashboard.show_notice('warning',err_msg);
+
+}
+
+vnform.verify_input = function( input_item ){
+    var item = $( input_item );
+    var verifyer_str = item.attr('vn_data_verify')
+    
+    if( verifyer_str == undefined ){
+        return null;
+    }
+    
+    if( item.attr('type') == "checkbox" ){
+        return null;
+    }
+
+    var verifyer = eval( verifyer_str );
+    var value = item.val();
+
+    var err_msg = verifyer( value );
+    
+    if( err_msg != null  ){
+        return err_msg;
+    }
+
+    return null;
+}
+
+vnform.verify_form = function( form_id ){
    console.log('verify form:',form_id);
-   var inputs = $('#' + form_id).find("input,checkbox,select");
+   
+   var inputs = $('#' + form_id).find("input,select");
    for( var i=0; i < inputs.length; i++ ){
-       
+        var err_msg = vnform.verify_input( inputs[i] );
+        
+        if( err_msg != null )
+            return err_msg;
    }
+
+   return null;
 }
 
 vnform.get_data = function( form_id ){

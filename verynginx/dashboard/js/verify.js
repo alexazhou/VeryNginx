@@ -212,8 +212,24 @@ verify.port = function()
     return this.range(0,65535);
 }
 
-verify.base_uri = function(){
-    return true;
+verify.uri = function(){
+    var handle = function( v ){
+        if( v.length == 0  ){
+            return "URI require to contain at least one character";
+        }
+
+        if( v.indexOf('/') != 0  ){
+            return "URI require to start with '/' ";
+        }
+
+        if( v.lastIndexOf('/')  == v.length - 1  ){
+            return "URI should not end with '/' ";
+        }
+
+        return null;
+    }
+
+    return handle;
 }
 
 

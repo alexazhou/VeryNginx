@@ -23,6 +23,7 @@
 <script src="//cdn.bootcss.com/underscore.js/1.8.3/underscore-min.js"></script>
 <script src="js/util.js"></script>
 <script src="js/vnform.js"></script>
+<script src="js/verify.js"></script>
 <script src="js/monitor.js"></script>
 <script src="js/matcher_editor.js"></script>
 <script src="js/upstream_editor.js"></script>
@@ -1504,7 +1505,7 @@
                             <div class="vn-config-box row">
                                 <div class="col-sm-2 vn-config-label">Base URI</div>
                                 <div class="col-sm-10">
-                                    <input class="form-control vn-config-input" type="text" v-model="base_uri" placeholder="/verynginx" vn_data_verify="verify.base_uri()">
+                                    <input class="form-control vn-config-input" type="text" v-model="base_uri" placeholder="/verynginx" vn_data_verify="verify.uri()" onchange="vnform.verify_input_with_notice(this)">
                                 </div>
                             </div>
                         </div>
