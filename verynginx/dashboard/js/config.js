@@ -135,7 +135,7 @@ config.config_mod = function(rule_group_name,index,value){
 config.config_move_up = function(rule_group_name,index){
     
     if(index == 0){
-        dashboard.notify("The item already at the firsh");
+        dashboard.notify("The item already at the first");
         return;
     }
 
