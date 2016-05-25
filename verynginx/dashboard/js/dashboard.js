@@ -139,7 +139,7 @@ dashboard.switch_config_nav_group = function( item ){
     var config_group_container = $(".leftnav_group[group=" + group_name + "]" );
     config_group_container.show();
     
-    //switch to firsh children config page
+    //switch to first children config page
     $(".leftnav_group[group=" + group_name + "]" ).children()[0].click();
 }
 
