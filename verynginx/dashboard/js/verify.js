@@ -163,6 +163,15 @@ verify.port = function()
     return this.range(0,65535);
 }
 
+verify.url = function(){
+    var handle = function(v){
+        if( v.indexOf('https://') != 0 &&  v.indexOf('http://') != 0  ){
+            return 'URL should start with a "https://" or "http://" ';
+        }
+    }
+    return handle;
+}
+
 verify.uri = function(){
     var handle = function( v ){
         if( v.length == 0  ){
@@ -172,14 +181,44 @@ verify.uri = function(){
         if( v.indexOf('/') != 0  ){
             return "URI require to start with '/' ";
         }
+        return null;
+    }
+    return handle;
+}
 
+//base uri of VerifyNginx dashboard
+verify.base_uri = function(){
+    var handle = function(v){
+        var v_uri = verify.uri();
+        var v_uri_ret = v_uri(v);
+        
+        if( v_uri_ret != null)
+            return v_uri_ret;
+        
         if( v.length > 1 && v.lastIndexOf('/')  == v.length - 1  ){
-            return "URI should not end with '/' ";
+            return "Base URI should not end with '/' ";
         }
 
         return null;
     }
+    return handle;
+}
 
+//url or uri 
+verify.url_or_uri = function(){
+    var handle = function(v){
+        var v_uri = verify.uri();
+        var v_uri_ret = v_uri(v);
+        
+        var v_url = verify.url();
+        var v_url_ret = v_url(v);
+
+        if( v_uri_ret != null && v_url_ret != null ){
+            return "The string is not a valid uri or url";
+        }
+
+        return;
+    }
     return handle;
 }
 

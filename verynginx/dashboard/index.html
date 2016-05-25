@@ -554,7 +554,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Redirect to</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" name="to_uri" type="text" placeholder='The URL you want redirect to, begin with "/" or "(http|https)://"'>
+                                        <input class="form-control" name="to_uri" type="text" vn_data_verify="verify.url_or_uri()" placeholder='The URL you want redirect to, begin with "/" or "(http|https)://"'>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -1505,7 +1505,7 @@
                             <div class="vn-config-box row">
                                 <div class="col-sm-2 vn-config-label">Base URI</div>
                                 <div class="col-sm-10">
-                                    <input class="form-control vn-config-input" type="text" v-model="base_uri" placeholder="/verynginx" vn_data_verify="verify.uri()" onchange="vnform.verify_input_with_notice(this)">
+                                    <input class="form-control vn-config-input" type="text" v-model="base_uri" placeholder="/verynginx" vn_data_verify="verify.base_uri()" onchange="vnform.verify_input_with_notice(this)">
                                 </div>
                             </div>
                         </div>
