@@ -32,13 +32,13 @@ tips.data = {
         {"tips":"Purpose","content":"Lock all request on http or https"},
         {"tips":"Introduce","content":"This action will check if the scheme current using fit to the rule. If scheme wrong, it will give a 302 redirect to the right scheme" },
         {"tips":"Usage","content":["https/http means only https/http,both means not limit",
-                                   "From top to bottom to match, and only use the firsh match rule"]
+                                   "From top to bottom to match, and only use the first match rule"]
         
         },
     ],
     'action_redirect':[
         {"tips":"Purpose","content":"Redirect to other address"},
-        {"tips":"Usage","content":["From top to bottom to match, and only use the firsh match rule"]}
+        {"tips":"Usage","content":["From top to bottom to match, and only use the first match rule"]}
     ],
     'filter_ipwhitelist':[
         {"tips":"功能介绍","content":"IP白名单功能可以指定免过滤的IP"},
