@@ -88,34 +88,18 @@ verify.rangeOrZero = function (min,max)
 }
 
 
-//校验字符串长度
-verify.str_len =  function(min,max)
+//verify length of the string, null means not limit
+verify.str_len = function( min,max )
 {
-
     var handle = function(v){
+        if( min != null && v.length < min ){
+            return "string mast more then " + min + " character";
+        }
         
-        if(v.length<min || v.length>max)
-            return "字符串长度需要在"+ min + "到" + max +"之间";
-
-        return "";
-    }
-
-    return handle;
-}
-
-//校验字符串长度是否在范围内，或者为指定长度
-verify.str_len_2 =  function(min,max,except)
-{
-
-    var handle = function(v){
-        
-        if(v.length == except)
-            return "";
-
-        if(v.length<min || v.length>max)
-            return "字符串长度需要在"+ min + "到" + max +"之间";
-
-        return "";
+        if( max != null && v.length > max ){
+            return "string mast less then " + max + " character";
+        }
+        return null;
     }
 
     return handle;
@@ -191,11 +175,11 @@ verify.url = function(){
 verify.uri = function(){
     var handle = function( v ){
         if( v.length == 0  ){
-            return "URI require to contain at least one character";
+            return "The value require to contain at least one character";
         }
 
         if( v.indexOf('/') != 0  ){
-            return "URI require to start with '/' ";
+            return "The value require to start with '/' ";
         }
         return null;
     }
@@ -238,7 +222,29 @@ verify.url_or_uri = function(){
     return handle;
 }
 
+verify.path = verify.uri;
 
+verify.ngx_time = function(){
+    var handle = function(v){
+        
+        if( v == '' ){
+            return "The value can't be empty string";
+        }
+
+        if( v == 'epoch'){
+            return null;
+        }
+        
+        var map = 'smhd';//char can be used
+        var last_char = v.substring( v.length - 1 );
+        if( map.indexOf( last_char ) < 0 ){
+            return 'The value must end with the character in "' + map + '"';
+        }
+        
+        return null;
+    }
+    return handle;
+}
 
 
 
