@@ -4,6 +4,22 @@
 
 var verify = new Object();
 
+verify.unsigned_integer = function()
+{
+    var handle = function(v){
+        
+        if( parseInt(v) != v )
+            return "must be integer";
+        
+        if(v.indexOf('-') ==0 )
+            return "must be a positive integer";
+        
+        if( parseInt(v) <= 0 )
+            return "must be a positive integer";
+    }
+    return handle;
+}
+
 //校验数值范围,需要是整数
 verify.range = function (min,max)
 {
