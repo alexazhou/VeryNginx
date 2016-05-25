@@ -234,11 +234,13 @@ verify.ngx_time = function(){
         if( v == 'epoch'){
             return null;
         }
-        
+
         var map = 'smhd';//char can be used
+        var err_msg = 'The value must be "epoch" or end with the character in "' + map + '"';
+        
         var last_char = v.substring( v.length - 1 );
         if( map.indexOf( last_char ) < 0 ){
-            return 'The value must end with the character in "' + map + '"';
+            return err_msg;
         }
         
         return null;
