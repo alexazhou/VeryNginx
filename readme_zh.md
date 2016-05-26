@@ -191,7 +191,7 @@ cd Docker
 docker build -t verynginx .
 docker run verynginx
 ```
-然后用浏览器打开 `http://{{your_machine_address}}/verynginx/index.html`
+然后用浏览器打开 `http://{{your_docker_machine_address}}/verynginx/index.html`
 
 当然你也可以运行 `docker run -p xxxx:80 verynginx` 来映射一下你的container的端口到你的宿主机，默认是80，你可以把xxxx改成你希望的在宿主机上的端口号
 
