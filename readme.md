@@ -144,6 +144,7 @@ This configuration file add three `include` command to embeded verynginx into or
 
 ```
 
+
 ### Configure VeryNginx on dashboard
 
 After the service begin running, you can see server status and do config on dashboard.
@@ -179,6 +180,20 @@ python install.py update openresty
 ```
 
 install.py will keep the old config.json and nginx.conf during update. So that you **will not lost configuration** after update.
+
+### Build VeryNginx docker Image
+
+After cloning code to your local filesystem, you can run the following commands:
+
+```
+cd Docker  
+docker build -t verynginx .
+docker run verynginx
+```
+
+Then you can navigate to your browser `http://{{your_docker_machine_address}}/VeryNginx/index.html`
+
+Optionally you can run `docker run -p xxxx:80 verynginx` to map your container port 80 to your host's xxxx port
 
 
 
