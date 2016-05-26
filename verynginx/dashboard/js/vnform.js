@@ -1,6 +1,15 @@
 var vnform = new Object();
 
+vnform.clean_all_err_mark = function(){
+    $(".vn-has-error").removeClass('vn-has-error');
+}
+
+vnform.add_err_mark = function( item ){
+    item.addClass("vn-has-error"); 
+}
+
 vnform.verify_input_with_notice = function( input_item ){
+    vnform.clean_all_err_mark();
     var err_msg = vnform.verify_input( input_item );
 
     if( err_msg != null )
@@ -25,6 +34,7 @@ vnform.verify_input = function( input_item ){
     var err_msg = verifyer( value );
     
     if( err_msg != null  ){
+        vnform.add_err_mark( item );
         return err_msg;
     }
 
@@ -33,6 +43,7 @@ vnform.verify_input = function( input_item ){
 
 vnform.verify_form = function( form_id ){
    console.log('verify form:',form_id);
+   vnform.clean_all_err_mark();
    
    var inputs = $('#' + form_id).find("input,select");
    for( var i=0; i < inputs.length; i++ ){
