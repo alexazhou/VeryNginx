@@ -138,6 +138,18 @@ VeryNginx 的配置文件位置为 **/opt/verynginx/openresty/nginx/conf/nginx.c
 /opt/verynginx/openresty/nginx/sbin/nginx -s reload
 ```
 
+### 使用docker来快速搭建一个verynginx预览环境
+
+在将代码clone到本地之后，你可以运行下面的命令：
+
+```bash
+docker build -t verynginx .
+docker run verynginx
+```
+然后用浏览器打开 `http://localhost/VeryNginx/index.html`
+
+当然你也可以运行 `docker run -p xxxx:80 verynginx` 来映射一下你的container的端口到你的宿主机，默认是80，你可以把xxxx改成你希望的在宿主机上的端口号
+
 ###通过web面板对 VeryNginx 进行配置
 
 VeryNginx 启动后，可以通过浏览器访问管理面板来查看状态以及进行配置。

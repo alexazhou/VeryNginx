@@ -144,6 +144,18 @@ This configuration file add three `include` command to embeded verynginx into or
 
 ```
 
+### Using docker to have a quick glance
+
+After cloning code to your local filesystem, you can run the following commands:
+
+```bash
+docker build -t verynginx .
+docker run verynginx
+```
+Then you can navigate to your browser `http://localhost/VeryNginx/index.html`
+
+Optionally you can run `docker run -p xxxx:80 verynginx` to map your container port 80 to your host's xxxx port
+
 ### Configure VeryNginx on dashboard
 
 After the service begin running, you can see server status and do config on dashboard.
