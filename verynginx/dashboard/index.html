@@ -1681,7 +1681,7 @@
                                 <div class="row vn_modal_row"   >
                                     <label class="col-sm-2 text-right control-label">Name</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" name="name" type="text" placeholder='Name of the node'>
+                                        <input class="form-control" name="name" type="text" vn_data_verify="verify.str_len(1,null)" placeholder='Name of the node'>
                                     </div>
                                 </div>
                                 <div class="row vn_modal_row"   >
@@ -1696,19 +1696,19 @@
                                 <div class="row vn_modal_row"   >
                                     <label class="col-sm-2 text-right control-label">Host</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" name="host" type="text" placeholder='Ip of the node'>
+                                        <input class="form-control" name="host" type="text" vn_data_verify="verify.ip()" placeholder='Ip of the node'>
                                     </div>
                                 </div>
                                 <div class="row vn_modal_row"   >
                                     <label class="col-sm-2 text-right control-label">Port</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" name="port" type="text" placeholder='Port of the node,will use the default 80/443 if leave blank'>
+                                        <input class="form-control" name="port" type="text" vn_data_verify="verify.port_or_blank()" placeholder='Port of the node,will use the default 80/443 if leave blank'>
                                     </div>
                                 </div>
                                  <div class="row vn_modal_row"   >
                                     <label class="col-sm-2 text-right control-label">Weight</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" name="weight" type="text" placeholder='A int number'>
+                                        <input class="form-control" name="weight" type="text" vn_data_verify="verify.integer_in_range(0,null)" placeholder='A int number'>
                                     </div>
                                 </div>
                             </form>

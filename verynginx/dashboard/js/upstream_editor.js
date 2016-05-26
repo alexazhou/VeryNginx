@@ -49,25 +49,11 @@ upstream_editor.modal_node_save = function(){
     console.log( data );
     var node_name = data['name'];
     delete data['name'];
-    
+
     //verify
-    if( node_name == '' ){
-        dashboard.notify("node name can't be empty");
-        return;
-    }
-    
-    if( upstream_editor.tmp_node[node_name] != undefined ){
-        dashboard.notify("node name existed");
-        return;
-    }
-    
-    if( data['host'] == '' ){
-        dashboard.notify("host can't be empty");
-        return;
-    }
-    
-    if( data['rate'] == '' ){
-        dashboard.notify("rate can't be empty");
+    var err_msg = vnform.verify_form( "config_modal_node_form" ); 
+    if( err_msg != null ){
+        dashboard.show_notice('warning', err_msg );
         return;
     }
 

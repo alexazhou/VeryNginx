@@ -21,24 +21,23 @@ verify.unsigned_integer = function()
 }
 
 //校验数值范围,需要是整数
-verify.range = function (min,max)
+verify.integer_in_range = function (min,max)
 {
     var handle = function(v){
+        
+        if( parseInt(v) != v )
+            return "The value must be integer";
 
-        if(v.indexOf('.') >=0 )
-            return "必须是"+min+"和"+max+"之间的整数";
+        var err_msg = "The value must between " +min+ " and " + max;
         
-        if( (min <= v) && ( v <= max) ){
-        
-            return "";
-        
-        }else{
-        
-            return "必须是"+min+"和"+max+"之间的整数";
-        
+        if( max != null && v > max  ){
+            return err_msg;
         }
-
         
+        if( min != null && v < min  ){
+            return err_msg;
+        }
+        return null;    
     }
 
     return handle;
@@ -73,15 +72,10 @@ verify.rangeOrZero = function (min,max)
             return err_message;
 
         if( ( min <= v ) && ( v <= max ) ){
-        
             return "";
-        
         }else{
-        
             return err_message;
-        
         }
-
     }
 
     return handle;
@@ -105,62 +99,36 @@ verify.str_len = function( min,max )
     return handle;
 }
 
-//有且仅仅有四个字节的字符串,仅限'0'-'9','A'-'F'
-verify.AddrOf101Message =  function(min,max)
-{
-
-    var handle = function(v){
-
-        v = v.replaceAll(' ','');//去掉空格
-
-        if(v.length == 0)//地址可以不填写
-            return '';
-
-        if(v.length != 4 )
-            return "需要是有且仅仅有四个字符的字符串,仅限'0'-'9','A'-'F'";
-
-        var map = '0123456789ABCDEF';//允许的字符集
-        for(var i=0;i<v.length;i++){
-            
-            var char = v[i];
-            if(map.indexOf(char) <0)
-                return "需要是有且仅仅有四个字符的字符串,仅限'0'-'9','A'-'F'";
-        }
-
-        return "";
-    }
-
-    return handle;
-}
-
-
-//校验是否合法的ip地址
 verify.ip =function ()
 {
     
     var handle = function( ip ){
-        
-        var re=/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/;//正则表达式     
+        var re=/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/;
         if(re.test(ip))     
         {     
            if( RegExp.$1<256 && RegExp.$2<256 && RegExp.$3<256 && RegExp.$4<256)   
-           return '';     
+               return null;
         }     
 
-        
-        return '不是合法的IP地址';
-
-        
+        return "The value isn't a valid IP";
     }
 
     return handle;
 }
 
-//校验是否合法的端口
 verify.port = function()
 {
+    return this.integer_in_range(0,65535);
+}
 
-    return this.range(0,65535);
+verify.port_or_blank = function(){
+    var handle = function( v ){
+        if( v == '')
+            return null;
+
+        return verify.port()(v)
+    }
+    return handle;
 }
 
 verify.url = function(){

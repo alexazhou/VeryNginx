@@ -5,7 +5,6 @@ vnform.verify_input_with_notice = function( input_item ){
 
     if( err_msg != null )
         dashboard.show_notice('warning',err_msg);
-
 }
 
 vnform.verify_input = function( input_item ){
