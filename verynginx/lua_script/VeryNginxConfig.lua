@@ -13,7 +13,7 @@ _M["configs"] = {}
 
 --------------default config------------
 
-_M.configs["config_version"] = "0.31"
+_M.configs["config_version"] = "0.32"
 _M.configs["readonly"] = false
 _M.configs["base_uri"] = "/verynginx"
 _M.configs["admin"] = {
@@ -151,6 +151,12 @@ function _M.version_updater_03( configs )
     return configs
 end
 
+function _M.version_updater_031( configs )
+    configs['dashboard_host'] = ""
+    configs["config_version"] = "0.32"
+    return configs
+end
+
 
 
 _M.version_updater = {
@@ -158,6 +164,7 @@ _M.version_updater = {
     ['0.21'] = _M.version_updater_021,
     ['0.22'] = _M.version_updater_022,
     ['0.3'] = _M.version_updater_03,
+    ['0.31'] = _M.version_updater_031,
 }
 
 -------------------Config Updater end---------------------

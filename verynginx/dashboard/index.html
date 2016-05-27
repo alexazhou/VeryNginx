@@ -1508,6 +1508,13 @@
                                     <input class="form-control vn-config-input" type="text" v-model="base_uri" placeholder="/verynginx" vn_data_verify="verify.base_uri()" onchange="vnform.verify_input_with_notice(this)">
                                 </div>
                             </div>
+                            
+                            <div class="vn-config-box row">
+                                <div class="col-sm-2 vn-config-label">Host Limit</div>
+                                <div class="col-sm-10">
+                                    <input class="form-control vn-config-input" type="text" v-model="dashboard_host" placeholder="If not empty, dashboard can only be accessed through the designated host" vn_data_verify="verify.host_or_empty()" onchange="vnform.verify_input_with_notice(this)">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="config_container" id="config_system_allconfig">

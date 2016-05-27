@@ -216,5 +216,30 @@ verify.ngx_time = function(){
     return handle;
 }
 
+verify.host = function(){
+    var handle = function(v){
+        if( v == ''  ){
+            return "The value can't empty";
+        }
+
+        if( v.indexOf(" ") >= 0 ){
+            return "The value can't include ' '";
+        }
+
+        return null;
+    }
+    return handle;
+}
+
+verify.host_or_empty = function(){
+    var handle = function(v){
+        if( v == '' ){
+            return null;
+        }
+        return verify.host()(v);
+    }
+    return handle;
+}
+
 
 
