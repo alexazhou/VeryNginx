@@ -44,7 +44,7 @@ function _M.filter()
                 if item['auth'] == true and _M.check_session() == false then
                     local info = json.encode({["ret"]="failed",["err"]="need login"})
                     ngx.say( info )
-                    ngx.exit(401)
+                    ngx.exit(200)
                 else
                     ngx.say( item['handle']() )
                     ngx.exit(200)
@@ -67,9 +67,11 @@ function _M.check_session()
     if not fields then
         return false
     end
+
+    local cookie_prefix = VeryNginxConfig.configs['cookie_prefix']
     
-    user = fields['verynginx_user'] 
-    session = fields['verynginx_session']
+    user = fields[ cookie_prefix .. '_user'] 
+    session = fields[ cookie_prefix .. '_session']
     
     if user == nil or session == nil then
         return false
@@ -103,11 +105,16 @@ function _M.login()
 
     for i,v in ipairs( VeryNginxConfig.configs['admin'] ) do
         if v['user'] == args['user'] and v['password'] == args["password"] and v['enable'] == true then
+            local cookie_prefix = VeryNginxConfig.configs['cookie_prefix']
+            local session = ngx.md5(encrypt_seed.get_seed()..v['user']) 
+            
             local data = {}
             data['ret'] = 'success'
             data['err'] = err
-            data['verynginx_session'] = ngx.md5(encrypt_seed.get_seed()..v['user'])
-            data['verynginx_user'] = v['user']
+            data['cookies'] = {
+                [cookie_prefix .. '_session'] = session, 
+                [cookie_prefix .. '_user'] = v['user'], 
+            }
             
             return json.encode( data )
         end

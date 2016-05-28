@@ -80,8 +80,10 @@ dashboard.login = function(user,password){
         if( data['ret'] == "success" ){
             var uri = document.location.pathname;
             var path = uri.substring(0, uri.lastIndexOf('/') );
-            $.cookie( 'verynginx_user', data['verynginx_user'],{ path: path} );
-            $.cookie( 'verynginx_session', data['verynginx_session'], { path: path} );
+            
+            for( name in data['cookies']  ){
+                $.cookie( name, data['cookies'][name],{ path: path} );
+            }
             dashboard.start();
         }else{
             dashboard.show_notice( 'danger', "Login failed");
