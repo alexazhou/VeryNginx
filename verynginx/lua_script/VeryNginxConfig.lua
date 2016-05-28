@@ -16,6 +16,8 @@ _M["configs"] = {}
 _M.configs["config_version"] = "0.32"
 _M.configs["readonly"] = false
 _M.configs["base_uri"] = "/verynginx"
+_M.configs['dashboard_host'] = ""
+_M.configs['cookie_prefix'] = "verynginx"
 _M.configs["admin"] = {
     { ["user"] = "verynginx", ["password"] = "verynginx", ["enable"] = true}
 }
@@ -153,6 +155,7 @@ end
 
 function _M.version_updater_031( configs )
     configs['dashboard_host'] = ""
+    configs['cookie_prefix'] = "verynginx"
     configs["config_version"] = "0.32"
     return configs
 end
