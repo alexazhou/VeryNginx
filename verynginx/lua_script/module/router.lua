@@ -24,8 +24,14 @@ function _M.filter()
     
     local method = ngx.req.get_method()
     local uri = ngx.var.uri
-    --local base_uri = VeryNginxConfig.configs['base_uri']
     local base_uri = VeryNginxConfig.configs['base_uri']
+    local dashboard_host = VeryNginxConfig.configs['dashboard_host']
+
+    if dashboard_host ~= '' then
+        if ngx.var.host ~= dashboard_host then
+            return
+        end
+    end
 
     if string.find( uri, base_uri ) == 1 then
 
