@@ -37,7 +37,8 @@ function _M.verify_cookie()
         end
     end
 
-    ngx.header["Set-Cookie"] = "verynginx_sign_cookie=" .. sign .. '; path=/' 
+    local cookie_prefix = VeryNginxConfig.configs['cookie_prefix']
+    ngx.header["Set-Cookie"] =  cookie_prefix .. "_sign_cookie=" .. sign .. '; path=/' 
     
     if ngx.var.args ~= nil then
 		ngx.redirect( ngx.var.scheme.."://"..ngx.var.host..ngx.var.uri.."?"..ngx.var.args , ngx.HTTP_MOVED_TEMPORARILY)
@@ -62,11 +63,14 @@ function _M.verify_javascript()
             f:close()
         end
     end
+    
+    local cookie_prefix = VeryNginxConfig.configs['cookie_prefix']
 
     local redirect_to = nil
     local html = _M.verify_javascript_html
 
     html = string.gsub( html,'INFOCOOKIE',sign )
+    html = string.gsub( html,'COOKIEPREFIX',cookie_prefix )
 
     if ngx.var.args ~= nil then
 		redirect_to =  ngx.var.scheme.."://"..ngx.var.host..ngx.var.uri.."?"..ngx.var.args , ngx.HTTP_MOVED_TEMPORARILY
