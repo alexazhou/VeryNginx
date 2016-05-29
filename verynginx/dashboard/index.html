@@ -1490,6 +1490,112 @@
                             </div>
                             <input type="checkbox" id="checkbox" v-model="summary_request_enable">
                             <label>Enable</label>
+                            
+                            <table class="table table-bordered config_table" id="config_summary_collect_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Enable</td>
+                                        <td>Matcher</td>
+                                        <td>Collect Name</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="rule in summary_collect_rule">
+                                        <tr v-bind:class="[ summary_collect_rule._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>
+                                            <template v-if="(rule.enable)">
+                                                ✓
+                                            </template>
+                                            <template v-else>
+                                                ✗
+                                            </template>
+                                            </td>
+                                            <td>{{ rule.matcher }}</td>
+                                            <td>{{ rule.collect_name }}</td>
+                                            <td class="no_break">
+                                                 <template v-if="(summary_collect_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('summary_collect_rule',{{$index}})">
+                                                        UP
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_down" onclick="config.config_move_down('summary_collect_rule',{{$index}})">
+                                                        DOWN
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('summary_collect_rule',{{$index}},null)">
+                                                        DEL
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" 
+                                                           onclick="config.config_edit_begin('summary_collect_rule',{{$index}},'config_summary_collect_form');">
+                                                        EDIT
+                                                    </button>
+                                                </template> 
+                                                <template v-if="(summary_collect_rule._editing == $index )">
+                                                    Editing
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+                             <div class="config_sub_title">
+                                Edit Rule
+                            </div>
+
+                            <div class="nav_box">
+                                <form class="form-horizontal" id="config_summary_collect_form" 
+                                  onsubmit="config.config_edit_save( 'summary_collect_rule', 'config_summary_collect_form'); return false;" >
+                                
+                                    <div class="form-group">
+                                        <div class="col-sm-10 col-sm-offset-2 ">
+                                            <div class="notice" v-if="( summary_collect_rule._editing != undefined )" >
+                                                Now is editing rule {{summary_collect_rule._editing}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Enable</label>
+                                        <div class="col-sm-10">
+                                            <div class="config_form_line">
+                                                <input type="checkbox" name="enable" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Matcher</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" name="matcher">
+                                                <template v-for="(matcher_name, matcher_conditions) in matcher | orderBy '$key'">
+                                                    <option value="{{matcher_name}}">{{matcher_name}}</option>
+                                                </template>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Collect Name</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="collect_name" class="form-control" vn_data_verify="verify.str_len(1,null)" placeholder="" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <template v-if="(summary_collect_rule._editing != undefined )">
+                                                <button type="submit" class="btn btn-default" >Save</button>
+                                                <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('summary_collect_rule','config_summary_collect_form')">
+                                                    Cancel
+                                                </button>
+                                            </template>
+                                            <template v-else>
+                                                <button type="submit" class="btn btn-default" >Add</button>
+                                            </template>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+
                         </div>
 
                         <div class="config_container" id="config_system_general">
@@ -1828,7 +1934,30 @@
                     <span>Notice: The temporary summary will be clead every minute.</span>
                 </div>
                 
-                <table class="table table-hover table-bordered display" id="url_table">
+                <div>
+                    Collected 
+                </div>
+                <table class="table table-hover table-bordered display" id="summary_matched_table">
+                    <thead>
+                        <tr>
+                            <th>Index</th>
+                            <th>Collect Name</th>
+                            <th>Count</th>
+                            <th>Size(Bytes)</th>
+                            <th>Avg size(Bytes)</th>
+                            <th>Success rate</th>
+                            <th>Time(s)</th>
+                            <th>Avg time(s)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="matched_details">
+                    </tbody>
+                </table>
+                
+                <div>
+                    Others
+                </div>
+                <table class="table table-hover table-bordered display" id="summary_unmatched_table">
                     <thead>
                         <tr>
                             <th>Index</th>
@@ -1841,7 +1970,7 @@
                             <th>Avg time(s)</th>
                         </tr>
                     </thead>
-                    <tbody id="url_details">
+                    <tbody id="unmatched_details">
                     </tbody>
                 </table>
             </div>

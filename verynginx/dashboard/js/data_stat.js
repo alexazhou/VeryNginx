@@ -30,7 +30,7 @@ data_stat.make_sure_have_table = function(){
 
 data_stat.get_data = function () {
 
-    $('#url_details').html(""); // 动态生成表格前将表格清空
+    $('#unmatched_details').html(""); // 动态生成表格前将表格清空
 
     var url_short = "./summary?type=short";
     var url_long  = "./summary?type=long";
@@ -89,14 +89,14 @@ data_stat.get_data = function () {
                                "<td>" + time.toFixed(3) + "</td>" +
                                "<td>" + avg_time.toFixed(3) + "</td></tr>";
 
-                $('#url_details').append(dyn_tab);
+                $('#unmatched_details').append(dyn_tab);
 
                 url_index++; // 增加访问序列
         
             }
 
             // 添加表格排序
-            data_stat.url_table = $('#url_table').DataTable( {
+            data_stat.url_table = $('#summary_unmatched_table').DataTable( {
                                 autoWidth: false, // 设置表格自动适配宽度
                                 scrollY:    "500px",
                                 scrollCollapse: true,
