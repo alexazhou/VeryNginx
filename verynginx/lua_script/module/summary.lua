@@ -156,13 +156,9 @@ function _M.report()
         end
     end
 
+    --remove incomplete record
     for k, v in pairs( report ) do
-        if v['time'] ~= nil and v['count'] ~= nil and v['size'] ~= nil then
-            v["avg_time"] = str_format("%.3f", v["time"]/v["count"])
-            v["time"] = str_format("%.3f", v["time"])
-            v["avg_size"] =  str_format("%.2f", v["size"]/v["count"])
-            v["size"] =  str_format("%.2f", v["size"])
-        else
+        if v['time'] == nil or v['count'] == nil or v['size'] == nil then
             report[k] = nil
         end
     end
