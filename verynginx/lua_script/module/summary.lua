@@ -15,6 +15,11 @@ local KEY_URI_SIZE = "C_"
 local KEY_URI_TIME = "D_"
 local KEY_URI_COUNT = "E_"
 
+local KEY_COLLECT_COUNT = "F_"
+local KEY_COLLECT_SIZE = "G_"
+local KEY_COLLECT_TIME = "H_"
+local KEY_COLLECT_COUNT = "I_"
+
 function _M.refresh()
     ngx.timer.at( 60, _M.refresh )
     ngx.shared.summary_short:flush_all()
@@ -30,20 +35,40 @@ function _M.log()
     if ok then
         ngx.timer.at( 60, _M.refresh )
     end
+
+    local log_id = nil
+    local status_code = ngx.var.status;
+    local key_status = nil
+    local key_size = nil
+    local key_time = nil
+    local key_count = nil
     
-    local uri = ngx.var.request_uri
-    if uri ~= nil then
-        local index = string.find( uri, '?' )
-        if index ~= nil then
-            uri = string.sub( uri, 1 , index - 1 )
+    for i,rule in ipairs( VeryNginxConfig.configs["summary_collect_rule"] ) do
+        local enable = rule['enable']
+        local matcher = matcher_list[ rule['matcher'] ] 
+        if enable == true and request_tester.test( matcher ) == true then
+            log_id = rule['collect_name'] 
         end
     end
 
-    local status_code = ngx.var.status;
-    local key_status = KEY_URI_STATUS..uri.."_"..status_code
-    local key_size = KEY_URI_SIZE..uri
-    local key_time = KEY_URI_TIME..uri
-    local key_count = KEY_URI_COUNT..uri
+    if log_id ~= nil then
+        key_status = KEY_COLLECT_STATUS..log_id.."_"..status_code
+        key_size = KEY_COLLECT_SIZE..log_id
+        key_time = KEY_COLLECT_TIME..log_id
+        key_count = KEY_COLLECT_COUNT..log_id
+    else
+        local uri = ngx.var.request_uri
+        if uri ~= nil then
+            local index = string.find( uri, '?' )
+            if index ~= nil then
+                uri = string.sub( uri, 1 , index - 1 )
+            end
+        end
+        key_status = KEY_URI_STATUS..uri.."_"..status_code
+        key_size = KEY_URI_SIZE..uri
+        key_time = KEY_URI_TIME..uri
+        key_count = KEY_URI_COUNT..uri
+    end
  
     if ngx.shared.summary_long:get( key_count ) == nil then
         ngx.shared.summary_long:set( key_count, 0 )

@@ -13,7 +13,7 @@ _M["configs"] = {}
 
 --------------default config------------
 
-_M.configs["config_version"] = "0.32"
+_M.configs["config_version"] = "0.33"
 _M.configs["readonly"] = false
 _M.configs["base_uri"] = "/verynginx"
 _M.configs['dashboard_host'] = ""
@@ -75,6 +75,9 @@ _M.configs['matcher'] = {
 }
 
 _M.configs["backend_upstream"] = {
+}
+
+_M.configs["summary_collect_rule"] = {
 }
 
 _M.configs["scheme_lock_enable"] = false
@@ -160,6 +163,12 @@ function _M.version_updater_031( configs )
     return configs
 end
 
+function _M.version_updater_032( configs )
+    configs['summary_collect_rule'] = {
+    }
+    configs["config_version"] = "0.33"
+    return configs
+end
 
 
 _M.version_updater = {
@@ -168,6 +177,7 @@ _M.version_updater = {
     ['0.22'] = _M.version_updater_022,
     ['0.3'] = _M.version_updater_03,
     ['0.31'] = _M.version_updater_031,
+    ['0.32'] = _M.version_updater_032,
 }
 
 -------------------Config Updater end---------------------
