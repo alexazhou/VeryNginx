@@ -98,6 +98,8 @@ data_stat.get_data = function () {
             // 添加表格排序
             data_stat.url_table = $('#url_table').DataTable( {
                                 autoWidth: false, // 设置表格自动适配宽度
+                                scrollY:    "500px",
+                                scrollCollapse: true,
                                 paging: false, // 去掉页头页脚信息
                                 "stripeClasses": [], // 去掉斑马色
                                 renderer: true,
