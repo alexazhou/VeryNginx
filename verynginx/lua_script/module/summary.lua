@@ -123,11 +123,16 @@ function _M.report()
     
     local dict = nil
     local report = {}
-    local record_uri = nil
+    local uri_report = {}
+    local collect_report = {}
+    local record_key = nil
     local status = nil 
     local size = nil 
     local time = nil 
-    local count = nil 
+    local count = nil
+
+    report['uri'] = uri_report
+    report['collect'] = collect_report
 
     local args = ngx.req.get_uri_args()
     if args['type'] == 'long' then
@@ -145,49 +150,73 @@ function _M.report()
 
 
     for k, v in pairs( keys ) do
-        record_uri = nil
+        record_key = nil
+        record_table = nil
         status = nil 
         size = nil 
         time = nil 
         count = nil 
         
         if v.find(v, KEY_URI_STATUS) == 1 then
-            record_uri = str_sub( v, str_len(KEY_URI_STATUS) + 1, -5 ) 
+            record_key = str_sub( v, str_len(KEY_URI_STATUS) + 1, -5 ) 
+            record_table = uri_report
             status = str_sub( v,-3 )
         elseif v.find(v, KEY_URI_SIZE) == 1 then
-            record_uri = str_sub( v, str_len(KEY_URI_SIZE) + 1 ) 
+            record_key = str_sub( v, str_len(KEY_URI_SIZE) + 1 ) 
+            record_table = uri_report
             size = dict:get( v )
         elseif v.find(v, KEY_URI_TIME) == 1 then
-            record_uri = str_sub( v, str_len(KEY_URI_TIME) + 1 ) 
+            record_key = str_sub( v, str_len(KEY_URI_TIME) + 1 ) 
+            record_table = uri_report
             time = dict:get( v )
         elseif v.find(v, KEY_URI_COUNT) == 1 then
-            record_uri = str_sub( v, str_len(KEY_URI_COUNT) + 1 ) 
+            record_key = str_sub( v, str_len(KEY_URI_COUNT) + 1 ) 
+            record_table = uri_report
+            count = dict:get( v )
+        elseif v.find(v, KEY_COLLECT_STATUS) == 1 then
+            record_key = str_sub( v, str_len(KEY_COLLECT_STATUS) + 1, -5 ) 
+            record_table = collect_report
+            status = str_sub( v,-3 )
+        elseif v.find(v, KEY_COLLECT_SIZE) == 1 then
+            record_key = str_sub( v, str_len(KEY_COLLECT_SIZE) + 1 ) 
+            record_table = collect_report
+            size = dict:get( v )
+        elseif v.find(v, KEY_COLLECT_TIME) == 1 then
+            record_key = str_sub( v, str_len(KEY_COLLECT_TIME) + 1 ) 
+            record_table = collect_report
+            time = dict:get( v )
+        elseif v.find(v, KEY_COLLECT_COUNT) == 1 then
+            record_key = str_sub( v, str_len(KEY_COLLECT_COUNT) + 1 ) 
+            record_table = collect_report
             count = dict:get( v )
         end
+
         
-        if record_uri ~= nil then
-            if report[record_uri] == nil then
-                report[record_uri] = {}
-                report[record_uri]["status"] = {}
+        if record_key ~= nil then
+            if record_table[record_key] == nil then
+                record_table[record_key] = {}
+                record_table[record_key]["status"] = {}
             end
             
             if status ~= nil then
-                report[record_uri]["status"][status] = dict:get( v )
+                record_table[record_key]["status"][status] = dict:get( v )
             elseif time ~= nil then
-                report[record_uri]["time"] = time         
+                record_table[record_key]["time"] = time         
             elseif
                 size ~= nil then
-                report[record_uri]["size"] = size
+                record_table[record_key]["size"] = size
             elseif count ~= nil then
-                report[record_uri]["count"] = count
+                record_table[record_key]["count"] = count
             end
         end
     end
 
     --remove incomplete record
-    for k, v in pairs( report ) do
-        if v['time'] == nil or v['count'] == nil or v['size'] == nil then
-            report[k] = nil
+    for name,record_table  in pairs( report ) do
+        for k, v in pairs( record_table ) do
+            if v['time'] == nil or v['count'] == nil or v['size'] == nil then
+                record_table[k] = nil
+            end
         end
     end
 
