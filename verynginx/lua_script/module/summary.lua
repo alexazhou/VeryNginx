@@ -5,6 +5,8 @@
 -- -- @Disc    : summary all the request
 
 local json = require "json"
+local VeryNginxConfig = require "VeryNginxConfig"
+local request_tester = require "request_tester"
 
 local _M = {}
 
@@ -42,6 +44,7 @@ function _M.log()
     local key_size = nil
     local key_time = nil
     local key_count = nil
+    local matcher_list = VeryNginxConfig.configs['matcher']
     
     for i,rule in ipairs( VeryNginxConfig.configs["summary_collect_rule"] ) do
         local enable = rule['enable']
