@@ -124,7 +124,7 @@ data_stat.get_data = function () {
                                 "order": [[ 0, "asc" ]] // 载入时默认使用index升序排列
                             } );
 
-            data_stat.url_table = $('#summary_matched_table').DataTable( {
+            data_stat.collect_table = $('#summary_matched_table').DataTable( {
                                 autoWidth: false, // 设置表格自动适配宽度
                                 scrollY:    "500px",
                                 scrollCollapse: true,
