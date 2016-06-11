@@ -17,7 +17,7 @@ local KEY_URI_SIZE = "C_"
 local KEY_URI_TIME = "D_"
 local KEY_URI_COUNT = "E_"
 
-local KEY_COLLECT_COUNT = "F_"
+local KEY_COLLECT_STATUS = "F_"
 local KEY_COLLECT_SIZE = "G_"
 local KEY_COLLECT_TIME = "H_"
 local KEY_COLLECT_COUNT = "I_"
