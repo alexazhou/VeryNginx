@@ -100,6 +100,8 @@ data_stat.get_data = function () {
 
             var data_uri = json_data['uri'];
             var data_collect = json_data['collect'];
+
+            data_stat.json_data = json_data;
             
             if( data_stat.url_table != null ){
                 data_stat.url_table.clear().destroy();
@@ -134,6 +136,16 @@ data_stat.get_data = function () {
                                 searching: true, // 增加过滤功能
                                 "order": [[ 0, "asc" ]] // 载入时默认使用index升序排列
                             } );
+
+            $('#summary_matched_table tbody').on('click', 'tr', function () {
+                var data = data_stat.collect_table.row( this ).data();
+                console.log( data_stat.json_data['collect'][data[1]] );
+            } );
+            
+            $('#summary_unmatched_table tbody').on('click', 'tr', function () {
+                var data =  data_stat.url_table.row( this ).data();
+                console.log( data_stat.json_data['uri'][data[1]] );
+            } );
 
         }
     });   
