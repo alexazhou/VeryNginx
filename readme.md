@@ -149,7 +149,7 @@ This configuration file add three `include` command to embeded verynginx into or
 
 After the service begin running, you can see server status and do config on dashboard.
 
-The address  of dashboard is `http://{{your_machine_address}}/VeryNginx/index.html`.
+The address  of dashboard is `http://{{your_machine_address}}/verynginx/index.html`.
 
 Default user and password is `verynginx` / `verynginx`. You should be able to work through all the options now.
 
