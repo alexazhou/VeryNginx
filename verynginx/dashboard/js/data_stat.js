@@ -64,7 +64,7 @@ data_stat.fill_data_info_table = function( table_id, data_dict ){
                        "<td>" + count + "</td>" +
                        "<td>" + size + "</td>" +
                        "<td>" + avg_size.toFixed(2) + "</td>" +
-                       "<td>" + success_rate.toFixed(2) + "%</td>" +
+                       "<td>" + success_rate.toFixed(2) + '% <button class="btn vn_btn_popup btn-xs ">Details</button> </td>' +
                        "<td>" + time.toFixed(3) + "</td>" +
                        "<td>" + avg_time.toFixed(3) + "</td></tr>";
 
