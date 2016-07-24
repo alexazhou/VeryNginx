@@ -191,7 +191,7 @@ docker build -t verynginx .
 docker run verynginx
 ```
 
-Then you can navigate to your browser `http://{{your_docker_machine_address}}/VeryNginx/index.html`
+Then you can navigate to your browser `http://{{your_docker_machine_address}}/verynginx/index.html`
 
 Optionally you can run `docker run -p xxxx:80 verynginx` to map your container port 80 to your host's xxxx port
 
