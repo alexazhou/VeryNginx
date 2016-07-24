@@ -143,7 +143,7 @@ VeryNginx 的配置文件位置为 **/opt/verynginx/openresty/nginx/conf/nginx.c
 
 VeryNginx 启动后，可以通过浏览器访问管理面板来查看状态以及进行配置。
 
-管理面板地址为 `http://{{your_machine_address}}/VeryNginx/index.html`。
+管理面板地址为 `http://{{your_machine_address}}/verynginx/index.html`。
 
 默认用户名和密码是 `verynginx` / `verynginx`。
 
