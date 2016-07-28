@@ -355,6 +355,12 @@
     word-break: break-word;
 }
 
+.summary_sub_title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
 .vn-has-error {
     border-color: #a94442;
 }

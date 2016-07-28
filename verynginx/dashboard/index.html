@@ -853,8 +853,8 @@
                                                 </template>
                                             </td>
                                             <td>{{ rule.matcher }}</td>
-                                            <td>{{ rule.count }}</td>
                                             <td>{{ rule.time }}</td>
+                                            <td>{{ rule.count }}</td>
                                             <td>{{ rule.code }}</td>
                                             <td>
                                                 <template v-for="type_name in rule.separate">
@@ -1934,7 +1934,7 @@
                     <span>Notice: The temporary summary will be clead every minute.</span>
                 </div>
                 
-                <div>
+                <div class="summary_sub_title">
                     Collected 
                 </div>
                 <table class="table table-hover table-bordered display" id="summary_matched_table">
@@ -1954,7 +1954,7 @@
                     </tbody>
                 </table>
                 
-                <div>
+                <div class="summary_sub_title">
                     Others
                 </div>
                 <table class="table table-hover table-bordered display" id="summary_unmatched_table">
