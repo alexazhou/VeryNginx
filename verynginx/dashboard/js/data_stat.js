@@ -64,7 +64,7 @@ data_stat.fill_data_info_table = function( table_id, data_dict ){
                        "<td>" + count + "</td>" +
                        "<td>" + size + "</td>" +
                        "<td>" + avg_size.toFixed(2) + "</td>" +
-                       "<td>" + success_rate.toFixed(2) + '% <button class="btn vn_btn_popup btn-xs ">Details</button> </td>' +
+                       "<td>" + success_rate.toFixed(2) + '% <button detail_uri="' + util.html_encode(key) + '" class="btn vn_summary_detail_btn btn-xs">Details</button> </td>' +
                        "<td>" + time.toFixed(3) + "</td>" +
                        "<td>" + avg_time.toFixed(3) + "</td></tr>";
 
@@ -137,16 +137,43 @@ data_stat.get_data = function () {
                                 "order": [[ 0, "asc" ]] // 载入时默认使用index升序排列
                             } );
 
-            $('#summary_matched_table tbody').on('click', 'tr', function () {
-                var data = data_stat.collect_table.row( this ).data();
-                console.log( data_stat.json_data['collect'][data[1]] );
-            } );
-            
-            $('#summary_unmatched_table tbody').on('click', 'tr', function () {
-                var data =  data_stat.url_table.row( this ).data();
-                console.log( data_stat.json_data['uri'][data[1]] );
-            } );
+            $('#summary_unmatched_table tbody').unbind('mouseover');
+            $('#summary_unmatched_table tbody').unbind('mouseout');
 
+            $('#summary_unmatched_table tbody').on('mouseover', data_stat.detail_btn_mouse_out   );
+            $('#summary_unmatched_table tbody').on('mouseout', data_stat.detail_btn_mouse_over  );
         }
     });   
 }
+
+
+data_stat.popover_item = null;
+
+data_stat.detail_btn_mouse_over = function( e ){
+    
+    var target = $(e.relatedTarget);
+    if( target.hasClass('vn_summary_detail_btn') == true ){
+        console.log('mouse over ', target );
+        target.popover({
+            placement : 'right', //placement of the popover. also can use top, bottom, left or right
+            title : 'Response Details', //this is the top title bar of the popover. add some basic css
+            content : '<div id="popOverBox"><img src="http://www.hd-report.com/wp-content/uploads/2008/08/mr-evil.jpg" width="251" height="201" /></div>', //this is the content of the html box. add the image here or anything you want really.
+        })
+        target.popover('show');
+        data_stat.popover_item = target;
+    }
+}
+
+data_stat.detail_btn_mouse_out = function( e ){
+    
+    if( $(e.relatedTarget).hasClass('vn_summary_detail_btn') == true ){
+        console.log('mouse out', e.relatedTarget );
+        
+        if( data_stat.popover_item != null ){
+            data_stat.popover_item.popover('destroy');
+            data_stat.popover_item.popover_item = null;
+        }
+    }
+}
+
+
