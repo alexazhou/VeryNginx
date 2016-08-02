@@ -1,5 +1,7 @@
 var data_stat = new Object();
 
+data_stat.latest_data = null;
+
 data_stat.url_table = null;
 data_stat.collect_table = null;
 
@@ -32,7 +34,17 @@ data_stat.make_sure_have_table = function(){
     }
 }
 
-data_stat.fill_data_info_table = function( table_id, data_dict ){
+data_stat.fill_data_info_table = function( data_type, data_dict ){
+
+    var table_id = null;
+    if(data_type == 'collect'){
+        table_id = 'matched_details';
+    }else if( data_type == 'uri'){
+        table_id = 'unmatched_details';
+    }else{
+        throw new Error("unknown data_type");
+        return;
+    }
 
     $('#' + table_id).html(""); // 动态生成表格前将表格清空
 
@@ -64,7 +76,7 @@ data_stat.fill_data_info_table = function( table_id, data_dict ){
                        "<td>" + count + "</td>" +
                        "<td>" + size + "</td>" +
                        "<td>" + avg_size.toFixed(2) + "</td>" +
-                       "<td>" + success_rate.toFixed(2) + '% <button detail_uri="' + util.html_encode(key) + '" class="btn vn_summary_detail_btn btn-xs">Details</button> </td>' +
+                       "<td>" + success_rate.toFixed(2) + '% <button detail_type="' + data_type + '" detail_key="' + util.html_encode(key) + '" class="btn vn_summary_detail_btn btn-xs">Details</button> </td>' +
                        "<td>" + time.toFixed(3) + "</td>" +
                        "<td>" + avg_time.toFixed(3) + "</td></tr>";
 
@@ -97,12 +109,12 @@ data_stat.get_data = function () {
         data_Type: "json",
 
         success: function (json_data) {
-
+            data_stat.latest_data = json_data;
             var data_uri = json_data['uri'];
             var data_collect = json_data['collect'];
 
             data_stat.json_data = json_data;
-            
+
             if( data_stat.url_table != null ){
                 data_stat.url_table.clear().destroy();
             }
@@ -110,9 +122,9 @@ data_stat.get_data = function () {
             if( data_stat.collect_table != null ){
                 data_stat.collect_table.clear().destroy();
             }
-
-            data_stat.fill_data_info_table( 'unmatched_details', data_uri )
-            data_stat.fill_data_info_table( 'matched_details', data_collect )
+            
+            data_stat.fill_data_info_table( 'uri', data_uri );
+            data_stat.fill_data_info_table( 'collect', data_collect );
 
             // 添加表格排序
             data_stat.url_table = $('#summary_unmatched_table').DataTable( {
@@ -150,18 +162,30 @@ data_stat.get_data = function () {
 data_stat.popover_item = null;
 
 data_stat.detail_btn_mouse_over = function( e ){
-    
     var target = $(e.relatedTarget);
-    if( target.hasClass('vn_summary_detail_btn') == true ){
-        console.log('mouse over ', target );
-        target.popover({
-            placement : 'right', //placement of the popover. also can use top, bottom, left or right
-            title : 'Response Details', //this is the top title bar of the popover. add some basic css
-            content : '<div id="popOverBox"><img src="http://www.hd-report.com/wp-content/uploads/2008/08/mr-evil.jpg" width="251" height="201" /></div>', //this is the content of the html box. add the image here or anything you want really.
-        })
-        target.popover('show');
-        data_stat.popover_item = target;
+    if( target.hasClass('vn_summary_detail_btn') == false )
+        return;
+    
+    var detail_key = target.attr('detail_key');
+    var detail_type = target.attr('detail_type');
+
+    var response_status = null;
+    if( detail_type == 'uri' ){
+        response_status = data_stat.latest_data['uri'][detail_key]['status']; 
+    }else{
+        response_status = data_stat.latest_data['collect'][detail_key]['status'];
     }
+
+    var content = 'detail_key:' + detail_key + ':' + JSON.stringify(response_status);
+    console.log('mouse over ', target );
+    target.popover({
+        animation : false,
+        placement : 'right', //placement of the popover. also can use top, bottom, left or right
+        title : 'Response Details', //this is the top title bar of the popover. add some basic css
+        content : content, //this is the content of the html box. add the image here or anything you want really.
+    })
+    target.popover('show');
+    data_stat.popover_item = target;
 }
 
 data_stat.detail_btn_mouse_out = function( e ){
