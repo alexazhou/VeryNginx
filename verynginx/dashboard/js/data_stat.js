@@ -161,25 +161,45 @@ data_stat.get_data = function () {
 
 data_stat.popover_item = null;
 
+data_stat.clean_popover = function(){
+    if( data_stat.popover_item != null ){
+        data_stat.popover_item.popover('destroy');
+        data_stat.popover_item.popover_item = null;
+    }
+}
+
 data_stat.detail_btn_mouse_over = function( e ){
     var target = $(e.relatedTarget);
     if( target.hasClass('vn_summary_detail_btn') == false )
         return;
-    
+   
+    data_stat.clean_popover();
+
     var detail_key = target.attr('detail_key');
     var detail_type = target.attr('detail_type');
 
     var response_status = null;
+    var response_count = null;  
     if( detail_type == 'uri' ){
         response_status = data_stat.latest_data['uri'][detail_key]['status']; 
+        response_count = data_stat.latest_data['uri'][detail_key]['count'];  
     }else{
         response_status = data_stat.latest_data['collect'][detail_key]['status'];
+        response_count = data_stat.latest_data['collect'][detail_key]['count'];  
     }
 
-    var content = 'detail_key:' + detail_key + ':' + JSON.stringify(response_status);
-    console.log('mouse over ', target );
+    var content = "<table>";
+    var status_list = Object.keys(response_status);
+    for( var i=0; i<status_list.length; i++ ){
+        var status_code = status_list[i];
+        var rate = (response_status[status_code] / response_count).toFixed(2);
+        content += "<tr><td>" + status_code + "</td> <td>" + response_status[status_code] + "</td><td>" + rate + "%</td></tr>";
+    }
+
+    content += "</table>";
     target.popover({
         animation : false,
+        html : true,
         placement : 'right', //placement of the popover. also can use top, bottom, left or right
         title : 'Response Details', //this is the top title bar of the popover. add some basic css
         content : content, //this is the content of the html box. add the image here or anything you want really.
@@ -189,14 +209,8 @@ data_stat.detail_btn_mouse_over = function( e ){
 }
 
 data_stat.detail_btn_mouse_out = function( e ){
-    
     if( $(e.relatedTarget).hasClass('vn_summary_detail_btn') == true ){
-        console.log('mouse out', e.relatedTarget );
-        
-        if( data_stat.popover_item != null ){
-            data_stat.popover_item.popover('destroy');
-            data_stat.popover_item.popover_item = null;
-        }
+        data_stat.clean_popover();
     }
 }
 
