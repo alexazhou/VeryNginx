@@ -192,7 +192,7 @@ data_stat.detail_btn_mouse_over = function( e ){
     var status_list = Object.keys(response_status);
     for( var i=0; i<status_list.length; i++ ){
         var status_code = status_list[i];
-        var rate = (response_status[status_code] / response_count).toFixed(2);
+        var rate = (100 * response_status[status_code] / response_count).toFixed(2);
         content += "<tr><td><span class='label label-info'>"+status_code+"</span></td>" + 
                        "<td class='vn_summary_detail_popover_count'>" + response_status[status_code] + "</td>" + 
                        "<td class='vn_summary_detail_popover_rate'>" + rate + "%</td></tr>";
