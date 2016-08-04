@@ -82,10 +82,10 @@ function _M.filter()
                 ngx.var.vn_header_host = ngx.var.host
             end
 
+            ngx.var.vn_exec_flag = '1'-- use the var as a mark, so that lua can know that's a inside redirect
+            
             --will jump out at the exec, so the return not run in fact
-            ngx.exec('@vn_proxy') 
-                
-            return
+            return ngx.exec('@vn_proxy') 
         end
     end
 end

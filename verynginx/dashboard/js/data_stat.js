@@ -151,9 +151,13 @@ data_stat.get_data = function () {
 
             $('#summary_unmatched_table tbody').unbind('mouseover');
             $('#summary_unmatched_table tbody').unbind('mouseout');
+            $('#summary_matched_table tbody').unbind('mouseover');
+            $('#summary_matched_table tbody').unbind('mouseout');
 
             $('#summary_unmatched_table tbody').on('mouseover', data_stat.detail_btn_mouse_out   );
             $('#summary_unmatched_table tbody').on('mouseout', data_stat.detail_btn_mouse_over  );
+            $('#summary_matched_table tbody').on('mouseover', data_stat.detail_btn_mouse_out   );
+            $('#summary_matched_table tbody').on('mouseout', data_stat.detail_btn_mouse_over  );
         }
     });   
 }
