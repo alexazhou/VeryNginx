@@ -382,3 +382,12 @@
 	color:#4078c0;	
 	background-color:#fff;	
 }
+
+.vn_summary_detail_popover_count {
+    color:#666;
+	font-weight:bold;
+}
+
+.vn_summary_detail_popover_rate {
+    color:#888;
+}

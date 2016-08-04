@@ -193,7 +193,9 @@ data_stat.detail_btn_mouse_over = function( e ){
     for( var i=0; i<status_list.length; i++ ){
         var status_code = status_list[i];
         var rate = (response_status[status_code] / response_count).toFixed(2);
-        content += "<tr><td>" + status_code + "</td> <td>" + response_status[status_code] + "</td><td>" + rate + "%</td></tr>";
+        content += "<tr><td><span class='label label-info'>"+status_code+"</span></td>" + 
+                       "<td class='vn_summary_detail_popover_count'>" + response_status[status_code] + "</td>" + 
+                       "<td class='vn_summary_detail_popover_rate'>" + rate + "%</td></tr>";
     }
 
     content += "</table>";
