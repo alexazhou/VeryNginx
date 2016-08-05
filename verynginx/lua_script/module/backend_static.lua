@@ -22,8 +22,9 @@ function _M.filter()
         if enable == true and request_tester.test( matcher ) == true then
             ngx.var.vn_static_root = rule['root']
             ngx.var.vn_static_expires = rule['expires']
-            ngx.exec('@vn_static') -- will jump out at the exec, so the return not run in fact
-            return
+            ngx.var.vn_exec_flag = '1'-- use the var as a mark, so that lua can know that's a inside redirect
+            
+            return ngx.exec('@vn_static') -- will jump out at the exec 
         end
     end
 end
