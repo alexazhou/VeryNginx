@@ -23,7 +23,7 @@ function _M.filter()
             ngx.var.vn_static_root = rule['root']
             ngx.var.vn_static_expires = rule['expires']
             ngx.var.vn_exec_flag = '1'-- use the var as a mark, so that lua can know that's a inside redirect
-            
+            util.ngx_ctx_dump() 
             return ngx.exec('@vn_static') -- will jump out at the exec 
         end
     end

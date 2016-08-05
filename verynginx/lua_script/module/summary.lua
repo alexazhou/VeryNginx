@@ -29,6 +29,18 @@ function _M.refresh()
     ngx.shared.status:set( KEY_SUMMARY_REFRESHING_FLAG, true, 120 )
 end
 
+function _M.pre_run_matcher()
+    local matcher_list = VeryNginxConfig.configs['matcher']
+    for i,rule in ipairs( VeryNginxConfig.configs["summary_collect_rule"] ) do
+        local enable = rule['enable']
+        local matcher = matcher_list[ rule['matcher'] ] 
+        if enable == true and request_tester.test( matcher ) == true then
+            ngx.ctx.log_collect_name = rule['collect_name']
+            break
+        end
+    end
+end
+
 function _M.log()
 
     local ok, err = ngx.shared.status:add( KEY_SUMMARY_REFRESHING_FLAG, true, 120 )
@@ -38,27 +50,18 @@ function _M.log()
         ngx.timer.at( 60, _M.refresh )
     end
 
-    local log_id = nil
     local status_code = ngx.var.status;
     local key_status = nil
     local key_size = nil
     local key_time = nil
     local key_count = nil
-    local matcher_list = VeryNginxConfig.configs['matcher']
+    local log_collect_name = ngx.ctx.log_collect_name
     
-    for i,rule in ipairs( VeryNginxConfig.configs["summary_collect_rule"] ) do
-        local enable = rule['enable']
-        local matcher = matcher_list[ rule['matcher'] ] 
-        if enable == true and request_tester.test( matcher ) == true then
-            log_id = rule['collect_name'] 
-        end
-    end
-
-    if log_id ~= nil then
-        key_status = KEY_COLLECT_STATUS..log_id.."_"..status_code
-        key_size = KEY_COLLECT_SIZE..log_id
-        key_time = KEY_COLLECT_TIME..log_id
-        key_count = KEY_COLLECT_COUNT..log_id
+    if log_collect_name ~= nil then
+        key_status = KEY_COLLECT_STATUS..log_collect_name.."_"..status_code
+        key_size = KEY_COLLECT_SIZE..log_collect_name
+        key_time = KEY_COLLECT_TIME..log_collect_name
+        key_count = KEY_COLLECT_COUNT..log_collect_name
     else
         local uri = ngx.var.request_uri
         if uri ~= nil then
