@@ -4,6 +4,8 @@
 -- @Link    : 
 -- @Disc    : some tools
 
+local json = require "json"
+
 local _M = {}
 
 
@@ -26,6 +28,18 @@ function _M.existed( list, value )
         end
     end
     return false
+end
+
+function _M.ngx_ctx_dump()
+    local dump_str = json.encode( ngx.ctx )
+    ngx.var.vn_ctx_dump = dump_str
+end
+
+function _M.ngx_ctx_load()
+    local dump_str = ngx.var.vn_ctx_dump
+    if dump_str ~= '' then
+        ngx.ctx = json.decode( dump_str ) 
+    end
 end
 
 return _M

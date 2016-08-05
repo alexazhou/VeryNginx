@@ -10,6 +10,7 @@ local cookie = require "cookie"
 local VeryNginxConfig = require "VeryNginxConfig"
 local encrypt_seed = require "encrypt_seed"
 local json = require "json"
+local util = require "util"
 
 local _M = {}
 
@@ -51,10 +52,11 @@ function _M.filter()
                 end
             end
         end
-
+        
         ngx.req.set_uri( path )
         ngx.var.vn_static_root = VeryNginxConfig.home_path() .."/dashboard"
         ngx.var.vn_exec_flag = '1'-- use the var as a mark, so that lua can know that's a inside redirect
+        util.ngx_ctx_dump() 
         return ngx.exec('@vn_static') -- will jump out at the exec 
     end
 end

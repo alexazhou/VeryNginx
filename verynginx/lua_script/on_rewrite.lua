@@ -1,4 +1,6 @@
+local util = require "util"
 if ngx.var.vn_exec_flag ~= '' then
+    util.ngx_ctx_load()
     return
 end
 

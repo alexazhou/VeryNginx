@@ -10,6 +10,7 @@ local VeryNginxConfig = require "VeryNginxConfig"
 local request_tester = require "request_tester"
 local resolver = require "resty.dns.resolver"
 local math = require "math"
+local util = require "util"
 
 math.randomseed(ngx.time()) 
 
@@ -82,10 +83,9 @@ function _M.filter()
                 ngx.var.vn_header_host = ngx.var.host
             end
 
-            ngx.var.vn_exec_flag = '1'-- use the var as a mark, so that lua can know that's a inside redirect
-            
-            --will jump out at the exec, so the return not run in fact
-            return ngx.exec('@vn_proxy') 
+            util.ngx_ctx_dump() 
+            ngx.var.vn_exec_flag = '1' --use the var as a mark, so that lua can know that's a inside redirect
+            return ngx.exec('@vn_proxy')  --will jump out at the exec, so the return not run in fact
         end
     end
 end
