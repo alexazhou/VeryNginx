@@ -76,7 +76,7 @@ data_stat.fill_data_info_table = function( data_type, data_dict ){
                        "<td>" + count + "</td>" +
                        "<td>" + size + "</td>" +
                        "<td>" + avg_size.toFixed(2) + "</td>" +
-                       "<td>" + success_rate.toFixed(2) + '% <button detail_type="' + data_type + '" detail_key="' + util.html_encode(key) + '" class="btn vn_summary_detail_btn btn-xs">Details</button> </td>' +
+                       "<td><nobr>" + success_rate.toFixed(2) + '% <button detail_type="' + data_type + '" detail_key="' + util.html_encode(key) + '" class="btn vn_summary_detail_btn btn-xs">Details</button> </nobr></td>' +
                        "<td>" + time.toFixed(3) + "</td>" +
                        "<td>" + avg_time.toFixed(3) + "</td></tr>";
 
