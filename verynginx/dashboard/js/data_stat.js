@@ -192,7 +192,7 @@ data_stat.detail_btn_mouse_over = function( e ){
         response_count = data_stat.latest_data['collect'][detail_key]['count'];  
     }
 
-    var content = "<table>";
+    var content = "<table class='vn_summary_detail_popover_table'>";
     var status_list = Object.keys(response_status);
     for( var i=0; i<status_list.length; i++ ){
         var status_code = status_list[i];
@@ -204,10 +204,11 @@ data_stat.detail_btn_mouse_over = function( e ){
 
     content += "</table>";
     target.popover({
+        container:'#page_summary',
         animation : false,
         html : true,
         placement : 'right', //placement of the popover. also can use top, bottom, left or right
-        title : 'Response Details', //this is the top title bar of the popover. add some basic css
+        title : 'Response Count', //this is the top title bar of the popover. add some basic css
         content : content, //this is the content of the html box. add the image here or anything you want really.
     })
     target.popover('show');

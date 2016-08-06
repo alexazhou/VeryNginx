@@ -383,6 +383,13 @@
 	background-color:#fff;	
 }
 
+.vn_summary_detail_popover_table {
+}
+
+.vn_summary_detail_popover_table td {
+    padding-right:8px;
+}
+
 .vn_summary_detail_popover_count {
     color:#666;
 	font-weight:bold;
