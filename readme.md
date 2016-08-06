@@ -196,6 +196,19 @@ Then you can navigate to your browser `http://{{your_docker_machine_address}}/ve
 Optionally you can run `docker run -p xxxx:80 verynginx` to map your container port 80 to your host's xxxx port
 
 
+## Donate
+
+If you like VeryNginx, you can donate to support my development VeryNginx. With your support, I will be able to make VeryNginx better 😎.
+
+### PayPal 
+
+[Support VeryNginx via PayPal](https://www.paypal.me/alexazhou)
+
+### We Chat
+
+Scan the QRcode to support VeryNginx.
+
+<img title="WeChat QRcode" src="http://ww4.sinaimg.cn/mw690/3fcd0ed3jw1f6kecm1e3nj20f00emq59.jpg" width="200">
 
 ## Thanks
 

@@ -195,6 +195,19 @@ docker run verynginx
 
 当然你也可以运行 `docker run -p xxxx:80 verynginx` 来映射一下你的container的端口到你的宿主机，默认是80，你可以把xxxx改成你希望的在宿主机上的端口号
 
+## 捐赠
+
+如果你喜欢 VeryNginx，那么你可以通过捐赠来支持我开发 VeryNginx。有了你的支持，我将可以让 VeryNginx 变的更好😎
+
+### PayPal 
+
+[通过 PayPal 来支持 VeryNginx](https://www.paypal.me/alexazhou)
+
+### 微信
+
+扫描下方的二维码来支持 VeryNginx
+
+<img title="WeChat QRcode" src="http://ww4.sinaimg.cn/mw690/3fcd0ed3jw1f6kecm1e3nj20f00emq59.jpg" width="200">
 
 
 ## 致谢
