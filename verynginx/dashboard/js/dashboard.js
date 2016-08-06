@@ -7,9 +7,9 @@ dashboard.last_failed_jqxhr;
 paceOptions = {
     catchupTime: 1,
     minTime: 1,
-    restartOnRequestAfter: 5,
-    ajax : {
-        trackMethods:["GET","POST"],
+    restartOnRequestAfter: -1,
+    ajax :{
+        trackMethods: ['GET','POST'],
         ignoreURLs: ['./status']
     }
 };
