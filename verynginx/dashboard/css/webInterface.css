@@ -156,6 +156,10 @@
     white-space: nowrap;
 }
 
+.monitor_container{
+    position:relative;
+}
+
 .status_info_title{
     font-size:1.2em;
 }

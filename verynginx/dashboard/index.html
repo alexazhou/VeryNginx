@@ -18,6 +18,7 @@
 <script src="//cdn.bootcss.com/vue/1.0.14/vue.min.js"></script>
 <script src="//cdn.bootcss.com/smokejs/3.0.1/js/smoke.js"></script>
 <script src="//cdn.bootcss.com/Chart.js/1.0.2/Chart.js"></script>
+<script src="//cdn.bootcss.com/spin.js/2.3.2/spin.min.js"></script>
 <!-- 表格扩展js文件 -->
 <script src="//cdn.bootcss.com/datatables/1.10.10/js/jquery.dataTables.min.js"></script>
 <script src="//cdn.bootcss.com/underscore.js/1.8.3/underscore-min.js"></script>
@@ -124,14 +125,14 @@
                     </div>
                 </div>
 
-                <div id="chart_request_container">
+                <div class="monitor_container" spin_size="default">
                     <canvas id="chart_request" width="1400" height="400"></canvas>
                 </div>
                 
                 <div class="row">
                     <div class="col-md-4">
                         <div class="status_sub_group_title">TCP Connections</div>
-                        <div id="chart_connection_container">
+                        <div class="monitor_container" spin_size="sm">
                             <canvas id="chart_connection" width="700" height="400"></canvas>
                         </div>
 
@@ -158,7 +159,7 @@
                     <div class="col-md-4">
                         <div class="status_sub_group_title">Response Time</div>
                         <div class="status_sub_group_title_desc"> (ms) </div>
-                        <div id="chart_response_time_container">
+                        <div class="monitor_container" spin_size="sm">
                             <canvas id="chart_response_time" width="700" height="400"></canvas>
                         </div>
                     </div>
@@ -166,7 +167,7 @@
                     <div class="col-md-4">
                         <div class="status_sub_group_title">Network Traffic</div>
                         <div class="status_sub_group_title_desc"> (KiB/s) </div>
-                        <div id="chart_traffic_container">
+                        <div class="monitor_container" spin_size="sm">
                             <canvas id="chart_traffic" width="700" height="400"></canvas>
                         </div>
                         
