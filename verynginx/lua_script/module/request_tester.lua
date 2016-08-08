@@ -80,13 +80,10 @@ function _M.test_method( condition )
     return false
 end
 
---uncompleted
 function _M.test_args( condition )
-    
     local target_arg_re = condition['name']
     local find = ngx.re.find
     local test_var = _M.test_var
-    
 
     --handle args behind uri
     for k,v in pairs( ngx.req.get_uri_args()) do
@@ -106,7 +103,6 @@ function _M.test_args( condition )
             end
         end
     end
-    
     
     ngx.req.read_body()
     --ensure body has not be cached into temp file
@@ -147,6 +143,13 @@ function _M.test_host( condition )
     return _M.test_var( condition, hostname )
 end
 
+function _M.test_header( condition )
+    
+    return false
+end
+
+function _M.test_cookie( condition )
+end
 
 tester["URI"] = _M.test_uri
 tester["IP"] = _M.test_ip
@@ -155,5 +158,7 @@ tester["Method"] = _M.test_method
 tester["Args"] = _M.test_args
 tester["Referer"] = _M.test_referer
 tester["Host"] = _M.test_host
+tester["Header"] = _M.test_header
+tester["Cookie"] = _M.test_cookie
 
 return _M

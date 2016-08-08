@@ -28,9 +28,19 @@ matcher_editor.condition_input_meta = {
     ],
     'Header':[
         {
-            'name':'name',
-            'type':'input',
-            'placeholder':"A RegEx to specify target header name, or leave it blank to test all headers"
+            'name':'name_operator',
+            'type':'select',
+            'options':{
+                'Match RegEx':"≈",
+                'Not Matche RegEx':"!≈",
+                'Equal':"=",
+                'Not Equal':"!=",
+            }
+        },
+        {
+            'name':'name_value',
+            'type':'textarea',
+            'placeholder':'If operator is "is Null", this field will be ignored',
         },
         {   
             'name':'operator',
@@ -50,9 +60,19 @@ matcher_editor.condition_input_meta = {
     ],
     'Cookie':[
         {
-            'name':'name',
-            'type':'input',
-            'placeholder':"A RegEx to specify target cookie, or leave it blank to test all cookies"
+            'name':'name_operator',
+            'type':'select',
+            'options':{
+                'Match RegEx':"≈",
+                'Not Matche RegEx':"!≈",
+                'Equal':"=",
+                'Not Equal':"!=",
+            }
+        },
+        {
+            'name':'name_value',
+            'type':'textarea',
+            'placeholder':'If operator is "is Null", this field will be ignored',
         },
         {   
             'name':'operator',

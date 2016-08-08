@@ -1848,8 +1848,8 @@
                         <div class="modal-body" >
                             <form class="form-horizontal">
                                 <div class="row vn_modal_row"   >
-                                    <label class="col-sm-2 text-right control-label">Type</label>
-                                    <div class="col-sm-10">
+                                    <label class="col-sm-3 text-right control-label">Type</label>
+                                    <div class="col-sm-9">
                                         <select class="form-control" name="condition_type" onchange="matcher_editor.modal_condition_switch_input()">
                                             <option value="URI">URI</option>
                                             <option value="Host">Host</option>
@@ -1866,8 +1866,8 @@
                                 <div class="config_matcher_value_contain" id="config_modal_matcher_input_group" onsubmit="return false;" >
                                     <template v-for="item in input_meta">
                                         <div class="row vn_modal_row">
-                                            <label class="col-sm-2 text-right control-label" >{{item.name}}</label>
-                                            <div class="col-sm-10">
+                                            <label class="col-sm-3 text-right control-label" >{{item.name}}</label>
+                                            <div class="col-sm-9">
                                                 <template v-if="(item.type == 'input')">
                                                     <input type="text" class="form-control config_matcher_editor_value" name="{{item.name}}" placeholder="{{item.placeholder}}"></input>
                                                 </template>
