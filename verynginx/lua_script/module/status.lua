@@ -24,9 +24,9 @@ function _M.init()
 
     local ok, err = ngx.shared.status:add( KEY_STATUS_INIT,true )
     if ok then
+		ngx.shared.status:set( KEY_START_TIME, ngx.time() )
 		ngx.shared.status:set( KEY_TOTAL_COUNT, 0 )
 		ngx.shared.status:set( KEY_TOTAL_COUNT_SUCCESS, 0 )
-		ngx.shared.status:set( KEY_START_TIME, ngx.time() )
 		
         ngx.shared.status:set( KEY_TRAFFIC_READ, 0 )
 		ngx.shared.status:set( KEY_TRAFFIC_WRITE, 0 )

@@ -110,7 +110,7 @@ config.save_config = function(){
             config.refresh_bottom_bar();
             dashboard.notify("Save config success.");
         }else{
-            dashboard.notify("Save config failed [" + data['err'] + "].");
+            dashboard.show_notice( 'warning', "Save config failed [" + data['err'] + "].");
         }
     });
 }
