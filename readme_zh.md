@@ -3,6 +3,23 @@ VeryNginx 是一个功能强大而对人类友好的 Nginx 扩展程序.
 
 ###提示
  `v0.2` 版本之后，控制台入口被移动到了 `/verynginx/index.html`
+ 
+## 这个分支有什么区别？
+
+如果你需要在基于 Windows 的 OpenResty 上运行 VeryNginx，那么这个分支是为你准备的😄。
+
+如果直接使用 Master 分支，你会发现因为配置文件的路径问题 nginx.exe 无法运行（在 master 分支下，配置路径固定为 /opt/verynginx ），这个分支下面的配置文件路径修改为 Windows 下的写法
+
+### 在 windows 下的安装方法
+* 克隆本项目至 c:\\\\verynginx 下，并切换至 on_windows_openresty 分支
+* 从 [nginx-openresty-windows](https://github.com/LomoX-Offical/nginx-openresty-windows ) 下载编译好的 OpenResty 程序，解压缩至 c:\\\\verynginx\\openresty 文件夹
+* 复制 C:\\\\verynginx\\nginx.conf 到 c:\\\\verynginx\\openresty\\nginx\\conf\\nginx.conf
+
+到这里 VeryNginx 应该已经配置完成了，可运行 c:\\\\verynginx\\openresty\\nginx\\nginx.exe 进行测试
+
+**后续更新 VeryNginx 时，直接 pull 最新的代码即可**
+
+注意: windows 下运行 nginx 可能会遇到权限问题，出现黑窗口一闪而过😰。可以用管理员权限启动 cmd 管理工具，然后在 cmd 中运行 nginx.exe 即可
 
 ##介绍
 

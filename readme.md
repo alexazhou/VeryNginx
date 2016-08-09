@@ -6,6 +6,23 @@ VeryNginx is a very powerful and friendly nginx .
 ###Notice
 After v0.2 , The entry uri of control panel was moved to `/verynginx/index.html`
 
+## What is the difference in this branch?
+
+If you need to run on Windows-based VeryNginx OpenResty, then this branch is prepared for you 😄.
+
+If use master branch directly on Windows, you will see that nginx can't run because of configuration file path problem ( the path was fixed to /opt/verynginx on master branch). So you can use this branch, on this branch the path has been modify to Windows format.
+
+### install VeryNginx on windows  
+* Clone this project to c:\\\\ verynginx, and checkout the branch **on_windows_openresty**
+* From [nginx-openresty-windows] (https://github.com/LomoX-Offical/nginx-openresty-windows) Download compiled OpenResty program, unzip to c:\\\\verynginx\\openresty folders
+* Copy C:\\\\verynginx\\nginx.conf to c:\\\\verynginx\\openresty\\nginx\\conf\\nginx.conf
+
+Now VeryNginx configuration work should have completed, so you can run c:\\\\verynginx\\openresty\\nginx\\nginx.exe for test
+
+** if you want updates VeryNginx, you just need to pull the latest code **
+
+>>Note: windows running nginx may have permission problems, on which you will see a black window flashed 😰 and nothing running. You can run cmd tool with administrator privileges, and then you can run nginx.exe in cmd tool, that will fix the permission problems.
+
 
 ##Description
 
