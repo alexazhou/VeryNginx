@@ -210,11 +210,6 @@
     color:#999;
 }
 
-.vn_modal_row {
-    margin-top:15px;
-    margin-bottom:15px;
-}
-
 .vn_modal_mid {
     width:400px ;
 }
@@ -401,4 +396,34 @@
 
 .vn_summary_detail_popover_rate {
     color:#888;
+}
+
+#config_modal_matcher_input_group .input_group_container{
+	margin-top:10px;
+	margin-bottom:10px;
+	padding:5px;
+	border:solid;
+	border-width:1px;
+	border-color:#4078c0;
+	border-radius:10px;
+}
+
+#config_modal_matcher_input_group .input_group_title{
+	font-weight: bold;
+	padding-left: 30px;
+	padding-bottom: 5px;
+	margin-top: -15px;
+	color:#4078c0;
+}
+
+#config_modal_matcher_input_group .input_item{
+	margin-bottom:10px;
+}
+
+#config_modal_matcher_input_group .input_item_title{
+	font-weight:bold;
+	text-align:right;
+}
+
+#config_modal_matcher_input_group .input_item_inputer{
 }

@@ -4,175 +4,49 @@ matcher_editor.input_group_vm = null;
 matcher_editor.tmp_conditions_vm = null;
 matcher_editor.tmp_conditions = { };
 matcher_editor.condition_input_meta = {
-    'Args':[
-        {
-            'name':'name',
-            'type':'input',
-            'placeholder':"A RegEx to specify target arg, or leave it blank to test all args"
-        },
-        {   
-            'name':'operator',
-            'type':"select",
-            'options':{
-                'Match RegEx':"≈",
-                'Not Matche RegEx':"!≈",
-                'Equal':"=",
-                'Not Equal':"!=",
-            }
-        },
-        {
-            'name':'value',
-            'type':'textarea',
-            'placeholder':'If operator is "is Null", this field will be ignored',
-        }
-    ],
     'Header':[
         {
-            'name':'name_operator',
-            'type':'select',
-            'options':{
-                'Match RegEx':"≈",
-                'Not Matche RegEx':"!≈",
-                'Equal':"=",
-                'Not Equal':"!=",
-            }
+            'group_name':'Name of header want to test',
+            'input':[
+                {
+                    'name':'operator',
+                    'type':"select",
+                    'options':{
+                        'Match RegEx':"≈",
+                        'Not Matche RegEx':"!≈",
+                        'Equal':"=",
+                        'Not Equal':"!=",
+                    }
+                },
+                {
+                    'name':'value',
+                    'type':'textarea',
+                    'placeholder':'If operator is "is Null", this field will be ignored',
+                }
+            ]
         },
         {
-            'name':'name_value',
-            'type':'textarea',
-            'placeholder':'If operator is "is Null", this field will be ignored',
-        },
-        {   
-            'name':'operator',
-            'type':"select",
-            'options':{
-                'Match RegEx':"≈",
-                'Not Matche RegEx':"!≈",
-                'Equal':"=",
-                'Not Equal':"!=",
-            }
-        },
-        {
-            'name':'value',
-            'type':'textarea',
-            'placeholder':'If operator is "is Null", this field will be ignored',
+            'group_name':'value of header',
+            'input':[
+                {
+                    'name':'operator',
+                    'type':"select",
+                    'options':{
+                        'Match RegEx':"≈",
+                        'Not Matche RegEx':"!≈",
+                        'Equal':"=",
+                        'Not Equal':"!=",
+                    }
+                },
+                {
+                    'name':'value',
+                    'type':'textarea',
+                    'placeholder':'If operator is "is Null", this field will be ignored',
+                }
+            ]
         }
     ],
-    'Cookie':[
-        {
-            'name':'name_operator',
-            'type':'select',
-            'options':{
-                'Match RegEx':"≈",
-                'Not Matche RegEx':"!≈",
-                'Equal':"=",
-                'Not Equal':"!=",
-            }
-        },
-        {
-            'name':'name_value',
-            'type':'textarea',
-            'placeholder':'If operator is "is Null", this field will be ignored',
-        },
-        {   
-            'name':'operator',
-            'type':"select",
-            'options':{
-                'Match RegEx':"≈",
-                'Not Matche RegEx':"!≈",
-                'Equal':"=",
-                'Not Equal':"!=",
-            }
-        },
-        {
-            'name':'value',
-            'type':'textarea',
-            'placeholder':'If operator is "is Null", this field will be ignored',
-        }
-    ],
-    'URI':[
-        {   
-            'name':'operator',
-            'type':"select",
-            'options':{
-                'Match RegEx':"≈",
-                'Not Matche RegEx':"!≈",
-                'Equal':"=",
-                'Not Equal':"!=",
-            }
 
-        },
-        {
-            'name':'value',
-            'type':'input',
-        },
-    ],
-    'Host':[
-        {   
-            'name':'operator',
-            'type':"select",
-            'options':{
-                'Match RegEx':"≈",
-                'Not Matche RegEx':"!≈",
-                'Equal':"=",
-                'Not Equal':"!=",
-            }
-        },
-        {
-            'name':'value',
-            'type':'input',
-        },
-    ],
-    'UserAgent':[
-        {   
-            'name':'operator',
-            'type':"select",
-            'options':{
-                'Match RegEx':"≈",
-                'Not Matche RegEx':"!≈",
-                'Equal':"=",
-                'Not Equal':"!=",
-                'is Null':"!",
-            }
-        },
-        {
-            'name':'value',
-            'type':'input',
-            'placeholder':'If operator is "is Null", this field will be ignored',
-        },
-    ],
-    'Referer':[
-        {   
-            'name':'operator',
-            'type':"select",
-            'options':{
-                'Match RegEx':"≈",
-                'Not Matche RegEx':"!≈",
-                'Equal':"=",
-                'Not Equal':"!=",
-                'is Null':"!",
-            }
-        },
-        {
-            'name':'value',
-            'type':'input',
-            'placeholder':'If operator is "is Null", this field will be ignored',
-        },
-    ],
-    'IP':[
-        {   
-            'name':'operator',
-            'type':"select",
-            'options':{
-                'Equal':"=",
-                'Not Equal':"!=",
-            }
-        },
-        {
-            'name':'value',
-            'type':'input',
-        },
-    ],
 };
 
 matcher_editor.init = function(){
