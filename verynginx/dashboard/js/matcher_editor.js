@@ -13,6 +13,7 @@ matcher_editor.condition_input_meta = {
                     'name':'name_operator',
                     'type':"select",
                     'options':{
+                        'Any':"*",
                         'Match RegEx':"≈",
                         'Not Matche RegEx':"!≈",
                         'Equal':"=",
@@ -23,7 +24,7 @@ matcher_editor.condition_input_meta = {
                     'title':'value',
                     'name':'name_value',
                     'type':'textarea',
-                    'placeholder':'If operator is "is Null", this field will be ignored',
+                    'placeholder':'',
                 }
             ]
         },
@@ -35,10 +36,12 @@ matcher_editor.condition_input_meta = {
                     'name':'operator',
                     'type':"select",
                     'options':{
-                        'Match RegEx':"≈",
+                        'Match RegEx':"!≈",
                         'Not Matche RegEx':"!≈",
                         'Equal':"=",
                         'Not Equal':"!=",
+                        'Existed':"∃",
+                        'Not Existed':"!∃",
                     }
                 },
                 {
@@ -46,7 +49,7 @@ matcher_editor.condition_input_meta = {
                     'name':'operator',
                     'name':'value',
                     'type':'textarea',
-                    'placeholder':'If operator is "is Null", this field will be ignored',
+                    'placeholder':'If operator is "is not existed", this field will be ignored',
                 }
             ]
         }
@@ -110,14 +113,15 @@ matcher_editor.condition_input_meta = {
                         'Not Matche RegEx':"!≈",
                         'Equal':"=",
                         'Not Equal':"!=",
-                        'is Null':"!",
+                        'Existed':"∃",
+                        'Not Existed':"!∃",
                     }
                 },
                 {
                     'title':'value',
                     'name':'value',
                     'type':'input',
-                    'placeholder':'If operator is "is Null", this field will be ignored',
+                    'placeholder':'If operator is "is not existed", this field will be ignored',
                 },
             ]
         }
@@ -135,14 +139,15 @@ matcher_editor.condition_input_meta = {
                         'Not Matche RegEx':"!≈",
                         'Equal':"=",
                         'Not Equal':"!=",
-                        'is Null':"!",
+                        'Existed':"∃",
+                        'Not Existed':"!∃",
                     }
                 },
                 {
                     'title':'value',
                     'name':'value',
                     'type':'input',
-                    'placeholder':'If operator is "is Null", this field will be ignored',
+                    'placeholder':'If operator is "is not existed", this field will be ignored',
                 },
             ]
         }
@@ -175,6 +180,7 @@ matcher_editor.condition_input_meta = {
                     'name':'name_operator',
                     'type':"select",
                     'options':{
+                        'Any':"*",
                         'Match RegEx':"≈",
                         'Not Matche RegEx':"!≈",
                         'Equal':"=",
@@ -185,7 +191,7 @@ matcher_editor.condition_input_meta = {
                     'title':'value',
                     'name':'name_value',
                     'type':'textarea',
-                    'placeholder':'If operator is "is Null", this field will be ignored',
+                    'placeholder':'If operator is "is not existed", this field will be ignored',
                 }
             ]
         },
@@ -201,6 +207,8 @@ matcher_editor.condition_input_meta = {
                         'Not Matche RegEx':"!≈",
                         'Equal':"=",
                         'Not Equal':"!=",
+                        'Existed':"∃",
+                        'Not Existed':"!∃",
                     }
                 },
                 {
@@ -208,7 +216,7 @@ matcher_editor.condition_input_meta = {
                     'name':'operator',
                     'name':'value',
                     'type':'textarea',
-                    'placeholder':'If operator is "is Null", this field will be ignored',
+                    'placeholder':'If operator is "is not existed", this field will be ignored',
                 }
             ]
         }
@@ -222,6 +230,7 @@ matcher_editor.condition_input_meta = {
                     'name':'name_operator',
                     'type':"select",
                     'options':{
+                        'Any':"*",
                         'Match RegEx':"≈",
                         'Not Matche RegEx':"!≈",
                         'Equal':"=",
@@ -232,7 +241,7 @@ matcher_editor.condition_input_meta = {
                     'title':'value',
                     'name':'name_value',
                     'type':'textarea',
-                    'placeholder':'If operator is "is Null", this field will be ignored',
+                    'placeholder':'If operator is "is not existed", this field will be ignored',
                 }
             ]
         },
@@ -248,6 +257,8 @@ matcher_editor.condition_input_meta = {
                         'Not Matche RegEx':"!≈",
                         'Equal':"=",
                         'Not Equal':"!=",
+                        'Existed':"∃",
+                        'Not Existed':"!∃",
                     }
                 },
                 {
@@ -255,7 +266,7 @@ matcher_editor.condition_input_meta = {
                     'name':'operator',
                     'name':'value',
                     'type':'textarea',
-                    'placeholder':'If operator is "is Null", this field will be ignored',
+                    'placeholder':'If operator is "is not existed", this field will be ignored',
                 }
             ]
         }
