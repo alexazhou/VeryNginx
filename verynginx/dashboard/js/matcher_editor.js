@@ -51,7 +51,215 @@ matcher_editor.condition_input_meta = {
             ]
         }
     ],
+    'URI':[
+        {
+            'group_name':'Value of URI',
+            'input':[
+                {   
+                    'title':'operator',
+                    'name':'operator',
+                    'type':"select",
+                    'options':{
+                        'Match RegEx':"≈",
+                        'Not Matche RegEx':"!≈",
+                        'Equal':"=",
+                        'Not Equal':"!=",
+                    }
 
+                },
+                {
+                    'title':'value',
+                    'name':'value',
+                    'type':'input',
+                },
+            ]
+        }
+    ],
+    'Host':[
+        {
+            'group_name':'Value of Host',
+            'input':[
+                {   
+                    'title':'operator',
+                    'name':'operator',
+                    'type':"select",
+                    'options':{
+                        'Match RegEx':"≈",
+                        'Not Matche RegEx':"!≈",
+                        'Equal':"=",
+                        'Not Equal':"!=",
+                    }
+                },
+                {
+                    'title':'value',
+                    'type':'input',
+                },
+            ]
+        }
+    ],
+    'UserAgent':[
+        {
+            'group_name':'value of UserAgent',
+            'input':[
+                {   
+                    'title':'operator',
+                    'name':'operator',
+                    'type':"select",
+                    'options':{
+                        'Match RegEx':"≈",
+                        'Not Matche RegEx':"!≈",
+                        'Equal':"=",
+                        'Not Equal':"!=",
+                        'is Null':"!",
+                    }
+                },
+                {
+                    'title':'value',
+                    'name':'value',
+                    'type':'input',
+                    'placeholder':'If operator is "is Null", this field will be ignored',
+                },
+            ]
+        }
+    ],
+    'Referer':[
+        {
+            'group_name':'value of Referer',
+            'input':[
+                {   
+                    'title':'operator',
+                    'name':'operator',
+                    'type':"select",
+                    'options':{
+                        'Match RegEx':"≈",
+                        'Not Matche RegEx':"!≈",
+                        'Equal':"=",
+                        'Not Equal':"!=",
+                        'is Null':"!",
+                    }
+                },
+                {
+                    'title':'value',
+                    'name':'value',
+                    'type':'input',
+                    'placeholder':'If operator is "is Null", this field will be ignored',
+                },
+            ]
+        }
+    ],
+    'IP':[
+        {
+            'group_name':'value of IP',
+            'input':[
+                {   
+                    'name':'operator',
+                    'type':"select",
+                    'options':{
+                        'Equal':"=",
+                        'Not Equal':"!=",
+                    }
+                },
+                {
+                    'name':'value',
+                    'type':'input',
+                },
+            ]
+        }
+    ],
+    'Args':[
+        {
+            'group_name':'Name of argument want to test',
+            'input':[
+                {
+                    'title':'operator',
+                    'name':'name_operator',
+                    'type':"select",
+                    'options':{
+                        'Match RegEx':"≈",
+                        'Not Matche RegEx':"!≈",
+                        'Equal':"=",
+                        'Not Equal':"!=",
+                    }
+                },
+                {
+                    'title':'value',
+                    'name':'name_value',
+                    'type':'textarea',
+                    'placeholder':'If operator is "is Null", this field will be ignored',
+                }
+            ]
+        },
+        {
+            'group_name':'value of argument',
+            'input':[
+                {
+                    'title':'operator',
+                    'name':'operator',
+                    'type':"select",
+                    'options':{
+                        'Match RegEx':"≈",
+                        'Not Matche RegEx':"!≈",
+                        'Equal':"=",
+                        'Not Equal':"!=",
+                    }
+                },
+                {
+                    'title':'value',
+                    'name':'operator',
+                    'name':'value',
+                    'type':'textarea',
+                    'placeholder':'If operator is "is Null", this field will be ignored',
+                }
+            ]
+        }
+    ],
+    'Cookie':[
+         {
+            'group_name':'Name of cookie want to test',
+            'input':[
+                {
+                    'title':'operator',
+                    'name':'name_operator',
+                    'type':"select",
+                    'options':{
+                        'Match RegEx':"≈",
+                        'Not Matche RegEx':"!≈",
+                        'Equal':"=",
+                        'Not Equal':"!=",
+                    }
+                },
+                {
+                    'title':'value',
+                    'name':'name_value',
+                    'type':'textarea',
+                    'placeholder':'If operator is "is Null", this field will be ignored',
+                }
+            ]
+        },
+        {
+            'group_name':'value of cookie',
+            'input':[
+                {
+                    'title':'operator',
+                    'name':'operator',
+                    'type':"select",
+                    'options':{
+                        'Match RegEx':"≈",
+                        'Not Matche RegEx':"!≈",
+                        'Equal':"=",
+                        'Not Equal':"!=",
+                    }
+                },
+                {
+                    'title':'value',
+                    'name':'operator',
+                    'name':'value',
+                    'type':'textarea',
+                    'placeholder':'If operator is "is Null", this field will be ignored',
+                }
+            ]
+        }
+    ],
 };
 
 matcher_editor.init = function(){

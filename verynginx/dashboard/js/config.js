@@ -13,7 +13,10 @@ config.vue_component_condition = Vue.extend({
                    <div class="config_matcher_block">\
                        <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete" v-if="(del_action != null)" onclick="{{del_action}}"></span>\
                        <span class="config_matcher_block_type">{{condition_name}}</span>\
-                       <span class="config_matcher_block_name"> {{condition_value.name}}</span>\
+                       <template v-if="(condition_value.name_operator != null)">\
+                           <span class="config_matcher_block_name"> {{ "[name" + condition_value.name_operator }}</span>\
+                           <span class="config_matcher_block_name"> {{condition_value.name_value + "]" }}</span>\
+                       </template>\
                        <span class="config_matcher_block_operator"> {{condition_value.operator | show_operator}}</span>\
                        <span class="config_matcher_block_value" >{{condition_value.value}}</span>\
                    </div>\

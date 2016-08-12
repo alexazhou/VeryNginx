@@ -12,7 +12,7 @@
 <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="//cdn.bootcss.com/vue/1.0.14/vue.min.js"></script>
+<script src="//cdn.bootcss.com/vue/1.0.26/vue.min.js"></script>
 <script src="//cdn.bootcss.com/smokejs/3.0.1/js/smoke.js"></script>
 <script src="//cdn.bootcss.com/Chart.js/1.0.2/Chart.js"></script>
 <script src="//cdn.bootcss.com/spin.js/2.3.2/spin.min.js"></script>
@@ -1867,7 +1867,7 @@
                                     <template v-for="config_group in input_meta">
                                         <div class="input_group_container">
                                             <div class="input_group_title">
-                                                <span style='background:#fff'>{{ config_group.group_name }}</span>
+                                                <span style='background:#fff;padding-left:5px;padding-right:5px'>{{ config_group.group_name }}</span>
                                             </div> 
                                             <template v-for="input_item in config_group.input">
                                                 <div class="input_item">
