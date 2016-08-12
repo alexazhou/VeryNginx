@@ -1869,24 +1869,23 @@
                                             <div class="input_group_title">
                                                 <span style='background:#fff'>{{ config_group.group_name }}</span>
                                             </div> 
-                                            
                                             <template v-for="input_item in config_group.input">
                                                 <div class="input_item">
                                                     <div class="row">
                                                         <div class="col-sm-2 input_item_title">
-                                                            {{input_item.name}} 
+                                                            {{input_item.title}} 
                                                         </div>
                                                         <div class="col-sm-10 input_item_inputer"> 
                                                             <template v-if="(input_item.type == 'input')">
-                                                                <input type="text" class="form-control config_matcher_editor_value" name="{{item.name}}" placeholder="{{item.placeholder}}"></input>
+                                                                <input type="text" class="form-control config_matcher_editor_value" name="{{input_item.name}}" placeholder="{{input_item.placeholder}}"></input>
                                                             </template>
                                                             
                                                             <template v-if="(input_item.type == 'textarea')">
-                                                                <textarea class="form-control config_matcher_editor_value" rows='3' name="{{item.name}}" placeholder="{{item.placeholder}}"></textarea>
+                                                                <textarea class="form-control config_matcher_editor_value" rows='3' name="{{input_item.name}}" placeholder="{{input_item.placeholder}}"></textarea>
                                                             </template>
                                                             
                                                             <template v-if="(input_item.type == 'select')">
-                                                                <select class="form-control config_matcher_editor_value" name="{{item.name}}">
+                                                                <select class="form-control config_matcher_editor_value" name="{{input_item.name}}">
                                                                     <template v-for="(k,v) in input_item.options">
                                                                         <option value="{{v}}">{{k}}</option>
                                                                     </template>

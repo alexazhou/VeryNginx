@@ -9,7 +9,8 @@ matcher_editor.condition_input_meta = {
             'group_name':'Name of header want to test',
             'input':[
                 {
-                    'name':'operator',
+                    'title':'operator',
+                    'name':'name_operator',
                     'type':"select",
                     'options':{
                         'Match RegEx':"≈",
@@ -19,7 +20,8 @@ matcher_editor.condition_input_meta = {
                     }
                 },
                 {
-                    'name':'value',
+                    'title':'value',
+                    'name':'name_value',
                     'type':'textarea',
                     'placeholder':'If operator is "is Null", this field will be ignored',
                 }
@@ -29,6 +31,7 @@ matcher_editor.condition_input_meta = {
             'group_name':'value of header',
             'input':[
                 {
+                    'title':'operator',
                     'name':'operator',
                     'type':"select",
                     'options':{
@@ -39,6 +42,8 @@ matcher_editor.condition_input_meta = {
                     }
                 },
                 {
+                    'title':'value',
+                    'name':'operator',
                     'name':'value',
                     'type':'textarea',
                     'placeholder':'If operator is "is Null", this field will be ignored',
@@ -122,8 +127,8 @@ matcher_editor.modal_condition_save = function(){
     }
     
     var inputer_list = $('#config_modal_matcher_input_group .config_matcher_editor_value');
-    var condition_value = {};
     
+    var condition_value = {};
     for( var i=0; i < inputer_list.length; i++ ){
         var inputer = inputer_list[i];
         var name = $(inputer).attr('name');
