@@ -3,7 +3,7 @@ var matcher_editor = new Object();
 matcher_editor.input_group_vm = null;
 matcher_editor.tmp_conditions_vm = null;
 matcher_editor.tmp_conditions = { };
-matcher_editor.condition_input_meta = {
+matcher_editor.form_meta = {
     'Header':[
         {
             'group_name':'Name of header want to test',
@@ -13,7 +13,7 @@ matcher_editor.condition_input_meta = {
                     'name':'name_operator',
                     'type':"select",
                     'options':{
-                        'Any':"*",
+                        'Any [*]':"*",
                         'Match RegEx':"≈",
                         'Not Matche RegEx':"!≈",
                         'Equal':"=",
@@ -49,7 +49,7 @@ matcher_editor.condition_input_meta = {
                     'name':'operator',
                     'name':'value',
                     'type':'textarea',
-                    'placeholder':'If operator is "is not existed", this field will be ignored',
+                    'placeholder':'',
                 }
             ]
         }
@@ -95,6 +95,7 @@ matcher_editor.condition_input_meta = {
                 },
                 {
                     'title':'value',
+                    'name':'value',
                     'type':'input',
                 },
             ]
@@ -121,7 +122,7 @@ matcher_editor.condition_input_meta = {
                     'title':'value',
                     'name':'value',
                     'type':'input',
-                    'placeholder':'If operator is "is not existed", this field will be ignored',
+                    'placeholder':'',
                 },
             ]
         }
@@ -147,7 +148,7 @@ matcher_editor.condition_input_meta = {
                     'title':'value',
                     'name':'value',
                     'type':'input',
-                    'placeholder':'If operator is "is not existed", this field will be ignored',
+                    'placeholder':'',
                 },
             ]
         }
@@ -165,6 +166,7 @@ matcher_editor.condition_input_meta = {
                     }
                 },
                 {
+                    'title':'value',
                     'name':'value',
                     'type':'input',
                 },
@@ -191,7 +193,7 @@ matcher_editor.condition_input_meta = {
                     'title':'value',
                     'name':'name_value',
                     'type':'textarea',
-                    'placeholder':'If operator is "is not existed", this field will be ignored',
+                    'placeholder':'',
                 }
             ]
         },
@@ -216,7 +218,7 @@ matcher_editor.condition_input_meta = {
                     'name':'operator',
                     'name':'value',
                     'type':'textarea',
-                    'placeholder':'If operator is "is not existed", this field will be ignored',
+                    'placeholder':'',
                 }
             ]
         }
@@ -241,7 +243,7 @@ matcher_editor.condition_input_meta = {
                     'title':'value',
                     'name':'name_value',
                     'type':'textarea',
-                    'placeholder':'If operator is "is not existed", this field will be ignored',
+                    'placeholder':'',
                 }
             ]
         },
@@ -266,12 +268,14 @@ matcher_editor.condition_input_meta = {
                     'name':'operator',
                     'name':'value',
                     'type':'textarea',
-                    'placeholder':'If operator is "is not existed", this field will be ignored',
+                    'placeholder':'',
                 }
             ]
         }
     ],
 };
+
+
 
 matcher_editor.init = function(){
     
@@ -283,9 +287,15 @@ matcher_editor.init = function(){
     });
 
     matcher_editor.input_group_vm = new Vue({
-        el: '#config_modal_matcher_input_group',
-        data: { input_meta:[] },
+        el: '#config_modal_condition',
+        data: { 
+            input_meta: matcher_editor.form_meta
+        },
     });
+
+
+    console.log( 'keys' );
+    console.log(Object.keys(matcher_editor.form_meta))
 }
 
 
@@ -320,32 +330,51 @@ matcher_editor.tmp_conditions_delete = function( btn ){
 
 matcher_editor.modal_condition_open = function(){
     $('#config_modal_condition').modal('show');
-    matcher_editor.modal_condition_switch_input();
+    matcher_editor.update_display();
+    $(".condition_value").val('');
 }
 
-matcher_editor.modal_condition_switch_input = function(){
+//update which input item need dispaly/hide 
+matcher_editor.update_display = function(){
+    console.log('hahaha:update_display');
+    
+    //step1: only show target condition's inputer
     var condition_type = $("#config_modal_condition [name=condition_type]").val();
-    
-    //console.log('condition_type',condition_type);
+    $('.config_matcher_conditon_container').hide(); 
+    $('.config_matcher_conditon_container[condition_type=' + condition_type + ']').show();
 
-    matcher_editor.input_group_vm.$data = { 'input_meta': matcher_editor.condition_input_meta[condition_type] } ;
-    $(".condition_value").val('');
-    
-    //make the modal in the center
+    //step2: only show input item which been needed
+    var input_group_list = $('#config_modal_condition .input_group_container:visible');
+    for( var i=0; i < input_group_list.length; i++ ){
+        var input_group = $(input_group_list[i]);
+        var input_item_list = input_group.find(".input_item");
+        
+        input_item_list.show();
+        var operator_val = $(input_item_list[0]).find( 'select.config_matcher_editor_value' ).val();
+        console.log('operator_val:',operator_val);
+        
+        if( operator_val == '*' || operator_val == '∃' || operator_val == '!∃'  ){
+            $(input_item_list[1]).hide();          
+        }
+    }    
     Vue.nextTick( function(){
          dashboard.modal_reposition.call( $("#config_modal_condition")[0] );
     });
+}
+
+matcher_editor.get_input_data = function(){
+    
 }
 
 matcher_editor.modal_condition_save = function(){
     var condition_type = $("#config_modal_condition [name=condition_type]").val();
     
     if( matcher_editor.tmp_conditions[condition_type] != null ){
-        dashboard.notify('Condition [' + condition_type + '] already existed');
+        dashboard.show_notice('warning','Condition [' + condition_type + '] already existed');
         return;
     }
     
-    var inputer_list = $('#config_modal_matcher_input_group .config_matcher_editor_value');
+    var inputer_list = $('#config_modal_matcher_input_group .config_matcher_editor_value:visible');
     
     var condition_value = {};
     for( var i=0; i < inputer_list.length; i++ ){
@@ -355,12 +384,7 @@ matcher_editor.modal_condition_save = function(){
         condition_value[name] = value;
     }
 
-    //when operator = "is null", value will be ignored
-    if( condition_value['operator'] == '!' ){
-        delete condition_value['value'];
-    }
-
-    //console.log("Add matcher condition:", condition_type, condition_value);
+    console.log("Add matcher condition:", condition_type, condition_value);
     Vue.set(matcher_editor.tmp_conditions, condition_type, condition_value);
     $('#config_modal_condition').modal('hide');
 }

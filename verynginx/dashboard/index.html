@@ -1850,51 +1850,50 @@
                                 <div class="row vn_modal_row"   >
                                     <label class="col-sm-2 text-right control-label">Type</label>
                                     <div class="col-sm-10">
-                                        <select class="form-control" name="condition_type" onchange="matcher_editor.modal_condition_switch_input()">
-                                            <option value="URI">URI</option>
-                                            <option value="Host">Host</option>
-                                            <option value="Header">Header</option>
-                                            <option value="Cookie">Cookie</option>
-                                            <option value="UserAgent">UserAgent</option>
-                                            <option value="IP">IP</option>
-                                            <option value="Args">Args</option>
-                                            <option value="Referer">Referer</option>
+                                        <select class="form-control" name="condition_type" onchange="matcher_editor.update_display()">
+                                            <template v-for="(condition_type,condition_data) in input_meta">
+                                                <option value="{{ condition_type }}">{{ condition_type }}</option>
+                                            </template>
                                         </select>
                                     </div>
                                 </div>
 
                                 <div class="config_matcher_value_contain" id="config_modal_matcher_input_group">
-                                    <template v-for="config_group in input_meta">
-                                        <div class="input_group_container">
-                                            <div class="input_group_title">
-                                                <span style='background:#fff;padding-left:5px;padding-right:5px'>{{ config_group.group_name }}</span>
-                                            </div> 
-                                            <template v-for="input_item in config_group.input">
-                                                <div class="input_item">
-                                                    <div class="row">
-                                                        <div class="col-sm-2 input_item_title">
-                                                            {{input_item.title}} 
+                                    <template v-for="(condition_type,condition_data) in input_meta">
+                                        <div class='config_matcher_conditon_container' condition_type="{{condition_type}}">
+                                        <template v-for="config_group in condition_data">
+                                            <div class="input_group_container" >
+                                                <div class="input_group_title">
+                                                    <span style='background:#fff;padding-left:5px;padding-right:5px'>{{ config_group.group_name }}</span>
+                                                </div> 
+                                                <template v-for="input_item in config_group.input">
+                                                    <div class="input_item">
+                                                        <div class="row">
+                                                            <div class="col-sm-2 input_item_title">
+                                                                {{input_item.title}} 
+                                                            </div>
+                                                            <div class="col-sm-10 input_item_inputer"> 
+                                                                <template v-if="(input_item.type == 'input')">
+                                                                    <input type="text" class="form-control config_matcher_editor_value" name="{{input_item.name}}" placeholder="{{input_item.placeholder}}"></input>
+                                                                </template>
+                                                                
+                                                                <template v-if="(input_item.type == 'textarea')">
+                                                                    <textarea class="form-control config_matcher_editor_value" rows='3' name="{{input_item.name}}" placeholder="{{input_item.placeholder}}"></textarea>
+                                                                </template>
+                                                                
+                                                                <template v-if="(input_item.type == 'select')">
+                                                                    <select class="form-control config_matcher_editor_value" name="{{input_item.name}}" onchange="matcher_editor.update_display()">
+                                                                        <template v-for="(k,v) in input_item.options">
+                                                                            <option value="{{v}}">{{k}}</option>
+                                                                        </template>
+                                                                    </select>
+                                                                </template>
+                                                            </div> 
                                                         </div>
-                                                        <div class="col-sm-10 input_item_inputer"> 
-                                                            <template v-if="(input_item.type == 'input')">
-                                                                <input type="text" class="form-control config_matcher_editor_value" name="{{input_item.name}}" placeholder="{{input_item.placeholder}}"></input>
-                                                            </template>
-                                                            
-                                                            <template v-if="(input_item.type == 'textarea')">
-                                                                <textarea class="form-control config_matcher_editor_value" rows='3' name="{{input_item.name}}" placeholder="{{input_item.placeholder}}"></textarea>
-                                                            </template>
-                                                            
-                                                            <template v-if="(input_item.type == 'select')">
-                                                                <select class="form-control config_matcher_editor_value" name="{{input_item.name}}">
-                                                                    <template v-for="(k,v) in input_item.options">
-                                                                        <option value="{{v}}">{{k}}</option>
-                                                                    </template>
-                                                                </select>
-                                                            </template>
-                                                        </div> 
                                                     </div>
-                                                </div>
-                                            </template>
+                                                </template>
+                                            </div>
+                                        </template>
                                         </div>
                                     </template>
                                 </div>
