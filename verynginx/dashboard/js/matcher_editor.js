@@ -292,10 +292,6 @@ matcher_editor.init = function(){
             input_meta: matcher_editor.form_meta
         },
     });
-
-
-    console.log( 'keys' );
-    console.log(Object.keys(matcher_editor.form_meta))
 }
 
 
@@ -330,8 +326,9 @@ matcher_editor.tmp_conditions_delete = function( btn ){
 
 matcher_editor.modal_condition_open = function(){
     $('#config_modal_condition').modal('show');
+    
+    util.reset_input_area('#config_modal_condition');
     matcher_editor.update_display();
-    $(".condition_value").val('');
 }
 
 //update which input item need dispaly/hide 
@@ -375,7 +372,6 @@ matcher_editor.modal_condition_save = function(){
     }
     
     var inputer_list = $('#config_modal_matcher_input_group .config_matcher_editor_value:visible');
-    
     var condition_value = {};
     for( var i=0; i < inputer_list.length; i++ ){
         var inputer = inputer_list[i];
@@ -384,7 +380,6 @@ matcher_editor.modal_condition_save = function(){
         condition_value[name] = value;
     }
 
-    console.log("Add matcher condition:", condition_type, condition_value);
     Vue.set(matcher_editor.tmp_conditions, condition_type, condition_value);
     $('#config_modal_condition').modal('hide');
 }

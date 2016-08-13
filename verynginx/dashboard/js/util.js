@@ -11,3 +11,15 @@ util.html_decode = function( value ){
 util.clone = function( data ){
     return JSON.parse( JSON.stringify( data ) );
 }
+
+util.reset_input_area = function( selector ){
+  //reset inpu
+  $( selector ).find('input[type="text"]').each(function(){
+      $(this).val("");
+  });
+  
+  //reset select
+  $( selector ).find('select').each(function(){
+      $(this).prop('selectedIndex', 0);
+  });
+};
