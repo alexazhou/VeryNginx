@@ -14,16 +14,16 @@ matcher_editor.form_meta = {
                     'type':"select",
                     'options':{
                         'Any [*]':"*",
-                        'Match RegEx':"≈",
-                        'Not Matche RegEx':"!≈",
-                        'Equal':"=",
-                        'Not Equal':"!=",
+                        'Match RegEx [≈]':"≈",
+                        'Not Matche RegEx [!≈]':"!≈",
+                        'Equal [=]':"=",
+                        'Not Equal [!=]':"!=",
                     }
                 },
                 {
                     'title':'value',
                     'name':'name_value',
-                    'type':'textarea',
+                    'type':'input',
                     'placeholder':'',
                 }
             ]
@@ -36,19 +36,19 @@ matcher_editor.form_meta = {
                     'name':'operator',
                     'type':"select",
                     'options':{
-                        'Match RegEx':"!≈",
-                        'Not Matche RegEx':"!≈",
-                        'Equal':"=",
-                        'Not Equal':"!=",
-                        'Existed':"∃",
-                        'Not Existed':"!∃",
+                        'Match RegEx [≈]':"!≈",
+                        'Not Matche RegEx [!≈]':"!≈",
+                        'Equal [=]':"=",
+                        'Not Equal [!=]':"!=",
+                        'Existed':"Exist",
+                        'Not Existed':"!Exist",
                     }
                 },
                 {
                     'title':'value',
                     'name':'operator',
                     'name':'value',
-                    'type':'textarea',
+                    'type':'input',
                     'placeholder':'',
                 }
             ]
@@ -63,10 +63,10 @@ matcher_editor.form_meta = {
                     'name':'operator',
                     'type':"select",
                     'options':{
-                        'Match RegEx':"≈",
-                        'Not Matche RegEx':"!≈",
-                        'Equal':"=",
-                        'Not Equal':"!=",
+                        'Match RegEx [≈]':"≈",
+                        'Not Matche RegEx [!≈]':"!≈",
+                        'Equal [=]':"=",
+                        'Not Equal [!=]':"!=",
                     }
 
                 },
@@ -87,10 +87,10 @@ matcher_editor.form_meta = {
                     'name':'operator',
                     'type':"select",
                     'options':{
-                        'Match RegEx':"≈",
-                        'Not Matche RegEx':"!≈",
-                        'Equal':"=",
-                        'Not Equal':"!=",
+                        'Match RegEx [≈]':"≈",
+                        'Not Matche RegEx [!≈]':"!≈",
+                        'Equal [=]':"=",
+                        'Not Equal [!=]':"!=",
                     }
                 },
                 {
@@ -110,12 +110,12 @@ matcher_editor.form_meta = {
                     'name':'operator',
                     'type':"select",
                     'options':{
-                        'Match RegEx':"≈",
-                        'Not Matche RegEx':"!≈",
-                        'Equal':"=",
-                        'Not Equal':"!=",
-                        'Existed':"∃",
-                        'Not Existed':"!∃",
+                        'Match RegEx [≈]':"≈",
+                        'Not Matche RegEx [!≈]':"!≈",
+                        'Equal [=]':"=",
+                        'Not Equal [!=]':"!=",
+                        'Existed':"Exist",
+                        'Not Existed':"!Exist",
                     }
                 },
                 {
@@ -136,12 +136,12 @@ matcher_editor.form_meta = {
                     'name':'operator',
                     'type':"select",
                     'options':{
-                        'Match RegEx':"≈",
-                        'Not Matche RegEx':"!≈",
-                        'Equal':"=",
-                        'Not Equal':"!=",
-                        'Existed':"∃",
-                        'Not Existed':"!∃",
+                        'Match RegEx [≈]':"≈",
+                        'Not Matche RegEx [!≈]':"!≈",
+                        'Equal [=]':"=",
+                        'Not Equal [!=]':"!=",
+                        'Existed':"Exist",
+                        'Not Existed':"!Exist",
                     }
                 },
                 {
@@ -161,8 +161,8 @@ matcher_editor.form_meta = {
                     'name':'operator',
                     'type':"select",
                     'options':{
-                        'Equal':"=",
-                        'Not Equal':"!=",
+                        'Equal [=]':"=",
+                        'Not Equal [!=]':"!=",
                     }
                 },
                 {
@@ -182,17 +182,17 @@ matcher_editor.form_meta = {
                     'name':'name_operator',
                     'type':"select",
                     'options':{
-                        'Any':"*",
-                        'Match RegEx':"≈",
-                        'Not Matche RegEx':"!≈",
-                        'Equal':"=",
-                        'Not Equal':"!=",
+                        'Any [*]':"*",
+                        'Match RegEx [≈]':"≈",
+                        'Not Matche RegEx [!≈]':"!≈",
+                        'Equal [=]':"=",
+                        'Not Equal [!=]':"!=",
                     }
                 },
                 {
                     'title':'value',
                     'name':'name_value',
-                    'type':'textarea',
+                    'type':'input',
                     'placeholder':'',
                 }
             ]
@@ -205,19 +205,19 @@ matcher_editor.form_meta = {
                     'name':'operator',
                     'type':"select",
                     'options':{
-                        'Match RegEx':"≈",
-                        'Not Matche RegEx':"!≈",
-                        'Equal':"=",
-                        'Not Equal':"!=",
-                        'Existed':"∃",
-                        'Not Existed':"!∃",
+                        'Match RegEx [≈]':"≈",
+                        'Not Matche RegEx [!≈]':"!≈",
+                        'Equal [=]':"=",
+                        'Not Equal [!=]':"!=",
+                        'Existed':"Exist",
+                        'Not Existed':"!Exist",
                     }
                 },
                 {
                     'title':'value',
                     'name':'operator',
                     'name':'value',
-                    'type':'textarea',
+                    'type':'input',
                     'placeholder':'',
                 }
             ]
@@ -232,17 +232,17 @@ matcher_editor.form_meta = {
                     'name':'name_operator',
                     'type':"select",
                     'options':{
-                        'Any':"*",
-                        'Match RegEx':"≈",
-                        'Not Matche RegEx':"!≈",
-                        'Equal':"=",
-                        'Not Equal':"!=",
+                        'Any [*]':"*",
+                        'Match RegEx [≈]':"≈",
+                        'Not Matche RegEx [!≈]':"!≈",
+                        'Equal [=]':"=",
+                        'Not Equal [!=]':"!=",
                     }
                 },
                 {
                     'title':'value',
                     'name':'name_value',
-                    'type':'textarea',
+                    'type':'input',
                     'placeholder':'',
                 }
             ]
@@ -255,19 +255,19 @@ matcher_editor.form_meta = {
                     'name':'operator',
                     'type':"select",
                     'options':{
-                        'Match RegEx':"≈",
-                        'Not Matche RegEx':"!≈",
-                        'Equal':"=",
-                        'Not Equal':"!=",
-                        'Existed':"∃",
-                        'Not Existed':"!∃",
+                        'Match RegEx [≈]':"≈",
+                        'Not Matche RegEx [!≈]':"!≈",
+                        'Equal [=]':"=",
+                        'Not Equal [!=]':"!=",
+                        'Existed':"Exist",
+                        'Not Existed':"!Exist",
                     }
                 },
                 {
                     'title':'value',
                     'name':'operator',
                     'name':'value',
-                    'type':'textarea',
+                    'type':'input',
                     'placeholder':'',
                 }
             ]
@@ -353,7 +353,7 @@ matcher_editor.update_display = function(){
         var operator_val = $(input_item_list[0]).find( 'select.config_matcher_editor_value' ).val();
         console.log('operator_val:',operator_val);
         
-        if( operator_val == '*' || operator_val == '∃' || operator_val == '!∃'  ){
+        if( operator_val == '*' || operator_val == 'Exist' || operator_val == '!Exist'  ){
             $(input_item_list[1]).hide();          
         }
     }    

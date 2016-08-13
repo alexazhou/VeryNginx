@@ -92,6 +92,7 @@
 .config_matcher_block_operator{
     font-weight:bold;
 	color:#999;
+	font-family:Times;
 }
 
 .config_matcher_block_value{
