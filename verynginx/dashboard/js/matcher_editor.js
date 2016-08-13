@@ -36,7 +36,7 @@ matcher_editor.form_meta = {
                     'name':'operator',
                     'type':"select",
                     'options':{
-                        'Match RegEx [≈]':"!≈",
+                        'Match RegEx [≈]':"≈",
                         'Not Matche RegEx [!≈]':"!≈",
                         'Equal [=]':"=",
                         'Not Equal [!=]':"!=",

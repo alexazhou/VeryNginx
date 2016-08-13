@@ -13,15 +13,18 @@ config.vue_component_condition = Vue.extend({
                    <div class="config_matcher_block">\
                        <span class="glyphicon glyphicon-remove config_matcher_block_btn_delete" v-if="(del_action != null)" onclick="{{del_action}}"></span>\
                        <span class="config_matcher_block_type">{{condition_name}}</span>\
-                       <template v-if="(condition_value.name_operator != null)">\
-                           <span class="config_matcher_block_name"> {{ "[name" + condition_value.name_operator }}</span>\
-                           <span class="config_matcher_block_name"> {{condition_value.name_value + "]" }}</span>\
-                       </template>\
-                       <span class="config_matcher_block_operator"> {{condition_value.operator | show_operator}}</span>\
+                       <span class="config_matcher_block_name">\
+                           <template v-if="(condition_value.name_operator != null)">[ name\
+                               {{ condition_value.name_operator}}\
+                               <template v-if="(condition_value.name_value != null)">\
+                                   {{condition_value.name_value }}\
+                               </template>\
+                           ]</template>\
+                       </span>\
+                       <span class="config_matcher_block_operator">{{condition_value.operator | show_operator}}</span>\
                        <span class="config_matcher_block_value" >{{condition_value.value}}</span>\
                    </div>\
                </template>'
-
 });
 
 config.vue_upstream_node = Vue.extend({
@@ -42,9 +45,6 @@ Vue.component('condition', config.vue_component_condition );
 Vue.component('upstream', config.vue_upstream_node );
 
 Vue.filter('show_operator', function (operator) {
-    if( operator == '!'){
-        return ' is Null'
-    }
     return operator;
 });
 
