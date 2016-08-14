@@ -13,7 +13,7 @@ _M["configs"] = {}
 
 --------------default config------------
 
-_M.configs["config_version"] = "0.33"
+_M.configs["config_version"] = "0.34"
 _M.configs["readonly"] = false
 _M.configs["base_uri"] = "/verynginx"
 _M.configs['dashboard_host'] = ""
@@ -26,6 +26,7 @@ _M.configs['matcher'] = {
     ["all_request"] = {},
     ["attack_sql_0"] = { 
         ["Args"] = { 
+            ['name_operator'] = "*",
             ['operator'] = "≈",
             ['value']="select.*from",
         },
