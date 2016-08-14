@@ -94,17 +94,17 @@ end
 
 function _M.test_ip( condition )
     local remote_addr = ngx.var.remote_addr
-    return _M.test_var( condition['operator'], condition['value'], uri )
+    return _M.test_var( condition['operator'], condition['value'], remote_addr )
 end
 
 function _M.test_ua( condition )
     local http_user_agent = ngx.var.http_user_agent;
-    return _M.test_var( condition['operator'], condition['value'], uri )
+    return _M.test_var( condition['operator'], condition['value'], http_user_agent )
 end
 
 function _M.test_referer( condition )
     local http_referer = ngx.var.http_referer;
-    return _M.test_var( condition['operator'], condition['value'], uri )
+    return _M.test_var( condition['operator'], condition['value'], http_referer )
 end
 
 --uncompleted
@@ -172,7 +172,7 @@ end
 
 function _M.test_host( condition )
     local hostname = ngx.var.host
-    return _M.test_var( condition['operator'], condition['value'], uri )
+    return _M.test_var( condition['operator'], condition['value'], hostname )
 end
 
 function _M.test_header( condition )
