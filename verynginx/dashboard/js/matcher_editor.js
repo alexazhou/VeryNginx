@@ -13,11 +13,11 @@ matcher_editor.form_meta = {
                     'name':'name_operator',
                     'type':"select",
                     'options':{
-                        'Any [*]':"*",
-                        'Match RegEx [≈]':"≈",
-                        'Not Matche RegEx [!≈]':"!≈",
                         'Equal [=]':"=",
                         'Not Equal [!=]':"!=",
+                        'Match RegEx [≈]':"≈",
+                        'Not Matche RegEx [!≈]':"!≈",
+                        'Any [*]':"*",
                     }
                 },
                 {
@@ -182,11 +182,11 @@ matcher_editor.form_meta = {
                     'name':'name_operator',
                     'type':"select",
                     'options':{
-                        'Any [*]':"*",
-                        'Match RegEx [≈]':"≈",
-                        'Not Matche RegEx [!≈]':"!≈",
                         'Equal [=]':"=",
                         'Not Equal [!=]':"!=",
+                        'Match RegEx [≈]':"≈",
+                        'Not Matche RegEx [!≈]':"!≈",
+                        'Any [*]':"*",
                     }
                 },
                 {
@@ -232,11 +232,11 @@ matcher_editor.form_meta = {
                     'name':'name_operator',
                     'type':"select",
                     'options':{
-                        'Any [*]':"*",
-                        'Match RegEx [≈]':"≈",
-                        'Not Matche RegEx [!≈]':"!≈",
                         'Equal [=]':"=",
                         'Not Equal [!=]':"!=",
+                        'Match RegEx [≈]':"≈",
+                        'Not Matche RegEx [!≈]':"!≈",
+                        'Any [*]':"*",
                     }
                 },
                 {

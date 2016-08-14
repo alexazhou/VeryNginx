@@ -4,6 +4,8 @@
 -- @Link    : 
 -- @Disc    : test a request hit a matcher or not
 
+local cookie = require "cookie"
+
 _M = {}
 
 local tester = {}
@@ -46,9 +48,55 @@ function _M.test_var( condition, var )
         if var == nil or ngx.re.find( var, value, 'isjo' ) == nil then
             return true
         end
+    elseif operator == 'Exist' then
+        if var ~= nil then
+            return true
+        end
+    elseif operator == '!Exist' then
+        if var == nil then
+            return true
+        end
     elseif operator == '!' then
         if var == nil then
             return true
+        end
+    end
+
+    return false
+end
+
+--test a group of var in table with a condition 
+function _M.test_many_var( var_table, condition )
+    
+    local find = ngx.re.find
+    local test_var = _M.test_var
+
+    local name_operator = condition['name_operator']
+    local name_value = condition['name_value']
+
+    if name_operator == '=' then
+        return test_var( condition, var_table[name_value] )
+    elseif name_operator == '!=' then
+        for k, v in pairs(var_table) do
+            if k ~= name_value then
+               if test_var( condition, k ) == true then -- if any one value match the condition, means the matcher has been hited 
+                   return true 
+               end
+            end
+        end
+    elseif name_operator == '*' then
+        for k, v in pairs(var_table) do
+            if test_var( condition, k ) == true then -- if any one value match the condition, means the matcher has been hited 
+               return true 
+            end
+        end
+    elseif name_operator == '≈' or name_operator == '!≈' then
+        for k, v in pairs(var_table) do
+            if find( k, name_value ) ~= nil then
+               if test_var( condition, k ) == true then -- if any one value match the condition, means the matcher has been hited 
+                   return true
+               end  
+            end
         end
     end
 
@@ -144,11 +192,18 @@ function _M.test_host( condition )
 end
 
 function _M.test_header( condition )
-    
-    return false
+    local header_table = ngx.req.get_headers()
+    return _M.test_many_var( header_table, condition )
 end
 
 function _M.test_cookie( condition )
+    local cookie_obj, err = cookie:new()
+    local cookie_table = cookie_obj:get_all()
+
+    if cookie_table == nil then
+        cookie_table = {}
+    end
+    return _M.test_many_var( cookie_table, condition )
 end
 
 tester["URI"] = _M.test_uri
