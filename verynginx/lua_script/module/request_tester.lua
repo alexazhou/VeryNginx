@@ -109,7 +109,8 @@ end
 
 --uncompleted
 function _M.test_method( condition )
-    return false
+    local method_name = ngx.req.get_method()
+    return _M.test_var( condition['operator'], condition['value'], method_name )
 end
 
 function _M.test_args( condition )

@@ -155,7 +155,7 @@ matcher_editor.form_meta = {
     ],
     'IP':[
         {
-            'group_name':'value of IP',
+            'group_name':'Value of client IP',
             'input':[
                 {   
                     'name':'operator',
@@ -169,6 +169,42 @@ matcher_editor.form_meta = {
                     'title':'value',
                     'name':'value',
                     'type':'input',
+                },
+            ]
+        }
+    ],
+    'Method':[
+        {
+            'group_name':'Value of request method',
+            'input':[
+                {   
+                    'name':'operator',
+                    'type':"select",
+                    'options':{
+                        'Equal [=]':"=",
+                        'Not Equal [!=]':"!=",
+                    }
+                },
+                {   
+                    'name':'value',
+                    'type':"select",
+                    'options':{
+                        'GET':"GET",
+                        'POST':"POST",
+                        'PUT':"PUT",
+                        'DELETE':"DELETE",
+                        'HEAD':"HEAD",
+                        'OPTIONS':"OPTIONS",
+                        'MKCOL':"MKCOL",
+                        'COPY':"COPY",
+                        'MOVE':"MOVE",
+                        'PROPFIND':"PROPFIND",
+                        'PROPPATCH':"PROPPATCH",
+                        'LOCK':"LOCK",
+                        'UNLOCK':"UNLOCK",
+                        'PATCH':"PATCH",
+                        'TRACE':"TRACE",
+                    }
                 },
             ]
         }
