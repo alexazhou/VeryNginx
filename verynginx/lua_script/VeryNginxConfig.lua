@@ -171,6 +171,21 @@ function _M.version_updater_032( configs )
     return configs
 end
 
+function _M.version_updater_033( configs )
+    local matcher_list = configs['matcher']
+    
+    for i,rule in ipairs( matcher_list ) do
+        if rule['name'] ~= nil then
+            rule['name_operator'] =  "≈"
+            rule['name_value'] = rule['name']
+            table.remove( rule,'name')
+        end
+    end
+    
+    configs["config_version"] = "0.34"
+    return configs
+end
+
 
 _M.version_updater = {
     ['0.2'] = _M.version_updater_02,
@@ -179,6 +194,7 @@ _M.version_updater = {
     ['0.3'] = _M.version_updater_03,
     ['0.31'] = _M.version_updater_031,
     ['0.32'] = _M.version_updater_032,
+    ['0.33'] = _M.version_updater_033,
 }
 
 -------------------Config Updater end---------------------
