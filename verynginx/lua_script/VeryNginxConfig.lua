@@ -174,11 +174,13 @@ end
 function _M.version_updater_033( configs )
     local matcher_list = configs['matcher']
     
-    for i,rule in ipairs( matcher_list ) do
-        if rule['name'] ~= nil then
-            rule['name_operator'] =  "≈"
-            rule['name_value'] = rule['name']
-            table.remove( rule,'name')
+    for matcher_name,matcher_value in pairs( matcher_list ) do
+        for condition_type,condition_value in pairs( matcher_value ) do
+            if condition_type == 'Args' and condition_value['name'] ~= nil then
+                condition_value['name_operator'] =  "≈"
+                condition_value['name_value'] = condition_value['name']
+                condition_value['name'] = nil
+            end
         end
     end
     
