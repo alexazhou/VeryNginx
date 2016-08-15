@@ -76,6 +76,10 @@ _M.configs['matcher'] = {
 }
 
 _M.configs["response"] = {
+    ["r_demo1"] = {
+        ["content_type"] = "text/html",
+        ["body"] = "This is a demo response",
+    }
 }
 
 _M.configs["backend_upstream"] = {
@@ -193,6 +197,10 @@ end
 
 function _M.version_updater_034( configs )
     configs['response'] = {}
+    configs['response']["r_demo1"] = {
+        ["content_type"] = "text/html",
+        ["body"] = "This is a demo response",
+    }
     configs["config_version"] = "0.35"
     return configs
 end
@@ -330,16 +338,23 @@ function _M.set_config_metadata( config_table )
     --make sure empty table trans to right type
     local meta_table = {}
     meta_table['__jsontype'] = 'object'
-    setmetatable( config_table['matcher'], meta_table )
-    setmetatable( config_table['backend_upstream'], meta_table )
-    setmetatable( config_table['response'], meta_table )
     
-    for key, t in pairs( config_table["backend_upstream"] ) do
-        setmetatable( t['node'], meta_table )
+    if config_table['matcher'] ~= nil then
+        setmetatable( config_table['matcher'], meta_table )
+        for key, t in pairs( config_table["matcher"] ) do
+            setmetatable( t, meta_table )
+        end
     end
     
-    for key, t in pairs( config_table["matcher"] ) do
-        setmetatable( t, meta_table )
+    if config_table['backend_upstream'] ~= nil then
+        setmetatable( config_table['backend_upstream'], meta_table )
+        for key, t in pairs( config_table["backend_upstream"] ) do
+            setmetatable( t['node'], meta_table )
+        end
+    end
+    
+    if config_table['response'] ~= nil then
+        setmetatable( config_table['response'], meta_table )
     end
     --set table meta_data end
 
