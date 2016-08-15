@@ -13,7 +13,7 @@ _M["configs"] = {}
 
 --------------default config------------
 
-_M.configs["config_version"] = "0.34"
+_M.configs["config_version"] = "0.35"
 _M.configs["readonly"] = false
 _M.configs["base_uri"] = "/verynginx"
 _M.configs['dashboard_host'] = ""
@@ -73,6 +73,9 @@ _M.configs['matcher'] = {
             ['value']="/redirect_to_verynginx",
         }
     }
+}
+
+_M.configs["response"] = {
 }
 
 _M.configs["backend_upstream"] = {
@@ -188,6 +191,11 @@ function _M.version_updater_033( configs )
     return configs
 end
 
+function _M.version_updater_034( configs )
+    configs['response'] = {}
+    configs["config_version"] = "0.35"
+    return configs
+end
 
 _M.version_updater = {
     ['0.2'] = _M.version_updater_02,
@@ -197,6 +205,7 @@ _M.version_updater = {
     ['0.31'] = _M.version_updater_031,
     ['0.32'] = _M.version_updater_032,
     ['0.33'] = _M.version_updater_033,
+    ['0.34'] = _M.version_updater_034,
 }
 
 -------------------Config Updater end---------------------
@@ -323,6 +332,7 @@ function _M.set_config_metadata( config_table )
     meta_table['__jsontype'] = 'object'
     setmetatable( config_table['matcher'], meta_table )
     setmetatable( config_table['backend_upstream'], meta_table )
+    setmetatable( config_table['response'], meta_table )
     
     for key, t in pairs( config_table["backend_upstream"] ) do
         setmetatable( t['node'], meta_table )

@@ -231,6 +231,7 @@
                             <div class="leftnav leftnav_1 init_click" group="basic" onclick="dashboard.switch_config_nav_group(this)">Basic</div>
                             <div class="leftnav_group" group="basic">
                                 <div class="leftnav leftnav_2 " config_name="basic_matcher" onclick="dashboard.switch_to_config(this)">Matcher</div>
+                                <div class="leftnav leftnav_2 " config_name="basic_response" onclick="dashboard.switch_to_config(this)">Response</div>
                             </div>
                             <div class="leftnav leftnav_1" group="action" onclick="dashboard.switch_config_nav_group(this)">Custom Action</div>
                             <div class="leftnav_group" group="action">
@@ -335,6 +336,104 @@
                                         </template>
                                         <template v-else>
                                             <button type="submit" class="btn btn-default" onclick="config.config_edit_save('matcher','matcher_form','name');" >Add</button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="config_container" id="config_basic_response">
+                            <div class="config_title">
+                                Response
+                            </div>
+                            <table class="table table-bordered config_table" id="config_basic_response_table" >
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Name</td>
+                                        <td>Content Type</td>
+                                        <td>Body</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="(response_name, response_value) in response | orderBy '$key'">
+                                        <tr>
+                                            <td>{{ $index }}</td>
+                                            <td>{{ response_name }}</td>
+                                            <td>
+                                                 {{ response_value.content_type }}
+                                            </td>
+                                            <td>
+                                                 {{ response_value.body }}
+                                            </td>
+                                            <td class="no_break">
+
+                                                <template v-if="(response._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('response','{{$key}}','config_response_form','name')">
+                                                        EDIT
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('response','{{response_name}}',null)">
+                                                        DEL
+                                                    </button>
+                                                </template> 
+
+                                                <template v-if="(response._editing == $key )">
+                                                    Editing
+                                                </template>
+
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+                            <div class="config_sub_title">
+                                Add Rule
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" id="config_response_form" 
+                                  onsubmit="config.config_edit_save( 'response', 'config_response_form','name'); return false;" >
+
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( response._editing != undefined )" >
+                                            Now is editing rule {{response._editing}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Name</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="config_response_editor_name" name="name" type="text" vn_data_verify="verify.str_len(1,null)" placeholder="Name of the response">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Content-Type</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="content_type">
+                                            <option value="text/html">text/html</option>
+                                            <option value="application/json">application/json</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Body</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" name="body" type="text" placeholder="Http response body"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <template v-if="(response._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" >Save</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('response','config_response_form')">
+                                                Cancel
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" >Add</button>
                                         </template>
                                     </div>
                                 </div>

@@ -45,7 +45,7 @@ vnform.verify_form = function( form_id ){
    console.log('verify form:',form_id);
    vnform.clean_all_err_mark();
    
-   var inputs = $('#' + form_id).find("input,select");
+   var inputs = $('#' + form_id).find("input,select,textarea");
    for( var i=0; i < inputs.length; i++ ){
         var err_msg = vnform.verify_input( inputs[i] );
         
@@ -66,12 +66,13 @@ vnform.get_data = function( form_id ){
         return data;
     }
 
-    var inputs = $('#' + form_id).find("input,checkbox,select");
+    var inputs = $('#' + form_id).find("input,textarea,checkbox,select");
 
     for( var i=0; i < inputs.length; i++ ){
         var item = $(inputs[i]);
         var name = item.attr('name');
-        if( item.prop('tagName').toLowerCase() == "input"  ){
+        var tagName = item.prop('tagName').toLowerCase();
+        if( tagName == "input" || tagName == 'textarea' ){
 
             if( item.attr('type') == "checkbox" ){
                 var config_group = item.attr('config_group');
@@ -119,13 +120,14 @@ vnform.set_data = function( form_id, data ){
         return;
     }
     
-    var inputs = $('#'+form_id).find("input,checkbox,select");
+    var inputs = $('#'+form_id).find("input,textarea,checkbox,select");
     for( var i=0; i < inputs.length; i++ ){
         var item = $(inputs[i]);
         var name = item.attr('name');
+        var tagName = item.prop('tagName').toLowerCase();
         //console.log('process item',item)
         //console.log('name',name)
-        if( item.prop('tagName').toLowerCase() == "input" ){
+        if( tagName == "input" || tagName == 'textarea' ){
             if( item.attr('type') == "checkbox" ){
                 var config_group = item.attr('config_group');
                 if( config_group != null && data[config_group] != null ){
