@@ -17,7 +17,9 @@ function _M.filter()
     end
     
     local matcher_list = VeryNginxConfig.configs['matcher']
-    
+    local response_list = VeryNginxConfig.configs['response']
+    local response = nil
+
     for i,rule in ipairs( VeryNginxConfig.configs["filter_rule"] ) do
         local enable = rule['enable']
         local matcher = matcher_list[ rule['matcher'] ] 
@@ -25,8 +27,16 @@ function _M.filter()
             local action = rule['action']
             if action == 'accept' then
                 return
-            else 
-                ngx.exit( tonumber(rule['code']) )
+            else
+                ngx.status = tonumber( rule['code'] )
+                if rule['response'] ~= nil then
+                    response = response_list[rule['response']]
+                    if response ~= nil then
+                        ngx.header.content_type = response['content_type']
+                        ngx.say( response['body'] )
+                    end
+                end
+                ngx.exit( ngx.HTTP_OK )
             end
         end
     end

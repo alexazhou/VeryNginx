@@ -1097,6 +1097,7 @@
                                         <td>Matcher</td>
                                         <td>Action</td>
                                         <td>Return Code</td>
+                                        <td>Response</td>
                                         <td></td>
                                     </tr>
                                 </thead>
@@ -1117,6 +1118,11 @@
                                             <td>
                                                 <template v-if="(rule.action == 'block')">
                                                     {{ rule.code }}
+                                                </template>
+                                            </td>
+                                            <td>
+                                                <template v-if="(rule.action == 'block')">
+                                                    {{ rule.response }}
                                                 </template>
                                             </td>
                                             <td class="no_break">
@@ -1210,6 +1216,16 @@
                                             <option value="504">504</option>
                                             <option value="505">505</option>
                                             <option value="507">507</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Response</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="response">
+                                            <template v-for="(response_name, response_value) in response | orderBy '$key'">
+                                                <option value="{{response_name}}">{{response_name}}</option>
+                                            </template>
                                         </select>
                                     </div>
                                 </div>
