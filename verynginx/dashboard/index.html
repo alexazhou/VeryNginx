@@ -1724,21 +1724,21 @@
                             <div class="vn-config-box row">
                                 <div class="col-sm-2 vn-config-label">Base URI</div>
                                 <div class="col-sm-10">
-                                    <input class="form-control vn-config-input" type="text" v-model="base_uri" placeholder="/verynginx" vn_data_verify="verify.base_uri()" onchange="vnform.verify_input_with_notice(this)">
+                                    <input class="form-control vn-config-input" type="text" v-model="config_now.base_uri" placeholder="/verynginx" vn_data_verify="verify.base_uri()" onchange="vnform.verify_input_with_notice(this)">
                                 </div>
                             </div>
                             
                             <div class="vn-config-box row">
                                 <div class="col-sm-2 vn-config-label">Host Limit</div>
                                 <div class="col-sm-10">
-                                    <input class="form-control vn-config-input" type="text" v-model="dashboard_host" placeholder="If not empty, dashboard can only be accessed through the designated host" vn_data_verify="verify.host_or_empty()" onchange="vnform.verify_input_with_notice(this)">
+                                    <input class="form-control vn-config-input" type="text" v-model="config_now.dashboard_host" placeholder="If not empty, dashboard can only be accessed through the designated host" vn_data_verify="verify.host_or_empty()" onchange="vnform.verify_input_with_notice(this)">
                                 </div>
                             </div>
                             
                             <div class="vn-config-box row">
                                 <div class="col-sm-2 vn-config-label">Cookie Prefix</div>
                                 <div class="col-sm-10">
-                                    <input class="form-control vn-config-input" type="text" v-model="cookie_prefix" placeholder="The prefix of cookies of verynginx" vn_data_verify="verify.str_len(1,20)" onchange="vnform.verify_input_with_notice(this)">
+                                    <input class="form-control vn-config-input" type="text" v-model="config_now.cookie_prefix" placeholder="The prefix of cookies of verynginx" vn_data_verify="verify.str_len(1,20)" onchange="vnform.verify_input_with_notice(this)">
                                 </div>
                             </div>
                         </div>
@@ -1778,8 +1778,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-for="rule in admin">
-                                        <tr v-bind:class="[ admin._editing == $index ? 'editing' : '']">
+                                    <template v-for="rule in config_now.admin">
+                                        <tr v-bind:class="[ config_now.admin._editing == $index ? 'editing' : '']">
                                             <td>{{ $index }}</td>
                                             <td>
                                                 <template v-if="(rule.enable)">
@@ -1792,7 +1792,7 @@
                                             <td>{{ rule.user }}</td>
                                             <td>{{ rule.password }}</td>
                                             <td class="no_break">
-                                                <template v-if="(admin._editing == undefined )">
+                                                <template v-if="(config_now.admin._editing == undefined )">
                                                     <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('admin',{{$index}},null)">
                                                         DEL
                                                     </button>
@@ -1800,7 +1800,7 @@
                                                         EDIT
                                                     </button>
                                                 </template> 
-                                                <template v-if="(admin._editing == $index )">
+                                                <template v-if="(config_now.admin._editing == $index )">
                                                     Editing
                                                 </template>
                                             </td>
@@ -1818,8 +1818,8 @@
                                 
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
-                                        <div class="notice" v-if="( admin._editing != undefined )" >
-                                            Now is editing rule {{admin._editing}}
+                                        <div class="notice" v-if="( config_now.admin._editing != undefined )" >
+                                            Now is editing rule {{config_now.admin._editing}}
                                         </div>
                                     </div>
                                 </div>
@@ -1845,7 +1845,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <template v-if="(admin._editing != undefined )">
+                                        <template v-if="(config_now.admin._editing != undefined )">
                                             <button type="submit" class="btn btn-default" >Save</button>
                                             <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('admin','config_admin_form')">
                                                 Cancel
