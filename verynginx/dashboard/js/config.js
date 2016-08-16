@@ -73,21 +73,23 @@ config.refresh_bottom_bar = function(){
 
 config.get_config = function(){
     $.get("./config",function(data,status){
-        config.verynginx_config = data;
-        config.original_config_json = JSON.stringify( config.verynginx_config , null, 2);
-            
+        config.original_config_json = JSON.stringify( data , null, 2);
+        config.verynginx_config = data; 
+
         if( config.config_vm != null ){
-            config.config_vm.$data = config.verynginx_config;
+            config.config_vm.$set( 'config_now', data);
             dashboard.notify("Reread config success");
             return;
         }
 
         config.config_vm = new Vue({
             el: '#verynginx_config',
-            data: config.verynginx_config,
+            data: {
+                'config_now':config.verynginx_config
+            },
             computed : {
                 all_config_json: function(){
-                    return JSON.stringify( config.verynginx_config , null, 2);
+                    return JSON.stringify( this.config_now , null, 2);
                 }
             }
         });
@@ -99,7 +101,7 @@ config.get_config = function(){
 
 config.save_config = function(){
     console.log("save_config");
-    var config_json = JSON.stringify( config.verynginx_config , null, 2);
+    var config_json = JSON.stringify( config.config_vm.$data['config_now'] , null, 2);
 
     //step 1, use encodeURIComponent to escape special char 
     var config_json_escaped = window.encodeURIComponent( config_json );
@@ -179,7 +181,7 @@ config.edit_flag_set = function( group, flag ){
         Object.defineProperty( config_group , "_editing", { value : flag, enumerable:false, writable:true });
     }
     //reset data to refresh the view
-    config.config_vm.$set( group, config_group );
+    config.config_vm.$set( 'config_now.' + group, config_group );
 }
 
 //set a rule to edit status and fill data of the rule into editor form

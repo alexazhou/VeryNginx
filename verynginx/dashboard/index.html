@@ -276,7 +276,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-for="(matcher_name, matcher_conditions) in matcher | orderBy '$key'">
+                                    <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
                                         <tr>
                                             <td>{{ $index }}</td>
                                             <td>{{ matcher_name }}</td>
@@ -285,7 +285,7 @@
                                             </td>
                                             <td class="no_break">
 
-                                                <template v-if="(matcher._editing == undefined )">
+                                                <template v-if="(config_now.matcher._editing == undefined )">
                                                     <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('matcher','{{$key}}','matcher_form','name')">
                                                         EDIT
                                                     </button>
@@ -294,7 +294,7 @@
                                                     </button>
                                                 </template> 
 
-                                                <template v-if="(matcher._editing == $key )">
+                                                <template v-if="(config_now.matcher._editing == $key )">
                                                     Editing
                                                 </template>
 
@@ -328,7 +328,7 @@
                                 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <template v-if="(matcher._editing != undefined )">
+                                        <template v-if="(config_now.matcher._editing != undefined )">
                                             <button type="submit" class="btn btn-default" onclick="config.config_edit_save('matcher','matcher_form','name');" >Save</button>
                                             <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('matcher','matcher_form')">
                                                 Cancel
@@ -357,7 +357,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-for="(response_name, response_value) in response | orderBy '$key'">
+                                    <template v-for="(response_name, response_value) in config_now.response | orderBy '$key'">
                                         <tr>
                                             <td>{{ $index }}</td>
                                             <td>{{ response_name }}</td>
@@ -369,7 +369,7 @@
                                             </td>
                                             <td class="no_break">
 
-                                                <template v-if="(response._editing == undefined )">
+                                                <template v-if="(config_now.response._editing == undefined )">
                                                     <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('response','{{$key}}','config_response_form','name')">
                                                         EDIT
                                                     </button>
@@ -378,7 +378,7 @@
                                                     </button>
                                                 </template> 
 
-                                                <template v-if="(response._editing == $key )">
+                                                <template v-if="(config_now.response._editing == $key )">
                                                     Editing
                                                 </template>
 
@@ -397,8 +397,8 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
-                                        <div class="notice" v-if="( response._editing != undefined )" >
-                                            Now is editing rule {{response._editing}}
+                                        <div class="notice" v-if="( config_now.response._editing != undefined )" >
+                                            Now is editing rule {{config_now.response._editing}}
                                         </div>
                                     </div>
                                 </div>
@@ -426,7 +426,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <template v-if="(response._editing != undefined )">
+                                        <template v-if="(config_now.response._editing != undefined )">
                                             <button type="submit" class="btn btn-default" >Save</button>
                                             <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('response','config_response_form')">
                                                 Cancel
@@ -444,7 +444,7 @@
                             <div class="config_title">
                                 Scheme Lock
                             </div>
-                            <input type="checkbox" id="checkbox" v-model="scheme_lock_enable">
+                            <input type="checkbox" id="checkbox" v-model="config_now.scheme_lock_enable">
                             <label>Enable</label>
                             <table class="table table-bordered config_table" id="config_action_scheme_lock_table">
                                 <thead>
@@ -457,8 +457,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-for="rule in scheme_lock_rule">
-                                        <tr v-bind:class="[ scheme_lock_rule._editing == $index ? 'editing' : '']">
+                                    <template v-for="rule in config_now.scheme_lock_rule">
+                                        <tr v-bind:class="[ config_now.scheme_lock_rule._editing == $index ? 'editing' : '']">
                                             <td >{{ $index }}</td>
                                             <td >
                                                 <template v-if="(rule.enable)">
@@ -471,7 +471,7 @@
                                             <td >{{ rule.matcher }}</td>
                                             <td >{{ rule.scheme }}</td>
                                             <td class="no_break">
-                                                <template v-if="(scheme_lock_rule._editing == undefined )">
+                                                <template v-if="(config_now.scheme_lock_rule._editing == undefined )">
                                                     <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('scheme_lock_rule',{{$index}})">
                                                         UP
                                                     </button>
@@ -486,7 +486,7 @@
                                                     </button>
                                                 </template> 
 
-                                                <template v-if="(scheme_lock_rule._editing == $index )">
+                                                <template v-if="(config_now.scheme_lock_rule._editing == $index )">
                                                     Editing
                                                 </template>
                                             </td>
@@ -503,8 +503,8 @@
                             <form class="form-horizontal" id="config_scheme_form" onsubmit="config.config_edit_save( 'scheme_lock_rule', 'config_scheme_form'); return false;" >
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
-                                        <div class="notice" v-if="( scheme_lock_rule._editing != undefined )" >
-                                            Now is editing rule {{scheme_lock_rule._editing}}
+                                        <div class="notice" v-if="( config_now.scheme_lock_rule._editing != undefined )" >
+                                            Now is editing rule {{config_now.scheme_lock_rule._editing}}
                                         </div>
                                     </div>
                                 </div>
@@ -521,7 +521,7 @@
                                     <label class="col-sm-2 control-label">Matcher</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" name="matcher">
-                                            <template v-for="(matcher_name, matcher_conditions) in matcher | orderBy '$key'">
+                                            <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
                                                 <option value="{{matcher_name}}">{{matcher_name}}</option>
                                             </template>
                                         </select>
@@ -539,7 +539,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <template v-if="(scheme_lock_rule._editing != undefined )">
+                                        <template v-if="(config_now.scheme_lock_rule._editing != undefined )">
                                             <button type="submit" class="btn btn-default" >Save</button>
                                             <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('scheme_lock_rule','config_scheme_form')">
                                                 Cancel
@@ -557,7 +557,7 @@
                             <div class="config_title">
                                 Redirect
                             </div>
-                            <input type="checkbox" id="checkbox" v-model="redirect_enable">
+                            <input type="checkbox" id="checkbox" v-model="config_now.redirect_enable">
                             <label>Enable</label>
                             <table class="table table-bordered config_table" id="config_redirect_table">
                                 <thead>
@@ -571,8 +571,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-for="rule in redirect_rule">
-                                        <tr v-bind:class="[ redirect_rule._editing == $index ? 'editing' : '']">
+                                    <template v-for="rule in config_now.redirect_rule">
+                                        <tr v-bind:class="[ config_now.redirect_rule._editing == $index ? 'editing' : '']">
                                             <td>{{ $index }}</td>
                                             <td>
                                                 <template v-if="(rule.enable)">
@@ -586,7 +586,7 @@
                                             <td>{{ rule.replace_re }}</td>
                                             <td>{{ rule.to_uri }}</td>
                                             <td class="no_break">
-                                                <template v-if="(redirect_rule._editing == undefined )">
+                                                <template v-if="(config_now.redirect_rule._editing == undefined )">
                                                     <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('redirect_rule',{{$index}})">
                                                         UP
                                                     </button>
@@ -600,7 +600,7 @@
                                                         EDIT
                                                     </button>
                                                 </template>
-                                                <template v-if="(redirect_rule._editing == $index )">
+                                                <template v-if="(config_now.redirect_rule._editing == $index )">
                                                     Editing
                                                 </template>
                                             </td>
@@ -618,8 +618,8 @@
 
                                <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
-                                        <div class="notice" v-if="( redirect_rule._editing != undefined )" >
-                                            Now is editing rule {{redirect_rule._editing}}
+                                        <div class="notice" v-if="( config_now.redirect_rule._editing != undefined )" >
+                                            Now is editing rule {{config_now.redirect_rule._editing}}
                                         </div>
                                     </div>
                                </div>
@@ -635,7 +635,7 @@
                                     <label class="col-sm-2 control-label">Matcher</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" name="matcher">
-                                            <template v-for="(matcher_name, matcher_conditions) in matcher | orderBy '$key'">
+                                            <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
                                                 <option value="{{matcher_name}}">{{matcher_name}}</option>
                                             </template>
                                         </select>
@@ -655,7 +655,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <template v-if="(redirect_rule._editing != undefined )">
+                                        <template v-if="(config_now.redirect_rule._editing != undefined )">
                                             <button type="submit" class="btn btn-default" >Save</button>
                                             <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('redirect_rule','config_redirect_form')">
                                                 Cancel
@@ -673,7 +673,7 @@
                             <div class="config_title">
                                 URI Rewrite
                             </div>
-                            <input type="checkbox" id="checkbox" v-model="uri_rewrite_enable">
+                            <input type="checkbox" id="checkbox" v-model="config_now.uri_rewrite_enable">
                             <label>Enable</label>
                             <table class="table table-bordered config_table" id="config_uri_rewrite_table">
                                 <thead>
@@ -687,8 +687,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-for="rule in uri_rewrite_rule">
-                                        <tr v-bind:class="[ uri_rewrite_rule._editing == $index ? 'editing' : '']">
+                                    <template v-for="rule in config_now.uri_rewrite_rule">
+                                        <tr v-bind:class="[ config_now.uri_rewrite_rule._editing == $index ? 'editing' : '']">
                                             <td>{{ $index }}</td>
                                             <td>
                                                 <template v-if="(rule.enable)">
@@ -702,7 +702,7 @@
                                             <td>{{ rule.replace_re }}</td>
                                             <td>{{ rule.to_uri }}</td>
                                             <td class="no_break">
-                                                <template v-if="(uri_rewrite_rule._editing == undefined )">
+                                                <template v-if="(config_now.uri_rewrite_rule._editing == undefined )">
                                                     <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('uri_rewrite_rule',{{$index}})">
                                                         UP
                                                     </button>
@@ -717,7 +717,7 @@
                                                     </button>
                                                 </template> 
 
-                                                <template v-if="(uri_rewrite_rule._editing == $index )">
+                                                <template v-if="(config_now.uri_rewrite_rule._editing == $index )">
                                                     Editing
                                                 </template>
                                             </td>
@@ -735,8 +735,8 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
-                                        <div class="notice" v-if="( uri_rewrite_rule._editing != undefined )" >
-                                            Now is editing rule {{uri_rewrite_rule._editing}}
+                                        <div class="notice" v-if="( config_now.uri_rewrite_rule._editing != undefined )" >
+                                            Now is editing rule {{config_now.uri_rewrite_rule._editing}}
                                         </div>
                                     </div>
                                 </div>
@@ -773,7 +773,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <template v-if="(uri_rewrite_rule._editing != undefined )">
+                                        <template v-if="(config_now.uri_rewrite_rule._editing != undefined )">
                                             <button type="submit" class="btn btn-default" >Save</button>
                                             <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('uri_rewrite_rule','config_uri_rewrite_form')">
                                                 Cancel
@@ -791,7 +791,7 @@
                             <div class="config_title">
                                 Browser Verify
                             </div>
-                            <input type="checkbox" id="checkbox" v-model="browser_verify_enable">
+                            <input type="checkbox" id="checkbox" v-model="config_now.browser_verify_enable">
                             <label>Enable</label>
                             <table class="table table-bordered config_table" id="config_browser_verify_table">
                                 <thead>
@@ -804,8 +804,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-for="rule in browser_verify_rule">
-                                        <tr v-bind:class="[ browser_verify_rule._editing == $index ? 'editing' : '']">
+                                    <template v-for="rule in config_now.browser_verify_rule">
+                                        <tr v-bind:class="[ config_now.browser_verify_rule._editing == $index ? 'editing' : '']">
                                             <td>{{ $index }}</td>
                                             <td>
                                                 <template v-if="(rule.enable)">
@@ -822,7 +822,7 @@
                                                 </template>
                                             </td>
                                             <td class="no_break">
-                                                <template v-if="(browser_verify_rule._editing == undefined )">
+                                                <template v-if="(config_now.browser_verify_rule._editing == undefined )">
                                                     <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('browser_verify_rule',{{$index}})">
                                                         UP
                                                     </button>
@@ -836,7 +836,7 @@
                                                         EDIT
                                                     </button>
                                                 </template> 
-                                                <template v-if="(browser_verify_rule._editing == $index )">
+                                                <template v-if="(config_now.browser_verify_rule._editing == $index )">
                                                     Editing
                                                 </template>
                                             </td>
@@ -854,8 +854,8 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
-                                        <div class="notice" v-if="( browser_verify_rule._editing != undefined )" >
-                                            Now is editing rule {{browser_verify_rule._editing}}
+                                        <div class="notice" v-if="( config_now.browser_verify_rule._editing != undefined )" >
+                                            Now is editing rule {{config_now.browser_verify_rule._editing}}
                                         </div>
                                     </div>
                                 </div>
@@ -873,7 +873,7 @@
                                     <label class="col-sm-2 control-label">Matcher</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" name="matcher">
-                                            <template v-for="(matcher_name, matcher_conditions) in matcher | orderBy '$key'">
+                                            <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
                                                 <option value="{{matcher_name}}">{{matcher_name}}</option>
                                             </template>
                                         </select>
@@ -903,7 +903,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <template v-if="(browser_verify_rule._editing != undefined )">
+                                        <template v-if="(config_now.browser_verify_rule._editing != undefined )">
                                             <button type="submit" class="btn btn-default" >Save</button>
                                             <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('browser_verify_rule','config_browser_verify_form')">
                                                 Cancel
@@ -921,7 +921,7 @@
                             <div class="config_title">
                                 Frequency Limit
                             </div>
-                            <input type="checkbox" id="checkbox" v-model="frequency_limit_enable">
+                            <input type="checkbox" id="checkbox" v-model="config_now.frequency_limit_enable">
                             <label>Enable</label>
                             <table class="table table-bordered config_table" id="config_frequency_limit_table">
                                 <thead>
@@ -937,8 +937,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-for="rule in frequency_limit_rule">
-                                        <tr v-bind:class="[ frequency_limit_rule._editing == $index ? 'editing' : '']">
+                                    <template v-for="rule in config_now.frequency_limit_rule">
+                                        <tr v-bind:class="[ config_now.frequency_limit_rule._editing == $index ? 'editing' : '']">
                                             <td>{{ $index }}</td>
                                             <td>
                                                 <template v-if="(rule.enable)">
@@ -958,7 +958,7 @@
                                                 </template>
                                             </td>
                                             <td class="no_break">
-                                                 <template v-if="(frequency_limit_rule._editing == undefined )">
+                                                 <template v-if="(config_now.frequency_limit_rule._editing == undefined )">
                                                     <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('frequency_limit_rule',{{$index}})">
                                                         UP
                                                     </button>
@@ -972,7 +972,7 @@
                                                         EDIT
                                                     </button>
                                                 </template> 
-                                                <template v-if="(frequency_limit_rule._editing == $index )">
+                                                <template v-if="(config_now.frequency_limit_rule._editing == $index )">
                                                     Editing
                                                 </template>
                                             </td>
@@ -990,8 +990,8 @@
                                 
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
-                                        <div class="notice" v-if="( frequency_limit_rule._editing != undefined )" >
-                                            Now is editing rule {{frequency_limit_rule._editing}}
+                                        <div class="notice" v-if="( config_now.frequency_limit_rule._editing != undefined )" >
+                                            Now is editing rule {{config_now.frequency_limit_rule._editing}}
                                         </div>
                                     </div>
                                 </div>
@@ -1007,7 +1007,7 @@
                                     <label class="col-sm-2 control-label">Matcher</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" name="matcher">
-                                            <template v-for="(matcher_name, matcher_conditions) in matcher | orderBy '$key'">
+                                            <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
                                                 <option value="{{matcher_name}}">{{matcher_name}}</option>
                                             </template>
                                         </select>
@@ -1069,7 +1069,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <template v-if="(frequency_limit_rule._editing != undefined )">
+                                        <template v-if="(config_now.frequency_limit_rule._editing != undefined )">
                                             <button type="submit" class="btn btn-default" >Save</button>
                                             <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('frequency_limit_rule','config_filter_form')">
                                                 Cancel
@@ -1087,7 +1087,7 @@
                             <div class="config_title">
                                 Filter
                             </div>
-                            <input type="checkbox" id="checkbox" v-model="filter_enable">
+                            <input type="checkbox" id="checkbox" v-model="config_now.filter_enable">
                             <label>Enable</label>
                             <table class="table table-bordered config_table" id="config_filter_table">
                                 <thead>
@@ -1102,8 +1102,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-for="rule in filter_rule">
-                                        <tr v-bind:class="[ filter_rule._editing == $index ? 'editing' : '']">
+                                    <template v-for="rule in config_now.filter_rule">
+                                        <tr v-bind:class="[ config_now.filter_rule._editing == $index ? 'editing' : '']">
                                             <td>{{ $index }}</td>
                                             <td>
                                                 <template v-if="(rule.enable)">
@@ -1126,7 +1126,7 @@
                                                 </template>
                                             </td>
                                             <td class="no_break">
-                                                 <template v-if="(filter_rule._editing == undefined )">
+                                                 <template v-if="(config_now.filter_rule._editing == undefined )">
                                                     <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('filter_rule',{{$index}})">
                                                         UP
                                                     </button>
@@ -1140,7 +1140,7 @@
                                                         EDIT
                                                     </button>
                                                 </template> 
-                                                <template v-if="(filter_rule._editing == $index )">
+                                                <template v-if="(config_now.filter_rule._editing == $index )">
                                                     Editing
                                                 </template>
                                             </td>
@@ -1158,8 +1158,8 @@
                                 
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
-                                        <div class="notice" v-if="( filter_rule._editing != undefined )" >
-                                            Now is editing rule {{filter_rule._editing}}
+                                        <div class="notice" v-if="( config_now.filter_rule._editing != undefined )" >
+                                            Now is editing rule {{config_now.filter_rule._editing}}
                                         </div>
                                     </div>
                                 </div>
@@ -1175,7 +1175,7 @@
                                     <label class="col-sm-2 control-label">Matcher</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" name="matcher">
-                                            <template v-for="(matcher_name, matcher_conditions) in matcher | orderBy '$key'">
+                                            <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
                                                 <option value="{{matcher_name}}">{{matcher_name}}</option>
                                             </template>
                                         </select>
@@ -1224,7 +1224,7 @@
                                     <label class="col-sm-2 control-label">Response</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" name="response">
-                                            <template v-for="(response_name, response_value) in response | orderBy '$key'">
+                                            <template v-for="(response_name, response_value) in config_now.response | orderBy '$key'">
                                                 <option value="{{response_name}}">{{response_name}}</option>
                                             </template>
                                         </select>
@@ -1232,7 +1232,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <template v-if="(filter_rule._editing != undefined )">
+                                        <template v-if="(config_now.filter_rule._editing != undefined )">
                                             <button type="submit" class="btn btn-default" >Save</button>
                                             <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('filter_rule','config_filter_form')">
                                                 Cancel
@@ -1250,7 +1250,7 @@
                             <div class="config_title">
                                 Proxy Pass
                             </div>
-                            <input type="checkbox" id="checkbox" v-model="proxy_pass_enable">
+                            <input type="checkbox" id="checkbox" v-model="config_now.proxy_pass_enable">
                             <label>Enable</label>
                             
                             <div class="config_title_2">
@@ -1268,8 +1268,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-for="rule in backend_upstream">
-                                        <tr v-bind:class="[ backend_upstream._editing == $index ? 'editing' : '']">
+                                    <template v-for="rule in config_now.backend_upstream">
+                                        <tr v-bind:class="[ config_now.backend_upstream._editing == $index ? 'editing' : '']">
                                             <td>{{ $index }}</td>
                                             <td>{{ $key }}</td>
                                             <td>{{ rule.method }}</td>
@@ -1277,7 +1277,7 @@
                                                 <upstream v-bind:node="rule.node" ></upstream>
                                             </td>
                                             <td class="no_break">
-                                                 <template v-if="(backend_upstream._editing == undefined )">
+                                                 <template v-if="(config_now.backend_upstream._editing == undefined )">
                                                     <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('backend_upstream','{{$key}}',null)">
                                                         DEL
                                                     </button>
@@ -1286,7 +1286,7 @@
                                                         EDIT
                                                     </button>
                                                 </template> 
-                                                <template v-if="(backend_upstream._editing == $key )">
+                                                <template v-if="(config_now.backend_upstream._editing == $key )">
                                                     Editing
                                                 </template>
                                             </td>
@@ -1311,8 +1311,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-for="rule in proxy_pass_rule">
-                                        <tr v-bind:class="[ proxy_pass_rule._editing == $index ? 'editing' : '']">
+                                    <template v-for="rule in config_now.proxy_pass_rule">
+                                        <tr v-bind:class="[ config_now.proxy_pass_rule._editing == $index ? 'editing' : '']">
                                             <td>{{ $index }}</td>
                                             <td>
                                             <template v-if="(rule.enable)">
@@ -1326,7 +1326,7 @@
                                             <td>{{ rule.upstream }}</td>
                                             <td>{{ rule.proxy_host }}</td>
                                             <td class="no_break">
-                                                 <template v-if="(proxy_pass_rule._editing == undefined )">
+                                                 <template v-if="(config_now.proxy_pass_rule._editing == undefined )">
                                                     <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('proxy_pass_rule',{{$index}})">
                                                         UP
                                                     </button>
@@ -1341,7 +1341,7 @@
                                                         EDIT
                                                     </button>
                                                 </template> 
-                                                <template v-if="(proxy_pass_rule._editing == $index )">
+                                                <template v-if="(config_now.proxy_pass_rule._editing == $index )">
                                                     Editing
                                                 </template>
                                             </td>
@@ -1481,7 +1481,7 @@
                             <div class="config_title">
                                 Static File
                             </div>
-                            <input type="checkbox" id="checkbox" v-model="static_file_enable">
+                            <input type="checkbox" id="checkbox" v-model="config_now.static_file_enable">
                             <label>Enable</label>
 
                             <table class="table table-bordered config_table" id="config_static_file_table">
@@ -1496,8 +1496,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-for="rule in static_file_rule">
-                                        <tr v-bind:class="[ static_file_rule._editing == $index ? 'editing' : '']">
+                                    <template v-for="rule in config_now.static_file_rule">
+                                        <tr v-bind:class="[ config_now.static_file_rule._editing == $index ? 'editing' : '']">
                                             <td>{{ $index }}</td>
                                             <td>
                                             <template v-if="(rule.enable)">
@@ -1511,7 +1511,7 @@
                                             <td>{{ rule.root }}</td>
                                             <td>{{ rule.expires }}</td>
                                             <td class="no_break">
-                                                 <template v-if="(static_file_rule._editing == undefined )">
+                                                 <template v-if="(config_now.static_file_rule._editing == undefined )">
                                                     <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('static_file_rule',{{$index}})">
                                                         UP
                                                     </button>
@@ -1526,7 +1526,7 @@
                                                         EDIT
                                                     </button>
                                                 </template> 
-                                                <template v-if="(static_file_rule._editing == $index )">
+                                                <template v-if="(config_now.static_file_rule._editing == $index )">
                                                     Editing
                                                 </template>
                                             </td>
@@ -1545,8 +1545,8 @@
                                 
                                     <div class="form-group">
                                         <div class="col-sm-10 col-sm-offset-2 ">
-                                            <div class="notice" v-if="( static_file_rule._editing != undefined )" >
-                                                Now is editing rule {{static_file_rule._editing}}
+                                            <div class="notice" v-if="( config_now.static_file_rule._editing != undefined )" >
+                                                Now is editing rule {{config_now.static_file_rule._editing}}
                                             </div>
                                         </div>
                                     </div>
@@ -1562,7 +1562,7 @@
                                         <label class="col-sm-2 control-label">Matcher</label>
                                         <div class="col-sm-10">
                                             <select class="form-control" name="matcher">
-                                                <template v-for="(matcher_name, matcher_conditions) in matcher | orderBy '$key'">
+                                                <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
                                                     <option value="{{matcher_name}}">{{matcher_name}}</option>
                                                 </template>
                                             </select>
@@ -1582,7 +1582,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
-                                            <template v-if="(static_file_rule._editing != undefined )">
+                                            <template v-if="(config_now.static_file_rule._editing != undefined )">
                                                 <button type="submit" class="btn btn-default" >Save</button>
                                                 <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('static_file_rule','config_static_file_form')">
                                                     Cancel
@@ -1601,7 +1601,7 @@
                             <div class="config_title">
                                 Request Summary
                             </div>
-                            <input type="checkbox" id="checkbox" v-model="summary_request_enable">
+                            <input type="checkbox" id="checkbox" v-model="config_now.summary_request_enable">
                             <label>Enable</label>
                             
                             <table class="table table-bordered config_table" id="config_summary_collect_table">
@@ -1615,8 +1615,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-for="rule in summary_collect_rule">
-                                        <tr v-bind:class="[ summary_collect_rule._editing == $index ? 'editing' : '']">
+                                    <template v-for="rule in config_now.summary_collect_rule">
+                                        <tr v-bind:class="[ config_now.summary_collect_rule._editing == $index ? 'editing' : '']">
                                             <td>{{ $index }}</td>
                                             <td>
                                             <template v-if="(rule.enable)">
@@ -1629,7 +1629,7 @@
                                             <td>{{ rule.matcher }}</td>
                                             <td>{{ rule.collect_name }}</td>
                                             <td class="no_break">
-                                                 <template v-if="(summary_collect_rule._editing == undefined )">
+                                                 <template v-if="(config_now.summary_collect_rule._editing == undefined )">
                                                     <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('summary_collect_rule',{{$index}})">
                                                         UP
                                                     </button>
@@ -1644,7 +1644,7 @@
                                                         EDIT
                                                     </button>
                                                 </template> 
-                                                <template v-if="(summary_collect_rule._editing == $index )">
+                                                <template v-if="(config_now.summary_collect_rule._editing == $index )">
                                                     Editing
                                                 </template>
                                             </td>
@@ -1663,8 +1663,8 @@
                                 
                                     <div class="form-group">
                                         <div class="col-sm-10 col-sm-offset-2 ">
-                                            <div class="notice" v-if="( summary_collect_rule._editing != undefined )" >
-                                                Now is editing rule {{summary_collect_rule._editing}}
+                                            <div class="notice" v-if="( config_now.summary_collect_rule._editing != undefined )" >
+                                                Now is editing rule {{config_now.summary_collect_rule._editing}}
                                             </div>
                                         </div>
                                     </div>
@@ -1680,7 +1680,7 @@
                                         <label class="col-sm-2 control-label">Matcher</label>
                                         <div class="col-sm-10">
                                             <select class="form-control" name="matcher">
-                                                <template v-for="(matcher_name, matcher_conditions) in matcher | orderBy '$key'">
+                                                <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
                                                     <option value="{{matcher_name}}">{{matcher_name}}</option>
                                                 </template>
                                             </select>
@@ -1694,7 +1694,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
-                                            <template v-if="(summary_collect_rule._editing != undefined )">
+                                            <template v-if="(config_now.summary_collect_rule._editing != undefined )">
                                                 <button type="submit" class="btn btn-default" >Save</button>
                                                 <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('summary_collect_rule','config_summary_collect_form')">
                                                     Cancel
