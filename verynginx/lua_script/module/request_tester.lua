@@ -4,6 +4,8 @@
 -- @Link    : 
 -- @Disc    : test a request hit a matcher or not
 
+local cookie = require "cookie"
+
 _M = {}
 
 local tester = {}
@@ -25,30 +27,60 @@ function _M.test( matcher )
 end
 
 --test_var is a basic test method, used by other test method 
-function _M.test_var( condition, var )
+function _M.test_var( match_operator, match_value, target_var )
     
-   local operator = condition['operator']
-   local value =  condition['value']
-   
-   if operator == "=" then
-        if var == value then
+   if match_operator == "=" then
+        if target_var == match_value then
             return true
         end
-    elseif operator == "!=" then
-        if var ~= value then
+    elseif match_operator == "*" then
+        return true
+    elseif match_operator == "!=" then
+        if target_var ~= match_value then
             return true
         end
-    elseif operator == '≈' then
-        if var ~= nil and ngx.re.find( var, value, 'isjo' ) ~= nil then
+    elseif match_operator == '≈' then
+        if type(target_var) == 'string' and ngx.re.find( target_var, match_value, 'isjo' ) ~= nil then
             return true
         end
-    elseif operator == '!≈' then
-        if var == nil or ngx.re.find( var, value, 'isjo' ) == nil then
+    elseif match_operator == '!≈' then
+        if type(target_var) ~= 'string' or ngx.re.find( target_var, match_value, 'isjo' ) == nil then
             return true
         end
-    elseif operator == '!' then
-        if var == nil then
+    elseif match_operator == 'Exist' then
+        if target_var ~= nil then
             return true
+        end
+    elseif match_operator == '!Exist' then
+        if target_var == nil then
+            return true
+        end
+    elseif match_operator == '!' then
+        if target_var == nil then
+            return true
+        end
+    end
+
+    return false
+end
+
+
+--test a group of var in table with a condition 
+function _M.test_many_var( var_table, condition )
+    
+    local find = ngx.re.find
+    local test_var = _M.test_var
+
+    local name_operator = condition['name_operator']
+    local name_value = condition['name_value']
+    local operator = condition['operator']
+    local value = condition['value']
+
+    for k, v in pairs(var_table) do
+        if test_var( name_operator, name_value, k ) == true then
+            if test_var( operator, value, k ) == true then -- if any one value match the condition, means the matcher has been hited 
+                return true 
+            end
         end
     end
 
@@ -57,56 +89,55 @@ end
 
 function _M.test_uri( condition )
     local uri = ngx.var.uri;
-    return _M.test_var( condition, uri )
+    return _M.test_var( condition['operator'], condition['value'], uri )
 end
 
 function _M.test_ip( condition )
     local remote_addr = ngx.var.remote_addr
-    return _M.test_var( condition, remote_addr )
+    return _M.test_var( condition['operator'], condition['value'], remote_addr )
 end
 
 function _M.test_ua( condition )
     local http_user_agent = ngx.var.http_user_agent;
-    return _M.test_var( condition, http_user_agent )
+    return _M.test_var( condition['operator'], condition['value'], http_user_agent )
 end
 
 function _M.test_referer( condition )
     local http_referer = ngx.var.http_referer;
-    return _M.test_var( condition, http_referer )
+    return _M.test_var( condition['operator'], condition['value'], http_referer )
 end
 
 --uncompleted
 function _M.test_method( condition )
-    return false
+    local method_name = ngx.req.get_method()
+    return _M.test_var( condition['operator'], condition['value'], method_name )
 end
 
---uncompleted
 function _M.test_args( condition )
-    
-    local target_arg_re = condition['name']
     local find = ngx.re.find
     local test_var = _M.test_var
     
+    local name_operator = condition['name_operator']
+    local name_value = condition['name_value']
+    local operator = condition['operator']
+    local value = condition['value']
 
     --handle args behind uri
     for k,v in pairs( ngx.req.get_uri_args()) do
-        if type(v) == "table" then
-            for arg_idx,arg_value in ipairs(v) do
-                if type(arg_value) == "string" and ( target_arg_re == nil or find( k, target_arg_re ) ~= nil ) then
-                    if test_var( condition, arg_value ) == true then
-                        return true
+        if test_var( name_operator, name_value, k ) == true then
+            if type(v) == "table" then
+                for arg_idx,arg_value in ipairs(v) do
+                    if test_var( operator, value, arg_value ) == true then 
+                        return true 
                     end
                 end
-            end
-        elseif type(v) == "string" then
-            if target_arg_re == nil or find( k, target_arg_re ) ~= nil then
-                if test_var( condition, v ) == true then
-                    return true
+            else
+                if test_var( operator, value, v ) == true then
+                    return true 
                 end
             end
         end
     end
-    
     
     ngx.req.read_body()
     --ensure body has not be cached into temp file
@@ -122,18 +153,16 @@ function _M.test_args( condition )
     
     --check args in body
     for k,v in pairs( body_args ) do
-        if type(v) == "table" then
-            for arg_idx,arg_value in ipairs(v) do
-                if type(arg_value) == "string" and ( target_arg_re == nil or find( k, target_arg_re ) ~= nil ) then
-                    if test_var( condition, arg_value ) == true then
-                        return true
+        if test_var( name_operator, name_value, k ) == true then
+            if type(v) == "table" then
+                for arg_idx,arg_value in ipairs(v) do
+                    if test_var( operator, value, arg_value ) == true then 
+                        return true 
                     end
                 end
-            end
-        elseif type(v) == "string" then
-            if target_arg_re == nil or find( k, target_arg_re ) ~= nil then
-                if test_var( condition, v ) == true then
-                    return true
+            else
+                if test_var( operator, value, v ) == true then
+                    return true 
                 end
             end
         end
@@ -144,9 +173,23 @@ end
 
 function _M.test_host( condition )
     local hostname = ngx.var.host
-    return _M.test_var( condition, hostname )
+    return _M.test_var( condition['operator'], condition['value'], hostname )
 end
 
+function _M.test_header( condition )
+    local header_table = ngx.req.get_headers()
+    return _M.test_many_var( header_table, condition )
+end
+
+function _M.test_cookie( condition )
+    local cookie_obj, err = cookie:new()
+    local cookie_table = cookie_obj:get_all()
+
+    if cookie_table == nil then
+        cookie_table = {}
+    end
+    return _M.test_many_var( cookie_table, condition )
+end
 
 tester["URI"] = _M.test_uri
 tester["IP"] = _M.test_ip
@@ -155,5 +198,8 @@ tester["Method"] = _M.test_method
 tester["Args"] = _M.test_args
 tester["Referer"] = _M.test_referer
 tester["Host"] = _M.test_host
+tester["Header"] = _M.test_header
+tester["Cookie"] = _M.test_cookie
+
 
 return _M

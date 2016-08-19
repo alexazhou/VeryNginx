@@ -9,13 +9,53 @@ monitor.chart_connection = null;
 
 monitor.latest_status = null;
 
+monitor.spin_list = [];
+
 monitor.time_str = function(){
     var time_str = (new Date()).toTimeString();
     return time_str.split(' ')[0];
 }
 
+
+monitor.show_loading_img = function(){
+    var default_opts = {
+        length: 28
+        ,radius: 32 // The radius of the inner circle
+        ,width: 9 // The line thickness
+        ,color: '#5190be' // #rgb or #rrggbb or array of colors
+    }
+    var sm_opts = {
+        length: 28
+        ,radius: 21 // The radius of the inner circle
+        ,width: 6 // The line thickness
+        ,color: '#5190be' // #rgb or #rrggbb or array of colors
+    }
+    
+    var target = $('.monitor_container'); 
+    for( var i=0; i<target.length; i++ ){
+        var item = target[i];
+        var size = $(item).attr('spin_size');
+        var opts = default_opts;
+
+        if( size == "sm" ){
+            opts = sm_opts;  
+        }
+        var spinner = new Spinner( opts ).spin();
+        item.appendChild(spinner.el);
+        monitor.spin_list.push(spinner);
+    } 
+}
+
+monitor.hide_loading_img = function(){
+    for( var i=0; i<monitor.spin_list.length; i++ ){
+        var spin = monitor.spin_list[i];
+        spin.stop();
+    } 
+}
+
 monitor.build_chart = function(){
     //request chart
+    monitor.show_loading_img();
     var ctx_request = $("#chart_request").get(0).getContext("2d");
     var options_request={responsive:true};
     var data_request = {
@@ -241,6 +281,10 @@ monitor.refresh = function(){
             if(time_change == 0 ){
                 return;
             }
+
+            if( monitor.spin_list.length != 0 ){
+                monitor.hide_loading_img();
+            } 
 
             var requests_all_change = data['request_all_count'] - monitor.latest_status['request_all_count']; 
             var requests_success_change = data['request_success_count'] - monitor.latest_status['request_success_count'];

@@ -2,7 +2,6 @@
 <html>
 <head>
 <meta charset="utf-8">
-<!-- Bootstrap -->
 <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/webInterface.css">
 <link rel="stylesheet" href="css/bs_callout.css">
@@ -10,15 +9,13 @@
 <link rel="stylesheet" href="//cdn.bootcss.com/smokejs/3.0.1/css/smoke.css">
 <link rel="stylesheet" href="//cdn.bootcss.com/datatables/1.10.10/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="css/tables.css">
-<!-- vue.js文件 -->
 <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="//cdn.bootcss.com/vue/1.0.14/vue.min.js"></script>
+<script src="//cdn.bootcss.com/vue/1.0.26/vue.min.js"></script>
 <script src="//cdn.bootcss.com/smokejs/3.0.1/js/smoke.js"></script>
 <script src="//cdn.bootcss.com/Chart.js/1.0.2/Chart.js"></script>
-<!-- 表格扩展js文件 -->
+<script src="//cdn.bootcss.com/spin.js/2.3.2/spin.min.js"></script>
 <script src="//cdn.bootcss.com/datatables/1.10.10/js/jquery.dataTables.min.js"></script>
 <script src="//cdn.bootcss.com/underscore.js/1.8.3/underscore-min.js"></script>
 <script src="js/util.js"></script>
@@ -124,14 +121,14 @@
                     </div>
                 </div>
 
-                <div id="chart_request_container">
+                <div class="monitor_container" spin_size="default">
                     <canvas id="chart_request" width="1400" height="400"></canvas>
                 </div>
                 
                 <div class="row">
                     <div class="col-md-4">
                         <div class="status_sub_group_title">TCP Connections</div>
-                        <div id="chart_connection_container">
+                        <div class="monitor_container" spin_size="sm">
                             <canvas id="chart_connection" width="700" height="400"></canvas>
                         </div>
 
@@ -158,7 +155,7 @@
                     <div class="col-md-4">
                         <div class="status_sub_group_title">Response Time</div>
                         <div class="status_sub_group_title_desc"> (ms) </div>
-                        <div id="chart_response_time_container">
+                        <div class="monitor_container" spin_size="sm">
                             <canvas id="chart_response_time" width="700" height="400"></canvas>
                         </div>
                     </div>
@@ -166,7 +163,7 @@
                     <div class="col-md-4">
                         <div class="status_sub_group_title">Network Traffic</div>
                         <div class="status_sub_group_title_desc"> (KiB/s) </div>
-                        <div id="chart_traffic_container">
+                        <div class="monitor_container" spin_size="sm">
                             <canvas id="chart_traffic" width="700" height="400"></canvas>
                         </div>
                         
@@ -835,8 +832,8 @@
                                         <td>Matcher</td>
                                         <td>Time(s)</td>
                                         <td>Max Request Times</td>
-                                        <td>Count Alone</td>
                                         <td>Return Code</td>
+                                        <td>Count Alone</td>
                                         <td></td>
                                     </tr>
                                 </thead>
@@ -1853,38 +1850,50 @@
                                 <div class="row vn_modal_row"   >
                                     <label class="col-sm-2 text-right control-label">Type</label>
                                     <div class="col-sm-10">
-                                        <select class="form-control" name="condition_type" onchange="matcher_editor.modal_condition_switch_input()">
-                                            <option value="URI">URI</option>
-                                            <option value="Host">Host</option>
-                                            <option value="UserAgent">UserAgent</option>
-                                            <option value="IP">IP</option>
-                                            <option value="Args">Args</option>
-                                            <option value="Referer">Referer</option>
+                                        <select class="form-control" name="condition_type" onchange="matcher_editor.update_display()">
+                                            <template v-for="(condition_type,condition_data) in input_meta">
+                                                <option value="{{ condition_type }}">{{ condition_type }}</option>
+                                            </template>
                                         </select>
                                     </div>
                                 </div>
 
-                                <div class="config_matcher_value_contain" id="config_modal_matcher_input_group" onsubmit="return false;" >
-                                    <template v-for="item in input_meta">
-                                        <div class="row vn_modal_row">
-                                            <label class="col-sm-2 text-right control-label" >{{item.name}}</label>
-                                            <div class="col-sm-10">
-                                                <template v-if="(item.type == 'input')">
-                                                    <input type="text" class="form-control config_matcher_editor_value" name="{{item.name}}" placeholder="{{item.placeholder}}"></input>
-                                                </template>
-                                                
-                                                <template v-if="(item.type == 'textarea')">
-                                                    <textarea class="form-control config_matcher_editor_value" rows='3' name="{{item.name}}" placeholder="{{item.placeholder}}"></textarea>
-                                                </template>
-                                                
-                                                <template v-if="(item.type == 'select')">
-                                                    <select class="form-control config_matcher_editor_value" name="{{item.name}}">
-                                                        <template v-for="(k,v) in item.options">
-                                                            <option value="{{v}}">{{k}}</option>
-                                                        </template>
-                                                    </select>
+                                <div class="config_matcher_value_contain" id="config_modal_matcher_input_group">
+                                    <template v-for="(condition_type,condition_data) in input_meta">
+                                        <div class='config_matcher_conditon_container' condition_type="{{condition_type}}">
+                                        <template v-for="config_group in condition_data">
+                                            <div class="input_group_container" >
+                                                <div class="input_group_title">
+                                                    <span style='background:#fff;padding-left:5px;padding-right:5px'>{{ config_group.group_name }}</span>
+                                                </div> 
+                                                <template v-for="input_item in config_group.input">
+                                                    <div class="input_item">
+                                                        <div class="row">
+                                                            <div class="col-sm-2 input_item_title">
+                                                                {{input_item.title}} 
+                                                            </div>
+                                                            <div class="col-sm-10 input_item_inputer"> 
+                                                                <template v-if="(input_item.type == 'input')">
+                                                                    <input type="text" class="form-control config_matcher_editor_value" name="{{input_item.name}}" placeholder="{{input_item.placeholder}}"></input>
+                                                                </template>
+                                                                
+                                                                <template v-if="(input_item.type == 'textarea')">
+                                                                    <textarea class="form-control config_matcher_editor_value" rows='3' name="{{input_item.name}}" placeholder="{{input_item.placeholder}}"></textarea>
+                                                                </template>
+                                                                
+                                                                <template v-if="(input_item.type == 'select')">
+                                                                    <select class="form-control config_matcher_editor_value" name="{{input_item.name}}" onchange="matcher_editor.update_display()">
+                                                                        <template v-for="(k,v) in input_item.options">
+                                                                            <option value="{{v}}">{{k}}</option>
+                                                                        </template>
+                                                                    </select>
+                                                                </template>
+                                                            </div> 
+                                                        </div>
+                                                    </div>
                                                 </template>
                                             </div>
+                                        </template>
                                         </div>
                                     </template>
                                 </div>

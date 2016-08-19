@@ -11,8 +11,8 @@ import sys
 import getopt
 import filecmp
 
-openresty_pkg_url = 'https://openresty.org/download/openresty-1.9.7.4.tar.gz'
-openresty_pkg = 'openresty-1.9.7.4.tar.gz'
+openresty_pkg_url = 'https://openresty.org/download/openresty-1.9.15.1.tar.gz'
+openresty_pkg = 'openresty-1.9.15.1.tar.gz'
 
 work_path = os.getcwd()
 
@@ -48,7 +48,7 @@ def install_openresty( ):
     #configure && compile && install openresty
     print('### configure openresty ...')
     os.chdir( openresty_pkg.replace('.tar.gz','') )
-    exec_sys_cmd( './configure --prefix=/opt/verynginx/openresty --user=nginx --group=nginx --with-http_sub_module --with-http_stub_status_module --with-luajit' )
+    exec_sys_cmd( './configure --prefix=/opt/verynginx/openresty --user=nginx --group=nginx --with-http_v2_module --with-http_sub_module --with-http_stub_status_module --with-luajit' )
     
     print('### compile openresty ...')
     exec_sys_cmd( 'make' )

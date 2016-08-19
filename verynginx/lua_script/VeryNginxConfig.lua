@@ -13,7 +13,7 @@ _M["configs"] = {}
 
 --------------default config------------
 
-_M.configs["config_version"] = "0.33"
+_M.configs["config_version"] = "0.34"
 _M.configs["readonly"] = false
 _M.configs["base_uri"] = "/verynginx"
 _M.configs['dashboard_host'] = ""
@@ -26,6 +26,7 @@ _M.configs['matcher'] = {
     ["all_request"] = {},
     ["attack_sql_0"] = { 
         ["Args"] = { 
+            ['name_operator'] = "*",
             ['operator'] = "≈",
             ['value']="select.*from",
         },
@@ -170,6 +171,23 @@ function _M.version_updater_032( configs )
     return configs
 end
 
+function _M.version_updater_033( configs )
+    local matcher_list = configs['matcher']
+    
+    for matcher_name,matcher_value in pairs( matcher_list ) do
+        for condition_type,condition_value in pairs( matcher_value ) do
+            if condition_type == 'Args' and condition_value['name'] ~= nil then
+                condition_value['name_operator'] =  "≈"
+                condition_value['name_value'] = condition_value['name']
+                condition_value['name'] = nil
+            end
+        end
+    end
+    
+    configs["config_version"] = "0.34"
+    return configs
+end
+
 
 _M.version_updater = {
     ['0.2'] = _M.version_updater_02,
@@ -178,6 +196,7 @@ _M.version_updater = {
     ['0.3'] = _M.version_updater_03,
     ['0.31'] = _M.version_updater_031,
     ['0.32'] = _M.version_updater_032,
+    ['0.33'] = _M.version_updater_033,
 }
 
 -------------------Config Updater end---------------------
