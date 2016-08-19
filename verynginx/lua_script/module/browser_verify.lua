@@ -41,9 +41,9 @@ function _M.verify_cookie()
     ngx.header["Set-Cookie"] =  cookie_prefix .. "_sign_cookie=" .. sign .. '; path=/' 
     
     if ngx.var.args ~= nil then
-		ngx.redirect( ngx.var.scheme.."://"..ngx.var.host..ngx.var.uri.."?"..ngx.var.args , ngx.HTTP_MOVED_TEMPORARILY)
+		ngx.redirect( ngx.var.scheme.."://"..ngx.var.http_host..ngx.var.uri.."?"..ngx.var.args , ngx.HTTP_MOVED_TEMPORARILY)
 	else
-		ngx.redirect( ngx.var.scheme.."://"..ngx.var.host..ngx.var.uri , ngx.HTTP_MOVED_TEMPORARILY)
+		ngx.redirect( ngx.var.scheme.."://"..ngx.var.http_host..ngx.var.uri , ngx.HTTP_MOVED_TEMPORARILY)
 	end
 end
 
@@ -73,9 +73,9 @@ function _M.verify_javascript()
     html = string.gsub( html,'COOKIEPREFIX',cookie_prefix )
 
     if ngx.var.args ~= nil then
-		redirect_to =  ngx.var.scheme.."://"..ngx.var.host..ngx.var.uri.."?"..ngx.var.args , ngx.HTTP_MOVED_TEMPORARILY
+		redirect_to =  ngx.var.scheme.."://"..ngx.var.http_host..ngx.var.uri.."?"..ngx.var.args , ngx.HTTP_MOVED_TEMPORARILY
 	else
-		redirect_to =  ngx.var.scheme.."://"..ngx.var.host..ngx.var.uri , ngx.HTTP_MOVED_TEMPORARILY
+		redirect_to =  ngx.var.scheme.."://"..ngx.var.http_host..ngx.var.uri , ngx.HTTP_MOVED_TEMPORARILY
 	end
 
     html = util.string_replace( html,'INFOURI',redirect_to, 1 )
