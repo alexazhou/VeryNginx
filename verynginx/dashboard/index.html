@@ -933,6 +933,7 @@
                                         <td>Time(s)</td>
                                         <td>Max Request Times</td>
                                         <td>Return Code</td>
+                                        <td>Response</td>
                                         <td>Count Alone</td>
                                         <td></td>
                                     </tr>
@@ -953,6 +954,7 @@
                                             <td>{{ rule.time }}</td>
                                             <td>{{ rule.count }}</td>
                                             <td>{{ rule.code }}</td>
+                                            <td>{{ rule.response }}</td>
                                             <td>
                                                 <template v-for="type_name in rule.separate">
                                                     <div class="config_card">{{type_name}}</div>
@@ -986,7 +988,7 @@
                                 Add Rule
                             </div>
                             <hr>
-                            <form class="form-horizontal" id="config_frequency_limit_form" 
+                            <form class="form-horizontal config_form" id="config_frequency_limit_form" 
                                   onsubmit="config.config_edit_save( 'frequency_limit_rule', 'config_frequency_limit_form'); return false;" >
                                 
                                 <div class="form-group">
@@ -1030,6 +1032,7 @@
                                     <label class="col-sm-2 control-label">Return Code</label>
                                     <div class="col-sm-10">
                                          <select class="form-control" name="code">
+                                            <option value="200">200</option>
                                             <option value="400">400</option>
                                             <option value="401">401</option>
                                             <option value="402">402</option>
@@ -1053,6 +1056,24 @@
                                             <option value="507">507</option>
                                         </select>
 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Custom Response</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="custom_response" v-model="editor.frequency_limit_rule.custom_response">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" v-show=" editor.frequency_limit_rule.custom_response==true">
+                                    <label class="col-sm-2 control-label">Response</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="response" v-model="editor.frequency_limit_rule.response">
+                                            <template v-for="(response_name, response_value) in config_now.response | orderBy '$key'">
+                                                <option value="{{response_name}}">{{response_name}}</option>
+                                            </template>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">

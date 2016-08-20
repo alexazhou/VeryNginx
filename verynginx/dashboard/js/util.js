@@ -20,10 +20,14 @@ util.sync_vue_model = function( selector ){
 
 util.reset_input_area = function( selector ){
   //reset inpu
-  $( selector ).find('input[type="text"]').each(function(){
+  $( selector ).find('input[type="text"],textarea').each(function(){
       $(this).val("");
   });
   
+  $( selector ).find('input[type="checkbox"]').each(function(){
+      this.checked = false;
+  });
+
   //reset select
   $( selector ).find('select').each(function(){
       $(this).prop('selectedIndex', 0);
