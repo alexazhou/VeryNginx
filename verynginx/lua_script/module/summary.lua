@@ -30,6 +30,11 @@ function _M.refresh()
 end
 
 function _M.pre_run_matcher()
+    
+    if VeryNginxConfig.configs["summary_collect_enable"] ~= true then
+        return
+    end
+    
     local matcher_list = VeryNginxConfig.configs['matcher']
     for i,rule in ipairs( VeryNginxConfig.configs["summary_collect_rule"] ) do
         local enable = rule['enable']
@@ -48,6 +53,10 @@ function _M.log()
     --a other worker will continue to refresh the data every 60s
     if ok then
         ngx.timer.at( 60, _M.refresh )
+    end
+    
+    if VeryNginxConfig.configs["summary_request_enable"] ~= true then
+        return
     end
 
     local status_code = ngx.var.status;

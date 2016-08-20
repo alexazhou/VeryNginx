@@ -252,7 +252,8 @@
 
                             <div class="leftnav leftnav_1" group="summary" onclick="dashboard.switch_config_nav_group(this)">Summary</div>
                             <div class="leftnav_group" group="summary">
-                                <div class="leftnav leftnav_2" config_name="summary_request" onclick="dashboard.switch_to_config(this)">Request Summary</div>
+                                <div class="leftnav leftnav_2" config_name="summary_general" onclick="dashboard.switch_to_config(this)">General</div>
+                                <div class="leftnav leftnav_2" config_name="summary_collect" onclick="dashboard.switch_to_config(this)">Collect</div>
                             </div>
                             <div class="leftnav leftnav_1" group="system" onclick="dashboard.switch_config_nav_group(this)">System</div>
                             <div class="leftnav_group" group="system">
@@ -931,7 +932,7 @@
                                         <td>Enable</td>
                                         <td>Matcher</td>
                                         <td>Time(s)</td>
-                                        <td>Max Request Times</td>
+                                        <td>Max Request Counts</td>
                                         <td>Return Code</td>
                                         <td>Response</td>
                                         <td>Count Alone</td>
@@ -1627,11 +1628,21 @@
                             </div>
                         </div>
                         
-                        <div class="config_container" id="config_summary_request">
+                        <div class="config_container" id="config_summary_general">
                             <div class="config_title">
-                                Request Summary
+                                Summary General
                             </div>
+                            
                             <input type="checkbox" id="checkbox" v-model="config_now.summary_request_enable">
+                            <label>Enable</label>
+                        </div>
+                        
+                        <div class="config_container" id="config_summary_collect">
+                            <div class="config_title">
+                                Summary Collect
+                            </div>
+                            
+                            <input type="checkbox" id="checkbox" v-model="config_now.summary_collect_enable">
                             <label>Enable</label>
                             
                             <table class="table table-bordered config_table" id="config_summary_collect_table">
@@ -1738,7 +1749,6 @@
 
                                 </form>
                             </div>
-
                         </div>
 
                         <div class="config_container" id="config_system_general">
