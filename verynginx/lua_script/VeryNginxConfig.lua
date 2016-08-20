@@ -76,9 +76,13 @@ _M.configs['matcher'] = {
 }
 
 _M.configs["response"] = {
-    ["r_demo1"] = {
+    ["demo_response_html"] = {
         ["content_type"] = "text/html",
-        ["body"] = "This is a demo response",
+        ["body"] = "This is a html demo response",
+    },
+    ["demo_response_json"] = {
+        ["content_type"] = "application/json",
+        ["body"] = '{"msg":"soms text","status":"success"}',
     }
 }
 
@@ -197,10 +201,15 @@ end
 
 function _M.version_updater_034( configs )
     configs['response'] = {}
-    configs['response']["r_demo1"] = {
+    configs['response']["demo_response_html"] = {
         ["content_type"] = "text/html",
-        ["body"] = "This is a demo response",
+        ["body"] = "This is a html demo response",
     }
+    configs['response']["demo_response_json"] = {
+        ["content_type"] = "application/json",
+        ["body"] = '{"msg":"soms text","status":"success"}',
+    }
+
     configs["config_version"] = "0.35"
     return configs
 end
