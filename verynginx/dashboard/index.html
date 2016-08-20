@@ -755,7 +755,7 @@
                                     <label class="col-sm-2 control-label">Matcher</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" name="matcher">
-                                            <template v-for="(matcher_name, matcher_conditions) in matcher | orderBy '$key'">
+                                            <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
                                                 <option value="{{matcher_name}}">{{matcher_name}}</option>
                                             </template>
                                         </select>
@@ -1468,7 +1468,7 @@
                                         <label class="col-sm-2 control-label">Matcher</label>
                                         <div class="col-sm-10">
                                             <select class="form-control" name="matcher">
-                                                <template v-for="(matcher_name, matcher_conditions) in matcher | orderBy '$key'">
+                                                <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
                                                     <option value="{{matcher_name}}">{{matcher_name}}</option>
                                                 </template>
                                             </select>
@@ -1630,7 +1630,7 @@
                         
                         <div class="config_container" id="config_summary_general">
                             <div class="config_title">
-                                Summary General
+                                General
                             </div>
                             
                             <input type="checkbox" id="checkbox" v-model="config_now.summary_request_enable">
@@ -1639,7 +1639,7 @@
                         
                         <div class="config_container" id="config_summary_collect">
                             <div class="config_title">
-                                Summary Collect
+                                Collect
                             </div>
                             
                             <input type="checkbox" id="checkbox" v-model="config_now.summary_collect_enable">
