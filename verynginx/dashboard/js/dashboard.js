@@ -78,7 +78,7 @@ dashboard.start = function(){
     window.setTimeout( monitor.start, 0 );
 }
 
-dashboard.login = function(user,password){
+dashboard.login = function(){
     function login_success(data,status){
         var uri = document.location.pathname;
         var path = uri.substring(0, uri.lastIndexOf('/') );
@@ -89,13 +89,7 @@ dashboard.login = function(user,password){
         dashboard.start();
     }
     
-    $.ajax({
-        url: "./login",
-        type: "post",
-        data: {user:user,password:password},
-        success: login_success,
-        beforeSend: util.mark_ajax_slince
-    });
+    $.post("./login", data=vnform.get_data('login_form'),success=login_success);
 }
 
 dashboard.logout = function(){
