@@ -71,6 +71,10 @@ config.refresh_bottom_bar = function(){
     } 
 };
 
+config.reset_input_form = function(){
+    util.reset_input_area('.config_form')
+}
+
 config.get_config = function(){
     $.get("./config",function(data,status){
         config.original_config_json = JSON.stringify( data , null, 2);
@@ -85,12 +89,16 @@ config.get_config = function(){
         config.config_vm = new Vue({
             el: '#verynginx_config',
             data: {
-                'config_now':config.verynginx_config
+                'config_now':config.verynginx_config,
+                'editor':{}
             },
             computed : {
                 all_config_json: function(){
                     return JSON.stringify( this.config_now , null, 2);
                 }
+            },
+            ready: function(){
+                this.$nextTick( config.reset_input_form );
             }
         });
 
