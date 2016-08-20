@@ -12,20 +12,24 @@ util.clone = function( data ){
     return JSON.parse( JSON.stringify( data ) );
 }
 
+util.sync_vue_model = function( selector ){
+    $( selector ).find( 'input,textarea,select' ).each( function(){
+        util.dispatchEvent( this,'change')
+    });
+}
+
 util.reset_input_area = function( selector ){
   //reset inpu
   $( selector ).find('input[type="text"]').each(function(){
       $(this).val("");
-      util.dispatchEvent( this,'change')
   });
   
   //reset select
   $( selector ).find('select').each(function(){
       $(this).prop('selectedIndex', 0);
-      util.dispatchEvent( this,'change')
   });
 
-
+  util.sync_vue_model( selector );
 };
 
 util.dispatchEvent = function( element, event_name ){

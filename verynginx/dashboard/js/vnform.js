@@ -66,7 +66,7 @@ vnform.get_data = function( form_id ){
         return data;
     }
 
-    var inputs = $('#' + form_id).find("input,textarea,checkbox,select");
+    var inputs = $('#' + form_id).find("input:visible,select:visible,textarea:visible");
 
     for( var i=0; i < inputs.length; i++ ){
         var item = $(inputs[i]);
@@ -120,7 +120,7 @@ vnform.set_data = function( form_id, data ){
         return;
     }
     
-    var inputs = $('#'+form_id).find("input,textarea,checkbox,select");
+    var inputs = $('#'+form_id).find("input,textarea,select");
     for( var i=0; i < inputs.length; i++ ){
         var item = $(inputs[i]);
         var name = item.attr('name');
@@ -151,6 +151,7 @@ vnform.set_data = function( form_id, data ){
              item.val( data[ item.attr('name') ] );
         }
     }
+    util.sync_vue_model( '#' + form_id );
 }
 
 vnform.reset = function(form_id){
@@ -160,6 +161,6 @@ vnform.reset = function(form_id){
          eval( form_data_resetter )();
          return;   
     }
-    form_obj[0].reset();
+    util.reset_input_area( '#' + form_id );    
 }
 
