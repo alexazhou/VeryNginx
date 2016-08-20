@@ -20,6 +20,9 @@ function _M.filter()
     end
 
     local matcher_list = VeryNginxConfig.configs['matcher']
+    local response_list = VeryNginxConfig.configs['response']
+    local response = nil
+
     for i, rule in ipairs( VeryNginxConfig.configs["frequency_limit_rule"] ) do
         local enable = rule['enable']
         local matcher = matcher_list[ rule['matcher'] ] 
