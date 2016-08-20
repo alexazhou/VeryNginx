@@ -46,3 +46,7 @@ util.dispatchEvent = function( element, event_name ){
     }
 }
 
+util.mark_ajax_slince = function( request ){
+    request.slince = true;
+}
+

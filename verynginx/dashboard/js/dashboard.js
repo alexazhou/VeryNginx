@@ -50,24 +50,24 @@ dashboard.init = function(){
         form_input.on( 'input',test_action );
     });
 
-    $( document ).ajaxError(function( e,jqxhr ) {
-        dashboard.last_failed_jqxhr = jqxhr;
-        var err = '';
-        if( jqxhr.responseJSON != null && jqxhr.responseJSON['err'] != null ){
-            err = '[' + jqxhr.responseJSON['err'] + ']' ;
-        }else if( jqxhr.status != 0 ) {
-            err = '[status code = ' + jqxhr.status + ']';
-        }else{
-            err = '[Network error]';
-        }
-        
-        dashboard.show_notice( 'warning', 'Ajax request failed ' + err);
-    });
+    $( document ).ajaxError( dashboard.handle_ajax_error );
 
     //init the small vue vm at first
     matcher_editor.init();
     upstream_editor.init();
     window.onbeforeunload = dashboard.check_saved;
+    
+    dashboard.try_recover_login();
+}
+
+//if already login( with cookie saved ), let judge it and auto jump to dashboard 
+dashboard.try_recover_login = function(){
+     $.ajax({
+        url: "./status",
+        type: "get",
+        success: dashboard.start,
+        beforeSend: util.mark_ajax_slince
+    });
 }
 
 dashboard.start = function(){
@@ -79,19 +79,22 @@ dashboard.start = function(){
 }
 
 dashboard.login = function(user,password){
-    console.log("login with:",user,password);
-    $.post("./login",data={user:user,password:password},function(data,status){
-        if( data['ret'] == "success" ){
-            var uri = document.location.pathname;
-            var path = uri.substring(0, uri.lastIndexOf('/') );
+    function login_success(data,status){
+        var uri = document.location.pathname;
+        var path = uri.substring(0, uri.lastIndexOf('/') );
             
-            for( name in data['cookies']  ){
-                $.cookie( name, data['cookies'][name],{ path: path} );
-            }
-            dashboard.start();
-        }else{
-            dashboard.show_notice( 'danger', "Login failed");
+        for( name in data['cookies']  ){
+            $.cookie( name, data['cookies'][name],{ path: path} );
         }
+        dashboard.start();
+    }
+    
+    $.ajax({
+        url: "./login",
+        type: "post",
+        data: {user:user,password:password},
+        success: login_success,
+        beforeSend: util.mark_ajax_slince
     });
 }
 
@@ -237,6 +240,30 @@ dashboard.status_dashboard_update_interval_label = function(){
 }
 
 
+dashboard.handle_ajax_error = function( e,jqxhr ) {
+    console.log('ajax_err_handle:',e,jqxhr);
+    var err = '';
+    dashboard.last_failed_jqxhr = jqxhr;
+    
+    if( jqxhr.slince == true ){
+        return;
+    }
+
+    if( jqxhr.status != 0 ){
+        if( jqxhr.status == 400 && jqxhr.responseJSON != null) {
+            if( jqxhr.responseJSON['show'] == false ){
+                return;
+            }
+            err = jqxhr.responseJSON['message'];
+        }else{
+            err = 'Ajax request failed[status code = ' + jqxhr.status + ']';
+        }
+    }else{
+        err = 'Ajax request failed[Network error]';
+    }
+    
+    dashboard.show_notice( 'warning', err);
+}
 
 /**
  * Vertically center Bootstrap 3 modals so they aren't always stuck at the top

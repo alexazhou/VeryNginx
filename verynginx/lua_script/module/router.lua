@@ -43,13 +43,13 @@ function _M.filter()
                 ngx.header.content_type = "application/json"
                 ngx.header.charset = "utf-8"
                 if item['auth'] == true and _M.check_session() == false then
-                    local info = json.encode({["ret"]="failed",["err"]="need login"})
+                    local info = json.encode({["ret"]="failed",["message"]="need login"})
+                    ngx.status = 400                    
                     ngx.say( info )
-                    ngx.exit(200)
                 else
                     ngx.say( item['handle']() )
-                    ngx.exit(200)
                 end
+                ngx.exit( ngx.HTTP_OK )
             end
         end
         
@@ -95,15 +95,14 @@ end
 
 
 function _M.login()
-    
     local args = nil
-    local err = nil
+    local err = nil 
 
     ngx.req.read_body()
     args, err = ngx.req.get_post_args()
     if not args then
-        ngx.say("failed to get post args: ", err)
-        return
+        ngx.status = 400
+        return json.encode({["ret"]="failed",["message"] = "Failed to get post args:"..err })
     end
 
     for i,v in ipairs( VeryNginxConfig.configs['admin'] ) do
@@ -113,18 +112,16 @@ function _M.login()
             
             local data = {}
             data['ret'] = 'success'
-            data['err'] = err
             data['cookies'] = {
                 [cookie_prefix .. '_session'] = session, 
                 [cookie_prefix .. '_user'] = v['user'], 
             }
-            
             return json.encode( data )
         end
     end 
     
-    return json.encode({["ret"]="failed",["err"]=err})
-
+    ngx.status = 400
+    return json.encode({["ret"]="failed",["message"]="Username and password not match"})
 end
 
 _M.route_table = {
