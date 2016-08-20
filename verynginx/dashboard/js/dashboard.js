@@ -23,6 +23,10 @@ dashboard.init = function(){
     dashboard.switch_to_interface('login');
     $(".init_click").click();
 
+    $(".btn").mouseup(function(){
+        $(this).blur();
+    });
+
     // Reposition when a modal is shown
     $('.modal').on('show.bs.modal', dashboard.modal_reposition);
     // Reposition when the window is resized
