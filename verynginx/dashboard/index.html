@@ -1771,6 +1771,17 @@
                                     <input class="form-control vn-config-input" type="text" v-model="config_now.cookie_prefix" placeholder="The prefix of cookies of verynginx" vn_data_verify="verify.str_len(1,20)" onchange="vnform.verify_input_with_notice(this)">
                                 </div>
                             </div>
+
+                            <div class="config_sub_title">
+                                Configuration
+                            </div>
+
+                            <div class="vn-config-box row">
+                                <div class="col-sm-2 vn-config-label">Read Only</div>
+                                <div class="col-sm-10">
+                                    <input class="vn-config-input" type="checkbox" v-model="config_now.readonly">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="config_container" id="config_system_allconfig">
