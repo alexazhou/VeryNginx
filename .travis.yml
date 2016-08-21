@@ -1,0 +1,32 @@
+sudo: required
+dist: trusty
+
+os: linux
+
+language: c
+
+compiler:
+  - gcc
+
+addons:
+  apt:
+    packages:
+    - python3
+
+cache:
+  apt: true
+  directories:
+  - /opt/verynginx
+
+before_script:
+  - if [ ! -d /opt/verynginx/openresty ]; then python3 install.py install openresty ; fi
+  - sudo rm -rf /opt/verynginx/verynginx  
+
+script:
+  - sudo addgroup --system nginx
+  - sudo adduser --system --no-create-home nginx
+  - sudo adduser nginx nginx
+  - python3 install.py install verynginx
+  - sudo /opt/verynginx/openresty/nginx/sbin/nginx 
+  - python3 test/test.py
+  - sudo /opt/verynginx/openresty/nginx/sbin/nginx -s stop

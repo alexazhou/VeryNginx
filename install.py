@@ -17,9 +17,9 @@ openresty_pkg = 'openresty-1.9.15.1.tar.gz'
 work_path = os.getcwd()
 
 def install_openresty( ):
-    #check if the old version of VeryNginx installed
+    #check if the old version of VeryNginx installed( use upcase directory )
     if os.path.exists('/opt/VeryNginx/VeryNginx') == True:
-        print("Seems that a old version of VeryNginx was installed in /opt/VeryNginx/...\nBefore install, please delete it and backup the configs if you need.")
+        print("Seems that a old version of VeryNginx was installed in /opt/verynginx/...\nBefore install, please delete it and backup the configs if you need.")
         sys.exit(1)
     
     #makesure the dir is clean
