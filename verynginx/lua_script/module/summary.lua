@@ -6,6 +6,7 @@
 
 local json = require "json"
 local VeryNginxConfig = require "VeryNginxConfig"
+local util = require "util"
 local request_tester = require "request_tester"
 
 local _M = {}
@@ -95,7 +96,7 @@ function _M.log()
         key_count = KEY_URI_COUNT..uri
     end
     
-    if VeryNginxConfig.configs["summary_group_presistent_enable"] == true then
+    if VeryNginxConfig.configs["summary_group_persistent_enable"] == true then
         if ngx.shared.summary_long:get( key_count ) == nil then
             ngx.shared.summary_long:set( key_count, 0 )
         end
@@ -244,7 +245,22 @@ function _M.report()
     end
 
     return json.encode( report )
-    
+end
+
+function _M.clear()
+    local args = util.get_request_args()
+    local group = args['group']
+
+    if group == 'temporary' then
+        ngx.shared.summary_short:flush_all()
+    elseif group == 'persistent' then
+        ngx.shared.summary_long:flush_all()
+    elseif group == 'all' then
+        ngx.shared.summary_short:flush_all()
+        ngx.shared.summary_long:flush_all()
+    end
+
+    return '{}'
 end
 
 return _M

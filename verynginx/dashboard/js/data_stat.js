@@ -13,22 +13,41 @@ data_stat.search = function( s ){
     if( data_stat.collect_table != null ){
         data_stat.collect_table.search( s ).draw();
     }
+}
 
+data_stat.current_group = function(){
+    var group = null;
+    if ($("#def_btn").text() == 'All') {
+        group = 'persistent';
+    } else {
+        group = 'temporary';
+    };
+    
+    return group;
 }
 
 data_stat.tab_switch = function ( item ) {
     // 标签切换文字变化
     if( $(item).attr('id') == 'summary_data_all' ){
         $("#def_btn").html("All<span class=\"caret\"></span>");
+        $("#summary_type_note").css("display", "none");
     }else{
         $("#def_btn").html("Temporary<span class=\"caret\"></span>");
+        $("#summary_type_note").css("display", "inline-block");
     } 
     
     data_stat.get_data();
 }
 
-data_stat.make_sure_have_table = function(){
+data_stat.clear_data = function( ){
+    var group = data_stat.current_group();
+    $.post('./status/clear',data={group:group},function(){
+        dashboard.show_notice( 'info', 'Clear data group [' + group + '] success' );
+        data_stat.get_data();
+    })
+}
 
+data_stat.make_sure_have_table = function(){
     if( data_stat.url_table == null || data_stat.collect_table == null ){
         data_stat.get_data();
     }
@@ -92,16 +111,16 @@ data_stat.get_data = function () {
     var url_short = "./summary?type=short";
     var url_long  = "./summary?type=long";
     var data_url;
+    var group = data_stat.current_group();
 
-    // 判断数据量
-    if ($("#def_btn").text() == 'All') {
+    if( group == 'persistent' ){
         data_url = url_long;
-        $("#summary_type_note").css("display", "none");
-    } else {
+    }else if( group == 'temporary' ){
         data_url = url_short;
-        $("#summary_type_note").css("display", "inline-block");
-    };
-
+    }else{
+        return;
+    }
+    
     $.ajax({
         type: "GET",
         url: data_url,

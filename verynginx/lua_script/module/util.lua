@@ -42,4 +42,21 @@ function _M.ngx_ctx_load()
     end
 end
 
+function _M.get_request_args()
+    local args = ngx.req.get_uri_args()
+    local post_args, err = nil
+
+    ngx.req.read_body()
+    post_args, err = ngx.req.get_post_args()
+    if post_args == nil then
+        return args 
+    end
+
+    for k,v in pairs(post_args) do
+        args[k] = v
+    end
+
+    return args
+end
+
 return _M

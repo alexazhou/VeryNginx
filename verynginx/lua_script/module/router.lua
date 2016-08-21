@@ -22,7 +22,6 @@ _M.mime_type['.html'] = "text/html"
 
 
 function _M.filter()
-    
     local method = ngx.req.get_method()
     local uri = ngx.var.uri
     local base_uri = VeryNginxConfig.configs['base_uri']
@@ -35,13 +34,13 @@ function _M.filter()
     end
 
     if string.find( uri, base_uri ) == 1 then
-
         local path = string.sub( uri, string.len( base_uri ) + 1 )
        
         for i,item in ipairs( _M.route_table ) do
             if method == item['method'] and path == item['path'] then
                 ngx.header.content_type = "application/json"
                 ngx.header.charset = "utf-8"
+                
                 if item['auth'] == true and _M.check_session() == false then
                     local info = json.encode({["ret"]="failed",["message"]="need login"})
                     ngx.status = 400                    
@@ -95,16 +94,8 @@ end
 
 
 function _M.login()
-    local args = nil
-    local err = nil 
-
-    ngx.req.read_body()
-    args, err = ngx.req.get_post_args()
-    if not args then
-        ngx.status = 400
-        return json.encode({["ret"]="failed",["message"] = "Failed to get post args:"..err })
-    end
-
+    local args = util.get_request_args()
+    
     for i,v in ipairs( VeryNginxConfig.configs['admin'] ) do
         if v['user'] == args['user'] and v['password'] == args["password"] and v['enable'] == true then
             local cookie_prefix = VeryNginxConfig.configs['cookie_prefix']
@@ -128,6 +119,7 @@ _M.route_table = {
     { ['method'] = "POST", ['auth']= false, ["path"] = "/login", ['handle'] = _M.login },
     { ['method'] = "GET",  ['auth']= true,  ["path"] = "/summary", ['handle'] = summary.report },
     { ['method'] = "GET",  ['auth']= true,  ["path"] = "/status", ['handle'] = status.report },
+    { ['method'] = "POST",  ['auth']= true,  ["path"] = "/status/clear", ['handle'] = summary.clear },
     { ['method'] = "GET",  ['auth']= true,  ["path"] = "/config", ['handle'] = VeryNginxConfig.report },
     { ['method'] = "POST", ['auth']= true,  ["path"] = "/config", ['handle'] = VeryNginxConfig.set },
     { ['method'] = "GET",  ['auth']= true,  ["path"] = "/loadconfig", ['handle'] = VeryNginxConfig.load_from_file },

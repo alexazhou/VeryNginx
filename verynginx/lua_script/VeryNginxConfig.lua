@@ -134,7 +134,7 @@ _M.configs["frequency_limit_rule"] = {}
 
 _M.configs["summary_request_enable"] = true
 _M.configs["summary_with_host"] = false
-_M.configs["summary_group_presistent_enable"] = true
+_M.configs["summary_group_persistent_enable"] = true
 _M.configs["summary_group_temporary_enable"] = true
 _M.configs["summary_temporary_period"] = 60
 ----------------------Config End-------------
@@ -220,7 +220,7 @@ end
 
 function _M.version_updater_035( configs )
     configs["summary_with_host"] = false
-    configs["summary_group_presistent_enable"] = true
+    configs["summary_group_persistent_enable"] = true
     configs["summary_group_temporary_enable"] = true
     configs["summary_temporary_period"] = 60
     configs["config_version"] = "0.36"
