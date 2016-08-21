@@ -23,9 +23,7 @@ before_script:
   - sudo rm -rf /opt/verynginx/verynginx  
 
 script:
-  - sudo addgroup --system nginx
-  - sudo adduser --system --no-create-home nginx
-  - sudo adduser nginx nginx
+  - sudo adduser --system --no-create-home --group nginx
   - python3 install.py install verynginx
   - sudo /opt/verynginx/openresty/nginx/sbin/nginx 
   - python3 test/test.py
