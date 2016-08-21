@@ -13,7 +13,7 @@ _M["configs"] = {}
 
 --------------default config------------
 
-_M.configs["config_version"] = "0.35"
+_M.configs["config_version"] = "0.36"
 _M.configs["readonly"] = false
 _M.configs["base_uri"] = "/verynginx"
 _M.configs['dashboard_host'] = ""
@@ -133,6 +133,10 @@ _M.configs["frequency_limit_enable"] = true
 _M.configs["frequency_limit_rule"] = {}
 
 _M.configs["summary_request_enable"] = true
+_M.configs["summary_with_host"] = false
+_M.configs["summary_group_presistent_enable"] = true
+_M.configs["summary_group_temporary_enable"] = true
+_M.configs["summary_temporary_period"] = 60
 ----------------------Config End-------------
 
 ------------------Config Updater----------------------
@@ -214,6 +218,15 @@ function _M.version_updater_034( configs )
     return configs
 end
 
+function _M.version_updater_035( configs )
+    configs["summary_with_host"] = false
+    configs["summary_group_presistent_enable"] = true
+    configs["summary_group_temporary_enable"] = true
+    configs["summary_temporary_period"] = 60
+    configs["config_version"] = "0.36"
+    return configs
+end
+
 _M.version_updater = {
     ['0.2'] = _M.version_updater_02,
     ['0.21'] = _M.version_updater_021,
@@ -223,6 +236,7 @@ _M.version_updater = {
     ['0.32'] = _M.version_updater_032,
     ['0.33'] = _M.version_updater_033,
     ['0.34'] = _M.version_updater_034,
+    ['0.35'] = _M.version_updater_035,
 }
 
 -------------------Config Updater end---------------------

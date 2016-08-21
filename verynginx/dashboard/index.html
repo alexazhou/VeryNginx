@@ -1640,9 +1640,43 @@
                             <div class="config_title">
                                 General
                             </div>
+
+                            <hr>
                             
-                            <input type="checkbox" id="checkbox" v-model="config_now.summary_request_enable">
-                            <label>Enable</label>
+                            <div>
+                                <input type="checkbox" id="checkbox" v-model="config_now.summary_request_enable">
+                                <label>Enable Summary</label>
+                            </div>
+                           
+                            <div>
+                                <input type="checkbox" id="checkbox" v-model="config_now.summary_with_host" >
+                                <label>Log request with host info</label>
+                            </div>
+
+                            <div class="config_sub_title">
+                                Summary data group
+                            </div>
+
+                            <div class="vn-config-box row">
+                                <div class="col-sm-2 text-right">Persistent</div>
+                                <div class="col-sm-10">
+                                    <input class="vn-config-input" type="checkbox" v-model="config_now.summary_group_presistent_enable">
+                                </div>
+                            </div>
+
+                            <div class="vn-config-box row">
+                                <div class="col-sm-2 text-right">Temporary</div>
+                                <div class="col-sm-10">
+                                    <input class="vn-config-input" type="checkbox" v-model="config_now.summary_group_temporary_enable" >
+                                </div>
+                            </div>
+
+                             <div class="vn-config-box row" v-show="config_now.summary_group_temporary_enable == true" >
+                                <div class="col-sm-2 vn-config-label">Temporary period</div>
+                                <div class="col-sm-10">
+                                    <input class="form-control vn-config-input" type="text" v-model="config_now.summary_temporary_period" placeholder="input a num of seconds" vn_data_verify="verify.integer_in_range(1,99999999)" onchange="vnform.verify_input_with_notice(this)">
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="config_container" id="config_summary_collect">
@@ -1795,7 +1829,7 @@
                             </div>
 
                             <div class="vn-config-box row">
-                                <div class="col-sm-2 vn-config-label">Read Only</div>
+                                <div class="col-sm-2">Read Only</div>
                                 <div class="col-sm-10">
                                     <input class="vn-config-input" type="checkbox" v-model="config_now.readonly">
                                 </div>
