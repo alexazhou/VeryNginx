@@ -1674,7 +1674,7 @@
                              <div class="vn-config-box row" v-show="config_now.summary_group_temporary_enable == true" >
                                 <div class="col-sm-2 vn-config-label">Temporary period</div>
                                 <div class="col-sm-10">
-                                    <input class="form-control vn-config-input" type="text" v-model="config_now.summary_temporary_period" placeholder="input a num of seconds" vn_data_verify="verify.integer_in_range(1,99999999)" onchange="vnform.verify_input_with_notice(this)">
+                                    <input class="form-control vn-config-input" type="text" v-model="config_now.summary_temporary_period" placeholder="input a num of seconds" vn_data_verify="verify.integer_in_range(10,99999999)" onchange="vnform.verify_input_with_notice(this)">
                                 </div>
                             </div>
                         </div>

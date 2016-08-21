@@ -23,15 +23,20 @@ local KEY_COLLECT_TIME = "H_"
 local KEY_COLLECT_COUNT = "I_"
 
 function _M.refresh()
-    ngx.timer.at( 60, _M.refresh )
+    local period = tonumber( VeryNginxConfig.configs["summary_request_enable"] )
+    
+    if period == nil or period < 10 then
+        period = 10
+    end
+
+    ngx.timer.at( period, _M.refresh )
     ngx.shared.summary_short:flush_all()
     --update flag timeout 
     ngx.shared.status:set( KEY_SUMMARY_REFRESHING_FLAG, true, 120 )
 end
 
 function _M.pre_run_matcher()
-    
-    if VeryNginxConfig.configs["summary_collect_enable"] ~= true then
+    if VeryNginxConfig.configs["summary_request_enable"] ~= true or VeryNginxConfig.configs["summary_collect_enable"] ~= true then
         return
     end
     
@@ -50,21 +55,24 @@ function _M.log()
 
     local ok, err = ngx.shared.status:add( KEY_SUMMARY_REFRESHING_FLAG, true, 120 )
     --here use set a 120s timeout for the flag key, so when the nginx worker exit( for example nginx-s reload may cause that ), 
-    --a other worker will continue to refresh the data every 60s
+    --a other worker will continue to refresh the data period
     if ok then
-        ngx.timer.at( 60, _M.refresh )
+        _M.refresh()
     end
     
     if VeryNginxConfig.configs["summary_request_enable"] ~= true then
         return
     end
-
+    
+    local with_host_info = VeryNginxConfig.configs["summary_with_host"]
+    local uri = ngx.var.request_uri
     local status_code = ngx.var.status;
     local key_status = nil
     local key_size = nil
     local key_time = nil
     local key_count = nil
     local log_collect_name = ngx.ctx.log_collect_name
+    local index = nil
     
     if log_collect_name ~= nil then
         key_status = KEY_COLLECT_STATUS..log_collect_name.."_"..status_code
@@ -72,63 +80,66 @@ function _M.log()
         key_time = KEY_COLLECT_TIME..log_collect_name
         key_count = KEY_COLLECT_COUNT..log_collect_name
     else
-        local uri = ngx.var.request_uri
         if uri ~= nil then
-            local index = string.find( uri, '?' )
+            index = string.find( uri, '?' )
             if index ~= nil then
                 uri = string.sub( uri, 1 , index - 1 )
             end
+        end
+        if with_host_info then
+            uri = ngx.var.host..uri
         end
         key_status = KEY_URI_STATUS..uri.."_"..status_code
         key_size = KEY_URI_SIZE..uri
         key_time = KEY_URI_TIME..uri
         key_count = KEY_URI_COUNT..uri
     end
- 
-    if ngx.shared.summary_long:get( key_count ) == nil then
-        ngx.shared.summary_long:set( key_count, 0 )
-    end
+    
+    if VeryNginxConfig.configs["summary_group_presistent_enable"] == true then
+        if ngx.shared.summary_long:get( key_count ) == nil then
+            ngx.shared.summary_long:set( key_count, 0 )
+        end
 
-    if ngx.shared.summary_long:get( key_status ) == nil then
-        ngx.shared.summary_long:set( key_status, 0 )
+        if ngx.shared.summary_long:get( key_status ) == nil then
+            ngx.shared.summary_long:set( key_status, 0 )
+        end
+        
+        if ngx.shared.summary_long:get( key_size ) == nil then
+            ngx.shared.summary_long:set( key_size, 0 )
+        end
+        
+        if ngx.shared.summary_long:get( key_time ) == nil then
+            ngx.shared.summary_long:set( key_time, 0 )
+        end
+
+        ngx.shared.summary_long:incr( key_count, 1 )
+        ngx.shared.summary_long:incr( key_status, 1 )
+        ngx.shared.summary_long:incr( key_size, ngx.var.body_bytes_sent )
+        ngx.shared.summary_long:incr( key_time, ngx.var.request_time )
     end
     
-    if ngx.shared.summary_long:get( key_size ) == nil then
-        ngx.shared.summary_long:set( key_size, 0 )
-    end
-    
-    if ngx.shared.summary_long:get( key_time ) == nil then
-        ngx.shared.summary_long:set( key_time, 0 )
-    end
+    if VeryNginxConfig.configs["summary_group_temporary_enable"] == true then
+        if ngx.shared.summary_short:get( key_count ) == nil then
+            ngx.shared.summary_short:set( key_count, 0 )
+        end
 
-    if ngx.shared.summary_short:get( key_count ) == nil then
-        ngx.shared.summary_short:set( key_count, 0 )
+        if ngx.shared.summary_short:get( key_status ) == nil then
+            ngx.shared.summary_short:set( key_status, 0 )
+        end
+        
+        if ngx.shared.summary_short:get( key_size ) == nil then
+            ngx.shared.summary_short:set( key_size, 0 )
+        end
+        
+        if ngx.shared.summary_short:get( key_time ) == nil then
+            ngx.shared.summary_short:set( key_time, 0 )
+        end
+        
+        ngx.shared.summary_short:incr( key_count, 1 )
+        ngx.shared.summary_short:incr( key_status, 1 )
+        ngx.shared.summary_short:incr( key_size, ngx.var.body_bytes_sent )
+        ngx.shared.summary_short:incr( key_time, ngx.var.request_time )
     end
-
-    if ngx.shared.summary_short:get( key_status ) == nil then
-        ngx.shared.summary_short:set( key_status, 0 )
-    end
-    
-    if ngx.shared.summary_short:get( key_size ) == nil then
-        ngx.shared.summary_short:set( key_size, 0 )
-    end
-    
-    if ngx.shared.summary_short:get( key_time ) == nil then
-        ngx.shared.summary_short:set( key_time, 0 )
-    end
-
-   
-    --log info with the url 
-    ngx.shared.summary_long:incr( key_count, 1 )
-    ngx.shared.summary_long:incr( key_status, 1 )
-    ngx.shared.summary_long:incr( key_size, ngx.var.body_bytes_sent )
-    ngx.shared.summary_long:incr( key_time, ngx.var.request_time )
-    
-    ngx.shared.summary_short:incr( key_count, 1 )
-    ngx.shared.summary_short:incr( key_status, 1 )
-    ngx.shared.summary_short:incr( key_size, ngx.var.body_bytes_sent )
-    ngx.shared.summary_short:incr( key_time, ngx.var.request_time )
-
 end
 
 function _M.report() 
