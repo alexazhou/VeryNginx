@@ -297,9 +297,14 @@
     border-bottom-width:1px;
     padding:5px;
     border-color:#ddd;
-    color:#333;
+    color:#999;
     border-radius:3px;
     margin-top:15px;
+}
+
+.editing_rule_name{
+	font-weight:bold;
+	color:#333;
 }
 
 #interface_login {

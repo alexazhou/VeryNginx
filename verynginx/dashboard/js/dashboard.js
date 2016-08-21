@@ -245,9 +245,6 @@ dashboard.handle_ajax_error = function( e,jqxhr ) {
 
     if( jqxhr.status != 0 ){
         if( jqxhr.status == 400 && jqxhr.responseJSON != null) {
-            if( jqxhr.responseJSON['show'] == false ){
-                return;
-            }
             err = jqxhr.responseJSON['message'];
         }else{
             err = 'Ajax request failed[status code = ' + jqxhr.status + ']';

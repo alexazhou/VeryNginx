@@ -279,7 +279,7 @@
                                 </thead>
                                 <tbody>
                                     <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
-                                        <tr>
+                                        <tr v-bind:class="[ config_now.matcher._editing == $key ? 'editing' : '']">
                                             <td>{{ $index }}</td>
                                             <td>{{ matcher_name }}</td>
                                             <td >
@@ -310,7 +310,15 @@
                                 Add Rule
                             </div>
                             <hr>
+                            
                             <form class="form-horizontal" id="matcher_form" onsubmit="return false;" vn_data_getter='matcher_editor.get_data' vn_data_setter='matcher_editor.set_data' vn_data_resetter='matcher_editor.reset'>
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( config_now.matcher._editing != undefined )" >
+                                            Now is editing rule <span class="editing_rule_name">{{config_now.matcher._editing}}<span>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Name</label>
                                     <div class="col-sm-10">
@@ -360,7 +368,7 @@
                                 </thead>
                                 <tbody>
                                     <template v-for="(response_name, response_value) in config_now.response | orderBy '$key'">
-                                        <tr>
+                                        <tr  v-bind:class="[ config_now.response._editing == $key ? 'editing' : '']">
                                             <td>{{ $index }}</td>
                                             <td>{{ response_name }}</td>
                                             <td>
@@ -400,7 +408,7 @@
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
                                         <div class="notice" v-if="( config_now.response._editing != undefined )" >
-                                            Now is editing rule {{config_now.response._editing}}
+                                            Now is editing rule <span class="editing_rule_name">{{config_now.response._editing}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -506,7 +514,7 @@
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
                                         <div class="notice" v-if="( config_now.scheme_lock_rule._editing != undefined )" >
-                                            Now is editing rule {{config_now.scheme_lock_rule._editing}}
+                                            Now is editing rule <span class="editing_rule_name">{{config_now.scheme_lock_rule._editing}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -621,7 +629,7 @@
                                <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
                                         <div class="notice" v-if="( config_now.redirect_rule._editing != undefined )" >
-                                            Now is editing rule {{config_now.redirect_rule._editing}}
+                                            Now is editing rule <span class="editing_rule_name">{{config_now.redirect_rule._editing}}</span>
                                         </div>
                                     </div>
                                </div>
@@ -738,7 +746,7 @@
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
                                         <div class="notice" v-if="( config_now.uri_rewrite_rule._editing != undefined )" >
-                                            Now is editing rule {{config_now.uri_rewrite_rule._editing}}
+                                            Now is editing rule <span class="editing_rule_name">{{config_now.uri_rewrite_rule._editing}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -857,7 +865,7 @@
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
                                         <div class="notice" v-if="( config_now.browser_verify_rule._editing != undefined )" >
-                                            Now is editing rule {{config_now.browser_verify_rule._editing}}
+                                            Now is editing rule <span class="editing_rule_name">{{config_now.browser_verify_rule._editing}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -995,7 +1003,7 @@
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
                                         <div class="notice" v-if="( config_now.frequency_limit_rule._editing != undefined )" >
-                                            Now is editing rule {{config_now.frequency_limit_rule._editing}}
+                                            Now is editing rule <span class="editing_rule_name">{{config_now.frequency_limit_rule._editing}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1182,7 +1190,7 @@
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
                                         <div class="notice" v-if="( config_now.filter_rule._editing != undefined )" >
-                                            Now is editing rule {{config_now.filter_rule._editing}}
+                                            Now is editing rule <span class="editing_rule_name">{{config_now.filter_rule._editing}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1399,7 +1407,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-10 col-sm-offset-2 ">
                                             <div class="notice" v-if="( backend_upstream._editing != undefined )" >
-                                                Now is editing rule {{backend_upstream._editing}}
+                                                Now is editing rule <span class="editing_rule_name">{{backend_upstream._editing}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -1452,7 +1460,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-10 col-sm-offset-2 ">
                                             <div class="notice" v-if="( proxy_pass_rule._editing != undefined )" >
-                                                Now is editing rule {{proxy_pass_rule._editing}}
+                                                Now is editing rule <span class="editing_rule_name">{{proxy_pass_rule._editing}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -1577,7 +1585,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-10 col-sm-offset-2 ">
                                             <div class="notice" v-if="( config_now.static_file_rule._editing != undefined )" >
-                                                Now is editing rule {{config_now.static_file_rule._editing}}
+                                                Now is editing rule <span class="editing_rule_name">{{config_now.static_file_rule._editing}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -1705,7 +1713,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-10 col-sm-offset-2 ">
                                             <div class="notice" v-if="( config_now.summary_collect_rule._editing != undefined )" >
-                                                Now is editing rule {{config_now.summary_collect_rule._editing}}
+                                                Now is editing rule <span class="editing_rule_name">{{config_now.summary_collect_rule._editing}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -1870,7 +1878,7 @@
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
                                         <div class="notice" v-if="( config_now.admin._editing != undefined )" >
-                                            Now is editing rule {{config_now.admin._editing}}
+                                            Now is editing rule <span class="editing_rule_name">{{config_now.admin._editing}}</span>
                                         </div>
                                     </div>
                                 </div>
