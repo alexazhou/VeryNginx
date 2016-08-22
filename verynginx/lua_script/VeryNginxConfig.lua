@@ -305,7 +305,8 @@ function _M.load_from_file()
 
         return json.encode({["ret"]="success",['config']=_M["configs"]})
     else 
-        return json.encode({["ret"]="error",["msg"]="config file decode error"})
+        ngx.log(ngx.STDERR,"config.json decode error")
+        return json.encode({["ret"]="error",["msg"]="config file decode error, will use default"})
     end
         
 end 
