@@ -12,19 +12,23 @@ addons:
   apt:
     packages:
     - python3
+    - python-pip
+    - python3-pip
 
 cache:
   apt: true
   directories:
+  - $HOME/.cache/pip
   - /opt/verynginx
 
-before_script:
+before_install:
   - if [ ! -d /opt/verynginx/openresty ]; then python3 install.py install openresty ; fi
   - sudo rm -rf /opt/verynginx/verynginx  
+  - sudo adduser --system --no-create-home --group nginx
+
+install:
+  - sudo python3 -m pip install -r test/requirements.txt 
+  - sudo python3 install.py install verynginx
 
 script:
-  - sudo adduser --system --no-create-home --group nginx
-  - python3 install.py install verynginx
-  - sudo /opt/verynginx/openresty/nginx/sbin/nginx 
-  - python3 test/test.py
-  - sudo /opt/verynginx/openresty/nginx/sbin/nginx -s stop
+  - sudo python3 test/test.py
