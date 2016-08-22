@@ -4,7 +4,35 @@
 # @Author  : Alexa (AlexaZhou@163.com)
 # @Link    : https://github.com/alexazhou/VeryNginx
 # @Disc    : test VeryNginx
-# @Disc    : support python 2.x and 3.x
+# @Disc    : support python 3.x
+
+import os
+import time
+import unittest
 
 
+def load_test_case():
+    ret = {}
 
+    dir_filter = lambda x:os.path.exists( './testcase/' + x + '/case.py' )
+    case_list = list(filter( dir_filter, os.listdir('./testcase/') ))
+   
+    for case in case_list:
+        tmp = __import__( 'testcase.%s.case'%case )
+        ret[case] = eval( 'tmp.%s.case'%case )
+    
+    return ret
+
+
+if __name__ == "__main__":
+
+    script_path = os.path.dirname( os.path.abspath(__file__) )
+    os.chdir( script_path )
+
+    all_case = load_test_case()
+    suite = unittest.TestSuite()
+    for k in all_case.keys():
+        suite.addTest( all_case[k].Case() )
+    
+    runner = unittest.TextTestRunner()
+    runner.run(suite)
