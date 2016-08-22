@@ -8,7 +8,7 @@ class Base_Case(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(Base_Case, self).__init__(*args, **kwargs)
         self.ngx_bin = '/opt/verynginx/openresty/nginx/sbin/nginx'
-
+        self.desc = "Base Case"
         self.ngx_conf_dir = os.path.dirname( os.path.abspath(__file__) )
         self.ngx_conf = None
         self.vn_conf_dir = self.ngx_conf_dir
