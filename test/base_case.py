@@ -7,12 +7,17 @@ import unittest
 class Base_Case(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(Base_Case, self).__init__(*args, **kwargs)
-        self.ngx_bin = '/opt/verynginx/openresty/nginx/sbin/nginx'
         self.desc = "Base Case"
+        self.ngx_bin = '/opt/verynginx/openresty/nginx/sbin/nginx'
+        self.ngx_errlog = '/opt/verynginx/openresty/nginx/logs/error.log'
+
         self.ngx_conf_dir = os.path.dirname( os.path.abspath(__file__) )
         self.ngx_conf = None
+        
         self.vn_conf_dir = self.ngx_conf_dir
         self.vn_conf = 'config.json'
+        
+        self.f_ngx_errlog = None
 
     def exec_sys_cmd(self, cmd):
         ret = os.system(cmd)
@@ -23,12 +28,32 @@ class Base_Case(unittest.TestCase):
             return ''
         else:
             return ' -c %s'%self.ngx_conf
-        
+
+    def get_ngx_stderr(self):
+        self.exec_sys_cmd(self.ngx_bin + self.cfg_str() + ' -s reopen')#refresh nginx log
+        ret = self.f_ngx_errlog.read() 
+        assert len(self.f_ngx_errlog.read(1)) == 0 #make sure no more log
+        self.f_ngx_errlog.close()
+        return ret
+    
+    def check_ngx_stderr(self, log_str = None):
+        if log_str == None:
+            log_str = self.get_ngx_stderr()
+
+        mark = [ '[error]','stack traceback','coroutine','in function','aborted','runtime error' ]
+        for item in mark:
+            assert item not in log_str
+
     def setUp(self):
+        #open nginx error.log
+        self.f_ngx_errlog = open(self.ngx_errlog,'r')
+        self.f_ngx_errlog.seek(0,os.SEEK_END)
+        
         self.exec_sys_cmd('rm -rf /opt/verynginx/verynginx/configs/*')
         #prepare config.json for verynginx
         if self.vn_conf != None:
             self.exec_sys_cmd('cp %s/%s /opt/verynginx/verynginx/configs/'%(self.vn_conf_dir, self.vn_conf))
+
         #start nginx
         self.exec_sys_cmd(self.ngx_bin + self.cfg_str())
     

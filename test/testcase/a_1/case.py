@@ -11,3 +11,4 @@ class Case(base_case.Base_Case):
     def runTest(self):
         r = requests.get('http://127.0.0.1')
         assert r.status_code == 200
+        self.check_ngx_stderr()
