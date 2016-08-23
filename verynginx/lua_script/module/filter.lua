@@ -28,15 +28,17 @@ function _M.filter()
             if action == 'accept' then
                 return
             else
-                ngx.status = tonumber( rule['code'] )
                 if rule['response'] ~= nil then
+                    ngx.status = tonumber( rule['code'] )
                     response = response_list[rule['response']]
                     if response ~= nil then
                         ngx.header.content_type = response['content_type']
                         ngx.say( response['body'] )
+                        ngx.exit( ngx.HTTP_OK )
                     end
+                else
+                    ngx.exit( tonumber( rule['code'] ) )
                 end
-                ngx.exit( ngx.HTTP_OK )
             end
         end
     end

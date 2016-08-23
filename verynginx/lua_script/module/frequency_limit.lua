@@ -55,15 +55,17 @@ function _M.filter()
             limit_dict:incr( key, 1 )
 
             if count_now > tonumber(count) then
-                ngx.status = tonumber( rule['code'] )
                 if rule['response'] ~= nil then
+                    ngx.status = tonumber( rule['code'] )
                     response = response_list[rule['response']]
                     if response ~= nil then
                         ngx.header.content_type = response['content_type']
                         ngx.say( response['body'] )
                     end
+                    ngx.exit( ngx.HTTP_OK )
+                else
+                    ngx.exit( tonumber( rule['code'] ) )
                 end
-                ngx.exit( ngx.HTTP_OK )
             end
             
             return
