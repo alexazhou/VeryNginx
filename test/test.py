@@ -36,5 +36,4 @@ if __name__ == "__main__":
     
     runner = unittest.TextTestRunner()
     ret = runner.run(suite)
-    assert ret.errors==0
-    assert ret.failures==0
+    assert ret.wasSuccessful()
