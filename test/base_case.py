@@ -36,13 +36,18 @@ class Base_Case(unittest.TestCase):
         self.f_ngx_errlog.close()
         return ret
     
-    def check_ngx_stderr(self, log_str = None):
+    def check_ngx_stderr(self, log_str=None, ignore_flag=[]):
         if log_str == None:
             log_str = self.get_ngx_stderr()
 
-        mark = [ '[error]','stack traceback','coroutine','in function','aborted','runtime error' ]
+        mark = [ '[error]','[lua]','stack traceback','coroutine','in function','aborted','runtime error' ]
+        for item in ignore_flag:
+            mark.remove(item)
+
         for item in mark:
-            assert item not in log_str
+            if item in log_str:
+                print( 'Got unexpected flag "%s" in nginx error.log:%s'%(item,log_str))
+                assert False
 
     def setUp(self):
         #open nginx error.log
