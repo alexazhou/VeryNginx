@@ -144,7 +144,6 @@ This configuration file add three `include` command to embeded verynginx into or
 
 ```
 
-
 ### Configure VeryNginx on dashboard
 
 After the service begin running, you can see server status and do config on dashboard.
@@ -155,6 +154,11 @@ Default user and password is `verynginx` / `verynginx`. You should be able to wo
 
 The full version of config guide can be found in [VeryNginx Wiki](https://github.com/alexazhou/VeryNginx/) .
 
+### Trouble Shooting
+
+If you have any problems during **installation** / **configuration** / **use** , you can refer the Trouble Shooting document.
+
+[Trouble Shooting](https://github.com/alexazhou/VeryNginx/wiki/Trouble-Shooting) 
 
 #### Tips
 
