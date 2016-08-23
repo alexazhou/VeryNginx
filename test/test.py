@@ -35,4 +35,6 @@ if __name__ == "__main__":
         suite.addTest( all_case[k].Case() )
     
     runner = unittest.TextTestRunner()
-    runner.run(suite)
+    ret = runner.run(suite)
+    assert ret.errors==0
+    assert ret.failures==0

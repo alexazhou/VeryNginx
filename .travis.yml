@@ -30,5 +30,9 @@ install:
   - sudo python3 -m pip install -r test/requirements.txt 
   - sudo python3 install.py install verynginx
 
+before_script:
+  - sudo /opt/verynginx/openresty/nginx/sbin/nginx 
+  - sudo /opt/verynginx/openresty/nginx/sbin/nginx -s stop 
+
 script:
   - sudo python3 test/test.py
