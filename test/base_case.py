@@ -33,7 +33,6 @@ class Base_Case(unittest.TestCase):
         self.exec_sys_cmd(self.ngx_bin + self.cfg_str() + ' -s reopen')#refresh nginx log
         ret = self.f_ngx_errlog.read() 
         assert len(self.f_ngx_errlog.read(1)) == 0 #make sure no more log
-        self.f_ngx_errlog.close()
         return ret
     
     def check_ngx_stderr(self, log_str=None, ignore_flag=[]):
@@ -63,5 +62,7 @@ class Base_Case(unittest.TestCase):
         self.exec_sys_cmd(self.ngx_bin + self.cfg_str())
     
     def tearDown(self):
+        #close nginx log file
+        self.f_ngx_errlog.close()
         #stop nginx
         self.exec_sys_cmd(self.ngx_bin + self.cfg_str() + ' -s stop')
