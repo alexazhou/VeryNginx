@@ -8,6 +8,7 @@ local _M = {}
 
 local VeryNginxConfig = require "VeryNginxConfig"
 local request_tester = require "request_tester"
+local util = require "util"
 
 function _M.filter()
     
