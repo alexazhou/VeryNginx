@@ -30,10 +30,11 @@ if __name__ == "__main__":
     os.chdir( script_path )
 
     all_case = load_test_case()
-    suite = unittest.TestSuite()
+    major_suite = unittest.TestSuite()
     for k in all_case.keys():
-        suite.addTest( all_case[k].Case() )
+        suite = unittest.defaultTestLoader.loadTestsFromTestCase(all_case[k].Case)
+        major_suite.addTests( suite )
     
     runner = unittest.TextTestRunner()
-    ret = runner.run(suite)
+    ret = runner.run(major_suite)
     assert ret.wasSuccessful()
