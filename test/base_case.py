@@ -11,7 +11,7 @@ class Base_Case(unittest.TestCase):
         self.ngx_bin = '/opt/verynginx/openresty/nginx/sbin/nginx'
         self.ngx_errlog = '/opt/verynginx/openresty/nginx/logs/error.log'
 
-        self.ngx_conf_dir = os.path.dirname( os.path.abspath(__file__) )
+        self.ngx_conf_dir = None
         self.ngx_conf = None
         
         self.vn_conf_dir = self.ngx_conf_dir
@@ -49,6 +49,7 @@ class Base_Case(unittest.TestCase):
                 assert False
 
     def setUp(self):
+        print('Run: %s'%self.desc)
         #open nginx error.log
         self.f_ngx_errlog = open(self.ngx_errlog,'r')
         self.f_ngx_errlog.seek(0,os.SEEK_END)
@@ -56,7 +57,7 @@ class Base_Case(unittest.TestCase):
         self.exec_sys_cmd('rm -rf /opt/verynginx/verynginx/configs/*')
         #prepare config.json for verynginx
         if self.vn_conf != None:
-            self.exec_sys_cmd('cp %s/%s /opt/verynginx/verynginx/configs/'%(self.vn_conf_dir, self.vn_conf))
+            self.exec_sys_cmd('cp %s/%s /opt/verynginx/verynginx/configs/config.json'%(self.vn_conf_dir, self.vn_conf))
 
         #start nginx
         self.exec_sys_cmd(self.ngx_bin + self.cfg_str())

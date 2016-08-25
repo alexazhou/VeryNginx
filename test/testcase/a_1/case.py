@@ -5,7 +5,7 @@ import os
 class Case(base_case.Base_Case):
     def __init__(self, *args, **kwargs):
         super(Case, self).__init__(*args, **kwargs)
-        self.desc = "VeryNginx start"
+        self.desc = "test verynginx start without config.json"
         self.vn_conf = None
 
     def test_vn_start_without_conf(self):

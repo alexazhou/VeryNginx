@@ -5,7 +5,7 @@ import os
 class Case(base_case.Base_Case):
     def __init__(self, *args, **kwargs):
         super(Case, self).__init__(*args, **kwargs)
-        self.desc = "VeryNginx start with config.json"
+        self.desc = "test basic behaviour with config.json"
         self.vn_conf_dir = os.path.dirname(os.path.abspath(__file__))
 
     def test_vn_start_with_conf(self):
