@@ -31,8 +31,10 @@ install:
   - sudo python3 install.py install verynginx
 
 before_script:
+  - if [ ! -f /opt/verynginx/openresty/nginx/logs/error.log ]; then touch /opt/verynginx/openresty/nginx/logs/error.log;sudo chown nginx:nginx /opt/verynginx/openresty/nginx/logs/error.log ; fi
   - sudo /opt/verynginx/openresty/nginx/sbin/nginx 
-  - sudo /opt/verynginx/openresty/nginx/sbin/nginx -s stop 
+  - sudo /opt/verynginx/openresty/nginx/sbin/nginx -s stop
+  - echo -e "127.0.0.1   a.vntest.com\n127.0.0.1   b.vntest.com\n127.0.0.1   c.vntest.com" | sudo tee -a /etc/hosts
 
 script:
   - sudo python3 test/test.py
