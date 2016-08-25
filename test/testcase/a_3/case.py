@@ -18,11 +18,37 @@ class Case(base_case.Base_Case):
         assert r.status_code == 404
         assert r.headers.get('content-type') == 'text/html'
         assert 'hited' not in r.text
+    
     def test_host_not_equal(self): 
-        pass
+        r = requests.get('http://a.vntest.com/testhostnotequal')
+        assert r.status_code == 404
+        assert r.headers.get('content-type') == 'text/html'
+        assert 'hited' not in r.text
+    
+        r = requests.get('http://b.vntest.com/testhostnotequal')
+        assert r.status_code == 400
+        assert r.headers.get('content-type') == 'text/html'
+        assert 'hited' in r.text
 
     def test_host_match(self): 
-        pass
+        r = requests.get('http://a.vntest.com/testhostmatch')
+        assert r.status_code == 400
+        assert r.headers.get('content-type') == 'text/html'
+        assert 'hited' in r.text
+    
+        r = requests.get('http://127.0.0.1/testhostmatch')
+        assert r.status_code == 404
+        assert r.headers.get('content-type') == 'text/html'
+        assert 'hited' not in r.text
 
     def test_host_not_match(self): 
-        pass
+        r = requests.get('http://a.vntest.com/testhostnotmatch')
+        assert r.status_code == 404
+        assert r.headers.get('content-type') == 'text/html'
+        assert 'hited' not in r.text
+    
+        r = requests.get('http://127.0.0.1/testhostnotmatch')
+        assert r.status_code == 400
+        assert r.headers.get('content-type') == 'text/html'
+        assert 'hited' in r.text
+
