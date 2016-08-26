@@ -4,28 +4,70 @@
       "enable":true,
       "code":"400",
       "response":"hit",
-      "matcher":"host_equal",
+      "action":"block",
       "custom_response":true,
-      "action":"block"
+      "matcher":"host_equal"
     },{
       "enable":true,
       "code":"400",
       "response":"hit",
-      "matcher":"host_match",
+      "action":"block",
       "custom_response":true,
-      "action":"block"
+      "matcher":"host_match"
     },{
       "enable":true,
       "code":"400",
       "response":"hit",
-      "matcher":"host_not_equal",
+      "action":"block",
       "custom_response":true,
-      "action":"block"
+      "matcher":"host_not_equal"
     },{
       "enable":true,
       "code":"400",
       "response":"hit",
-      "matcher":"host_not_match",
+      "action":"block",
+      "custom_response":true,
+      "matcher":"host_not_match"
+    },{
+      "enable":true,
+      "code":"400",
+      "response":"hit",
+      "action":"block",
+      "custom_response":true,
+      "matcher":"useragent_equal"
+    },{
+      "enable":true,
+      "code":"400",
+      "response":"hit",
+      "action":"block",
+      "custom_response":true,
+      "matcher":"useragent_not_equal"
+    },{
+      "enable":true,
+      "code":"400",
+      "response":"hit",
+      "action":"block",
+      "custom_response":true,
+      "matcher":"useragent_match"
+    },{
+      "enable":true,
+      "code":"400",
+      "response":"hit",
+      "action":"block",
+      "custom_response":true,
+      "matcher":"useragent_not_match"
+    },{
+      "enable":true,
+      "code":"400",
+      "response":"hit",
+      "action":"block",
+      "custom_response":true,
+      "matcher":"useragent_existed"
+    },{
+      "enable":true,
+      "code":"400",
+      "response":"hit",
+      "matcher":"useragent_not_existed",
       "custom_response":true,
       "action":"block"
     }],
@@ -91,7 +133,63 @@
         "operator":"≈"
       }
     },
-    "all_request":{
+    "useragent_match":{
+      "URI":{
+        "value":"/test_useragent_match",
+        "operator":"="
+      },
+      "UserAgent":{
+        "value":".*test.*",
+        "operator":"≈"
+      }
+    },
+    "useragent_not_equal":{
+      "URI":{
+        "value":"/test_useragent_not_equal",
+        "operator":"="
+      },
+      "UserAgent":{
+        "value":"vntestflag",
+        "operator":"!="
+      }
+    },
+    "useragent_not_match":{
+      "URI":{
+        "value":"/test_useragent_not_match",
+        "operator":"="
+      },
+      "UserAgent":{
+        "value":".*test.*",
+        "operator":"!≈"
+      }
+    },
+    "useragent_equal":{
+      "URI":{
+        "value":"/test_useragent_equal",
+        "operator":"="
+      },
+      "UserAgent":{
+        "value":"vntestflag",
+        "operator":"="
+      }
+    },
+    "useragent_not_existed":{
+      "URI":{
+        "value":"/test_useragent_not_existed",
+        "operator":"="
+      },
+      "UserAgent":{
+        "operator":"!Exist"
+      }
+    },
+    "useragent_existed":{
+      "URI":{
+        "value":"/test_useragent_existed",
+        "operator":"="
+      },
+      "UserAgent":{
+        "operator":"Exist"
+      }
     },
     "host_equal":{
       "Host":{
@@ -102,6 +200,8 @@
         "value":"/testhostequal",
         "operator":"="
       }
+    },
+    "all_request":{
     }
   },
   "static_file_enable":true,

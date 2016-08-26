@@ -54,8 +54,8 @@ class Base_Case(unittest.TestCase):
         self.f_ngx_errlog = open(self.ngx_errlog,'r')
         self.f_ngx_errlog.seek(0,os.SEEK_END)
         
-        self.exec_sys_cmd('rm -rf /opt/verynginx/verynginx/configs/*')
         #prepare config.json for verynginx
+        self.exec_sys_cmd('rm -rf /opt/verynginx/verynginx/configs/*')
         if self.vn_conf != None:
             self.exec_sys_cmd('cp %s/%s /opt/verynginx/verynginx/configs/config.json'%(self.vn_conf_dir, self.vn_conf))
 
