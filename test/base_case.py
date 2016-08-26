@@ -39,7 +39,7 @@ class Base_Case(unittest.TestCase):
         if log_str == None:
             log_str = self.get_ngx_stderr()
 
-        mark = [ '[error]','[lua]','stack traceback','coroutine','in function','aborted','runtime error' ]
+        mark = [ '[lua]','stack traceback','coroutine','in function','aborted','runtime error' ]
         for item in ignore_flag:
             mark.remove(item)
 

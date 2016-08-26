@@ -17,6 +17,7 @@ class Case(base_case.Base_Case):
         index_content = f.read(1*1024*1024)
         f.close()
         assert index_content==r.content 
+        self.check_ngx_stderr()
     
     def test_404(self): 
         #test notexist.html
@@ -24,7 +25,7 @@ class Case(base_case.Base_Case):
         assert r.status_code == 404
         assert r.headers.get('content-type') == 'text/html'
         assert b'404' in r.content
-        self.check_ngx_stderr(ignore_flag=['[error]'])
+        self.check_ngx_stderr()
 
     def test_vn_index(self):
         r = requests.get('http://127.0.0.1/verynginx/index.html')
@@ -33,6 +34,7 @@ class Case(base_case.Base_Case):
         index_content = f.read(1*1024*1024)
         f.close()
         assert index_content==r.content
+        self.check_ngx_stderr()
 
     def test_vn_index_with_short_url(self):
         r = requests.get('http://127.0.0.1/vn/index.html')
@@ -41,4 +43,5 @@ class Case(base_case.Base_Case):
         index_content = f.read(1*1024*1024)
         f.close()
         assert index_content==r.content 
+        self.check_ngx_stderr()
 
