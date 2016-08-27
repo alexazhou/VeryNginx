@@ -102,6 +102,12 @@ class Case(base_case.Base_Case):
         assert r.headers.get('content-type') == 'text/html'
         assert 'hited' not in r.text
         self.check_ngx_stderr()
+        
+        r = requests.get('http://127.0.0.1/test_useragent_equal',headers={'User-Agent':''})
+        assert r.status_code == 404
+        assert r.headers.get('content-type') == 'text/html'
+        assert 'hited' not in r.text
+        self.check_ngx_stderr()
 
         r = requests.get('http://127.0.0.1/test_useragent_equal',headers={'User-Agent':None})
         assert r.status_code == 404
@@ -117,6 +123,12 @@ class Case(base_case.Base_Case):
         self.check_ngx_stderr()
 
         r = requests.get('http://127.0.0.1/test_useragent_not_equal',headers={'User-Agent':'vntestflagz'})
+        assert r.status_code == 400
+        assert r.headers.get('content-type') == 'text/html'
+        assert 'hited' in r.text
+        self.check_ngx_stderr()
+
+        r = requests.get('http://127.0.0.1/test_useragent_not_equal',headers={'User-Agent':''})
         assert r.status_code == 400
         assert r.headers.get('content-type') == 'text/html'
         assert 'hited' in r.text
@@ -153,6 +165,12 @@ class Case(base_case.Base_Case):
         assert 'hited' not in r.text
         self.check_ngx_stderr()
 
+        r = requests.get('http://127.0.0.1/test_useragent_match',headers={'User-Agent':''})
+        assert r.status_code == 404
+        assert r.headers.get('content-type') == 'text/html'
+        assert 'hited' not in r.text
+        self.check_ngx_stderr()
+
         r = requests.get('http://127.0.0.1/test_useragent_match',headers={'User-Agent':None})
         assert r.status_code == 404
         assert r.headers.get('content-type') == 'text/html'
@@ -167,6 +185,12 @@ class Case(base_case.Base_Case):
         self.check_ngx_stderr()
 
         r = requests.get('http://127.0.0.1/test_useragent_not_match',headers={'User-Agent':'aaazestbbb'})
+        assert r.status_code == 400
+        assert r.headers.get('content-type') == 'text/html'
+        assert 'hited' in r.text
+        self.check_ngx_stderr()
+
+        r = requests.get('http://127.0.0.1/test_useragent_not_match',headers={'User-Agent':''})
         assert r.status_code == 400
         assert r.headers.get('content-type') == 'text/html'
         assert 'hited' in r.text
