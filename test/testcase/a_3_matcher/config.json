@@ -105,7 +105,7 @@
   "matcher":{
     "host_match":{
       "Host":{
-        "value":"a.vntest.*",
+        "value":".*vntest.*",
         "operator":"≈"
       },
       "URI":{
@@ -125,7 +125,7 @@
     },
     "host_not_match":{
       "Host":{
-        "value":"a.vntest.*",
+        "value":".*vntest.*",
         "operator":"!≈"
       },
       "URI":{
