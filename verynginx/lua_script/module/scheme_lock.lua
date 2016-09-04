@@ -4,7 +4,7 @@
 -- @Link    : 
 -- @Disc    : redirect request to right scheme
 
-_M = {}
+local _M = {}
 
 
 local VeryNginxConfig = require "VeryNginxConfig"
