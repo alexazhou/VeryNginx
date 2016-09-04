@@ -4,7 +4,7 @@
 -- @Link    : 
 -- @Disc    : request frequency limit
 
-_M = {}
+local _M = {}
 
 
 local VeryNginxConfig = require "VeryNginxConfig"
