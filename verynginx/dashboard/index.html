@@ -1405,8 +1405,8 @@
                                 
                                     <div class="form-group">
                                         <div class="col-sm-10 col-sm-offset-2 ">
-                                            <div class="notice" v-if="( backend_upstream._editing != undefined )" >
-                                                Now is editing rule <span class="editing_rule_name">{{backend_upstream._editing}}</span>
+                                            <div class="notice" v-if="( config_now.backend_upstream._editing != undefined )" >
+                                                Now is editing rule <span class="editing_rule_name">{{config_now.backend_upstream._editing}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -1458,8 +1458,8 @@
                                 
                                     <div class="form-group">
                                         <div class="col-sm-10 col-sm-offset-2 ">
-                                            <div class="notice" v-if="( proxy_pass_rule._editing != undefined )" >
-                                                Now is editing rule <span class="editing_rule_name">{{proxy_pass_rule._editing}}</span>
+                                            <div class="notice" v-if="( config_now.proxy_pass_rule._editing != undefined )" >
+                                                Now is editing rule <span class="editing_rule_name">{{config_now.proxy_pass_rule._editing}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -1486,7 +1486,7 @@
                                         <label class="col-sm-2 control-label">UpStream</label>
                                         <div class="col-sm-10">
                                             <select class="form-control" name="upstream">
-                                                <template v-for="rule in backend_upstream | orderBy '$key'">
+                                                <template v-for="rule in config_now.backend_upstream | orderBy '$key'">
                                                     <option value="{{$key}}">{{$key}}</option>
                                                 </template>
                                             </select>
