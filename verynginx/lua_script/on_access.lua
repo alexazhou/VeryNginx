@@ -6,7 +6,7 @@ local router = require "router"
 local backend_static = require "backend_static"
 local backend_proxy = require "backend_proxy"
 
-if ngx.var.vn_exec_flag ~= '' then
+if ngx.var.vn_exec_flag and ngx.var.vn_exec_flag ~= '' then
     return
 end
 

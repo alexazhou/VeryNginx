@@ -4,7 +4,7 @@ local scheme_lock = require "scheme_lock"
 local redirect = require "redirect"
 local uri_rewrite = require "uri_rewrite"
 
-if ngx.var.vn_exec_flag ~= '' then
+if ngx.var.vn_exec_flag and ngx.var.vn_exec_flag ~= '' then
     util.ngx_ctx_load()
     return
 end
