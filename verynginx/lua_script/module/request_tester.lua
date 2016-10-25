@@ -78,7 +78,7 @@ function _M.test_many_var( var_table, condition )
 
     for k, v in pairs(var_table) do
         if test_var( name_operator, name_value, k ) == true then
-            if test_var( operator, value, k ) == true then -- if any one value match the condition, means the matcher has been hited 
+            if test_var( operator, value, v ) == true then -- if any one value match the condition, means the matcher has been hited 
                 return true 
             end
         end
