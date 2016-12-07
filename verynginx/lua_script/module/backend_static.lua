@@ -25,7 +25,11 @@ function _M.filter()
             ngx.var.vn_static_expires = rule['expires']
             ngx.var.vn_exec_flag = '1'-- use the var as a mark, so that lua can know that's a inside redirect
             util.ngx_ctx_dump() 
-            return ngx.exec('@vn_static') -- will jump out at the exec 
+            if string.find ( ngx.var.uri , '%.html$' ) then               
+                return ngx.exec('@vn_static_nocache')
+            else               
+                return ngx.exec('@vn_static') -- will jump out at the exec
+            end 
         end
     end
 end
