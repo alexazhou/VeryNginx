@@ -22,14 +22,15 @@ function _M.filter()
         local matcher = matcher_list[ rule['matcher'] ] 
         if enable == true and request_tester.test( matcher ) == true then
             ngx.var.vn_static_root = rule['root']
-            ngx.var.vn_static_expires = rule['expires']
+            if string.find ( ngx.var.uri , '%.html$' ) then               
+                ngx.var.vn_static_expires='-1'
+            else
+                ngx.var.vn_static_expires = rule['expires']
+            end
             ngx.var.vn_exec_flag = '1'-- use the var as a mark, so that lua can know that's a inside redirect
             util.ngx_ctx_dump() 
-            if string.find ( ngx.var.uri , '%.html$' ) then               
-                return ngx.exec('@vn_static2')
-            else               
-                return ngx.exec('@vn_static') -- will jump out at the exec
-            end 
+         
+            return ngx.exec('@vn_static') -- will jump out at the exec
         end
     end
 end

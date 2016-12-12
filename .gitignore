@@ -3,3 +3,4 @@
 *.swn
 *.swm
 __pycache__
+/databoardsrc/node_modules
