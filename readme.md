@@ -190,7 +190,6 @@ install.py will keep the old config.json and nginx.conf during update. So that y
 After cloning code to your local filesystem, you can run the following commands:
 
 ```
-cd Docker  
 docker build -t verynginx .
 docker run verynginx
 ```

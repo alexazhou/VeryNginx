@@ -194,7 +194,6 @@ install.py脚本在升级过程中，将保留原有的 config.json 和 nginx.co
 在将代码clone到本地之后，你可以运行下面的命令：
 
 ```
-cd Docker
 docker build -t verynginx .
 docker run verynginx
 ```
