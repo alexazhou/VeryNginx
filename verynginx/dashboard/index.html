@@ -314,7 +314,7 @@
                                 <div class="form-group">
                                     <div class="col-sm-10 col-sm-offset-2 ">
                                         <div class="notice" v-if="( config_now.matcher._editing != undefined )" >
-                                            Now is editing rule <span class="editing_rule_name">{{config_now.matcher._editing}}<span>
+                                            Now is editing rule <span class="editing_rule_name">{{config_now.matcher._editing}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -2082,7 +2082,7 @@
                                                             </div>
                                                             <div class="col-sm-10 input_item_inputer"> 
                                                                 <template v-if="(input_item.type == 'input')">
-                                                                    <input type="text" class="form-control config_matcher_editor_value" name="{{input_item.name}}" placeholder="{{input_item.placeholder}}"></input>
+                                                                    <input type="text" class="form-control config_matcher_editor_value" name="{{input_item.name}}" placeholder="{{input_item.placeholder}}">
                                                                 </template>
                                                                 
                                                                 <template v-if="(input_item.type == 'textarea')">
@@ -2142,7 +2142,7 @@
                                     </ul>
                                 </div>
                                 <button type="button" class="btn btn-default" id="summary_data_refresh" onclick="data_stat.get_data()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
-                                <button type="button" class="btn btn-default" id="summary_data_refresh" onclick="data_stat.clear_data()">Clear</span></button>
+                                <button type="button" class="btn btn-default" id="summary_data_refresh" onclick="data_stat.clear_data()">Clear</button>
                             </div>
                         </div>
                     </div>
