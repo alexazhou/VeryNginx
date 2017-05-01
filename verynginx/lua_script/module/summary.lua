@@ -90,7 +90,7 @@ function _M.log()
         if with_host_info then
             uri = ngx.var.host..uri
         end
-        key_status = KEY_URI_STATUS..uri.."_"..status_code
+        key_status = KEY_URI_STATUS..(uri or '').."_"..status_code
         key_size = KEY_URI_SIZE..uri
         key_time = KEY_URI_TIME..uri
         key_count = KEY_URI_COUNT..uri
