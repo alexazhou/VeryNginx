@@ -1,10 +1,10 @@
 # VeryNginx
 VeryNginx 是一个功能强大而对人类友好的 Nginx 扩展程序.
 
-###提示
+### 提示
  `v0.2` 版本之后，控制台入口被移动到了 `/verynginx/index.html`
 
-##介绍
+## 介绍
 
 VeryNginx 基于 `lua_nginx_module(openrestry)` 开发，实现了高级的防火墙、访问统计和其他的一些功能。 集成在 Nginx 中运行，扩展了 Nginx 本身的功能，并提供了友好的 Web 交互界面。
 
@@ -14,7 +14,7 @@ VeryNginx 基于 `lua_nginx_module(openrestry)` 开发，实现了高级的防�
 
 详细配置说明见：[VeryNginx Github WiKi](https://github.com/alexazhou/VeryNginx/wiki/目录)
 
-###Nginx 运行状态分析
+### Nginx 运行状态分析
 
 * 每秒请求数
 * 响应时间
@@ -24,7 +24,7 @@ VeryNginx 基于 `lua_nginx_module(openrestry)` 开发，实现了高级的防�
 ![Nginx 运行状态](http://ww2.sinaimg.cn/mw690/3fcd0ed3jw1f17en7oc1yj20z00ol0wl.jpg)
 
 
-###自定义行为
+### 自定义行为
 
 VeryNginx 包含强大的自定义功能，可以做很多事情
 
@@ -32,7 +32,7 @@ VeryNginx 包含强大的自定义功能，可以做很多事情
 
 这样的优势在于把所有的前置判断整合在Matcher里一起来实现了，使复杂(组合)规则的实现变成了可能
 
-####Matcher
+#### Matcher
 
 一个 Matcher 用来判断一个 Http 请求是否符合指定的条件， 一个 Matcher 可以包含一个或者多个约束条件，目前支持以下几种约束：
 
@@ -45,7 +45,7 @@ VeryNginx 包含强大的自定义功能，可以做很多事情
 
 当一个请求没有违反 Matcher 中包含的全部条件时，即命中了这个 Matcher 
 
-####Action
+#### Action
 
 每个 Action 会引用一个 Matcher ，当 Matcher 命中时， Action 会被执行
 
@@ -66,7 +66,7 @@ VeryNginx 预置了常用的过滤规则，可以在一定程度上阻止常见�
 
 ![VeryNginx filter](http://ww3.sinaimg.cn/mw690/3fcd0ed3jw1f17en9lrarj20zw0piq77.jpg)
 
-####Backend
+#### Backend
 
 每个 Backend 会引用一个 Matcher ，当 Matcher 命中时， 请求会通过 Backend 进行处理
 
@@ -75,7 +75,7 @@ VeryNginx 预置了常用的过滤规则，可以在一定程度上阻止常见�
 * **Proxy Pass** 将请求反向代理到其它服务器
 * **Static File** 使用本地文件处理请求
 
-###访问统计
+### 访问统计
 
 VeryNginx 可以统计网站每个URI的访问情况，包括每个URI的:
 
@@ -90,7 +90,7 @@ VeryNginx 可以统计网站每个URI的访问情况，包括每个URI的:
 
 ![Nginx 运行状态](http://ww1.sinaimg.cn/mw690/3fcd0ed3jw1f17ena2ipyj20zw0piqag.jpg)
 
-##安装和使用说明
+## 安装和使用说明
 
 VeryNginx 基于 OpenResty[^openresty]，所以安装 VeryNginx 需要先安装好 OpenResty。不过并不用担心安装过程中可能的麻烦，VeryNginx 自身提供了脚本来进行安装工作。
 
@@ -139,7 +139,7 @@ VeryNginx 的配置文件位置为 **/opt/verynginx/openresty/nginx/conf/nginx.c
 ```
 
 
-###通过web面板对 VeryNginx 进行配置
+### 通过web面板对 VeryNginx 进行配置
 
 VeryNginx 启动后，可以通过浏览器访问管理面板来查看状态以及进行配置。
 
