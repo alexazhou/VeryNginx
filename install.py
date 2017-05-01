@@ -38,7 +38,7 @@ def install_openresty( ):
     if down_flag == True:
         print('### start download openresty package...')
         exec_sys_cmd('rm -rf ' + openresty_pkg)
-        exec_sys_cmd( 'wget ' + openresty_pkg_url )
+        exec_sys_cmd( 'wget  --no-check-certificate ' + openresty_pkg_url )
     else:
         print('### use local openresty package...')
     
@@ -95,7 +95,11 @@ def exec_sys_cmd(cmd, accept_failed = False):
             return False
 
 def common_input( s ):
-    if sys.version_info.major == 3:
+    if isinstance(sys.version_info,types.TupleType):
+        pyMajorVersion=sys.version_info[0]
+    else:
+        pyMajorVersion=sys.version_info.major
+    if pyMajorVersion == 3:
         return input( s )
     else:
         return raw_input( s )
