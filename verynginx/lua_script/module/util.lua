@@ -22,9 +22,6 @@ function _M.string_replace(s, pattern, replace, times)
 end
 
 function _M.existed( list, value )
-    if list == nil  then
-        return false
-    end
     for idx,item in ipairs( list ) do
         if item == value then
             return true

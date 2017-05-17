@@ -226,7 +226,8 @@ function _M.report()
                 record_table[record_key]["status"][status] = dict:get( v )
             elseif time ~= nil then
                 record_table[record_key]["time"] = time         
-            elseif size ~= nil then
+            elseif
+                size ~= nil then
                 record_table[record_key]["size"] = size
             elseif count ~= nil then
                 record_table[record_key]["count"] = count
