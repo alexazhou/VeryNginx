@@ -38,9 +38,9 @@ function _M.run()
 	end
 	
     if ngx_var.args ~= nil then
-		ngx.redirect( scheme.."://"..ngx_var.host..ngx_var.uri.."?"..ngx_var.args , ngx.HTTP_MOVED_TEMPORARILY)
+		ngx.redirect( scheme.."://"..ngx_var.http_host..ngx_var.uri.."?"..ngx_var.args , ngx.HTTP_MOVED_TEMPORARILY)
 	else
-		ngx.redirect( scheme.."://"..ngx_var.host..ngx_var.uri , ngx.HTTP_MOVED_TEMPORARILY)
+		ngx.redirect( scheme.."://"..ngx_var.http_host..ngx_var.uri , ngx.HTTP_MOVED_TEMPORARILY)
 	end
 end
 

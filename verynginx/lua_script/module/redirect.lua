@@ -22,7 +22,7 @@ function _M.run()
     local ngx_redirect = ngx.redirect
     local ngx_var_uri = ngx_var.uri
     local ngx_var_scheme = ngx_var.scheme
-    local ngx_var_host = ngx_var.host
+    local ngx_var_host = ngx_var.http_host
     local matcher_list = VeryNginxConfig.configs['matcher']
 
 
