@@ -1,0 +1,10 @@
+vnginx:
+  image: yuzukwok/verynginx
+  ports: 
+         - "10000:80"
+  volumes: 
+         - "/e/VM/verynginx:/opt/verynginx/verynginx/configs"
+         - "/e/VM/nginxlog:/opt/verynginx/openresty/nginx/logs"
+         - "/e/VM/nginxconf:/opt/verynginx/openresty/nginx/conf"
+         - "/e/VM/nginxhtml:/opt/verynginx/openresty/nginx/html"
+      

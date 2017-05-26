@@ -7,11 +7,15 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /code
-COPY . /code
+COPY ./ /code
 WORKDIR /code
 RUN groupadd -r nginx && useradd -r -g nginx nginx
 RUN python install.py install
 
 EXPOSE 80
+VOLUME '/opt/verynginx/verynginx/configs'
+VOLUME '/opt/verynginx/openresty/nginx/logs'
+VOLUME '/opt/verynginx/openresty/nginx/conf'
+VOLUME '/opt/verynginx/openresty/nginx/html'
 
 CMD ["/opt/verynginx/openresty/nginx/sbin/nginx", "-g", "daemon off; error_log /dev/stderr info;"]

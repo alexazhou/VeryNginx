@@ -11,8 +11,8 @@ import sys
 import getopt
 import filecmp
 
-openresty_pkg_url = 'https://openresty.org/download/openresty-1.9.15.1.tar.gz'
-openresty_pkg = 'openresty-1.9.15.1.tar.gz'
+openresty_pkg_url = 'https://openresty.org/download/openresty-1.11.2.2.tar.gz'
+openresty_pkg = 'openresty-1.11.2.2.tar.gz'
 
 work_path = os.getcwd()
 
@@ -26,6 +26,10 @@ def install_openresty( ):
     print('### makesure the work directory is clean')
     exec_sys_cmd('rm -rf ' + openresty_pkg.replace('.tar.gz',''))
     
+    #download openssl1.0.2
+    exec_sys_cmd('wget https://www.openssl.org/source/openssl-1.0.2j.tar.gz')
+    exec_sys_cmd('tar -xzf openssl-1.0.2j.tar.gz')
+
     #download openresty
     down_flag = True
     if os.path.exists( './' + openresty_pkg ):
@@ -45,10 +49,12 @@ def install_openresty( ):
     print('### release the package ...')
     exec_sys_cmd( 'tar -xzf ' + openresty_pkg )
 
+    
+
     #configure && compile && install openresty
     print('### configure openresty ...')
     os.chdir( openresty_pkg.replace('.tar.gz','') )
-    exec_sys_cmd( './configure --prefix=/opt/verynginx/openresty --user=nginx --group=nginx --with-http_v2_module --with-http_sub_module --with-http_stub_status_module --with-luajit' )
+    exec_sys_cmd( './configure --prefix=/opt/verynginx/openresty --user=nginx --group=nginx --with-http_v2_module --with-http_sub_module --with-http_stub_status_module --with-luajit --with-openssl=../openssl-1.0.2j' )
     
     print('### compile openresty ...')
     exec_sys_cmd( 'make' )

@@ -1,0 +1,35 @@
+[{
+    "title": "router",
+    "list": [
+      {
+        "path": "/login",
+        "name": "登录"
+      },
+      {
+        "path": "/home",
+        "name": "主页"
+      },
+       {
+        "path": "/page_about",
+        "name": "关于"
+      },
+       {
+        "path": "/page_config",
+        "name": "设置"
+      },
+       {
+        "path": "/page_status",
+        "name": "状态"
+      },
+        {
+        "path": "/page_summary",
+        "name": "总计"
+      }
+       
+      
+
+
+    ]
+  }
+
+]

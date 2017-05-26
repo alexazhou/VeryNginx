@@ -74,7 +74,7 @@
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" onclick="dashboard.switch_to_page('status')" href="#">VeryNginx</a> 
+                    <a class="navbar-brand" onclick="dashboard.switch_to_page('status')" href="#">Nginx</a> 
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
@@ -242,6 +242,7 @@
                                 <div class="leftnav leftnav_2" config_name="action_browser_verify" onclick="dashboard.switch_to_config(this)">Browser Verify</div>
                                 <div class="leftnav leftnav_2" config_name="action_frequency_limit" onclick="dashboard.switch_to_config(this)">Frequency Limit</div>
                                 <div class="leftnav leftnav_2" config_name="action_filter" onclick="dashboard.switch_to_config(this)">Filter</div>
+                                <div class="leftnav leftnav_2" config_name="action_basic_auth" onclick="dashboard.switch_to_config(this)">Basic Auth</div>
                             </div>
                             
                             <div class="leftnav leftnav_1" group="backend" onclick="dashboard.switch_config_nav_group(this)">Backend</div>
@@ -552,6 +553,115 @@
                                         <template v-if="(config_now.scheme_lock_rule._editing != undefined )">
                                             <button type="submit" class="btn btn-default" >Save</button>
                                             <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('scheme_lock_rule','config_scheme_form')">
+                                                Cancel
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" >Add</button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="config_container" id="config_action_basic_auth">
+                            <div class="config_title">
+                                Basic Auth
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="config_now.basic_auth_enable">
+                            <label>Enable</label>
+                            <table class="table table-bordered config_table" id="config_action_basic_auth_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Enable</td>
+                                        <td>Matcher</td>
+                                        <td>BasicAuth</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="rule in config_now.basic_auth_rule">
+                                        <tr v-bind:class="[ config_now.basic_auth_rule._editing == $index ? 'editing' : '']">
+                                            <td >{{ $index }}</td>
+                                            <td >
+                                                <template v-if="(rule.enable)">
+                                                    ✓
+                                                </template>
+                                                <template v-else>
+                                                    ✗
+                                                </template>
+                                            </td>
+                                            <td >{{ rule.matcher }}</td>
+                                            <td >{{ rule.scheme }}</td>
+                                            <td class="no_break">
+                                                <template v-if="(config_now.basic_auth_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('scheme_lock_rule',{{$index}})">
+                                                        UP
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_down" onclick="config.config_move_down('scheme_lock_rule',{{$index}})">
+                                                        DOWN
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('scheme_lock_rule',{{$index}},null)">
+                                                        DEL
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('scheme_lock_rule',{{$index}},'config_scheme_form')">
+                                                        EDIT
+                                                    </button>
+                                                </template> 
+
+                                                <template v-if="(config_now.basic_auth_rule._editing == $index )">
+                                                    Editing
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+                            
+                            <div class="config_sub_title">
+                                Edit Rule
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" id="config_scheme_form" onsubmit="config.config_edit_save( 'basic_auth_rule', 'config_scheme_form'); return false;" >
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( config_now.scheme_lock_rule._editing != undefined )" >
+                                            Now is editing rule <span class="editing_rule_name">{{config_now.basic_auth_rule._editing}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Enable</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="enable" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Matcher</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="matcher">
+                                            <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
+                                                <option value="{{matcher_name}}">{{matcher_name}}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Scheme</label>
+                                    <div class="col-sm-10">
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <template v-if="(config_now.basic_auth_rule._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" >Save</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('basic_auth_rule','config_scheme_form')">
                                                 Cancel
                                             </button>
                                         </template>
@@ -2110,6 +2220,37 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" onclick="matcher_editor.modal_condition_save()">Add</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+            <!-- Add Basic Auth Modal -->
+            <div class="modal fade" id="config_modal_basicauth">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Add Basic Auth</h4>
+                        </div>
+                        <div class="modal-body" >
+                            <form class="form-horizontal" id="config_modal_node_form">
+                                <div class="row vn_modal_row"   >
+                                    <label class="col-sm-2 text-right control-label">UserName</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="name" type="text" vn_data_verify="verify.str_len(1,null)" placeholder='Name of the node'>
+                                    </div>
+                                </div>
+                                <div class="row vn_modal_row"   >
+                                    <label class="col-sm-2 text-right control-label">Password</label>
+                                  <div class="col-sm-10">
+                                        <input class="form-control" name="name" type="text" vn_data_verify="verify.str_len(1,null)" placeholder='Name of the node'>
+                                    </div>
+                                </div>                               
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" onclick="basicauth_editor.modal_basicauth_save()">Add</button>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
