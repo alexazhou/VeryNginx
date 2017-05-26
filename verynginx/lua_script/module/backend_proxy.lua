@@ -26,21 +26,33 @@ function _M.find_node( upstream )
     end
     --ngx.log( ngx.ERR, 'rate_sum',rate_sum)
    
-    local p = nil
     if balance_method == 'ip_hash' then
+        local p = nil
         p =  math.fmod( ngx.crc32_short( ngx.var.remote_addr), rate_sum) + 1
-    else
-        p = math.random( rate_sum )
-    end
-
-    --ngx.log( ngx.ERR, 'p',p)
-
-    for name,node in pairs( node_list ) do
-        local tmp = tonumber(node['weight'])
-        if p <= tmp then
-            return node
-        else
-            p = p - tmp
+        --ngx.log( ngx.ERR, 'p',p)
+        for name,node in pairs( node_list ) do
+            local tmp = tonumber(node['weight'])
+            if p <= tmp then
+                return node
+            else
+                p = p - tmp
+            end
+        end
+    elseif balance_method == 'random' then
+        local tmp_keys = {}
+        for name, node in pairs( node_list ) do
+            table.insert(tmp_keys, name)
+        end
+        return node_list[tmp_keys[math.random(#tmp_keys)]]
+    elseif balance_method == 'weight_random' then 
+        local rnd = math.random() * rate_sum
+        local tmp = nil
+        for name, node in pairs( node_list ) do
+            tmp = tonumber(node['weight'])
+            rnd = rnd - tmp
+            if rnd < 0 then
+                return node
+            end
         end
     end
 end
