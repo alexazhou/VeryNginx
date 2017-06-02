@@ -93,7 +93,13 @@ function _M.test_uri( condition )
 end
 
 function _M.test_ip( condition )
-    local remote_addr = ngx.var.remote_addr
+    local remote_addr = ngx.req.get_headers()["X_real_ip"]
+    if remote_addr == nil then
+        remote_addr = ngx.req.get_headers()["X_Forwarded_For"]
+    end
+    if remote_addr == nil then
+        remote_addr  = ngx.var.remote_addr
+    end
     return _M.test_var( condition['operator'], condition['value'], remote_addr )
 end
 
