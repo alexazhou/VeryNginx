@@ -21,7 +21,7 @@ function _M.test( matcher )
                 return false
             end
         elseif tester[name] == nil then
-            return fase
+            return false
 		end
 	end
 
