@@ -19,7 +19,9 @@ function _M.test( matcher )
         if tester[name] ~= nil then
             if tester[name]( v ) ~= true then
                 return false
-			end
+            end
+        elseif tester[name] == nil then
+            return fase
 		end
 	end
 
@@ -52,10 +54,6 @@ function _M.test_var( match_operator, match_value, target_var )
             return true
         end
     elseif match_operator == '!Exist' then
-        if target_var == nil then
-            return true
-        end
-    elseif match_operator == '!' then
         if target_var == nil then
             return true
         end
