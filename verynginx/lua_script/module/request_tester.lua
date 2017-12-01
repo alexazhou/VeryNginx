@@ -22,7 +22,7 @@ function _M.test( matcher )
             end
         elseif tester[name] == nil then
             return false
-	    end
+        end
 	end
 
 	return true
