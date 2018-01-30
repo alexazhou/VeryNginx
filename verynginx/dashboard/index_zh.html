@@ -1,0 +1,2223 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>VeryNginx</title>
+<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/webInterface.css">
+<link rel="stylesheet" href="css/bs_callout.css">
+<link rel="stylesheet" href="css/pace.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/smokejs/3.0.1/css/smoke.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/datatables/1.10.10/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="css/tables.css">
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="//cdn.bootcss.com/vue/1.0.26/vue.min.js"></script>
+<script src="//cdn.bootcss.com/smokejs/3.0.1/js/smoke.js"></script>
+<script src="//cdn.bootcss.com/Chart.js/1.0.2/Chart.js"></script>
+<script src="//cdn.bootcss.com/spin.js/2.3.2/spin.min.js"></script>
+<script src="//cdn.bootcss.com/datatables/1.10.10/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.bootcss.com/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="js/util.js"></script>
+<script src="js/vnform.js"></script>
+<script src="js/verify.js"></script>
+<script src="js/monitor.js"></script>
+<script src="js/matcher_editor.js"></script>
+<script src="js/upstream_editor.js"></script>
+<script src="js/config.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/pace.min.js"></script>
+<script src="js/tips.js"></script>
+<script src="js/data_stat.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        dashboard.init();
+    });
+</script>
+</head>
+
+<body style="padding-top:70px">
+
+    <div id="interface_login" class="interface">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title" >VeryNginx 登录</h3>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" id='login_form' onsubmit="return false;">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="user" placeholder="User name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" name="password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button class="btn btn-default" onclick="dashboard.login()">登录</button>
+                        </div>
+                    </div>
+					<div>默认两个都是verynginx</div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="interface_dashboard" class="interface" style="display:none">
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" onclick="dashboard.switch_to_page('status')" href="#">VeryNginx</a> 
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="topnav" id="topnav_status" class="active" >
+                            <a href="#" class="init_click" onclick="dashboard.switch_to_page('status')" >状态</a>
+                        </li>
+                        <li class="topnav" id="topnav_config"  >
+                            <a href="#" onclick="dashboard.switch_to_page('config')" >配置</a>
+                        </li>
+                        <li class="topnav" id="topnav_summary" >
+                            <a href="#" onclick="dashboard.switch_to_page('summary')" >概况</a>
+                        </li>
+                        <li class="topnav"id="topnav_firewall" style="display:none">
+                            <a href="#" onclick="dashboard.switch_to_page('firewall')" >防火墙</a>
+                        </li>
+                        <li class="topnav" id="topnav_about" >
+                            <a href="#" onclick="dashboard.switch_to_page('about')" >关于</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="topnav" id="topnav_logout" >
+                            <a href="#" onclick="dashboard.logout()" >登出</a>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- /.container-fluid -->
+        </nav>
+
+        <div class="page" id="page_status" style="display:none">
+            <div class="container-fluid">
+                <div>
+                    <div class="status_group_title">请求数</div> 
+                    <div class="status_group_title_desc"> 每秒</div>
+                    <span class="glyphicon glyphicon-cog btn-lg pull-right" aria-hidden="true"  onclick="dashboard.open_modal_dashboard_config()">
+                    </span>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span class="status_color_mark" style="background-color:rgba(220,220,220,1)"></span>
+                        <span class="status_color_desc">全部请求</span>
+                    </div>
+                    <div class="col-sm-6">
+                        <span class="status_color_mark" style="background-color:rgba(151,187,205,1)"></span>
+                        <span class="status_color_desc">成功请求</span>
+                    </div>
+                </div>
+
+                <div class="monitor_container" spin_size="default">
+                    <canvas id="chart_request" width="1400" height="400"></canvas>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="status_sub_group_title">TCP连接数</div>
+                        <div class="monitor_container" spin_size="sm">
+                            <canvas id="chart_connection" width="700" height="400"></canvas>
+                        </div>
+
+                        <div class="container-fluid" style="margin-top:-10px">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <span class="status_color_mark" style="background-color:rgba(220,220,220,1)"></span>
+                                    <span class="status_color_desc">所有</span>
+                                </div>
+                                <div class="col-sm-4">
+                                    <span class="status_color_mark" style="background-color:rgba(151,187,205,1)"></span>
+                                    <span class="status_color_desc">写请求</span>
+                                </div>
+                                <div class="col-sm-4">
+                                    <span class="status_color_mark" style="background-color:rgba(151,205,187,1)"></span>
+                                    <span class="status_color_desc">读请求</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="status_sub_group_title">响应时间</div>
+                        <div class="status_sub_group_title_desc"> (ms) </div>
+                        <div class="monitor_container" spin_size="sm">
+                            <canvas id="chart_response_time" width="700" height="400"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="status_sub_group_title">网络流量</div>
+                        <div class="status_sub_group_title_desc"> (KiB/s) </div>
+                        <div class="monitor_container" spin_size="sm">
+                            <canvas id="chart_traffic" width="700" height="400"></canvas>
+                        </div>
+                        
+                        <div class="container-fluid" style="margin-top:-10px">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <span class="status_color_mark" style="background-color:rgba(220,220,220,1)"></span>
+                                    <span class="status_color_desc">出</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span class="status_color_mark" style="background-color:rgba(151,187,205,1)"></span>
+                                    <span class="status_color_desc">入</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="status_config_modal">
+                    <div class="modal-dialog vn_modal_mid">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">状态刷新设置</h4>
+                            </div>
+                            <div class="modal-body" id="console_div" >
+
+                                <form class="form-horizontal" onsubmit="return false;">
+                                    <div class="row vn_modal_row" >
+                                        <label class="col-sm-5 text-right">开启动画</label>
+                                        <div class="col-sm-5">
+                                            <input type="checkbox" name="enable_animation">
+                                        </div>
+                                    </div>
+                                    <div class="row vn_modal_row" >
+                                        <label class="col-sm-5 text-right" >刷新间隔</label>
+                                        <div class="col-sm-5">
+                                            <input type="range" name="refresh_interval" value="3" min="1" max="15" oninput="dashboard.status_dashboard_update_interval_label()">
+                                        </div>
+                                        <div class="col-sm-2" name="refresh_interval_label">
+                                            3s
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" onclick="dashboard.save_status_dashboard_config()">Save</button>
+                              </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+                
+            </div>
+        </div>
+
+        <div class="page" id="page_config" style="display:none">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div style="border-right: 1px solid #eee;margin-left:auto; margin-right:auto;">
+                            <div class="leftnav leftnav_1 init_click" group="basic" onclick="dashboard.switch_config_nav_group(this)">基本设置</div>
+                            <div class="leftnav_group" group="basic">
+                                <div class="leftnav leftnav_2 " config_name="basic_matcher" onclick="dashboard.switch_to_config(this)">匹配规则</div>
+                                <div class="leftnav leftnav_2 " config_name="basic_response" onclick="dashboard.switch_to_config(this)">响应规则</div>
+                            </div>
+                            <div class="leftnav leftnav_1" group="action" onclick="dashboard.switch_config_nav_group(this)">自定义动作</div>
+                            <div class="leftnav_group" group="action">
+                                <div class="leftnav leftnav_2" config_name="action_scheme_lock" onclick="dashboard.switch_to_config(this)">HTTP/HTTPS锁定</div>
+                                <div class="leftnav leftnav_2" config_name="action_redirect" onclick="dashboard.switch_to_config(this)">跳转行为</div>
+                                <div class="leftnav leftnav_2" config_name="action_uri_rewrite" onclick="dashboard.switch_to_config(this)">URI重写</div>
+                                <div class="leftnav leftnav_2" config_name="action_browser_verify" onclick="dashboard.switch_to_config(this)">浏览器校验</div>
+                                <div class="leftnav leftnav_2" config_name="action_frequency_limit" onclick="dashboard.switch_to_config(this)">频率限制</div>
+                                <div class="leftnav leftnav_2" config_name="action_filter" onclick="dashboard.switch_to_config(this)">拦截规则</div>
+                            </div>
+                            
+                            <div class="leftnav leftnav_1" group="backend" onclick="dashboard.switch_config_nav_group(this)">后端</div>
+                            <div class="leftnav_group" group="backend">
+                                <div class="leftnav leftnav_2" config_name="backend_proxy_pass" onclick="dashboard.switch_to_config(this)">反向代理</div>
+                                <div class="leftnav leftnav_2" config_name="backend_static_file" onclick="dashboard.switch_to_config(this)">静态文件</div>
+                            </div>
+
+                            <div class="leftnav leftnav_1" group="summary" onclick="dashboard.switch_config_nav_group(this)">概况</div>
+                            <div class="leftnav_group" group="summary">
+                                <div class="leftnav leftnav_2" config_name="summary_general" onclick="dashboard.switch_to_config(this)">一般统计</div>
+                                <div class="leftnav leftnav_2" config_name="summary_collect" onclick="dashboard.switch_to_config(this)">集合统计</div>
+                            </div>
+                            <div class="leftnav leftnav_1" group="system" onclick="dashboard.switch_config_nav_group(this)">系统</div>
+                            <div class="leftnav_group" group="system">
+                                <div class="leftnav leftnav_2" config_name="system_general" onclick="dashboard.switch_to_config(this)">通用</div>
+                                <div class="leftnav leftnav_2" config_name="system_admin" onclick="dashboard.switch_to_config(this)">用户</div>
+                                <div class="leftnav leftnav_2" config_name="system_allconfig" onclick="dashboard.switch_to_config(this)">所有配置</div>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="col-sm-8" id="verynginx_config">
+                        <div class="config_container" id="config_basic_matcher">
+                            <div class="config_title">
+                                匹配规则
+                            </div>
+							<div>用于捕获具体的某个请求，捕获到后转交给具体的【自定义动作】配置里的规则</div>
+                            <table class="table table-bordered config_table" id="config_basic_matcher_table" >
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>规则名称</td>
+                                        <td>匹配条件</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
+                                        <tr v-bind:class="[ config_now.matcher._editing == $key ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>{{ matcher_name }}</td>
+                                            <td >
+                                                <condition v-bind:matcher_conditions="matcher_conditions" ></condition>
+                                            </td>
+                                            <td class="no_break">
+
+                                                <template v-if="(config_now.matcher._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('matcher','{{$key}}','matcher_form','name')">
+                                                        编辑
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('matcher','{{matcher_name}}',null)">
+                                                        删除
+                                                    </button>
+                                                </template> 
+
+                                                <template v-if="(config_now.matcher._editing == $key )">
+                                                    正在编辑..
+                                                </template>
+
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+                            <div class="config_sub_title">
+                                添加规则
+                            </div>
+                            <hr>
+                            
+                            <form class="form-horizontal" id="matcher_form" onsubmit="return false;" vn_data_getter='matcher_editor.get_data' vn_data_setter='matcher_editor.set_data' vn_data_resetter='matcher_editor.reset'>
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( config_now.matcher._editing != undefined )" >
+                                            正在编辑规则... <span class="editing_rule_name">{{config_now.matcher._editing}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">规则名称</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="config_matcher_editor_name" name="name" type="text" vn_data_verify="verify.str_len(1,null)" placeholder="Name of the matcher">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group" id="verynginx_matcher_editor" >
+                                    <label class="col-sm-2 control-label">匹配规则</label>
+                                    <div class="col-sm-10">
+                                        <div style="border-style:solid;border-width:1px;border-color:#CCC;border-radius:5px;margin-bottom:5px;min-height:32px">
+                                            <condition v-bind:matcher_conditions="conditions" del_action="matcher_editor.tmp_conditions_delete(this)"></condition>
+                                        </div>
+                                        <button type="button" class="btn btn-default btn-xs" onclick="matcher_editor.modal_condition_open()">添加新规则</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <template v-if="(config_now.matcher._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" onclick="config.config_edit_save('matcher','matcher_form','name');" >保存</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('matcher','matcher_form')">
+                                                取消
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" onclick="config.config_edit_save('matcher','matcher_form','name');" >添加</button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="config_container" id="config_basic_response">
+                            <div class="config_title">
+                                响应规则
+                            </div>
+							<div>
+                                在频率限定中使用，用于命中block规则后向用户返回什么内容
+                            </div>
+                            <table class="table table-bordered config_table" id="config_basic_response_table" >
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>名称</td>
+                                        <td>Content Type</td>
+                                        <td>响应内容</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="(response_name, response_value) in config_now.response | orderBy '$key'">
+                                        <tr  v-bind:class="[ config_now.response._editing == $key ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>{{ response_name }}</td>
+                                            <td>
+                                                 {{ response_value.content_type }}
+                                            </td>
+                                            <td>
+                                                 {{ response_value.body }}
+                                            </td>
+                                            <td class="no_break">
+
+                                                <template v-if="(config_now.response._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('response','{{$key}}','config_response_form','name')">
+                                                        编辑
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('response','{{response_name}}',null)">
+                                                        删除
+                                                    </button>
+                                                </template> 
+
+                                                <template v-if="(config_now.response._editing == $key )">
+                                                    正在编辑规则...
+                                                </template>
+
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+                            <div class="config_sub_title">
+                                添加规则
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" id="config_response_form" 
+                                  onsubmit="config.config_edit_save( 'response', 'config_response_form','name'); return false;" >
+
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( config_now.response._editing != undefined )" >
+                                            正在编辑规则.. <span class="editing_rule_name">{{config_now.response._editing}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">规则名称</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="config_response_editor_name" name="name" type="text" vn_data_verify="verify.str_len(1,null)" placeholder="Name of the response">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Content-Type</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="content_type">
+                                            <option value="text/html">text/html</option>
+                                            <option value="application/json">application/json</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">响应内容</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" name="body" type="text" placeholder="Http response body"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <template v-if="(config_now.response._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" >保存</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('response','config_response_form')">
+                                                取消
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" >添加</button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="config_container" id="config_action_scheme_lock">
+                            <div class="config_title">
+                                HTTP/HTTPS锁定
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="config_now.scheme_lock_enable">
+                            <label>开启</label>
+                            <table class="table table-bordered config_table" id="config_action_scheme_lock_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>开关</td>
+                                        <td>匹配规则</td>
+                                        <td>HTTP/HTTPS</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="rule in config_now.scheme_lock_rule">
+                                        <tr v-bind:class="[ config_now.scheme_lock_rule._editing == $index ? 'editing' : '']">
+                                            <td >{{ $index }}</td>
+                                            <td >
+                                                <template v-if="(rule.enable)">
+                                                    ✓
+                                                </template>
+                                                <template v-else>
+                                                    ✗
+                                                </template>
+                                            </td>
+                                            <td >{{ rule.matcher }}</td>
+                                            <td >{{ rule.scheme }}</td>
+                                            <td class="no_break">
+                                                <template v-if="(config_now.scheme_lock_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('scheme_lock_rule',{{$index}})">
+                                                        上移
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_down" onclick="config.config_move_down('scheme_lock_rule',{{$index}})">
+                                                        下移
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('scheme_lock_rule',{{$index}},null)">
+                                                        删除
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('scheme_lock_rule',{{$index}},'config_scheme_form')">
+                                                        编辑
+                                                    </button>
+                                                </template> 
+
+                                                <template v-if="(config_now.scheme_lock_rule._editing == $index )">
+                                                    正在编辑...
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+                            
+                            <div class="config_sub_title">
+                                编辑规则
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" id="config_scheme_form" onsubmit="config.config_edit_save( 'scheme_lock_rule', 'config_scheme_form'); return false;" >
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( config_now.scheme_lock_rule._editing != undefined )" >
+                                            Now is editing rule <span class="editing_rule_name">{{config_now.scheme_lock_rule._editing}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">开启</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="enable" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">匹配规则</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="matcher">
+                                            <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
+                                                <option value="{{matcher_name}}">{{matcher_name}}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">HTTP/HTTPS锁定</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="scheme">
+                                            <option value="http">http only</option>
+                                            <option value="https">https only</option>
+                                            <option value="none">同时http和https</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <template v-if="(config_now.scheme_lock_rule._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" >保存</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('scheme_lock_rule','config_scheme_form')">
+                                                取消
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" >添加</button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="config_container" id="config_action_redirect">
+                            <div class="config_title">
+                                跳转行为
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="config_now.redirect_enable">
+                            <label>开启</label>
+                            <table class="table table-bordered config_table" id="config_redirect_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>开启</td>
+                                        <td>匹配规则</td>
+                                        <td>正则表达式</td>
+                                        <td>重定向URL</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="rule in config_now.redirect_rule">
+                                        <tr v-bind:class="[ config_now.redirect_rule._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>
+                                                <template v-if="(rule.enable)">
+                                                    ✓
+                                                </template>
+                                                <template v-else>
+                                                    ✗
+                                                </template>
+                                            </td>
+                                            <td>{{ rule.matcher }}</td>
+                                            <td>{{ rule.replace_re }}</td>
+                                            <td>{{ rule.to_uri }}</td>
+                                            <td class="no_break">
+                                                <template v-if="(config_now.redirect_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('redirect_rule',{{$index}})">
+                                                        上移
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_down" onclick="config.config_move_down('redirect_rule',{{$index}})">
+                                                        下移
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('redirect_rule',{{$index}},null)">
+                                                        删除
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('redirect_rule',{{$index}},'config_redirect_form')">
+                                                        编辑
+                                                    </button>
+                                                </template>
+                                                <template v-if="(config_now.redirect_rule._editing == $index )">
+                                                    正在编辑..
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+                            <div class="config_sub_title">
+                                添加规则
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" id="config_redirect_form" 
+                                  onsubmit="config.config_edit_save( 'redirect_rule', 'config_redirect_form'); return false;" >
+
+                               <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( config_now.redirect_rule._editing != undefined )" >
+                                            Now is editing rule <span class="editing_rule_name">{{config_now.redirect_rule._editing}}</span>
+                                        </div>
+                                    </div>
+                               </div>
+                               <div class="form-group">
+                                    <label class="col-sm-2 control-label">开启</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="enable" >
+                                        </div>
+                                    </div>
+                                </div>
+                               <div class="form-group">
+                                    <label class="col-sm-2 control-label">匹配规则</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="matcher">
+                                            <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
+                                                <option value="{{matcher_name}}">{{matcher_name}}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">正则表达式</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="replace_re" type="text" placeholder="Use RegEx to pick-up part of original URI,leave blank if redirect to a static address">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">重定向URL</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="to_uri" type="text" vn_data_verify="verify.url_or_uri()" placeholder='The URL you want redirect to, begin with "/" or "(http|https)://"'>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <template v-if="(config_now.redirect_rule._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" >保存</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('redirect_rule','config_redirect_form')">
+                                                取消
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" >添加</button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="config_container" id="config_action_uri_rewrite">
+                            <div class="config_title">
+                                重写规则
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="config_now.uri_rewrite_enable">
+                            <label>开启</label>
+                            <table class="table table-bordered config_table" id="config_uri_rewrite_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>开启</td>
+                                        <td>匹配规则</td>
+                                        <td>正则表达式</td>
+                                        <td>重定向URL</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="rule in config_now.uri_rewrite_rule">
+                                        <tr v-bind:class="[ config_now.uri_rewrite_rule._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>
+                                                <template v-if="(rule.enable)">
+                                                    ✓
+                                                </template>
+                                                <template v-else>
+                                                    ✗
+                                                </template>
+                                            </td>
+                                            <td>{{ rule.matcher }}</td>
+                                            <td>{{ rule.replace_re }}</td>
+                                            <td>{{ rule.to_uri }}</td>
+                                            <td class="no_break">
+                                                <template v-if="(config_now.uri_rewrite_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('uri_rewrite_rule',{{$index}})">
+                                                        上移
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_down" onclick="config.config_move_down('uri_rewrite_rule',{{$index}})">
+                                                        下移
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('uri_rewrite_rule',{{$index}},null)">
+                                                        删除
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('uri_rewrite_rule',{{$index}},'config_uri_rewrite_form')">
+                                                        编辑
+                                                    </button>
+                                                </template> 
+
+                                                <template v-if="(config_now.uri_rewrite_rule._editing == $index )">
+                                                    正在编辑..
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+                            <div class="config_sub_title">
+                                添加规则
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" id="config_uri_rewrite_form" 
+                                  onsubmit="config.config_edit_save( 'uri_rewrite_rule', 'config_uri_rewrite_form'); return false;" >
+
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( config_now.uri_rewrite_rule._editing != undefined )" >
+                                            Now is editing rule <span class="editing_rule_name">{{config_now.uri_rewrite_rule._editing}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">开启</label>
+                                    <div class="col-sm-10">
+                                         <div class="config_form_line">
+                                             <input type="checkbox" name="enable" >
+                                         </div>
+                                     </div>
+                                </div>
+                               <div class="form-group">
+                                    <label class="col-sm-2 control-label">匹配规则</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="matcher">
+                                            <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
+                                                <option value="{{matcher_name}}">{{matcher_name}}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">正则表达式</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="replace_re" type="text" placeholder="Use RegEx to pick-up part of original uri,leave blank if rewrite to a static uri">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">重定向URL</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="to_uri" type="text" vn_data_verify="verify.uri()" placeholder='The URI you want rewrite to, begin with "/"'>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <template v-if="(config_now.uri_rewrite_rule._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" >保存</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('uri_rewrite_rule','config_uri_rewrite_form')">
+                                                取消
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" >添加</button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="config_container" id="config_action_browser_verify">
+                            <div class="config_title">
+                                浏览器校验
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="config_now.browser_verify_enable">
+                            <label>开启</label>
+                            <table class="table table-bordered config_table" id="config_browser_verify_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>开关</td>
+                                        <td>匹配规则</td>
+                                        <td>检验类型</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="rule in config_now.browser_verify_rule">
+                                        <tr v-bind:class="[ config_now.browser_verify_rule._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>
+                                                <template v-if="(rule.enable)">
+                                                    ✓
+                                                </template>
+                                                <template v-else>
+                                                    ✗
+                                                </template>
+                                            </td>
+                                            <td>{{ rule.matcher }}</td>
+                                            <td>
+                                                <template v-for="type_name in rule.type">
+                                                    <div class="config_card">{{type_name}}</div>
+                                                </template>
+                                            </td>
+                                            <td class="no_break">
+                                                <template v-if="(config_now.browser_verify_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('browser_verify_rule',{{$index}})">
+                                                        上移
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_down" onclick="config.config_move_down('browser_verify_rule',{{$index}})">
+                                                        下移
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('browser_verify_rule',{{$index}},null)">
+                                                        删除
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('browser_verify_rule',{{$index}},'config_browser_verify_form')">
+                                                        编辑
+                                                    </button>
+                                                </template> 
+                                                <template v-if="(config_now.browser_verify_rule._editing == $index )">
+                                                    正在编辑...
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+                            <div class="config_sub_title">
+                                添加规则
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" id="config_browser_verify_form" onsubmit="
+                                 config.config_edit_save( 'browser_verify_rule', 'config_browser_verify_form'); return false;" >
+
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( config_now.browser_verify_rule._editing != undefined )" >
+                                            Now is editing rule <span class="editing_rule_name">{{config_now.browser_verify_rule._editing}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">开启</label>
+                                    <div class="col-sm-10" >
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="enable" >
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">匹配规则</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="matcher">
+                                            <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
+                                                <option value="{{matcher_name}}">{{matcher_name}}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">校验动作</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="cookie" config_group="type" >
+                                            <label>Cookie</label>
+                                        </div>
+                                        <div>
+                                            <input type="checkbox" name="javascript" config_group="type">
+                                            <label>JavaScript</label>
+                                        </div>
+                                        <div style="display:none">
+                                            <input type="checkbox" name="hash" config_group="type">
+                                            <label>Hash</label>
+                                        </div>
+                                        <div style="color:#AAA">
+                                            如梦一个都不选，这个请求会被忽略
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <template v-if="(config_now.browser_verify_rule._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" >保存</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('browser_verify_rule','config_browser_verify_form')">
+                                                取消
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" >添加</button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="config_container" id="config_action_frequency_limit">
+                            <div class="config_title">
+                                频率限制
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="config_now.frequency_limit_enable">
+                            <label>开启</label>
+                            <table class="table table-bordered config_table" id="config_frequency_limit_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>开启</td>
+                                        <td>匹配规则</td>
+                                        <td>次数(s)</td>
+                                        <td>最大请求数</td>
+                                        <td>返回HTTP状态码</td>
+                                        <td>响应规则</td>
+                                        <td>单独计数</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="rule in config_now.frequency_limit_rule">
+                                        <tr v-bind:class="[ config_now.frequency_limit_rule._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>
+                                                <template v-if="(rule.enable)">
+                                                    ✓
+                                                </template>
+                                                <template v-else>
+                                                    ✗
+                                                </template>
+                                            </td>
+                                            <td>{{ rule.matcher }}</td>
+                                            <td>{{ rule.time }}</td>
+                                            <td>{{ rule.count }}</td>
+                                            <td>{{ rule.code }}</td>
+                                            <td>{{ rule.response }}</td>
+                                            <td>
+                                                <template v-for="type_name in rule.separate">
+                                                    <div class="config_card">{{type_name}}</div>
+                                                </template>
+                                            </td>
+                                            <td class="no_break">
+                                                 <template v-if="(config_now.frequency_limit_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('frequency_limit_rule',{{$index}})">
+                                                        上移
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_down" onclick="config.config_move_down('frequency_limit_rule',{{$index}})">
+                                                        下移
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('frequency_limit_rule',{{$index}},null)">
+                                                        删作
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('frequency_limit_rule',{{$index}},'config_frequency_limit_form')">
+                                                        编辑
+                                                    </button>
+                                                </template> 
+                                                <template v-if="(config_now.frequency_limit_rule._editing == $index )">
+                                                    正在编辑
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+                            <div class="config_sub_title">
+                                添加规则
+                            </div>
+                            <hr>
+                            <form class="form-horizontal config_form" id="config_frequency_limit_form" 
+                                  onsubmit="config.config_edit_save( 'frequency_limit_rule', 'config_frequency_limit_form'); return false;" >
+                                
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( config_now.frequency_limit_rule._editing != undefined )" >
+                                            Now is editing rule <span class="editing_rule_name">{{config_now.frequency_limit_rule._editing}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">开启</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="enable" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">匹配规则</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="matcher">
+                                            <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
+                                                <option value="{{matcher_name}}">{{matcher_name}}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">最大请求数</label>
+                                    <div class="col-sm-10">
+                                         <input class="form-control" name="count" type="text" vn_data_verify="verify.unsigned_integer()" placeholder='一个时间周期内最多允许请求多少次'>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">限定时间(s)</label>
+                                    <div class="col-sm-10">
+                                         <input class="form-control" name="time" type="text" vn_data_verify="verify.unsigned_integer()" placeholder='设置时间周期，单位秒'>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">命中规则后返回HTTP状态码</label>
+                                    <div class="col-sm-10">
+                                         <select class="form-control" name="code">
+                                            <option value="200">200</option>
+                                            <option value="400">400</option>
+                                            <option value="401">401</option>
+                                            <option value="402">402</option>
+                                            <option value="403">403</option>
+                                            <option value="404">404</option>
+                                            <option value="405">405</option>
+                                            <option value="406">406</option>
+                                            <option value="408">408</option>
+                                            <option value="409">409</option>
+                                            <option value="410">410</option>
+                                            <option value="426">426</option>
+                                            <option value="429">429</option>
+                                            <option value="444">444</option>
+                                            <option value="451">451</option>
+                                            <option value="500">500</option>
+                                            <option value="501">501</option>
+                                            <option value="502">502</option>
+                                            <option value="503" selected>503</option>
+                                            <option value="504">504</option>
+                                            <option value="505">505</option>
+                                            <option value="507">507</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">自定义响应内容</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="custom_response" v-model="editor.frequency_limit_rule.custom_response">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" v-show=" editor.frequency_limit_rule.custom_response==true">
+                                    <label class="col-sm-2 control-label">响应内容</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="response" v-model="editor.frequency_limit_rule.response">
+                                            <template v-for="(response_name, response_value) in config_now.response | orderBy '$key'">
+                                                <option value="{{response_name}}">{{response_name}}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">单独计数</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="ip" config_group="separate" >
+                                            <label>按IP</label>
+                                        </div>
+                                        <div>
+                                            <input type="checkbox" name="uri" config_group="separate">
+                                            <label>按URI</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <template v-if="(config_now.frequency_limit_rule._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" >保存</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('frequency_limit_rule','config_filter_form')">
+                                                取消
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" >添加</button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="config_container" id="config_action_filter">
+                            <div class="config_title">
+                                拦截规则
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="config_now.filter_enable">
+                            <label>开启</label>
+                            <table class="table table-bordered config_table" id="config_filter_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>开启</td>
+                                        <td>匹配规则</td>
+                                        <td>执行动作</td>
+                                        <td>返回HTTP状态码</td>
+                                        <td>响应规则</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="rule in config_now.filter_rule">
+                                        <tr v-bind:class="[ config_now.filter_rule._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>
+                                                <template v-if="(rule.enable)">
+                                                    ✓
+                                                </template>
+                                                <template v-else>
+                                                    ✗
+                                                </template>
+                                            </td>
+                                            <td>{{ rule.matcher }}</td>
+                                            <td>{{ rule.action }}</td>
+                                            <td>
+                                                <template v-if="(rule.action == 'block')">
+                                                    {{ rule.code }}
+                                                </template>
+                                            </td>
+                                            <td>
+                                                <template v-if="(rule.action == 'block')">
+                                                    {{ rule.response }}
+                                                </template>
+                                            </td>
+                                            <td class="no_break">
+                                                 <template v-if="(config_now.filter_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('filter_rule',{{$index}})">
+                                                        上移
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_down" onclick="config.config_move_down('filter_rule',{{$index}})">
+                                                        下移
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('filter_rule',{{$index}},null)">
+                                                        删除
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('filter_rule',{{$index}},'config_filter_form')">
+                                                        编辑
+                                                    </button>
+                                                </template> 
+                                                <template v-if="(config_now.filter_rule._editing == $index )">
+                                                    正在编辑...
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+                            <div class="config_sub_title">
+                                添加规则
+                            </div>
+                            <hr>
+                            <form class="form-horizontal config_form" id="config_filter_form" 
+                                  onsubmit="config.config_edit_save( 'filter_rule', 'config_filter_form'); return false;" >
+                                
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( config_now.filter_rule._editing != undefined )" >
+                                            Now is editing rule <span class="editing_rule_name">{{config_now.filter_rule._editing}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">开启</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="enable" v-model="editor.filter_rule.enable">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">匹配规则</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="matcher" v-model="editor.filter_rule.matcher">
+                                            <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
+                                                <option value="{{matcher_name}}">{{matcher_name}}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">执行动作</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="action" v-model="editor.filter_rule.action">
+                                            <option value="accept">accept</option>
+                                            <option value="block">block</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" v-show="editor.filter_rule.action=='block'">
+                                    <label class="col-sm-2 control-label">返回HTTP状态码</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="code" id="a8888" v-model="editor.filter_rule.code">
+                                            <option value="200">200</option>
+                                            <option value="400">400</option>
+                                            <option value="401">401</option>
+                                            <option value="402">402</option>
+                                            <option value="403" selected>403</option>
+                                            <option value="404">404</option>
+                                            <option value="405">405</option>
+                                            <option value="406">406</option>
+                                            <option value="408">408</option>
+                                            <option value="409">409</option>
+                                            <option value="410">410</option>
+                                            <option value="426">426</option>
+                                            <option value="429">429</option>
+                                            <option value="444">444</option>
+                                            <option value="451">451</option>
+                                            <option value="500">500</option>
+                                            <option value="501">501</option>
+                                            <option value="502">502</option>
+                                            <option value="503">503</option>
+                                            <option value="504">504</option>
+                                            <option value="505">505</option>
+                                            <option value="507">507</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" v-show="editor.filter_rule.action=='block'">
+                                    <label class="col-sm-2 control-label">自定义响应内容</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="custom_response" v-model="editor.filter_rule.custom_response">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" v-show="(editor.filter_rule.action=='block' && editor.filter_rule.custom_response==true )">
+                                    <label class="col-sm-2 control-label">响应内容</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="response" v-model="editor.filter_rule.response">
+                                            <template v-for="(response_name, response_value) in config_now.response | orderBy '$key'">
+                                                <option value="{{response_name}}">{{response_name}}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <template v-if="(config_now.filter_rule._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" >保存</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('filter_rule','config_filter_form')">
+                                                取消
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" >添加</button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="config_container" id="config_backend_proxy_pass">
+                            <div class="config_title">
+                                反向代理
+                            </div>
+							<div>先定义一个upstream,里面包含ip:port节点,然后在具体的location条件执行proxypass</div>
+                            <input type="checkbox" id="checkbox" v-model="config_now.proxy_pass_enable">
+                            <label>开启</label>
+                            
+                            <div class="config_title_2">
+                                nginx upstream定义
+                            </div>
+
+                            <table class="table table-bordered config_table" id="config_upstream_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>名称</td>
+                                        <td>请求调度算法</td>
+                                        <td>节点</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="rule in config_now.backend_upstream">
+                                        <tr v-bind:class="[ config_now.backend_upstream._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>{{ $key }}</td>
+                                            <td>{{ rule.method }}</td>
+                                            <td>
+                                                <upstream v-bind:node="rule.node" ></upstream>
+                                            </td>
+                                            <td class="no_break">
+                                                 <template v-if="(config_now.backend_upstream._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('backend_upstream','{{$key}}',null)">
+                                                        删除
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" 
+                                                        onclick="config.config_edit_begin('backend_upstream','{{$key}}','config_upstream_form','name');dashboard.switch_tab_bar('config_proxy_pass_editor','upstream');">
+                                                        编辑
+                                                    </button>
+                                                </template> 
+                                                <template v-if="(config_now.backend_upstream._editing == $key )">
+                                                    正在编辑...
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+                            <div class="config_title_2">
+                                Location条件定义
+                            </div>
+
+                            <table class="table table-bordered config_table" id="config_proxy_pass_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>开启</td>
+                                        <td>匹配规则</td>
+                                        <td>nginx upstream</td>
+                                        <td>Proxy Host头变量</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="rule in config_now.proxy_pass_rule">
+                                        <tr v-bind:class="[ config_now.proxy_pass_rule._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>
+                                            <template v-if="(rule.enable)">
+                                                ✓
+                                            </template>
+                                            <template v-else>
+                                                ✗
+                                            </template>
+                                            </td>
+                                            <td>{{ rule.matcher }}</td>
+                                            <td>{{ rule.upstream }}</td>
+                                            <td>{{ rule.proxy_host }}</td>
+                                            <td class="no_break">
+                                                 <template v-if="(config_now.proxy_pass_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('proxy_pass_rule',{{$index}})">
+                                                        上移
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_down" onclick="config.config_move_down('proxy_pass_rule',{{$index}})">
+                                                        下移
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('proxy_pass_rule',{{$index}},null)">
+                                                        删除
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" 
+                                                           onclick="config.config_edit_begin('proxy_pass_rule',{{$index}},'config_proxy_pass_form');dashboard.switch_tab_bar('config_proxy_pass_editor','proxypass');">
+                                                        编辑
+                                                    </button>
+                                                </template> 
+                                                <template v-if="(config_now.proxy_pass_rule._editing == $index )">
+                                                    正在编辑...
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+                            <div class="config_sub_title">
+                                编辑规则
+                            </div>
+                            <hr>
+
+                            <ul class="nav nav-tabs">
+                                <li class="active" group="config_proxy_pass_editor" tag="upstream" onclick="dashboard.nav_tab_click(this)"><a href="#" >nginx upstream</a></li>
+                                <li group="config_proxy_pass_editor" tag="proxypass" onclick="dashboard.nav_tab_click(this)"><a href="#">Location条件</a></li>
+                            </ul>
+
+                            <div class="nav_box" group="config_proxy_pass_editor" tag="upstream" >
+                                <form class="form-horizontal" id="config_upstream_form" 
+                                 vn_data_getter="upstream_editor.get_data" vn_data_setter="upstream_editor.set_data" vn_data_resetter="upstream_editor.reset" vn_data_verify="" 
+                                  onsubmit="config.config_edit_save( 'backend_upstream', 'config_upstream_form', 'name' ); return false;" >
+                                
+                                    <div class="form-group">
+                                        <div class="col-sm-10 col-sm-offset-2 ">
+                                            <div class="notice" v-if="( config_now.backend_upstream._editing != undefined )" >
+                                                Now is editing rule <span class="editing_rule_name">{{config_now.backend_upstream._editing}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">名称</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" name="name" type="text" vn_data_verify="verify.str_len(1,null)" placeholder='Name of the upstream'>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">请求调度算法</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" name="method">
+                                                <option value="random">random</option>
+                                                <option value="ip_hash">ip_hash</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="config_proxy_upstream_editor_node">
+                                        <label class="col-sm-2 control-label">节点</label>
+                                        <div class="col-sm-10">
+                                            <div style="border-style:solid;border-width:1px;border-color:#CCC;border-radius:5px;margin-bottom:5px;min-height:32px">
+                                                <upstream v-bind:node="node" del_action="upstream_editor.tmp_node_delete(this)" ></upstream>
+                                            </div>
+                                            <button type="button" class="btn btn-default btn-xs" onclick="upstream_editor.modal_node_open()">添加新nginx upstream 节点</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <template v-if="(backend_upstream._editing != undefined )">
+                                                <button type="submit" class="btn btn-default" >保存</button>
+                                                <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('backend_upstream','config_upstream_form');">
+                                                    取消
+                                                </button>
+                                            </template>
+                                            <template v-else>
+                                                <button type="submit" class="btn btn-default" >添加</button>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                            
+                            <div class="nav_box" group="config_proxy_pass_editor" tag="proxypass" style="display:none">
+                                <form class="form-horizontal" id="config_proxy_pass_form" 
+                                  onsubmit="config.config_edit_save( 'proxy_pass_rule', 'config_proxy_pass_form'); return false;" >
+                                
+                                    <div class="form-group">
+                                        <div class="col-sm-10 col-sm-offset-2 ">
+                                            <div class="notice" v-if="( config_now.proxy_pass_rule._editing != undefined )" >
+                                                Now is editing rule <span class="editing_rule_name">{{config_now.proxy_pass_rule._editing}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">开启</label>
+                                        <div class="col-sm-10">
+                                            <div class="config_form_line">
+                                                <input type="checkbox" name="enable" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">匹配规则</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" name="matcher">
+                                                <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
+                                                    <option value="{{matcher_name}}">{{matcher_name}}</option>
+                                                </template>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">UpStream</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" name="upstream">
+                                                <template v-for="rule in config_now.backend_upstream | orderBy '$key'">
+                                                    <option value="{{$key}}">{{$key}}</option>
+                                                </template>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">反向代理主机头</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" name="proxy_host" type="text" placeholder='向nginx proxypass传递$host变量赋值，一般是写域名'>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <template v-if="(proxy_pass_rule._editing != undefined )">
+                                                <button type="submit" class="btn btn-default" >保存</button>
+                                                <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('proxy_pass_rule','config_proxy_pass_form')">
+                                                    取消
+                                                </button>
+                                            </template>
+                                            <template v-else>
+                                                <button type="submit" class="btn btn-default" >添加</button>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="config_container" id="config_backend_static_file">
+                            <div class="config_title">
+                                静态文件
+                            </div>
+                            <input type="checkbox" id="checkbox" v-model="config_now.static_file_enable">
+                            <label>开启</label>
+
+                            <table class="table table-bordered config_table" id="config_static_file_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>开启</td>
+                                        <td>匹配规则</td>
+                                        <td>站点根目录</td>
+                                        <td>过期时间</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="rule in config_now.static_file_rule">
+                                        <tr v-bind:class="[ config_now.static_file_rule._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>
+                                            <template v-if="(rule.enable)">
+                                                ✓
+                                            </template>
+                                            <template v-else>
+                                                ✗
+                                            </template>
+                                            </td>
+                                            <td>{{ rule.matcher }}</td>
+                                            <td>{{ rule.root }}</td>
+                                            <td>{{ rule.expires }}</td>
+                                            <td class="no_break">
+                                                 <template v-if="(config_now.static_file_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('static_file_rule',{{$index}})">
+                                                        上移
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_down" onclick="config.config_move_down('static_file_rule',{{$index}})">
+                                                        下移
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('static_file_rule',{{$index}},null)">
+                                                        删除
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" 
+                                                           onclick="config.config_edit_begin('static_file_rule',{{$index}},'config_static_file_form');">
+                                                        编辑
+                                                    </button>
+                                                </template> 
+                                                <template v-if="(config_now.static_file_rule._editing == $index )">
+                                                    正在编辑...
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+                            <div class="config_sub_title">
+                                编辑规则
+                            </div>
+
+                            <div class="nav_box">
+                                <form class="form-horizontal" id="config_static_file_form" 
+                                  onsubmit="config.config_edit_save( 'static_file_rule', 'config_static_file_form'); return false;" >
+                                
+                                    <div class="form-group">
+                                        <div class="col-sm-10 col-sm-offset-2 ">
+                                            <div class="notice" v-if="( config_now.static_file_rule._editing != undefined )" >
+                                                Now is editing rule <span class="editing_rule_name">{{config_now.static_file_rule._editing}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">开启</label>
+                                        <div class="col-sm-10">
+                                            <div class="config_form_line">
+                                                <input type="checkbox" name="enable" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">匹配规则</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" name="matcher">
+                                                <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
+                                                    <option value="{{matcher_name}}">{{matcher_name}}</option>
+                                                </template>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">站点根目录</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="root" class="form-control" vn_data_verify="verify.path()" placeholder="Document Root,like /var/www" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">过期时间</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="expires" class="form-control" vn_data_verify="verify.ngx_time()" placeholder='Expires time,some as "Expires" in nginx. Can be a string like 1s,1m,1h,1d or epoch'>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <template v-if="(config_now.static_file_rule._editing != undefined )">
+                                                <button type="submit" class="btn btn-default" >保存</button>
+                                                <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('static_file_rule','config_static_file_form')">
+                                                    取消
+                                                </button>
+                                            </template>
+                                            <template v-else>
+                                                <button type="submit" class="btn btn-default" >添加</button>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <div class="config_container" id="config_summary_general">
+                            <div class="config_title">
+                                通用
+                            </div>
+
+                            <hr>
+                            
+                            <div>
+                                <input type="checkbox" id="checkbox" v-model="config_now.summary_request_enable">
+                                <label>开启概况统计</label>
+                            </div>
+                           
+                            <div>
+                                <input type="checkbox" id="checkbox" v-model="config_now.summary_with_host" >
+                                <label>记录请求的host信息</label>
+                            </div>
+
+                            <div class="config_sub_title">
+                                统计数据设置
+                            </div>
+
+                            <div class="vn-config-box row">
+                                <div class="col-sm-2 text-right">永久保存</div>
+                                <div class="col-sm-10">
+                                    <input class="vn-config-input" type="checkbox" v-model="config_now.summary_group_persistent_enable">
+                                </div>
+                            </div>
+
+                            <div class="vn-config-box row">
+                                <div class="col-sm-2 text-right">临时保存</div>
+                                <div class="col-sm-10">
+                                    <input class="vn-config-input" type="checkbox" v-model="config_now.summary_group_temporary_enable" >
+                                </div>
+                            </div>
+
+                             <div class="vn-config-box row" v-show="config_now.summary_group_temporary_enable == true" >
+                                <div class="col-sm-2 vn-config-label">清理间隔</div>
+                                <div class="col-sm-10">
+                                    <input class="form-control vn-config-input" type="text" v-model="config_now.summary_temporary_period" placeholder="input a num of seconds" vn_data_verify="verify.integer_in_range(10,99999999)" onchange="vnform.verify_input_with_notice(this)">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="config_container" id="config_summary_collect">
+                            <div class="config_title">
+                                集合统计
+                            </div>
+                            
+                            <input type="checkbox" id="checkbox" v-model="config_now.summary_collect_enable">
+                            <label>开启</label>
+                            
+                            <table class="table table-bordered config_table" id="config_summary_collect_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>开启</td>
+                                        <td>匹配规则</td>
+                                        <td>集合统计名称</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="rule in config_now.summary_collect_rule">
+                                        <tr v-bind:class="[ config_now.summary_collect_rule._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>
+                                            <template v-if="(rule.enable)">
+                                                ✓
+                                            </template>
+                                            <template v-else>
+                                                ✗
+                                            </template>
+                                            </td>
+                                            <td>{{ rule.matcher }}</td>
+                                            <td>{{ rule.collect_name }}</td>
+                                            <td class="no_break">
+                                                 <template v-if="(config_now.summary_collect_rule._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs btn_up" onclick="config.config_move_up('summary_collect_rule',{{$index}})">
+                                                        上移
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_down" onclick="config.config_move_down('summary_collect_rule',{{$index}})">
+                                                        下移
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('summary_collect_rule',{{$index}},null)">
+                                                        删除
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" 
+                                                           onclick="config.config_edit_begin('summary_collect_rule',{{$index}},'config_summary_collect_form');">
+                                                        编辑
+                                                    </button>
+                                                </template> 
+                                                <template v-if="(config_now.summary_collect_rule._editing == $index )">
+                                                    正在编辑...
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+                             <div class="config_sub_title">
+                                编辑规则
+                            </div>
+
+                            <div class="nav_box">
+                                <form class="form-horizontal" id="config_summary_collect_form" 
+                                  onsubmit="config.config_edit_save( 'summary_collect_rule', 'config_summary_collect_form'); return false;" >
+                                
+                                    <div class="form-group">
+                                        <div class="col-sm-10 col-sm-offset-2 ">
+                                            <div class="notice" v-if="( config_now.summary_collect_rule._editing != undefined )" >
+                                                Now is editing rule <span class="editing_rule_name">{{config_now.summary_collect_rule._editing}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">开启</label>
+                                        <div class="col-sm-10">
+                                            <div class="config_form_line">
+                                                <input type="checkbox" name="enable" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">匹配规则</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" name="matcher">
+                                                <template v-for="(matcher_name, matcher_conditions) in config_now.matcher | orderBy '$key'">
+                                                    <option value="{{matcher_name}}">{{matcher_name}}</option>
+                                                </template>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">集合统计名称</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="collect_name" class="form-control" vn_data_verify="verify.str_len(1,null)" placeholder="" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <template v-if="(config_now.summary_collect_rule._editing != undefined )">
+                                                <button type="submit" class="btn btn-default" >保存</button>
+                                                <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('summary_collect_rule','config_summary_collect_form')">
+                                                    取消
+                                                </button>
+                                            </template>
+                                            <template v-else>
+                                                <button type="submit" class="btn btn-default" >添加</button>
+                                            </template>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="config_container" id="config_system_general">
+                            <div class="config_title">
+                                通用
+                            </div>
+                            <hr>
+                            
+                            <div class="config_sub_title">
+                                控制面板
+                            </div>
+
+                            <div class="vn-config-box row">
+                                <div class="col-sm-2 vn-config-label">本页访问路径</div>
+                                <div class="col-sm-10">
+                                    <input class="form-control vn-config-input" type="text" v-model="config_now.base_uri" placeholder="/verynginx" vn_data_verify="verify.base_uri()" onchange="vnform.verify_input_with_notice(this)">
+                                </div>
+                            </div>
+                            
+                            <div class="vn-config-box row">
+                                <div class="col-sm-2 vn-config-label">访问本页IP限制</div>
+                                <div class="col-sm-10">
+                                    <input class="form-control vn-config-input" type="text" v-model="config_now.dashboard_host" placeholder="If not empty, dashboard can only be accessed through the designated host" vn_data_verify="verify.host_or_empty()" onchange="vnform.verify_input_with_notice(this)">
+                                </div>
+                            </div>
+                            
+                            <div class="vn-config-box row">
+                                <div class="col-sm-2 vn-config-label">本页Cookie前缀设置</div>
+                                <div class="col-sm-10">
+                                    <input class="form-control vn-config-input" type="text" v-model="config_now.cookie_prefix" placeholder="The prefix of cookies of verynginx" vn_data_verify="verify.str_len(1,20)" onchange="vnform.verify_input_with_notice(this)">
+                                </div>
+                            </div>
+
+                            <div class="config_sub_title">
+                                本站配置
+                            </div>
+
+                            <div class="vn-config-box row">
+                                <div class="col-sm-2">只读</div>
+                                <div class="col-sm-10">
+                                    <input class="vn-config-input" type="checkbox" v-model="config_now.readonly">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="config_container" id="config_system_allconfig">
+                            <div class="config_title">
+                                原始配置文件json内容
+                            </div>
+                            <div>
+                                <pre id="config_system_all_show" v-text="all_config_json">
+
+                                </pre>
+                            </div>
+                            
+                            <div style="font-size:1.2em">
+                                动作
+                            </div>
+                            <hr>
+                            <p>
+                              <button type="button" class="btn btn-default" onclick="config.save_config()">保存</button>
+                              <button type="button" class="btn btn-default" onclick="config.get_config()">恢复到修改前</button>
+                            </p>
+                        </div>
+
+                        <div class="config_container" id="config_system_admin">
+                            <div class="config_title">
+                                用户
+                            </div>
+                            <table class="table table-bordered config_table">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>开启</td>
+                                        <td>用户名</td>
+                                        <td>密码</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template v-for="rule in config_now.admin">
+                                        <tr v-bind:class="[ config_now.admin._editing == $index ? 'editing' : '']">
+                                            <td>{{ $index }}</td>
+                                            <td>
+                                                <template v-if="(rule.enable)">
+                                                    ✓
+                                                </template>
+                                                <template v-else>
+                                                    ✗
+                                                </template>
+                                            </td>
+                                            <td>{{ rule.user }}</td>
+                                            <td>{{ rule.password }}</td>
+                                            <td class="no_break">
+                                                <template v-if="(config_now.admin._editing == undefined )">
+                                                    <button type="button" class="btn btn-default btn-xs btn_del" onclick="config.config_mod('admin',{{$index}},null)">
+                                                        删除
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-xs btn_edit" onclick="config.config_edit_begin('admin',{{$index}},'config_admin_form')">
+                                                        编辑
+                                                    </button>
+                                                </template> 
+                                                <template v-if="(config_now.admin._editing == $index )">
+                                                    正在编辑...
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+
+                            <div class="config_sub_title">
+                                添加用户
+                            </div>
+                            <hr>
+                            <form class="form-horizontal" id="config_admin_form" 
+                                  onsubmit="config.config_edit_save( 'admin', 'config_admin_form'); return false;" >
+                                
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2 ">
+                                        <div class="notice" v-if="( config_now.admin._editing != undefined )" >
+                                            Now is editing rule <span class="editing_rule_name">{{config_now.admin._editing}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">开启</label>
+                                    <div class="col-sm-10">
+                                        <div class="config_form_line">
+                                            <input type="checkbox" name="enable" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">用户名</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="user" type="text" placeholder="user name" >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="password" type="text" placeholder="password" >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <template v-if="(config_now.admin._editing != undefined )">
+                                            <button type="submit" class="btn btn-default" >保存</button>
+                                            <button type="button" class="btn btn-default" onclick="config.config_edit_cacel('admin','config_admin_form')">
+                                                取消
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="submit" class="btn btn-default" >添加</button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2" id="verynginx_tips">
+                        <template v-for="tip in tips">
+                            <div class="tips_container"  onclick="tips.toggle(this)">
+                                <div class="tips_tips">
+                                    {{tip.tips}} 
+                                </div>
+                                
+                                <div class="tips_content collapse">
+                                    <template  v-if="(typeof tip.content == 'string')">
+                                        {{ tip.content }}
+                                    </template>
+                                    
+                                    <template  v-if="(typeof tip.content == 'object')">
+                                        <ul>
+                                            <template  v-for="row in tip.content ">
+                                                <li> {{row}} </li>
+                                            </template>
+                                        </ul>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <div class="row" id="config_bottom_div" style="display:none">
+                    <div style="height:45px">
+                    </div>
+                    
+                    <div id="config_bottom_bar">
+                        <div id="config_bottom_bar_message">
+                        
+							配置已经发生变化，你可以点保存配置或重载修改前的配置
+                        </div>
+                        <div class="pull-right" id="config_bottom_bar_btns">
+                            <button type="button" class="btn btn-default btn-sm bottom_bar_btn" onclick="config.get_config()">重载修改前配置</button>
+                            <button type="button" class="btn btn-default btn-sm bottom_bar_btn bottom_bar_btn_save" onclick="config.save_config()">保存配置</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Add UpStream node Modal -->
+            <div class="modal fade" id="config_modal_node">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Add UpStream Node</h4>
+                        </div>
+                        <div class="modal-body" >
+                            <form class="form-horizontal" id="config_modal_node_form">
+                                <div class="row vn_modal_row"   >
+                                    <label class="col-sm-2 text-right control-label">Name</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="name" type="text" vn_data_verify="verify.str_len(1,null)" placeholder='Name of the node'>
+                                    </div>
+                                </div>
+                                <div class="row vn_modal_row"   >
+                                    <label class="col-sm-2 text-right control-label">Scheme</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control " name="scheme">
+                                            <option value="http">http</option>
+                                            <option value="https">https</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row vn_modal_row"   >
+                                    <label class="col-sm-2 text-right control-label">Host</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="host" type="text" vn_data_verify="verify.ip()" placeholder='Ip of the node'>
+                                    </div>
+                                </div>
+                                <div class="row vn_modal_row"   >
+                                    <label class="col-sm-2 text-right control-label">Port</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="port" type="text" vn_data_verify="verify.port_or_blank()" placeholder='Port of the node,will use the default 80/443 if leave blank'>
+                                    </div>
+                                </div>
+                                 <div class="row vn_modal_row"   >
+                                    <label class="col-sm-2 text-right control-label">Weight</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="weight" type="text" vn_data_verify="verify.integer_in_range(0,null)" placeholder='A int number'>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" onclick="upstream_editor.modal_node_save()">添加</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+            <!-- Add Condition Modal -->
+            <div class="modal fade" id="config_modal_condition">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">添加规则</h4>
+                        </div>
+                        <div class="modal-body" >
+                            <form class="form-horizontal">
+                                <div class="row vn_modal_row"   >
+                                    <label class="col-sm-2 text-right control-label">规则类型</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="condition_type" onchange="matcher_editor.update_display()">
+                                            <template v-for="(condition_type,condition_data) in input_meta">
+                                                <option value="{{ condition_type }}">{{ condition_type }}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="config_matcher_value_contain" id="config_modal_matcher_input_group">
+                                    <template v-for="(condition_type,condition_data) in input_meta">
+                                        <div class='config_matcher_conditon_container' condition_type="{{condition_type}}">
+                                        <template v-for="config_group in condition_data">
+                                            <div class="input_group_container" >
+                                                <div class="input_group_title">
+                                                    <span style='background:#fff;padding-left:5px;padding-right:5px'>{{ config_group.group_name }}</span>
+                                                </div> 
+                                                <template v-for="input_item in config_group.input">
+                                                    <div class="input_item">
+                                                        <div class="row">
+                                                            <div class="col-sm-2 input_item_title">
+                                                                {{input_item.title}} 
+                                                            </div>
+                                                            <div class="col-sm-10 input_item_inputer"> 
+                                                                <template v-if="(input_item.type == 'input')">
+                                                                    <input type="text" class="form-control config_matcher_editor_value" name="{{input_item.name}}" placeholder="{{input_item.placeholder}}">
+                                                                </template>
+                                                                
+                                                                <template v-if="(input_item.type == 'textarea')">
+                                                                    <textarea class="form-control config_matcher_editor_value" rows='3' name="{{input_item.name}}" placeholder="{{input_item.placeholder}}"></textarea>
+                                                                </template>
+                                                                
+                                                                <template v-if="(input_item.type == 'select')">
+                                                                    <select class="form-control config_matcher_editor_value" name="{{input_item.name}}" onchange="matcher_editor.update_display()">
+                                                                        <template v-for="(k,v) in input_item.options">
+                                                                            <option value="{{v}}">{{k}}</option>
+                                                                        </template>
+                                                                    </select>
+                                                                </template>
+                                                            </div> 
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </template>
+                                        </div>
+                                    </template>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" onclick="matcher_editor.modal_condition_save()">添加</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+        </div>
+
+        <div class="page" id="page_summary" style="display:none">
+            <div class="summary_url_table">
+                <!-- Single button -->
+                <div>
+                    <div id="summary_title">
+                        请求概况
+                    </div>
+
+                    <div id="summary_action_bar">
+                        <div style="display:inline-block;">
+                            <div id="summary_filter_label" >过滤规则</div>
+                            <input id="summary_filter_input" type="text" class="form-control" oninput="data_stat.search(this.value)" placeholder="try input a URI...">
+                        </div>
+
+                        <div class="pull-right" >
+                            <div id="summary_control_label" >数据类型</div>
+                            
+                            <div class="btn-group">
+                                <div class="btn-group">
+                                    <button type="button" style="width:120px;" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="def_btn">所有<span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li ><a href="#" title="all request summary" id="summary_data_all" onclick="data_stat.tab_switch(this)">所有</a></li>
+                                        <li ><a href="#" title="temporary request summary" id="summary_data_temporary" onclick="data_stat.tab_switch(this)">临时</a></li>
+                                    </ul>
+                                </div>
+                                <button type="button" class="btn btn-default" id="summary_data_refresh" onclick="data_stat.get_data()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
+                                <button type="button" class="btn btn-default" id="summary_data_refresh" onclick="data_stat.clear_data()">清空</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+                <div id="summary_type_note" style="display:none">
+                    <span>注意:临时概况会被定期清理掉.</span>
+                </div>
+                
+                <div class="summary_sub_title">
+                    集合统计 
+                </div>
+                <table class="table table-hover table-bordered display" id="summary_matched_table">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>集合统计名称</th>
+                            <th>数量</th>
+                            <th>大小(字节)</th>
+                            <th>平均大小(字节)</th>
+                            <th>成功率</th>
+                            <th>时间(s)</th>
+                            <th>平均时间(s)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="matched_details">
+                    </tbody>
+                </table>
+                
+                <div class="summary_sub_title">
+                    其他
+                </div>
+                <table class="table table-hover table-bordered display" id="summary_unmatched_table">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>URI</th>
+                            <th>数量</th>
+                            <th>大小(字节)</th>
+                            <th>平均大小(字节)</th>
+                            <th>成功率</th>
+                            <th>时间(s)</th>
+                            <th>平均时间(s)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="unmatched_details">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="page" id="page_firewall" style="display:none">
+            防火墙
+        </div>
+        
+        <div class="page" id="page_about" style="display:none">
+            <div style="padding-top:100px">
+                <h1 class="text-center" id="about_title">VeryNginx</h1>
+                <h3 class="text-center" id="about_sub_title">A very powerful and friendly nginx</h3>
+                <div id="about_sub_btn_container">
+                    <a id="about_sub_btn" target="_blank" href="https://github.com/alexazhou/VeryNginx">
+                        Look in Github
+                    </a>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+</body>
+</html>
+
