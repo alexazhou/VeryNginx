@@ -194,9 +194,10 @@ install.py脚本在升级过程中，将保留原有的 config.json 和 nginx.co
 在将代码clone到本地之后，你可以运行下面的命令：
 
 ```
-cd Docker
+cd VeryNginx
+cp Docker/Dockerfile Dockerfile
 docker build -t verynginx .
-docker run verynginx
+docker run 8080:80 verynginx
 ```
 然后用浏览器打开 `http://{{your_docker_machine_address}}/verynginx/index.html`
 
