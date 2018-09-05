@@ -81,6 +81,9 @@ function _M.verify_javascript()
     html = util.string_replace( html,'INFOURI',redirect_to, 1 )
     
     ngx.header.content_type = "text/html"
+    ngx.header['cache-control'] = "no-cache, no-store, must-revalidate"
+    ngx.header['pragma'] = "no-cache"
+    ngx.header['expires'] = "0"
     ngx.header.charset = "utf-8"
     ngx.say( html )
     
