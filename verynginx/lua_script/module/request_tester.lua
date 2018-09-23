@@ -188,7 +188,25 @@ function _M.test_cookie( condition )
     if cookie_table == nil then
         cookie_table = {}
     end
+
+    -- Not-exist should be separated
+    if condition['name_operator'] == '!Exist' then
+        if _M.key_does_not_exist(cookie_table, condition['name_value']) then
+            return true
+        else
+            return false
+        end
+    end
+
     return _M.test_many_var( cookie_table, condition )
+end
+
+function _M.key_does_not_exist( var_table, key )
+    if var_table[key] == nil then
+        return true
+    else
+        return false
+    end
 end
 
 tester["URI"] = _M.test_uri
