@@ -64,6 +64,14 @@ function _M.test_var( match_operator, match_value, target_var )
     return false
 end
 
+function _M.var_in_table( var_table, key )
+    if var_table[key] == nil then
+        return true
+    else
+        return false
+    end
+end
+
 
 --test a group of var in table with a condition 
 function _M.test_many_var( var_table, condition )
@@ -76,6 +84,16 @@ function _M.test_many_var( var_table, condition )
     local operator = condition['operator']
     local value = condition['value']
 
+-- Insert !Exist Check here as it is only applied to name_operator
+	
+    if match_operator == '!Exist' then
+        if var_in_table( var_table, name_value ) == true then
+	    return true
+	end
+    end	
+	
+-- Normal process
+	
     for k, v in pairs(var_table) do
         if test_var( name_operator, name_value, k ) == true then
             if test_var( operator, value, v ) == true then -- if any one value match the condition, means the matcher has been hited 
