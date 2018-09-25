@@ -86,10 +86,10 @@ function _M.test_many_var( var_table, condition )
 
 -- Insert !Exist Check here as it is only applied to name_operator
 	
-    if match_operator == '!Exist' then
-        if var_in_table( var_table, name_value ) == true then
-	    return true
-	end
+    if operator == '!Exist' then
+        if var_table[name_value] == nil then
+            return true
+        end
     end	
 	
 -- Normal process
