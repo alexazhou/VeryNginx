@@ -79,7 +79,7 @@ function _M.test_many_var( var_table, condition )
     if operator == '!Exist' then
         if var_table[name_value] == nil then
              return true
-	end
+        end
     else
      -- Normal process
         for k, v in pairs(var_table) do
