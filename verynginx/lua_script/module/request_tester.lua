@@ -77,12 +77,9 @@ function _M.test_many_var( var_table, condition )
 
     -- Insert !Exist Check here as it is only applied to operator
     if operator == '!Exist' then
-        for k, v in pairs(var_table) do
-            if test_var ( name_operator, name_value, k ) == true then
-                return false
-            end
-        end
-        return true
+        if var_table[name_value] == nil then
+             return true
+	end
     else
      -- Normal process
         for k, v in pairs(var_table) do
