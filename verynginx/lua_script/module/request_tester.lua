@@ -75,11 +75,22 @@ function _M.test_many_var( var_table, condition )
     local name_value = condition['name_value']
     local operator = condition['operator']
     local value = condition['value']
-
-    for k, v in pairs(var_table) do
-        if test_var( name_operator, name_value, k ) == true then
-            if test_var( operator, value, v ) == true then -- if any one value match the condition, means the matcher has been hited 
-                return true 
+	
+     -- Insert !Exist Check here as it is only applied to operator
+    if operator == '!Exist' then
+        for k, v in pairs(var_table) do
+            if test_var ( name_operator, name_value, k ) == true then
+                return false
+            end
+        end
+        return true
+    else
+     -- Normal process
+        for k, v in pairs(var_table) do
+            if test_var( name_operator, name_value, k ) == true then
+                if test_var( operator, value, v ) == true then -- if any one value match the condition, means the matcher has been hited 
+                    return true 
+                end
             end
         end
     end
