@@ -41,10 +41,10 @@ function _M.verify_cookie()
     ngx.header["Set-Cookie"] =  cookie_prefix .. "_sign_cookie=" .. sign .. '; path=/' 
     
     if ngx.var.args ~= nil then
-		ngx.redirect( ngx.var.scheme.."://"..ngx.var.http_host..ngx.var.uri.."?"..ngx.var.args , ngx.HTTP_MOVED_TEMPORARILY)
-	else
-		ngx.redirect( ngx.var.scheme.."://"..ngx.var.http_host..ngx.var.uri , ngx.HTTP_MOVED_TEMPORARILY)
-	end
+        ngx.redirect( ngx.var.scheme.."://"..ngx.var.http_host..ngx.var.uri.."?"..ngx.var.query_string , ngx.HTTP_MOVED_TEMPORARILY)
+    else
+        ngx.redirect( ngx.var.scheme.."://"..ngx.var.http_host..ngx.var.uri , ngx.HTTP_MOVED_TEMPORARILY)
+    end
 end
 
 function _M.verify_javascript()
@@ -81,6 +81,9 @@ function _M.verify_javascript()
     html = util.string_replace( html,'INFOURI',redirect_to, 1 )
     
     ngx.header.content_type = "text/html"
+    ngx.header['cache-control'] = "no-cache, no-store, must-revalidate"
+    ngx.header['pragma'] = "no-cache"
+    ngx.header['expires'] = "0"
     ngx.header.charset = "utf-8"
     ngx.say( html )
     

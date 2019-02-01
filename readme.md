@@ -3,11 +3,11 @@ VeryNginx is a very powerful and friendly nginx .
 
 [中文文档](https://github.com/alexazhou/VeryNginx/blob/master/readme_zh.md)
 
-###Notice
+### Notice
 After v0.2 , The entry uri of control panel was moved to `/verynginx/index.html`
 
 
-##Description
+## Description
 
 VeryNginx is based on `lua_nginx_module(openrestry)`. It implements advanced firewall(waf), access statistics and some other features. It strengthens the Nginx's functions, and provides a friendly Web interface.
 
@@ -17,7 +17,7 @@ User / Password: **verynginx / verynginx**
 
 The full version of config guide can be found on: [VeryNginx Wiki](https://github.com/alexazhou/VeryNginx/wiki) .
 
-###Nginx run status analyzing
+### Nginx run status analyzing
 
 * Request per second
 * Response time
@@ -27,7 +27,7 @@ The full version of config guide can be found on: [VeryNginx Wiki](https://githu
 ![Nginx status](http://ww2.sinaimg.cn/mw690/3fcd0ed3jw1f17en7oc1yj20z00ol0wl.jpg)
 
 
-###Custom Action
+### Custom Action
 
 VeryNginx supports custom actions, which can do a lot of things.
 
@@ -35,7 +35,7 @@ Custom action consists of two parts, `Matcher` and `Action` . `Matcher` is used 
 
 >The advantage of this design is that the `Matcher` includes all select rule, and can be reused, making use of rules to describe a very complex logic possible.
 
-####Matcher
+#### Matcher
 
 A `Matcher` is used to select a part of all requests, a `Matcher` may contain one or more condition. The following conditions are currently supported:
 
@@ -48,7 +48,7 @@ A `Matcher` is used to select a part of all requests, a `Matcher` may contain on
 
 When a request does not conflict with any of the conditions of the Matcher, the request will be selected by the `Matcher`
 
-####Action
+#### Action
 
 Every `Action` refers to a `Matcher` , and will run on the requests selected by the `Matcher` 
 
@@ -69,7 +69,7 @@ VeryNginx presets some simple filter rules, which can prevent simple SQL injecti
 
 ![VeryNginx filter](http://ww3.sinaimg.cn/mw690/3fcd0ed3jw1f17en9lrarj20zw0piq77.jpg)
 
-####Backend
+#### Backend
 
 Every `Backend` refers to a `Matcher`，and will handle the requests selected by the `Matcher`
 
@@ -78,7 +78,7 @@ Now we have these `Backend`
 * **Proxy Pass** Proxy the request to other server
 * **Static File** Use local file to handle the request file 
 
-###Request statistics
+### Request statistics
 
 VeryNginx can record the request of URI, include these data of every URI:
 
@@ -93,7 +93,7 @@ VeryNginx can record the request of URI, include these data of every URI:
 ![request statistics](http://ww1.sinaimg.cn/mw690/3fcd0ed3jw1f17ena2ipyj20zw0piqag.jpg)
 
 
-##Installation
+## Installation
 
 ### Install Nginx / OpenResty
 
@@ -106,7 +106,7 @@ python install.py install
 
 Just run this command, openresty and verynginx will be installed automatically.
  
-####Want using custom nginx?
+#### Want using custom nginx?
 
 VeryNginx can install openresty automatically so that you **needn't install nginx(openresty) manually**.
 
@@ -170,7 +170,7 @@ If you have any problems during **installation** / **configuration** / **use** ,
 
 * If you lock yourself out of VeryNginx by doing something stupid, you can always delete `config.json` to revert VeryNginx to its default.
 
-###Update VeryNginx / OpenResty
+### Update VeryNginx / OpenResty
 
 Over time, VeryNginx own will evolve, and can also support newer version of OpenResty. New version of VeryNginx might support some new features or fix some old bugs. If you want to update locally installed VeryNginx, you just need pull the latest code from github to local, and run the following commands:
 
@@ -218,7 +218,7 @@ Scan the QRcode to support VeryNginx.
 [VeryNginx thanks for the help](https://github.com/alexazhou/VeryNginx/wiki/Thanks)
 
 
-###Enjoy~
+### Enjoy~
 
 [^openresty]: [OpenResty](https://github.com/openresty/openresty) Openresty is a enhanced nginx，bundle standard nginx core and lots of 3rd-party nginx module. 
 
