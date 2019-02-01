@@ -195,7 +195,6 @@ install.py脚本在升级过程中，将保留原有的 config.json 和 nginx.co
 
 ```
 cd VeryNginx
-cp Docker/Dockerfile Dockerfile
 docker build -t verynginx .
 docker run -d --name=verynginx -p 8080:80 verynginx
 ```
