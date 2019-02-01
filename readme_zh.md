@@ -197,11 +197,11 @@ install.py脚本在升级过程中，将保留原有的 config.json 和 nginx.co
 cd VeryNginx
 cp Docker/Dockerfile Dockerfile
 docker build -t verynginx .
-docker run 8080:80 verynginx
+docker run -d --name=verynginx -p 8080:80 verynginx
 ```
 然后用浏览器打开 `http://{{your_docker_machine_address}}/verynginx/index.html`
 
-当然你也可以运行 `docker run -p xxxx:80 verynginx` 来映射一下你的container的端口到你的宿主机，默认是80，你可以把xxxx改成你希望的在宿主机上的端口号
+当然你也可以运行 `docker run -d --name=verynginx -p xxxx:80 verynginx` 来映射一下你的container的端口到你的宿主机，默认是80，你可以把xxxx改成你希望的在宿主机上的端口号
 
 ## 捐赠
 
