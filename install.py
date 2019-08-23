@@ -11,8 +11,10 @@ import sys
 import getopt
 import filecmp
 
-openresty_pkg_url = 'https://openresty.org/download/openresty-1.9.15.1.tar.gz'
-openresty_pkg = 'openresty-1.9.15.1.tar.gz'
+#最新版openresty
+
+openresty_pkg_url = 'https://openresty.org/download/openresty-1.15.8.1.tar.gz'
+openresty_pkg = 'openresty-1.15.8.1.tar.gz'
 
 work_path = os.getcwd()
 
@@ -56,6 +58,13 @@ def install_openresty( ):
     print('### install openresty ...')
     exec_sys_cmd( 'make install' )
 
+    print('### make nginx into PATH ...')
+    exec_sys_cmd( 'echo "export PATH=/opt/verynginx/openresty/nginx/sbin:$PATH" >> /etc/profile' )
+    exec_sys_cmd( 'source /etc/profile' )
+
+    print('### add user and group nginx:nginx')
+    exec_sys_cmd( 'groupadd -f nginx && useradd -g nginx nginx' )
+
 def install_verynginx():
     
     #install VeryNginx file
@@ -74,8 +83,10 @@ def install_verynginx():
     else:
         print( 'openresty not fount, so not copy nginx.conf' )
 
-    #set mask for the path which used for save configs
-    exec_sys_cmd( 'chmod -R 777 /opt/verynginx/verynginx/configs' )
+    # set mask for the path which used for save configs
+    # file too open;
+    # exec_sys_cmd( 'chmod -R 777 /opt/verynginx/verynginx/configs' )
+    exec_sys_cmd( 'chmod -R 755 /opt/verynginx/verynginx/configs' )
 
 
 def update_verynginx():
