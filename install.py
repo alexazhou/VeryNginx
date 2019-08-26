@@ -58,9 +58,9 @@ def install_openresty( ):
     print('### install openresty ...')
     exec_sys_cmd( 'make install' )
 
-    print('### make nginx into PATH ...')
-    exec_sys_cmd( 'echo "export PATH=/opt/verynginx/openresty/nginx/sbin:$PATH" >> /etc/profile' )
-    exec_sys_cmd( 'source /etc/profile' )
+    # print('### make nginx into PATH ...')
+    # May Not Work in CI
+    # exec_sys_cmd( 'export PATH=/opt/verynginx/openresty/nginx/sbin:$PATH' )
 
     print('### add user and group nginx:nginx')
     exec_sys_cmd( 'groupadd -f nginx && useradd -g nginx nginx' )
