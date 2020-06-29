@@ -1,5 +1,5 @@
 # VeryNginx
-VeryNginx 是一个功能强大而对人类友好的 Nginx 扩展程序.
+VeryNginx 是一个功能强大而使用简单的 Nginx 扩展程序.
 
 ### 提示
  `v0.2` 版本之后，控制台入口被移动到了 `/verynginx/index.html`
